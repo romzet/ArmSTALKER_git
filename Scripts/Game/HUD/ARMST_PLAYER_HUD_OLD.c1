@@ -1,0 +1,324 @@
+class ARMST_HUD_ComponentClass : ScriptComponentClass
+{
+}
+
+class ARMST_HUD_Component : ScriptComponent
+{
+	[Attribute(desc: "Layouts Resource Name", params: "layout")]
+	protected ResourceName m_sHudName;
+	
+	[Attribute(desc: "Script used to update HUD")]
+	protected ref ARMST_HUD_Update m_cHudUpdate;
+	
+	
+	[Attribute(desc: "Can this HUD be seen in third person")]
+	protected bool m_bThirdPerson;
+	
+	ResourceName GetHudLayout()
+	{
+		return m_sHudName;
+	}
+	
+	ARMST_HUD_Update GetUpdate()
+	{
+		return m_cHudUpdate;
+	}
+	
+	bool GetThirdPerson()
+	{
+		return m_bThirdPerson;
+	}
+	
+}
+
+[BaseContainerProps(category: "HUDUpdate")]
+class ARMST_HUD_Update
+{
+	
+	void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
+}
+
+
+
+[BaseContainerProps(category: "HUDUpdate")]
+class ARMST_TestHudUpdate: ARMST_HUD_Update
+{
+	ref array<ref CanvasWidgetCommand> canvasCommands = {};
+	override void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
+	{
+		ImageWidget Stat_Water = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Water"));
+		ImageWidget Stat_Eat = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Eat"));
+		ImageWidget Stat_Psy = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Psy"));
+		ImageWidget Stat_Radiation = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Radiation"));
+		ImageWidget Stat_Scheemese = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Scheemese"));
+		ImageWidget Stat_Thermo = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Thermo"));
+		SliderWidget Stat_Health = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Health"));
+		SliderWidget Stat_Stamina = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Stamina"));
+		SliderWidget Stat_Armor = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Armor"));
+		
+		
+		Stat_Thermo.SetOpacity(0);
+		
+		float PhysicalsStat = ItemStats.GetAllPhysicals(owner);
+		
+		float WaterStats = PlayerStats.ArmstPlayerStatGetWater();
+		float EatStats = PlayerStats.ArmstPlayerStatGetEat();
+		float PsyStats = PlayerStats.ArmstPlayerStatGetPsy();
+		float RadiactiveStats = PlayerStats.ArmstPlayerStatGetRadio();
+		float ToxicStats = PlayerStats.ArmstPlayerStatGetToxic();
+		float HealthStats = PlayerStats.ArmstPlayerStatGetHealth();
+		float StaminaStats = PlayerStats.ArmstPlayerStatGetStamina();
+		StaminaStats = StaminaStats * 100;
+		
+		Stat_Health.SetCurrent(HealthStats);
+		Stat_Stamina.SetCurrent(StaminaStats);
+		Stat_Armor.SetCurrent(PhysicalsStat);
+		/*
+		if (StaminaStats >= 70)
+		{
+			StaminaStats.SetColor(Color.FromInt(Color.DARK_GREEN));
+		}
+		if (StaminaStats >= 30 || StaminaStats < 70)
+		{
+			StaminaStats.SetColor(Color.FromInt(Color.DARK_YELLOW));
+		}
+		if (StaminaStats < 30)
+		{
+			StaminaStats.SetColor(Color.FromInt(Color.DARK_RED));
+		}
+		*/
+		
+		//обработка воды
+		if (WaterStats >  80)
+		{
+			Stat_Water.SetOpacity(0);
+			Stat_Water.SetColor(Color.FromInt(Color.BLACK));
+		}
+		if (WaterStats < 80 && WaterStats >  60)
+		{
+			Stat_Water.SetOpacity(1);
+			Stat_Water.SetColor(Color.FromInt(Color.DARK_GREEN));
+		}
+		if (WaterStats < 60 && WaterStats >  25)
+		{
+			Stat_Water.SetOpacity(1);
+			Stat_Water.SetColor(Color.FromInt(Color.DARK_YELLOW));
+		}
+		if (WaterStats < 25 )
+		{
+			Stat_Water.SetOpacity(1);
+			Stat_Water.SetColor(Color.FromInt(Color.DARK_RED));
+		}
+		if (WaterStats < 10)
+		{
+			Stat_Water.SetOpacity(0);
+		}
+		
+		//обработка еды
+		if (EatStats >  80)
+		{
+			Stat_Eat.SetOpacity(0);
+			Stat_Eat.SetColor(Color.FromInt(Color.BLACK));
+		}
+		if (EatStats < 80 && EatStats >  60)
+		{
+			Stat_Eat.SetOpacity(1);
+			Stat_Eat.SetColor(Color.FromInt(Color.DARK_GREEN));
+		}
+		if (EatStats < 60 && EatStats >  25)
+		{
+			Stat_Eat.SetOpacity(1);
+			Stat_Eat.SetColor(Color.FromInt(Color.DARK_YELLOW));
+		}
+		if (EatStats < 25)
+		{
+			Stat_Eat.SetOpacity(1);
+			Stat_Eat.SetColor(Color.FromInt(Color.DARK_RED));
+		}
+		if (EatStats < 10)
+		{
+			Stat_Eat.SetOpacity(0);
+		}
+		
+		//обработка пси
+		if (PsyStats >  80)
+		{
+			Stat_Psy.SetOpacity(0);
+			Stat_Psy.SetColor(Color.FromInt(Color.BLACK));
+		}
+		if (PsyStats < 80 && PsyStats >  60)
+		{
+			Stat_Psy.SetOpacity(1);
+			Stat_Psy.SetColor(Color.FromInt(Color.DARK_GREEN));
+		}
+		if (PsyStats < 60 && PsyStats >  25)
+		{
+			Stat_Psy.SetOpacity(1);
+			Stat_Psy.SetColor(Color.FromInt(Color.DARK_YELLOW));
+		}
+		if (PsyStats < 25)
+		{
+			Stat_Psy.SetOpacity(1);
+			Stat_Psy.SetColor(Color.FromInt(Color.DARK_RED));
+		}
+		
+		//обработка радиации
+		if (RadiactiveStats >=  0 && RadiactiveStats < 10)
+		{
+			Stat_Radiation.SetOpacity(0);
+			Stat_Radiation.SetColor(Color.FromInt(Color.BLACK));
+		}
+		if (RadiactiveStats > 10 && RadiactiveStats <  35)
+		{
+			Stat_Radiation.SetOpacity(1);
+			Stat_Radiation.SetColor(Color.FromInt(Color.DARK_GREEN));
+		}
+		if (RadiactiveStats > 35 && RadiactiveStats < 70)
+		{
+			Stat_Radiation.SetOpacity(1);
+			Stat_Radiation.SetColor(Color.FromInt(Color.DARK_YELLOW));
+		}
+		if (RadiactiveStats > 70)
+		{
+			Stat_Radiation.SetOpacity(1);
+			Stat_Radiation.SetColor(Color.FromInt(Color.DARK_RED));
+		}
+		
+		//обработка химии
+		if (ToxicStats >=  0 && ToxicStats < 10)
+		{
+			Stat_Scheemese.SetOpacity(0);
+			Stat_Scheemese.SetColor(Color.FromInt(Color.BLACK));
+		}
+		if (ToxicStats > 10 && ToxicStats <  35)
+		{
+			Stat_Scheemese.SetOpacity(1);
+			Stat_Scheemese.SetColor(Color.FromInt(Color.DARK_GREEN));
+		}
+		if (ToxicStats > 35 && ToxicStats < 70)
+		{
+			Stat_Scheemese.SetOpacity(1);
+			Stat_Scheemese.SetColor(Color.FromInt(Color.DARK_YELLOW));
+		}
+		if (ToxicStats > 70)
+		{
+			Stat_Scheemese.SetOpacity(1);
+			Stat_Scheemese.SetColor(Color.FromInt(Color.DARK_RED));
+		}
+	}
+}
+
+class ARMST_HUDCharacterComponentClass: ScriptComponentClass
+{
+}
+
+class ARMST_HUDCharacterComponent: ScriptComponent
+{
+    ref array<Widget> m_aCurrentHuds = {};
+    ref array<ARMST_HUD_Update> m_aHudUpdates = {};
+    IEntity characterEntity;
+
+    override void EOnInit(IEntity owner)
+    {
+        characterEntity = owner;
+			
+		
+		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(owner.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        // Инициализируем HUD для игрока сразу
+        InitializeHUD();
+		statsComponent.ArmstPlayerStatInit(owner);
+        SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(owner.FindComponent(SCR_InventoryStorageManagerComponent));
+        if (inventory)
+        {
+            inventory.m_OnItemAddedInvoker.Insert(HUDItemAdded);
+            inventory.m_OnItemRemovedInvoker.Insert(HUDItemRemoved);
+        }
+
+        ChimeraCharacter character = ChimeraCharacter.Cast(owner);
+        if (character)
+        {
+            SCR_CharacterControllerComponent characterController = SCR_CharacterControllerComponent.Cast(character.FindComponent(SCR_CharacterControllerComponent));
+            if (characterController)
+                characterController.m_OnLifeStateChanged.Insert(OnLifeStateChanged);
+            SCR_CharacterCameraHandlerComponent cameraController = SCR_CharacterCameraHandlerComponent.Cast(character.FindComponent(SCR_CharacterCameraHandlerComponent));
+            if (cameraController)
+                cameraController.GetThirdPersonSwitchInvoker().Insert(OnThirdPerson);
+        }
+    }
+	protected void OnLifeStateChanged(ECharacterLifeState previousLifeState, ECharacterLifeState newLifeState)
+		{
+			newLifeState != ECharacterLifeState.ALIVE;
+				ClearHUDs();
+		}
+	
+    void InitializeHUD()
+    {
+        // Ищем ARMST_HUD_Component непосредственно в персонаже
+        ARMST_HUD_Component hudComponent = ARMST_HUD_Component.Cast(characterEntity.FindComponent(ARMST_HUD_Component));
+        if (hudComponent)
+        {
+            // Если компонент HUD найден, добавляем его HUD
+            AddHUD(hudComponent);
+        }
+    }
+
+    override void OnPostInit(IEntity owner)
+    {
+        SetEventMask(owner, EntityEvent.INIT);
+    }
+
+    void HUDItemAdded(IEntity item, BaseInventoryStorageComponent storageOwner)
+    {
+        // Убираем проверку на составной компонент HUD в предметах. Не требуется.
+    }
+
+    void AddHUD(ARMST_HUD_Component hudComponent)
+    {
+
+        int index = m_aCurrentHuds.Insert(GetGame().GetWorkspace().CreateWidgets(hudComponent.GetHudLayout()));
+
+        m_aCurrentHuds.Get(index).SetZOrder(0);
+
+        int updateIndex = m_aHudUpdates.Insert(hudComponent.GetUpdate());
+		ARMST_PLAYER_STATS_COMPONENT PlayerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(GetOwner().FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+		ARMST_ITEMS_STATS_COMPONENTS ItemStats = ARMST_ITEMS_STATS_COMPONENTS.Cast(GetOwner().FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
+
+        if (m_aHudUpdates.Get(updateIndex))
+            GetGame().GetCallqueue().CallLater(m_aHudUpdates.Get(updateIndex).Update, 1, true, m_aCurrentHuds.Get(index), GetOwner(), PlayerStats, ItemStats);
+    }
+
+    void HUDItemRemoved(IEntity item, BaseInventoryStorageComponent storageOwner)
+    {
+        // Убираем проверку на удаление HUD в предметах.
+    }
+
+    void ClearHUDs()
+    {
+        for (int i = m_aCurrentHuds.Count() - 1; i >= 0; i--)
+        {
+            if (m_aCurrentHuds.Get(i))
+                m_aCurrentHuds.Get(i).RemoveFromHierarchy();
+        }
+
+        m_aCurrentHuds.Clear();
+        m_aHudUpdates.Clear();
+    }
+
+    void OnThirdPerson()
+    {
+        if (SCR_PlayerController.GetLocalControlledEntity() != characterEntity)
+            return;
+
+        SCR_CharacterCameraHandlerComponent cameraController = SCR_CharacterCameraHandlerComponent.Cast(characterEntity.FindComponent(SCR_CharacterCameraHandlerComponent));
+        if (cameraController.IsInThirdPerson())
+        {
+            // Удаляем HUD для третьего лица, если требуется.
+            ClearHUDs();
+        }
+        else
+        {
+            InitializeHUD(); // Добавляем HUD, когда переключается в первое лицо.
+        }
+    }
+
+}
