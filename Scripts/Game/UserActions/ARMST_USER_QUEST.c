@@ -33,10 +33,6 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     protected string m_sFinishMission;
 	
 	
-	//! Does this action only have client side effect?
-	override event bool HasLocalEffectOnlyScript() { return false; };
-	//! If HasLocalEffectOnly() is false this method tells if the server is supposed to broadcast this action to clients.
-	override event bool CanBroadcastScript() { return true; };
 	
      protected bool m_bQuestStart = false;
     
@@ -47,16 +43,24 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	protected vector m_aOriginalTransform[4];
     override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{
+	    // Если квест запущен, проверяем наличие предметов
+	    if (m_bQuestStart)
+	    {
+			MissionEnd(pOwnerEntity, pUserEntity );
+	    }
+	    else // Если квест еще не запущен
+	    {
+			MissionStart(pOwnerEntity, pUserEntity );
+	    }
+	}
+    
+	void MissionEnd(IEntity pOwnerEntity, IEntity pUserEntity)
+	{
 	    // Получаем компоненты
 	    ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
 	    
 	    if (!playerStats)
 	        return;
-	        
-	    
-	    // Если квест запущен, проверяем наличие предметов
-	    if (m_bQuestStart)
-	    {
 	        // Проверяем есть ли у игрока нужные предметы
 	        if (HasRequiredItem(pUserEntity))
 	        {
@@ -112,7 +116,7 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	            }
 	            
 	            // Оповещаем игрока через RPC
-	            playerStats.Rpc_ShowNotification("#armst_quest_ui_completed", notificationMessage, 20.0);
+		    	ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
 	            
 	            // Сбрасываем статус квеста
 	            m_bQuestStart = false;
@@ -121,11 +125,17 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        {
 	            // Сообщаем, что недостаточно предметов через RPC
 	            string message = "#armst_quest_ui_required " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + GetPrefabDisplayName(m_PrefabQuest);
-	            playerStats.Rpc_ShowNotification("#armst_quest_ui_not_enough_items", message, 15.0);
+		    	ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
 	        }
-	    }
-	    else // Если квест еще не запущен
-	    {
+	}
+	void MissionStart(IEntity pOwnerEntity, IEntity pUserEntity)
+	{
+	    // Получаем компоненты
+	    ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+	    
+	    if (!playerStats)
+	        return;
+	
 	        // Создаем сообщение с информацией о квесте
 	        string questInfo = "";
 	        
@@ -153,10 +163,8 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        
 	        m_bQuestStart = true;
 	        // Отправляем уведомление через RPC на клиент
-	        playerStats.Rpc_ShowNotification("#armst_quest_ui_quest_taken", questInfo, 20.0);
-	    }
+		    ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
 	}
-    
     override bool GetActionNameScript(out string outName)
     {
 	        if (m_sActionMission && m_sActionMission != "")

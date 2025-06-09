@@ -11,7 +11,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
 	float REPUTATION_LOSS_FRIENDLY_KILL;
 	[Attribute("5", UIWidgets.Slider, "Плюс репа", "0 100 1", category: "Reputatuions")];
 	float REPUTATION_GAIN_ENEMY_KILL;
-    
+   
     // Хранение информации о последнем уроне
     protected EDamageType m_LastDamageType = EDamageType.TRUE;
     protected string m_LastHitZoneName = "";
@@ -71,9 +71,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
                 }
                 
                 // Получаем фракцию
-                FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(
-                    character.FindComponent(FactionAffiliationComponent)
-                );
+                FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(character.FindComponent(FactionAffiliationComponent));
                 
                 if (factionComponent)
                 {
@@ -101,6 +99,16 @@ class ARMST_DeathHandlerComponent : ScriptComponent
     {
         IEntity owner = GetOwner();
         
+        // Получаем имя персонажа
+        SCR_CharacterIdentityComponent identityComponent = SCR_CharacterIdentityComponent.Cast(
+            owner.FindComponent(SCR_CharacterIdentityComponent)
+        );
+        
+        if (!identityComponent)
+            return;
+            
+        string characterName = identityComponent.GetIdentity().GetSurname();
+		
         // Получаем фракцию персонажа
         FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent) );
         
@@ -111,6 +119,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
 		 if (!playerStats)
 			return;
 		
+        
         string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
                     if (characterFaction == "BACON_622120A5448725E3_FACTION")
                     {
@@ -118,16 +127,6 @@ class ARMST_DeathHandlerComponent : ScriptComponent
 				            playerStats.Rpc_ARMST_SET_STAT_MONSTER();
 							return;
                     }
-        // Получаем имя персонажа
-        SCR_CharacterIdentityComponent identityComponent = SCR_CharacterIdentityComponent.Cast(
-            owner.FindComponent(SCR_CharacterIdentityComponent)
-        );
-        
-        if (!identityComponent)
-            return;
-            
-        string characterName = identityComponent.GetIdentity().GetSurname();
-        
         // Проверяем подходящие фракции
         if (characterFaction == "FACTION_STALKER" || characterFaction == "FACTION_BANDIT")
         {
@@ -155,18 +154,17 @@ class ARMST_DeathHandlerComponent : ScriptComponent
                     }
                 }
             }
-            
+           
             // Формируем сообщение о смерти
             string deathReason = GetDeathReason();
             string deathMessage = "#armst_pda_user " + characterName + " погиб " + deathReason;
             string systemMessage = "#armst_pda_system";
             
             // Устанавливаем случайную задержку от 2 до 4 секунд
-            float delay = Math.RandomFloat(2.0, 4.0);
             
             // Отправляем сообщение с задержкой
-	    ARMST_NotificationHelper.BroadcastNotificationInRadius(owner.GetOrigin(), 500, systemMessage, deathMessage, 10);
-        }
+	    	ARMST_NotificationHelper.BroadcastNotificationInRadius(owner.GetOrigin(), 3000, systemMessage, deathMessage, 10);
+		}
     }
     
     // Метод для получения причины смерти на основе информации о последнем уроне
@@ -302,6 +300,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
             
         return deathReason;
     }
+	
 }
 
 
@@ -313,13 +312,12 @@ modded class SCR_CharacterDamageManagerComponent : SCR_ExtendedDamageManagerComp
     {
         // Вызываем родительский метод
         super.OnDamage(damageContext);
-        
+        /*
         // Пытаемся сохранить информацию о повреждении для DeathHandler компонента
         if (damageContext.struckHitZone && damageContext.damageValue > 0)
         {
             IEntity owner = GetOwner();
-            ARMST_DeathHandlerComponent deathHandler = ARMST_DeathHandlerComponent.Cast(
-                owner.FindComponent(ARMST_DeathHandlerComponent)
+            ARMST_DeathHandlerComponent deathHandler = ARMST_DeathHandlerComponent.Cast(owner.FindComponent(ARMST_DeathHandlerComponent)
             );
             
             if (deathHandler)
@@ -336,5 +334,6 @@ modded class SCR_CharacterDamageManagerComponent : SCR_ExtendedDamageManagerComp
                 );
             }
         }
+	*/
     }
 }

@@ -177,21 +177,11 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
 				{
                     Print("[ARMST_TRADE] Succefull spawn");
                 }
-                else
-                {
-                    Print("[ARMST_TRADE] Unsuccelfull spawn");
-					//return;
-                }
         SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
             if (inventoryManager)
             {
                 if (inventoryManager.TryInsertItem(newEnt))
 				{
-            		Print("[ARMST_TRADE] succelfull insert player intentory");
-				}
-				else
-				{
-            		Print("[ARMST_TRADE] unsuccelfull insert player intentory");
 				}
 			}
 	 SetMoney(pUserEntity, newEnt);
@@ -215,7 +205,7 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
 		        string itemName = GetPrefabDisplayName(m_PrefabToSpawn);
 		        string message2 = string.Format("%3 %1 за %2 RUB.", itemName, buyPrice, itemName3);
 		        // Показываем уведомление
-		        ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
+		        ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(player, message, message2, 10.0);
 		    }
 		    else 
 		    {

@@ -2,6 +2,52 @@
 class ARMST_NotificationHelper
 {
 	
+	// Метод для отправки уведомления конкретному игроку через перебор всех игроков
+    static void ShowNotificationToSpecificPlayer(IEntity targetPlayer, string message, string message2, float duration = 5.0)
+    {
+        if (!targetPlayer)
+            return;
+
+        // Получаем менеджер игроков
+        PlayerManager playerManager = GetGame().GetPlayerManager();
+        if (!playerManager)
+        {
+            Print("ShowNotificationToSpecificPlayer: Не удалось получить PlayerManager!");
+            return;
+        }
+
+        // Получаем ID целевого игрока
+        int targetPlayerId = playerManager.GetPlayerIdFromControlledEntity(targetPlayer);
+        if (targetPlayerId == 0)
+        {
+            Print("ShowNotificationToSpecificPlayer: Не удалось получить ID целевого игрока!");
+            return;
+        }
+
+        // Получаем список ID всех игроков
+        array<int> playerIds = new array<int>();
+        playerManager.GetPlayers(playerIds);
+
+        // Проходимся по всем игрокам и отправляем сообщение только целевому игроку
+        foreach (int playerId : playerIds)
+        {
+            if (playerId == 0)
+                continue;
+
+            if (playerId == targetPlayerId)
+            {
+                IEntity playerEntity = playerManager.GetPlayerControlledEntity(playerId);
+                if (playerEntity)
+                {
+                        SCR_PlayerController.ShowNotification(playerEntity, message, message2, duration);
+                        Print("Уведомление отправлено игроку с ID: " + playerId);
+                }
+                return; // Прерываем цикл после отправки уведомления целевому игроку
+            }
+        }
+
+        Print("ShowNotificationToSpecificPlayer: Целевой игрок не найден среди активных игроков.");
+    }
 	
     // Метод для отправки уведомления конкретному игроку
     static void ShowNotification(IEntity player, string message, string message2, float duration = 5.0)

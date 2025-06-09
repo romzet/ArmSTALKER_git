@@ -76,7 +76,7 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
                 playerStats.Rpc_ARMST_SET_STAT_QUESTS();
                 
                 // Оповещаем игрока
-                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", 
+                ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_completed", 
     string.Format("#armst_quest_ui_reward_money_text %1 #armst_quest_ui_currency", m_iCurrentReward), 15.0);
                 m_bQuestFinish = true;
                 // Сбрасываем статус квеста
@@ -85,7 +85,7 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
             else
             {
                 // Сообщаем, что недостаточно предметов
-                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", 
+                ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_not_enough_items", 
     string.Format("#armst_quest_ui_required %1 #armst_quest_ui_pcs %2", m_iCurrentQuestItems, GetPrefabDisplayName(m_SelectedPrefab)), 15.0);
             }
         }
@@ -95,7 +95,7 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
             GenerateRandomQuest();
             
             m_bQuestStart = true;
-            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", 
+            ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_quest_taken", 
     string.Format("#armst_quest_ui_bring %1 #armst_quest_ui_pcs %2. #armst_quest_ui_reward: %3 #armst_quest_ui_currency", 
     m_iCurrentQuestItems, GetPrefabDisplayName(m_SelectedPrefab), m_iCurrentReward), 15.0);
         }

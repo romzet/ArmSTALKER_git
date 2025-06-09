@@ -209,6 +209,8 @@ class ARMST_PDA_UI : ChimeraMenuBase
 			            return;
 			            
 			        string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
+			        if (!characterFaction)
+			            return;
 					if (characterFaction == "FACTION_STALKER")
 						Text_Fraction_Name.SetText("СТАЛКЕР");
 					if (characterFaction == "BACON_622120A5448725E3_FACTION")

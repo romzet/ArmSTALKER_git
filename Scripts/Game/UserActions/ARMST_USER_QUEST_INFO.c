@@ -6,10 +6,10 @@ class ARMST_USER_QUEST_INFO : ScriptedUserAction
     [Attribute("", UIWidgets.EditBox, "Описание миссии", category: "Quest")]
     protected string m_sStartMission;
     
-    //! Does this action only have client side effect?
-    override event bool HasLocalEffectOnlyScript() { return true; };
-    //! If HasLocalEffectOnly() is false this method tells if the server is supposed to broadcast this action to clients.
-    override event bool CanBroadcastScript() { return false; };
+	//! Does this action only have client side effect?
+	override event bool HasLocalEffectOnlyScript() { return true; };
+	//! If HasLocalEffectOnly() is false this method tells if the server is supposed to broadcast this action to clients.
+	override event bool CanBroadcastScript() { return false; };
     
     override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
     {

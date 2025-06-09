@@ -281,7 +281,7 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
                 message2 = "";
             }
             
-            ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
+            ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(player, message, message2, 10.0);
         }
     }
 }

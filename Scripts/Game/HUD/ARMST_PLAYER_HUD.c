@@ -126,11 +126,12 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		
 		statsComponent2.ArmstPlayerStatSetWater(-statsComponent2.m_ModifierValueWater);
 		statsComponent2.ArmstPlayerStatSetEat(-statsComponent2.m_ModifierValueEat);
-		
-        if (statsComponent2.m_player_reputation > 0)
+		/*
+        if (statsComponent2.m_player_reputation > -1)
             { 
        		 FactionAffiliationComponent factionComponent2 = FactionAffiliationComponent.Cast( owner.FindComponent(FactionAffiliationComponent));
-			factionComponent2.SetAffiliatedFactionByKey("FACTION_STALKER");
+				if(factionComponent2)
+				factionComponent2.SetAffiliatedFactionByKey("FACTION_STALKER");
 			}
         if (statsComponent2.m_player_reputation > 100)
             { 
@@ -139,8 +140,10 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		if (statsComponent2.m_player_reputation < -5)
 			{
        		 FactionAffiliationComponent factionComponent2 = FactionAffiliationComponent.Cast( owner.FindComponent(FactionAffiliationComponent));
-			factionComponent2.SetAffiliatedFactionByKey("BACON_622120A5448725E3_FACTION");
+				if(factionComponent2)
+				factionComponent2.SetAffiliatedFactionByKey("FACTION_RENEGADE");
 			}
+		*/
         if (statsComponent2.m_armst_player_stat_toxic < 0)
             { statsComponent2.m_armst_player_stat_toxic = 0; }
         if (statsComponent2.m_armst_player_stat_toxic > 100)
@@ -353,7 +356,7 @@ modded class SCR_PlayerController : PlayerController
 {
     ref array<Widget> m_aCurrentHuds = {};
     ref array<ARMST_HUD_Update> m_aHudUpdates = {};
-    ref array<ref ScriptCallQueue> m_aUpdateCallQueues = {}; // Добавляем хранение ссылок на все созданные очереди вызовов
+   // ref array<ref ScriptCallQueue> m_aUpdateCallQueues = {}; // Добавляем хранение ссылок на все созданные очереди вызовов
     
     IEntity characterEntity;
     bool m_bHudInitialized = false; // Флаг, показывающий, что HUD уже инициализирован
@@ -484,25 +487,26 @@ modded class SCR_PlayerController : PlayerController
         // Создаем CallQueue и сохраняем ссылку на него
         if (hudUpdate)
         {
-            ScriptCallQueue callQueue = GetGame().GetCallqueue();
-            callQueue.CallLater(hudUpdate.Update, 500, false, hudWidget, characterEntity, PlayerStats, ItemStats);
-            m_aUpdateCallQueues.Insert(callQueue);
+	        GetGame().GetCallqueue().CallLater(hudUpdate.Update, 500, false, hudWidget, characterEntity, PlayerStats, ItemStats);
+           // ScriptCallQueue callQueue = GetGame().GetCallqueue();
+            //callQueue.CallLater(hudUpdate.Update, 500, false, hudWidget, characterEntity, PlayerStats, ItemStats);
+           // m_aUpdateCallQueues.Insert(callQueue);
         }
     }
     
     void ClearHUDs()
     {
         // Удаляем все запланированные обновления
-        for (int i = 0; i < m_aUpdateCallQueues.Count(); i++)
-        {
-            ScriptCallQueue callQueue = m_aUpdateCallQueues[i];
-            if (callQueue)
-            {
-                // Используем функциональность очистки всех вызовов
-                callQueue.Clear();
-            }
-        }
-        m_aUpdateCallQueues.Clear();
+       // for (int i = 0; i < m_aUpdateCallQueues.Count(); i++)
+       // {
+       //     ScriptCallQueue callQueue = m_aUpdateCallQueues[i];
+       //     if (callQueue)
+        //    {
+        //        // Используем функциональность очистки всех вызовов
+       //         callQueue.Clear();
+       //     }
+      //  }
+       // m_aUpdateCallQueues.Clear();
         
         // Удаляем все виджеты
         for (int i = m_aCurrentHuds.Count() - 1; i >= 0; i--)
@@ -520,6 +524,17 @@ modded class SCR_PlayerController : PlayerController
     }
 	
 	
+    // Публичный метод для вызова из других мест кода с значением по умолчанию
+    static void ShowNotification(IEntity player, string message,string message2, float duration = 5.0)
+    {
+        int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
+        if (playerId == 0)
+            return;
+            
+        SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+        if (controller)
+            controller.Rpc(controller.RpcDo_ShowHudNotification, message,message2, duration);
+    }
 	
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
      void RpcDo_ShowHudNotification(string message,string message2, float duration)
@@ -540,8 +555,9 @@ modded class SCR_PlayerController : PlayerController
         }
     }
     
+	
     // Публичный метод для вызова из других мест кода с значением по умолчанию
-    static void ShowNotification(IEntity player, string message,string message2, float duration = 5.0)
+    static void ShowNotificationPDA(IEntity player, string message,string message2, float duration = 5.0)
     {
         int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
         if (playerId == 0)
@@ -549,7 +565,7 @@ modded class SCR_PlayerController : PlayerController
             
         SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
         if (controller)
-            controller.Rpc(controller.RpcDo_ShowHudNotification, message,message2, duration);
+            controller.Rpc(controller.RpcDo_ShowHudNotificationPDA, message,message2, duration);
     }
 	
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -571,16 +587,5 @@ modded class SCR_PlayerController : PlayerController
         }
     }
     
-    // Публичный метод для вызова из других мест кода с значением по умолчанию
-    static void ShowNotificationPDA(IEntity player, string message,string message2, float duration = 5.0)
-    {
-        int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
-        if (playerId == 0)
-            return;
-            
-        SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
-        if (controller)
-            controller.Rpc(controller.RpcDo_ShowHudNotificationPDA, message,message2, duration);
-    }
 	
 }
