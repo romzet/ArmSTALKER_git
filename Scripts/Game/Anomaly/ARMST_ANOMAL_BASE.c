@@ -210,7 +210,7 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 					ent.GetTransform(mat);
 					mat[3] = ent.CoordToParent(m_vSoundOffset);
 					soundManagerEntity2.PlayAudioSource(audioSource2, mat);
-					delete ent;
+					SCR_EntityHelper.DeleteEntityAndChildren(ent);
 					return;
 				}			
 				//ArmstBoltAction(ent);
@@ -456,7 +456,8 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 					ent.GetTransform(mat);
 					mat[3] = ent.CoordToParent(m_vSoundOffset);
 					soundManagerEntity2.PlayAudioSource(audioSource2, mat);
-					delete ent;
+					
+					SCR_EntityHelper.DeleteEntityAndChildren(ent);
 					return;
 				}
 	};
@@ -487,7 +488,7 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 							ent.GetTransform(mat3);
 							mat3[3] = ent.CoordToParent(m_vSoundOffset);
 							soundManagerEntityFatality.PlayAudioSource(audioSourceFatality, mat3);
-							delete ent;
+							SCR_EntityHelper.DeleteEntityAndChildren(ent);
 						break;
 						case ArmstAnomalyDeath.Teleport:
 							GetTransform(mat3);

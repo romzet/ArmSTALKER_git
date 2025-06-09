@@ -48,14 +48,19 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	override void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
 	{
 		
+		FrameWidget FrameHUD = FrameWidget.Cast(HUDWidget.FindAnyWidget("FrameHUD"));
+		FrameHUD.SetOpacity(1);
+		
 		if (!owner)
 		{
+			FrameHUD.SetOpacity(0);
 			return;
 		}
 		SCR_ChimeraCharacter owner2 = SCR_ChimeraCharacter.Cast(owner);
 		if (!owner2)
 		{
 			
+			FrameHUD.SetOpacity(0);
 				return;	
 		}
 		
@@ -63,18 +68,21 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		if (!contr)
 		{
 			
+			FrameHUD.SetOpacity(0);
 				return;	
 		}
 		
 		if (contr.GetLifeState() == ECharacterLifeState.DEAD)
 		{
 			
+			FrameHUD.SetOpacity(0);
 				return;	
 		}
 		
 		if (!EntityUtils.IsPlayer(owner))
 		{
 			
+			FrameHUD.SetOpacity(0);
 				return;	
 		}
 		
@@ -82,6 +90,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		if (!armst_loadoutStorage)
 		{
 			
+			FrameHUD.SetOpacity(0);
 				return;	
 		}
 		
@@ -89,6 +98,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		ARMST_PLAYER_STATS_COMPONENT statsComponent2 = ARMST_PLAYER_STATS_COMPONENT.Cast(owner.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
 		if (!statsComponent2)
 		{
+			FrameHUD.SetOpacity(0);
 				return;	
 		}
 		
@@ -114,11 +124,14 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			Stat_Health.SetOpacity(1);
 			Stat_Stamina.SetOpacity(1);
 		
-		
-		
 		statsComponent2.ArmstPlayerStatSetWater(-statsComponent2.m_ModifierValueWater);
 		statsComponent2.ArmstPlayerStatSetEat(-statsComponent2.m_ModifierValueEat);
 		
+        if (statsComponent2.m_player_reputation > 0)
+            { 
+       		 FactionAffiliationComponent factionComponent2 = FactionAffiliationComponent.Cast( owner.FindComponent(FactionAffiliationComponent));
+			factionComponent2.SetAffiliatedFactionByKey("FACTION_STALKER");
+			}
         if (statsComponent2.m_player_reputation > 100)
             { 
 			statsComponent2.m_player_reputation = 100; 
@@ -134,7 +147,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
             { statsComponent2.m_armst_player_stat_toxic = 100; }
         if (statsComponent2.m_armst_player_stat_toxic > statsComponent2.m_DamageToxicLevel)
             {
-				float ArmstToxicDamage = (statsComponent2.m_armst_player_stat_toxic/200) * statsComponent2.m_damageValue;
+				float ArmstToxicDamage = (statsComponent2.m_armst_player_stat_toxic/600) * statsComponent2.m_damageValue;
                 ArmstPlayerStatKill(owner,ArmstToxicDamage); // Убиваем игрока
             }
         if (statsComponent2.m_armst_player_stat_radiactive < 0)
@@ -143,7 +156,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
             { statsComponent2.m_armst_player_stat_radiactive = 100; }
         if (statsComponent2.m_armst_player_stat_radiactive > statsComponent2.m_DamageRadiactiveLevel)
             {
-				float ArmstRadioDamage = (statsComponent2.m_armst_player_stat_radiactive/200) * statsComponent2.m_damageValue;
+				float ArmstRadioDamage = (statsComponent2.m_armst_player_stat_radiactive/600) * statsComponent2.m_damageValue;
 				//Print(ArmstRadioDamage);
                 ArmstPlayerStatKill(owner,ArmstRadioDamage); // Убиваем игрока
             }
@@ -174,20 +187,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
                 ArmstPlayerStatKill(owner, ArmstRadioDamage); // Убиваем игрока
             }
 		
-		TextWidget Money = TextWidget.Cast(HUDWidget.FindAnyWidget("Money"));
-		if (Money)
-			{ 
-				MoneyCount = PlayerStats.ArmstPlayerGetMoney();
-				Money.SetText(MoneyCount.ToString());
-			};
-		
-		TextWidget Reputation = TextWidget.Cast(HUDWidget.FindAnyWidget("Reputation"));
-		if (Reputation)
-			{ 
-				RepCount = PlayerStats.ArmstPlayerGetReputation();
-				Reputation.SetText(RepCount.ToString());
-			};
-		
 		float WaterStats = statsComponent2.ArmstPlayerStatGetWater();
 		float EatStats = statsComponent2.ArmstPlayerStatGetEat();
 		float PsyStats = statsComponent2.ArmstPlayerStatGetPsy();
@@ -205,8 +204,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		Slider_Psy.SetCurrent(PsyStats);
 		Slider_Radiation.SetCurrent(RadiactiveStats);
 		Slider_Toxic.SetCurrent(ToxicStats);
-		Money.SetText(MoneyCount.ToString());
-		Reputation.SetText(RepCount.ToString());
 		
 		if (ToxicStats > 10)
 			{
@@ -249,6 +246,10 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 					Gasmask_Breath.SetOpacity(0);
 				}
 		
+	        GetGame().GetCallqueue().CallLater(Update, 500, false, HUDWidget, owner, PlayerStats, ItemStats);
+          //  callQueue.CallLater(Update, 500, false, HUDWidget, owner, PlayerStats, ItemStats);
+		
+		
 	}
 	void ArmstPlayerStatKill(IEntity owner,float damage)
     {   
@@ -263,6 +264,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
         }
     }
 	
+	private bool m_TimerActive2 = false;
 	void SetHudNotification(Widget HUDWidget, string message, string message2, float duration)
 	{
 	    PanelWidget PanelNotify = PanelWidget.Cast(HUDWidget.FindAnyWidget("PanelNotify"));
@@ -270,10 +272,18 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	    TextWidget InputNotification2 = TextWidget.Cast(HUDWidget.FindAnyWidget("InputNotification2"));
 	    if (PanelNotify)
 	    { 
+		        // Отменяем существующий таймер, если он активен
+		        if (m_TimerActive)
+		        {
+		            GetGame().GetCallqueue().Remove(ClearNotification);
+		        }
 	        InputNotification.SetText(message2);
 	        InputNotification2.SetText(message);
 	        PanelNotify.SetVisible(true);
 	        // Автоматически скрыть сообщение через указанное время
+		      m_TimerActive2 = true;
+		        // Устанавливаем новый таймер
+		        m_TimerActive = true;
 	        GetGame().GetCallqueue().CallLater(ClearNotification, Math.Round(duration * 1000), false, HUDWidget);
 	    }
 	}
@@ -286,6 +296,8 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	    {
 	        PanelNotify.SetVisible(false);
 	    }
+		    // Сбрасываем флаг активности таймера
+		m_TimerActive2 = false;
 	
 	}
 	// Флаг, указывающий, что таймер активен
@@ -339,55 +351,89 @@ class ARMST_HUDCharacterComponent: ScriptComponent
 
 modded class SCR_PlayerController : PlayerController
 {
-
-	
     ref array<Widget> m_aCurrentHuds = {};
     ref array<ARMST_HUD_Update> m_aHudUpdates = {};
-	
+    ref array<ref ScriptCallQueue> m_aUpdateCallQueues = {}; // Добавляем хранение ссылок на все созданные очереди вызовов
+    
     IEntity characterEntity;
-	override void OnControlledEntityChanged(IEntity from, IEntity to)
-	{
-		super.OnControlledEntityChanged(from, to);
+    bool m_bHudInitialized = false; // Флаг, показывающий, что HUD уже инициализирован
+
+    override void OnControlledEntityChanged(IEntity from, IEntity to)
+    {
+        super.OnControlledEntityChanged(from, to);
+        
+        // Очищаем предыдущий HUD, если он был
+        if (m_bHudInitialized)
+        {
+            ClearHUDs();
+        }
+        
         characterEntity = to;
-		GetGame().GetCallqueue().CallLater(InitHUD, 2000, false, to);	
-	}
-	override void OnDestroyed(notnull Instigator killer)
-	{
-		SCR_PlayerController.Cast(GetGame().GetPlayerController()).ClearHUDs();
-	}
-	
-	protected void OnLifeStateChanged(ECharacterLifeState previousLifeState, ECharacterLifeState newLifeState)
-		{
-				newLifeState == ECharacterLifeState.DEAD;
-				ClearHUDs();
-		}
-	
-	void InitHUD(IEntity owner)
-	{
-		if(!owner)
-			return;
-		
-		InitializeHUD();
-		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(owner.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-		ChimeraCharacter character = ChimeraCharacter.Cast(owner);
+        if (characterEntity)
+        {
+            GetGame().GetCallqueue().CallLater(InitHUD, 2000, false, to);
+        }
+    }
+    
+    override void OnDestroyed(notnull Instigator killer)
+    {
+        ClearHUDs();
+        super.OnDestroyed(killer);
+    }
+    
+    protected void OnLifeStateChanged(ECharacterLifeState previousLifeState, ECharacterLifeState newLifeState)
+    {
+        if (newLifeState == ECharacterLifeState.DEAD)
+        {
+            ClearHUDs();
+        }
+    }
+    
+    void InitHUD(IEntity owner)
+    {
+        if (!owner)
+            return;
+        
+        // Проверяем, что HUD еще не инициализирован
+        if (m_bHudInitialized)
+            return;
+        
+        InitializeHUD();
+        
+        ChimeraCharacter character = ChimeraCharacter.Cast(owner);
         if (character)
         {
             SCR_CharacterControllerComponent characterController = SCR_CharacterControllerComponent.Cast(character.FindComponent(SCR_CharacterControllerComponent));
             if (characterController)
-                characterController.m_OnLifeStateChanged.Insert(OnLifeStateChanged);
+            {
+                // Убедимся, что обработчик не добавлен дважды
+               // characterController.m_OnLifeStateChanged.Remove(OnLifeStateChanged);
+              //  characterController.m_OnLifeStateChanged.Insert(OnLifeStateChanged);
+                
+                // Убедимся, что обработчик не добавлен дважды
+                //characterController.m_OnControlledByPlayer.Remove(OnControlledByPlayer);
+                //characterController.m_OnControlledByPlayer.Insert(OnControlledByPlayer);
+            }
+            
             SCR_CharacterCameraHandlerComponent cameraController = SCR_CharacterCameraHandlerComponent.Cast(character.FindComponent(SCR_CharacterCameraHandlerComponent));
             if (cameraController)
+            {
+                // Убедимся, что обработчик не добавлен дважды
+                cameraController.GetThirdPersonSwitchInvoker().Remove(OnThirdPerson);
                 cameraController.GetThirdPersonSwitchInvoker().Insert(OnThirdPerson);
-			
-			characterController.m_OnControlledByPlayer.Insert(OnControlledByPlayer);
+            }
         }
-	}
-	void OnThirdPerson()
-	{
+    }
+    
+    void OnThirdPerson()
+    {
         if (SCR_PlayerController.GetLocalControlledEntity() != characterEntity)
             return;
 
         SCR_CharacterCameraHandlerComponent cameraController = SCR_CharacterCameraHandlerComponent.Cast(characterEntity.FindComponent(SCR_CharacterCameraHandlerComponent));
+        if (!cameraController)
+            return;
+            
         if (cameraController.IsInThirdPerson())
         {
             // Удаляем HUD для третьего лица, если требуется.
@@ -395,49 +441,83 @@ modded class SCR_PlayerController : PlayerController
         }
         else
         {
+            // Если HUD уже инициализирован, сначала очищаем его
+            if (m_bHudInitialized)
+            {
+                ClearHUDs();
+            }
+            
             InitializeHUD(); // Добавляем HUD, когда переключается в первое лицо.
         }
     }
-	
-	void InitializeHUD()
-	{
+    
+    void InitializeHUD()
+    {
+        // Проверяем, что HUD еще не инициализирован
+        if (m_bHudInitialized)
+            return;
+            
         // Ищем ARMST_HUD_Component непосредственно в персонаже
         ARMST_HUD_Component hudComponent = ARMST_HUD_Component.Cast(characterEntity.FindComponent(ARMST_HUD_Component));
         if (hudComponent)
         {
             // Если компонент HUD найден, добавляем его HUD
-			
-			//GetGame().GetCallqueue().CallLater(AddHUD, 1000, false, hudComponent);	
             AddHUD(hudComponent);
+            m_bHudInitialized = true;
         }
-	}
-		
-	void AddHUD(ARMST_HUD_Component hudComponent)
-	{
-        int index = m_aCurrentHuds.Insert(GetGame().GetWorkspace().CreateWidgets(hudComponent.GetHudLayout()));
-
+    }
+        
+    void AddHUD(ARMST_HUD_Component hudComponent)
+    {
+        // Создаем виджет
+        Widget hudWidget = GetGame().GetWorkspace().CreateWidgets(hudComponent.GetHudLayout());
+        int index = m_aCurrentHuds.Insert(hudWidget);
         m_aCurrentHuds.Get(index).SetZOrder(0);
 
-        int updateIndex = m_aHudUpdates.Insert(hudComponent.GetUpdate());
-		ARMST_PLAYER_STATS_COMPONENT PlayerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(characterEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-		ARMST_ITEMS_STATS_COMPONENTS ItemStats = ARMST_ITEMS_STATS_COMPONENTS.Cast(characterEntity.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
+        // Получаем компоненты статистики
+        ARMST_HUD_Update hudUpdate = hudComponent.GetUpdate();
+        int updateIndex = m_aHudUpdates.Insert(hudUpdate);
+        
+        ARMST_PLAYER_STATS_COMPONENT PlayerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(characterEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        ARMST_ITEMS_STATS_COMPONENTS ItemStats = ARMST_ITEMS_STATS_COMPONENTS.Cast(characterEntity.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
 
-        if (m_aHudUpdates.Get(updateIndex))
-            GetGame().GetCallqueue().CallLater(m_aHudUpdates.Get(updateIndex).Update, 500, true, m_aCurrentHuds.Get(index), characterEntity, PlayerStats, ItemStats);
-	}
-		
-	
-	void ClearHUDs()
-	{
+        // Создаем CallQueue и сохраняем ссылку на него
+        if (hudUpdate)
+        {
+            ScriptCallQueue callQueue = GetGame().GetCallqueue();
+            callQueue.CallLater(hudUpdate.Update, 500, false, hudWidget, characterEntity, PlayerStats, ItemStats);
+            m_aUpdateCallQueues.Insert(callQueue);
+        }
+    }
+    
+    void ClearHUDs()
+    {
+        // Удаляем все запланированные обновления
+        for (int i = 0; i < m_aUpdateCallQueues.Count(); i++)
+        {
+            ScriptCallQueue callQueue = m_aUpdateCallQueues[i];
+            if (callQueue)
+            {
+                // Используем функциональность очистки всех вызовов
+                callQueue.Clear();
+            }
+        }
+        m_aUpdateCallQueues.Clear();
+        
+        // Удаляем все виджеты
         for (int i = m_aCurrentHuds.Count() - 1; i >= 0; i--)
         {
             if (m_aCurrentHuds.Get(i))
                 m_aCurrentHuds.Get(i).RemoveFromHierarchy();
         }
 
+        // Очищаем массивы
         m_aCurrentHuds.Clear();
         m_aHudUpdates.Clear();
-	}	
+        
+        // Сбрасываем флаг инициализации
+        m_bHudInitialized = false;
+    }
 	
 	
 	

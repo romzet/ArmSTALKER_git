@@ -27,6 +27,11 @@ class ARMST_OpenStorageAction : ScriptedUserAction
 	{
 		
 		TryToSpawnLoot();
+		
+	    ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+	    if (!playerStats)
+	        return;
+        playerStats.Rpc_ARMST_SET_STAT_STASH();
 	};	
 	override protected void  OnActionStart(IEntity pUserEntity) {
 		

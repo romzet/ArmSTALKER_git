@@ -23,7 +23,7 @@ class ARMST_TierData
 	[Attribute("0 0 0", UIWidgets.EditBox)]
 	vector m_vItemRotation;
 	
-	[Attribute("100", UIWidgets.Slider, params: "1 100", desc: "Probability of being added to the spawner")]
+	[Attribute("1", UIWidgets.Slider, params: "1 100", desc: "Probability of being added to the spawner")]
 	int m_iProbability;
 }
 

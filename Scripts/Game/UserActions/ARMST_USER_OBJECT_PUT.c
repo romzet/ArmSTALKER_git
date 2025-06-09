@@ -39,7 +39,7 @@ class ARMST_USER_OBJECT_PUT : ScriptedUserAction
 				if (inventoryManager)
 				{
 					inventoryManager.TryInsertItem(spawnedObject);
-					SCR_HintManagerComponent.ShowCustomHint("#Armst_action_disassemble_done");
+					//SCR_HintManagerComponent.ShowCustomHint("#Armst_action_disassemble_done");
 	            }
        		 }
 		}

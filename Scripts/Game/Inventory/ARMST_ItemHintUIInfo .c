@@ -18,6 +18,7 @@ modded class SCR_InventoryUIInfo : UIInfo
     	 string Radiation = "#armst_uiunfoitem_Radiation";
     	 string Toxin = "#armst_uiunfoitem_Toxin";
     	 string Psi = "#armst_uiunfoitem_Psi";
+	
 	//! Function to override to get custom inventory description
 	override string GetInventoryItemDescription(InventoryItemComponent item)
 	{
@@ -61,16 +62,16 @@ modded class SCR_InventoryUIInfo : UIInfo
 			    if (electroLevel > 0)
 			        formattedText += string.Format("\n  %2: %1", (int)electroLevel, electro);
 			}
-	        SCR_ConsumableItemComponent consumable = SCR_ConsumableItemComponent.Cast(item.GetOwner().FindComponent(SCR_ConsumableItemComponent));
+	        ARMST_ItemUseComponent consumable = ARMST_ItemUseComponent.Cast(item.GetOwner().FindComponent(ARMST_ItemUseComponent));
 	        if (consumable)
 			{
 				consumable.Get_AllStats();
-				 float HP = consumable.GetChangeHP();
-				 float Eat = consumable.GetChangeEat();
-				 float Water = consumable.GetChangeWater();
-				 float Radiactive = consumable.GetChangeRadiactive();
-				 float Toxic = consumable.GetChangeToxic();
-				 float Psy = consumable.GetChangePsy();
+				 int HP = consumable.GetChangeHP();
+				 int Eat = consumable.GetChangeEat();
+				 int Water = consumable.GetChangeWater();
+				 int Radiactive = consumable.GetChangeRadiactive();
+				 int Toxic = consumable.GetChangeToxic();
+				 int Psy = consumable.GetChangePsy();
 				
 				
 		    	formattedText += string.Format("\n%1:", Effects );
@@ -84,7 +85,7 @@ modded class SCR_InventoryUIInfo : UIInfo
 						}
 						else
 						{
-		        			formattedText += string.Format("\n  %2: %1", (int)HP, Health);
+		        			formattedText += string.Format("\n  %2: -%1", (int)HP, Health);
 						}
 					}
 		    	if (Eat != 0)

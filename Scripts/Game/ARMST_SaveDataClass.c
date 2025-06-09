@@ -14,6 +14,11 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
     float m_fEat;
     float m_fMoney;
     float m_fRep;
+    float m_fKillMonsters;  // Статистика убийств монстров
+    float m_fKillBandits;   // Статистика убийств бандитов
+    float m_fStashFounds;   // Статистика найденных тайников
+    float m_fQuestsDone;    // Статистика выполненных квестов
+    float m_fSellsItems;    // Статистика проданных предметов
     
     //------------------------------------------------------------------------------------------------
     override EPF_EReadResult ReadFrom(IEntity owner, GenericComponent component, EPF_ComponentSaveDataClass attributes)
@@ -29,6 +34,11 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         m_fEat = statsComponent.ArmstPlayerStatGetEat();
         m_fMoney = statsComponent.ArmstPlayerGetMoney();
         m_fRep = statsComponent.ArmstPlayerGetReputation();
+        m_fKillMonsters = statsComponent.ARMST_GET_STAT_MONSTER();
+        m_fKillBandits = statsComponent.ARMST_GET_STAT_BAND();
+        m_fStashFounds = statsComponent.ARMST_GET_STAT_STASH();
+        m_fQuestsDone = statsComponent.ARMST_GET_STAT_QUESTS();
+        m_fSellsItems = statsComponent.ARMST_GET_STAT_SELLS();
         
         // Если все значения в состоянии по умолчанию, не сохраняем
         if (float.AlmostEqual(m_fToxic, 0) && 
@@ -37,7 +47,12 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
             float.AlmostEqual(m_fWater, 100) &&
             float.AlmostEqual(m_fEat, 100) &&
             float.AlmostEqual(m_fMoney, 999999) &&
-            float.AlmostEqual(m_fRep, 0))
+            float.AlmostEqual(m_fRep, 0) &&
+            float.AlmostEqual(m_fKillMonsters, 0) &&
+            float.AlmostEqual(m_fKillBandits, 0) &&
+            float.AlmostEqual(m_fStashFounds, 0) &&
+            float.AlmostEqual(m_fQuestsDone, 0) &&
+            float.AlmostEqual(m_fSellsItems, 0))
         {
             return EPF_EReadResult.DEFAULT;
         }
@@ -47,44 +62,85 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
 
     //------------------------------------------------------------------------------------------------
     override EPF_EApplyResult ApplyTo(IEntity owner, GenericComponent component, EPF_ComponentSaveDataClass attributes)
-	{
-	    ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(component);
-	    if (!statsComponent)
-	        return EPF_EApplyResult.ERROR;
-	        
+    {
+        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(component);
+        if (!statsComponent)
+            return EPF_EApplyResult.ERROR;
         
         // Устанавливаем сохраненные значения
         // Для токсика, радиации, еды и воды нужно вычислить разницу, так как у нас есть только сеттеры,
         // которые прибавляют значение, а не устанавливают напрямую
         float currentToxic = statsComponent.ArmstPlayerStatGetToxic();
         float diffToxic = m_fToxic - currentToxic;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetToxic, diffToxic);
-		
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetToxic, diffToxic);
+        
         float currentRadio = statsComponent.ArmstPlayerStatGetRadio();
         float diffRadio = m_fRadiactive - currentRadio;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetRadio, diffRadio);
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetRadio, diffRadio);
         
         float currentPsy = statsComponent.ArmstPlayerStatGetPsy();
         float diffPsy = m_fPsy - currentPsy;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetPsy, diffPsy);
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetPsy, diffPsy);
         
         float currentWater = statsComponent.ArmstPlayerStatGetWater();
         float diffWater = m_fWater - currentWater;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetWater, diffWater);
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetWater, diffWater);
         
         float currentEat = statsComponent.ArmstPlayerStatGetEat();
         float diffEat = m_fEat - currentEat;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetEat, diffEat);
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetEat, diffEat);
         
         float currentRep = statsComponent.ArmstPlayerGetReputation();
         float diffRep = m_fRep - currentRep;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetReputation, diffRep);
-		
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetReputation, diffRep);
+        
         float currentMoney = statsComponent.ArmstPlayerGetMoney();
         float diffMoney = m_fMoney - currentMoney;
-		statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetMoney, diffMoney);
-		
-		
+        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetMoney, diffMoney);
+        
+        // Устанавливаем значения статистики напрямую, так как нет прямых сеттеров с RPC для этих значений
+        // Поскольку нет RPC для прямой установки, мы вызываем локальные методы
+        // Однако, если это нужно делать через сеть, потребуется добавить RPC методы
+        if (m_fKillMonsters > statsComponent.ARMST_GET_STAT_MONSTER())
+        {
+            for (float i = statsComponent.ARMST_GET_STAT_MONSTER(); i < m_fKillMonsters; i++)
+            {
+                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_MONSTER);
+            }
+        }
+        
+        if (m_fKillBandits > statsComponent.ARMST_GET_STAT_BAND())
+        {
+            for (float i = statsComponent.ARMST_GET_STAT_BAND(); i < m_fKillBandits; i++)
+            {
+                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_BAND2);
+            }
+        }
+        
+        if (m_fStashFounds > statsComponent.ARMST_GET_STAT_STASH())
+        {
+            for (float i = statsComponent.ARMST_GET_STAT_STASH(); i < m_fStashFounds; i++)
+            {
+                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_STASH);
+            }
+        }
+        
+        if (m_fQuestsDone > statsComponent.ARMST_GET_STAT_QUESTS())
+        {
+            for (float i = statsComponent.ARMST_GET_STAT_QUESTS(); i < m_fQuestsDone; i++)
+            {
+                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_QUESTS);
+            }
+        }
+        
+        if (m_fSellsItems > statsComponent.ARMST_GET_STAT_SELLS())
+        {
+            for (float i = statsComponent.ARMST_GET_STAT_SELLS(); i < m_fSellsItems; i++)
+            {
+                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_SELLS);
+            }
+        }
+        
         return EPF_EApplyResult.OK;
     }
 
@@ -100,7 +156,12 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
                float.AlmostEqual(m_fWater, otherData.m_fWater) &&
                float.AlmostEqual(m_fEat, otherData.m_fEat) &&
                float.AlmostEqual(m_fMoney, otherData.m_fMoney) &&
-               float.AlmostEqual(m_fRep, otherData.m_fRep);
+               float.AlmostEqual(m_fRep, otherData.m_fRep) &&
+               float.AlmostEqual(m_fKillMonsters, otherData.m_fKillMonsters) &&
+               float.AlmostEqual(m_fKillBandits, otherData.m_fKillBandits) &&
+               float.AlmostEqual(m_fStashFounds, otherData.m_fStashFounds) &&
+               float.AlmostEqual(m_fQuestsDone, otherData.m_fQuestsDone) &&
+               float.AlmostEqual(m_fSellsItems, otherData.m_fSellsItems);
     }
 }
 
@@ -113,6 +174,8 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 	ResourceName m_rPrefabPants;
 	[Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
 	ResourceName m_rPrefabBoots;
+	[Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
+	ResourceName m_rPrefab;
 
 	override void HandoverToPlayer(int playerId, IEntity character)
 	{
@@ -163,6 +226,7 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 			Resource m_Resource = Resource.Load(m_rPrefabJacket);
 			Resource m_Resource2 = Resource.Load(m_rPrefabPants);
 			Resource m_Resource3 = Resource.Load(m_rPrefabBoots);
+			Resource m_Resource4 = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
 			EntitySpawnParams params();
 			m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
 			params.Parent = character;
@@ -170,6 +234,7 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 			IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
 			IEntity newEnt2 = GetGame().SpawnEntityPrefab(m_Resource2, GetGame().GetWorld(), params);
 			IEntity newEnt3 = GetGame().SpawnEntityPrefab(m_Resource3, GetGame().GetWorld(), params);
+			IEntity newEnt4 = GetGame().SpawnEntityPrefab(m_Resource4, GetGame().GetWorld(), params);
 			
 	        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(character.FindComponent(SCR_InventoryStorageManagerComponent));
 	            if (inventoryManager)
@@ -177,6 +242,7 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 	                inventoryManager.TryInsertItem(newEnt);
 	                inventoryManager.TryInsertItem(newEnt2);
 	                inventoryManager.TryInsertItem(newEnt3);
+	                inventoryManager.TryInsertItem(newEnt4);
 				}
 			
 			

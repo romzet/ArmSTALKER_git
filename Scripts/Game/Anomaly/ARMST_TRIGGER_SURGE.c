@@ -83,16 +83,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
     }
     //------------------------------------------------------------------------------------------------
     
-    void SurgeNotification(int timerMinutes)
-	{
-			if (timerMinutes<1)
-				return;
-			timerMinutes = timerMinutes - 10;
-			string ExtMame =  "#armst_pda_surge_start" + " " + timerMinutes + " " +  "#armst_pda_surge_minutes";
-			string ExtMame2 =  "#armst_pda_system";
-		    ARMST_NotificationHelper.BroadcastNotification(ExtMame2, ExtMame, 10.0);
-            GetGame().GetCallqueue().CallLater(SurgeNotification, 600000, false, timerMinutes);
-	}
     override void OnActivate(IEntity ent) {
         if (!ent)
             return;
@@ -113,7 +103,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
             GetGame().GetCallqueue().CallLater(StartSurge, m_SurgeTimer * 1000, false);
 			
 			int timerMinutes = Math.Max(0, m_SurgeTimer / 60);
-            GetGame().GetCallqueue().CallLater(SurgeNotification, 600000, false, timerMinutes);
             m_SurgeActive = true;
         }
 		if (m_SurgeActiveDamage)
@@ -126,6 +115,17 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 					params.Parent = ent;
 					m_SurgeEffects = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
 				}
+			
+		        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(ent.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+		        if (!statsComponent) 
+		            return;
+				
+		        if(statsComponent.m_surge_safe_check)
+						return;
+			
+			
+        		statsComponent.ArmstPlayerStatSetPsy(-15);
+			
 		        DamageManagerComponent damageManager = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
 		        if (damageManager)
 		        {
@@ -145,10 +145,18 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 		SpawnSurgeSoundAmbient();
 		m_SurgeActiveDamage = true;
 	}
+	ARMST_PDA_LIFE_GamemodeComponent PdaLife;	
+	protected void SurgeNotify()
+	{
+			if(GetGame().InPlayMode())
+			PdaLife = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
+			PdaLife.SendRandomMessageOfType("SURGE_START");
+	}
     protected void StartSurge() {
-        m_LightningSpawned = 0;
-        
-	
+        	m_LightningSpawned = 0;
+		
+        	Print("Начинается выброс!");
+        	GetGame().GetCallqueue().CallLater(SurgeNotify, 15 * 1000, false);
 			WeatherState weatherState = timeAndWeatherManager.GetCurrentWeatherState();
 			timeAndWeatherManager.ForceWeatherTo(false, "Overcast"); //Clear Cloudy Overcast Surge
             GetGame().GetCallqueue().CallLater(ChangeSurgeWeather, m_SurgeTimerAmbient * 1000, false);
@@ -162,7 +170,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
             SpawnSurgeSoundStart();
         }
         
-        Print("Начинается выброс!");
         
         // Запускаем цикл спавна молний
     }
@@ -209,7 +216,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 	    
 	    m_SurgeSoundStart = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
 	    
-	    Print("Звук начала выброса создан на высоте " + soundTransform[3][1] + " метров");
 	}
     
    protected void SpawnSurgeSoundAmbient()
@@ -232,7 +238,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 	    
 	    m_SurgeSoundAmbient = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
 	    
-	    Print("Звук середины выброса создан на высоте " + soundTransform[3][1] + " метров");
 	}
    protected void SpawnSurgeSoundEnd()
 	{
@@ -254,7 +259,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 	    
 	    m_SurgeSoundEnd = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
 	    
-	    Print("Звук середины выброса создан на высоте " + soundTransform[3][1] + " метров");
 	}
     // Улучшенный метод получения случайной позиции с проверкой дистанции до других молний
     protected vector GetRandomSpawnPositionValid() 
@@ -298,7 +302,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
         if (lightning) {
             SCR_EntityHelper.SnapToGround(lightning); // Привязываем к земле
             m_LightningSpawned++;
-            Print("Молния #" + m_LightningSpawned + " создана на высоте " + spawnTransform[3][1]);
         }
     }
     
@@ -325,6 +328,8 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 	    }
 		timeAndWeatherManager.ForceWeatherTo(false, "Overcast"); //Clear Cloudy Overcast
 	    
+		PdaLife = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
+		PdaLife.SendRandomMessageOfType("SURGE");
 	}
     protected void EndSurge() {
             
@@ -350,8 +355,6 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 	    }
 	    
 	    
-	        
-        Print("Выброс закончился. Всего молний создано: " + m_LightningSpawned);
         
         // Через некоторое время удаляем созданные молнии
         // GetGame().GetCallqueue().CallLater(CleanupLightnings, 10000, false);

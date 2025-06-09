@@ -1,5 +1,4 @@
-
-class ARMST_ACTION_LOOT_BODY : ScriptedUserAction
+class ARMST_USER_LOOT_BODY : ScriptedUserAction
 {
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб обьекта", "et", category: "Объект")]
     ResourceName m_PrefabToSpawn;

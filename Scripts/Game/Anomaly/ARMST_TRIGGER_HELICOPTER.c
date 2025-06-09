@@ -99,6 +99,13 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
         }
     }
     
+	ARMST_PDA_LIFE_GamemodeComponent PdaLife;	
+	protected void HelicopterNotify()
+	{
+			if(GetGame().InPlayMode())
+			PdaLife = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
+			PdaLife.SendRandomMessageOfType("HELI");
+	}
     protected void SpawnHelicopter() {
         if (m_ObjectHelicopter == ResourceName.Empty) {
             Print("ARMST_TRIGGER_HELICOPTER: Не указан префаб вертолета!");
@@ -106,6 +113,8 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
             return;
         }
         
+        GetGame().GetCallqueue().CallLater(HelicopterNotify, 20 * 1000, false);
+		
         GetWorldTransform(m_WorldTransform);
         
         // Получаем позиции из маркеров, если они указаны

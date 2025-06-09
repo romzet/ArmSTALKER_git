@@ -25,9 +25,6 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
     protected static ref map<ResourceName, ref UIInfo> s_mItemUIInfo = new map<ResourceName, ref UIInfo>();
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Требуемый предмет для телепортации", "et", category: "Requirements")]
     ResourceName m_sRequiredItem;
-    
-	override event bool CanBroadcastScript() { return false; };
-	override event bool HasLocalEffectOnlyScript() { return true; };
 	
     protected bool m_bTeleportInProgress = false;
     protected float m_fTeleportCountdown = 0;
@@ -41,6 +38,11 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
 	protected vector m_ItemMat[4];		// owner transformation matrix
 	protected IEntity spawnedBuffer;
     
+	//! Does this action only have client side effect?
+	override event bool HasLocalEffectOnlyScript() { return true; };
+	//! If HasLocalEffectOnly() is false this method tells if the server is supposed to broadcast this action to clients.
+	override event bool CanBroadcastScript() { return false; };
+	
     	 string StartTeleport = "#armst_start_teleport";
     	 string TeleportPrice = "#armst_price";
     	 string TeleportItem = "#armst_requieres_item";
@@ -197,21 +199,23 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
     }
     //------------------------------------------------------------------------------------------------
     bool CheckRequirementsReputations(IEntity userEntity)
+{
+    // Проверка наличия достаточной репутации
+    if (m_iCostReputations > 0)
     {
-        // Проверка наличия денег
-        if (m_iCost > 0)
+        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(userEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        if (playerStats)
         {
-	        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(userEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-	        if (playerStats)
-			{
-					if (playerStats.ArmstPlayerGetReputation() < m_iCostReputations)
-					return false;
-	        }
+            if (playerStats.ArmstPlayerGetReputation() < m_iCostReputations)
+            {
+                // Уведомляем игрока, если репутации недостаточно
+                ARMST_NotificationHelper.ShowNotificationPDA(userEntity, "#armst_error", "#armst_insufficient_reputation", 5.0);
+                return false;
+            }
         }
-        
-        
-        return true;
     }
+    return true;
+}
     
     //------------------------------------------------------------------------------------------------
     bool HasRequiredItem(IEntity pUserEntity)

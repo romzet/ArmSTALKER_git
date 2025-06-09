@@ -1,126 +1,66 @@
-//! Saline bag effect
-modded class SCR_ConsumableItemComponent: SCR_GadgetComponent {
-	
-	override void OnUseBegan(IEntity item, ItemUseParameters animParams)
-	{
-		if (m_bAlternativeModelOnAction)
-			SetAlternativeModel(true);
-
-		if (!m_CharacterOwner || !animParams)
-			return;
-		
-		SetHealedGroup(animParams.GetIntParam(), true);
-		
-		SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
-		if(!soundManagerEntity)
-			return;
-		soundManagerEntity.CreateAndPlayAudioSource(item, SCR_SoundEvent.ARMST_ITEM_USED);
-	}
-	float m_ArmstChangeHP = 0;
-	float m_ArmstChangeToxic = 0;
-	float m_ArmstChangeRadiactive = 0;
-	float m_ArmstChangePsy = 0;
-	float m_ArmstChangeWater = 0;
-	float m_ArmstChangeEat = 0;
-	void Get_AllStats()
-		{
-		    if (!m_ConsumableEffect)
-		        return;
-		    // Проверяем, существует ли эффект и является ли он ARMST_ConsumableBaseItem
-		    if (m_ConsumableEffect)
-		    {
-		        ARMST_ConsumableBaseItem armstEffect = ARMST_ConsumableBaseItem.Cast(m_ConsumableEffect);
-		        if (armstEffect)
-					{
-		            m_ArmstChangeHP = armstEffect.Get_ArmstChangeHP();
-		            m_ArmstChangeToxic = armstEffect.Get_m_ArmstChangeToxic();
-		            m_ArmstChangeRadiactive = armstEffect.Get_m_ArmstChangeRadiactive();
-		            m_ArmstChangePsy = armstEffect.Get_m_ArmstChangePsy();
-		            m_ArmstChangeWater = armstEffect.Get_m_ArmstChangeWater();
-		            m_ArmstChangeEat = armstEffect.Get_m_ArmstChangeEat();
-					};
-		    };
-		
-		}
-	float GetChangeHP()
-			{
-				return m_ArmstChangeHP;
-			}
-	float GetChangeToxic()
-			{
-				return m_ArmstChangeToxic;
-			}
-	float GetChangeRadiactive()
-			{
-				return m_ArmstChangeRadiactive;
-			}
-	float GetChangePsy()
-			{
-				return m_ArmstChangePsy;
-			}
-	float GetChangeWater()
-			{
-				return m_ArmstChangeWater;
-			}
-	float GetChangeEat()
-			{
-				return m_ArmstChangeEat;
-			}
-};
 
 [BaseContainerProps()]
-class ARMST_ConsumableBaseItem : SCR_ConsumableEffectHealthItems
+class ARMST_Consumable : SCR_ConsumableEffectBase
 {
 	
+	protected float m_fItemRegenerationSpeed = 0;
+	
+	protected float m_fItemRegenerationDuration = 0;;	
+	
+	protected float m_fItemAbsoluteRegenerationAmount = 0;;
+	
+	//Cached to remember which bodypart to remove effect from
+	protected ECharacterHitZoneGroup m_eTargetHZGroup;
+	
 	protected vector m_aOriginalTransform[4];
+	[Attribute("False", UIWidgets.CheckBox, "Вкл выкл активацию предмета по кнопке R", category: "Stats")];
+	bool m_ActionItemOnPress;
 	//какой урон наносить
 	[Attribute("0", UIWidgets.ComboBox, "Damage type", "", ParamEnumArray.FromEnum(EDamageType), category: "Stats" )]
 	EDamageType m_damageTypeVanilla;
 	[Attribute("0", UIWidgets.ComboBox, "Damage type", "", ParamEnumArray.FromEnum(SCR_EConsumableType), category: "Stats" )]
 	EDamageType m_damageTypeConsuble;
 	
-	[Attribute("False", UIWidgets.CheckBox, "Вкл выкл активацию предмета по кнопке R", category: "Stats")];
-	bool m_ActionItemOnPress;
 	
 	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон", "-100 100 5", category: "Stats")]
-	protected float m_ArmstChangeHP;
+	protected int m_ArmstChangeHP;
 	
-	float Get_ArmstChangeHP()
+	int Get_ArmstChangeHP()
 	{
 		return m_ArmstChangeHP;
 	}
 	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон","-100 100 1", category: "Stats")]
-	protected float m_ArmstChangeToxic;	
+	protected int m_ArmstChangeToxic;	
 	
-	float Get_m_ArmstChangeToxic()
+	int Get_m_ArmstChangeToxic()
 	{
 		return m_ArmstChangeToxic;
 	}
 	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон","-100 100 1", category: "Stats")]
-	protected float m_ArmstChangeRadiactive;
+	protected int m_ArmstChangeRadiactive;
 	
-	float Get_m_ArmstChangeRadiactive()
+	int Get_m_ArmstChangeRadiactive()
 	{
 		return m_ArmstChangeRadiactive;
 	}
 	[Attribute("0", UIWidgets.Slider, "В минус тратить, в плюс прибавить","-100 100 1", category: "Stats")]
-	protected float m_ArmstChangePsy;
+	protected int m_ArmstChangePsy;
 	
-	float Get_m_ArmstChangePsy()
+	int Get_m_ArmstChangePsy()
 	{
 		return m_ArmstChangePsy;
 	}
 	[Attribute("0", UIWidgets.Slider, "В минус тратить, в плюс прибавить","-100 100 1", category: "Stats")]
-	protected float m_ArmstChangeWater;
+	protected int m_ArmstChangeWater;
 	
-	float Get_m_ArmstChangeWater()
+	int Get_m_ArmstChangeWater()
 	{
 		return m_ArmstChangeWater;
 	}
 	[Attribute("0", UIWidgets.Slider, "В минус тратить, в плюс прибавить","-100 100 1", category: "Stats")]
-	protected float m_ArmstChangeEat;
+	protected int m_ArmstChangeEat;
 	
-	float Get_m_ArmstChangeEat()
+	int Get_m_ArmstChangeEat()
 	{
 		return m_ArmstChangeEat;
 	}
@@ -130,7 +70,11 @@ class ARMST_ConsumableBaseItem : SCR_ConsumableEffectHealthItems
 	[Attribute("false", UIWidgets.CheckBox, "Спавнить в инвентаре (если нет, то на земле)", category: "Stats")]
 	protected bool m_bSpawnInInventory;
 	
-	//------------------------------------------------------------------------------------------------
+	[Attribute("600", UIWidgets.Slider, "В минус тратить, в плюс прибавить","0 18000 1", category: "Stats")]
+	protected int m_DeleteTimer;
+	
+	
+	//------------------------------------------------------------------------------------------------	
 	override void ApplyEffect(notnull IEntity target, notnull IEntity user, IEntity item, ItemUseParameters animParams)
 	{
 		InventoryItemComponent itemComp = InventoryItemComponent.Cast(item.FindComponent(InventoryItemComponent));
@@ -180,13 +124,53 @@ class ARMST_ConsumableBaseItem : SCR_ConsumableEffectHealthItems
 				else
 					{
 						SCR_EntityHelper.SnapToGround(spawnedObject);
+						//GetGame().GetCallqueue().CallLater(DeleteTemp, m_DeleteTimer * 1000, false, spawnedObject);	
 					}
             }
         }
 		
 		
 	}
-	override void AddConsumableDamageEffects(notnull ChimeraCharacter char, IEntity instigator)
+	void DeleteTemp(IEntity spawnedObject)
+	{
+		if(spawnedObject)
+			SCR_EntityHelper.DeleteEntityAndChildren(spawnedObject);
+	}
+	//------------------------------------------------------------------------------------------------	
+	override bool ActivateEffect(IEntity target, IEntity user, IEntity item, ItemUseParameters animParams = null)
+	{
+		ItemUseParameters localAnimParams = animParams;
+		if (!localAnimParams)
+		{
+			//user-held healthitem needs to get data from target to perform anim
+			localAnimParams = GetAnimationParameters(item, target);
+		}
+		
+		if (!localAnimParams)
+			return false;
+		
+		if (!super.ActivateEffect(target, user, item, localAnimParams))
+			return false;		
+
+		ChimeraCharacter character = ChimeraCharacter.Cast(target);
+		if (!character)
+			return false;
+		
+		CharacterControllerComponent controller = character.GetCharacterController();
+		if (!controller)
+			return false;
+			
+		if (localAnimParams.GetIntParam() == EBandagingAnimationBodyParts.LeftLeg || localAnimParams.GetIntParam() == EBandagingAnimationBodyParts.RightLeg)
+		{
+			if (controller.GetStance() == ECharacterStance.STAND)
+				controller.SetStanceChange(ECharacterStanceChange.STANCECHANGE_TOCROUCH);
+		}
+		
+		return true;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	void AddConsumableDamageEffects(notnull ChimeraCharacter char, IEntity instigator)
 	{
 		SCR_CharacterDamageManagerComponent damageMgr = SCR_CharacterDamageManagerComponent.Cast(char.GetDamageManager());
 		SCR_DotDamageEffect dotClone;
@@ -214,34 +198,74 @@ class ARMST_ConsumableBaseItem : SCR_ConsumableEffectHealthItems
          damageManager.HandleDamage(damageCtx);
 		
 	};
+	
 	//------------------------------------------------------------------------------------------------
+	float GetItemRegenSpeed()
+	{
+		float itemRegenSpeed = 0;		
+		if (m_fItemRegenerationSpeed != 0)	// If a regeneration time is set, regen will occur for given amount of time at the itemRegenerationSpeed
+			itemRegenSpeed = m_fItemRegenerationSpeed;
+		else if (m_fItemAbsoluteRegenerationAmount != 0)	// If an absolute regen amount is set instead of a duration, the regen will last until the amount of points has been distributed at the itemRegenerationSpeed
+			itemRegenSpeed = m_fItemAbsoluteRegenerationAmount / m_fItemRegenerationDuration;	
+
+		return itemRegenSpeed;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	override bool UpdateAnimationCommands(IEntity user)
+	{
+		ChimeraCharacter char = ChimeraCharacter.Cast(user);
+		if (!char)
+			return false;
+		
+		CharacterAnimationComponent animationComponent = char.GetAnimationComponent();
+		if (!animationComponent)
+			return false;		
+		
+		m_iPlayerApplyToSelfCmdId = animationComponent.BindCommand("CMD_HealSelf");
+		m_iPlayerApplyToOtherCmdId = animationComponent.BindCommand("CMD_HealOther");
+		m_iPlayerReviveCmdId = animationComponent.BindCommand("CMD_Revive");
+		if (m_iPlayerApplyToSelfCmdId < 0 || m_iPlayerApplyToOtherCmdId < 0)
+		{
+			Print("One or both healing animationCommands have incorrect ID's!!", LogLevel.ERROR);
+			return false;
+		}
+		
+		return true;
+	}
 	override bool CanApplyEffect(notnull IEntity target, notnull IEntity user,out SCR_EConsumableFailReason failReason = SCR_EConsumableFailReason.NONE)
 	{
 		
 		return m_ActionItemOnPress;
 	}
-	
 	//------------------------------------------------------------------------------------------------
-	override bool CanApplyEffectToHZ(notnull IEntity target, notnull IEntity user, ECharacterHitZoneGroup group, out SCR_EConsumableFailReason failReason = SCR_EConsumableFailReason.NONE)
+	//! Condition whether this effect can be applied to the specific hit zone
+	//! \param[in] target is the character who is having the effect applied
+	//! \param[in] user
+	//! \param[in] group the hitzonegroup which is having the effect applied
+	//! \param[in] failReason
+	bool CanApplyEffectToHZ(notnull IEntity target, notnull IEntity user, ECharacterHitZoneGroup group, out SCR_EConsumableFailReason failReason = SCR_EConsumableFailReason.NONE)
 	{
 		return true;
 	}
 	//------------------------------------------------------------------------------------------------
-	
-	void ArmstAnimationDelete(IEntity spawnedObject)
-	{	
-		
-			delete spawnedObject;
-	}
-	
-	
-	
-	
-	// constructor
-	void ARMST_ConsumableBaseItem()
+	//! \param[in] user
+	//! \return
+	TAnimGraphCommand GetReviveAnimCmnd(IEntity user)
 	{
-		m_eConsumableType = m_damageTypeConsuble;
+		UpdateAnimationCommands(user);
+		return m_iPlayerReviveCmdId;
 	}
+	
+	//------------------------------------------------------------------------------------------------
+	ECharacterHitZoneGroup GetTargetHitZoneGroup()
+	{
+		return m_eTargetHZGroup;
+	}
+}
+[BaseContainerProps()]
+class ARMST_ConsumableBaseItem : ARMST_Consumable
+{
 }
 modded enum SCR_EConsumableType
 {

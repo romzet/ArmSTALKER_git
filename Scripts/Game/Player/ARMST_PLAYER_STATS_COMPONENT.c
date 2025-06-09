@@ -31,10 +31,77 @@ class ARMST_PLAYER_STATS_COMPONENT: ScriptComponent
 	float m_armst_player_stat_stamina;
 	
 	[RplProp()]
-	 float m_player_money = 10000;
+	 float m_player_money = 2000;
 	
 	[RplProp()]
 	 float m_player_reputation = 0;
+	
+	
+	//=======================================
+	[RplProp()]
+	 float m_statistik_player_kill_monsters = 0;
+    float ARMST_GET_STAT_MONSTER()
+    {return m_statistik_player_kill_monsters;}
+	
+    void ARMST_SET_STAT_MONSTER()
+    {m_statistik_player_kill_monsters = m_statistik_player_kill_monsters + 1;}
+	
+	 [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	 void Rpc_ARMST_SET_STAT_MONSTER()
+	  { ARMST_SET_STAT_MONSTER();  }
+	
+	//=======================================
+	[RplProp()]
+	 float m_statistik_player_kill_bandits = 0;
+    float ARMST_GET_STAT_BAND()
+    {return m_statistik_player_kill_bandits;}
+	
+    void ARMST_SET_STAT_BAND()
+    {m_statistik_player_kill_bandits = m_statistik_player_kill_bandits + 1;}
+	
+	 [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	 void Rpc_ARMST_SET_STAT_BAND2()
+	  { ARMST_SET_STAT_BAND();  }
+	//=======================================
+	[RplProp()]
+	 float m_statistik_player_stash_founds = 0;
+    float ARMST_GET_STAT_STASH()
+    {return m_statistik_player_stash_founds;}
+	
+    void ARMST_SET_STAT_STASH()
+    {m_statistik_player_stash_founds = m_statistik_player_stash_founds + 1;}
+	
+	 [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	 void Rpc_ARMST_SET_STAT_STASH()
+	  { ARMST_SET_STAT_STASH();  }
+	//=======================================
+	[RplProp()]
+	 float m_statistik_player_quests_done = 0;
+    float ARMST_GET_STAT_QUESTS()
+    {return m_statistik_player_quests_done;}
+	
+    void ARMST_SET_STAT_QUESTS()
+    { m_statistik_player_quests_done = m_statistik_player_quests_done + 1;}
+	
+	 [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	 void Rpc_ARMST_SET_STAT_QUESTS()
+	  { ARMST_SET_STAT_QUESTS();}
+	
+	
+	//=======================================
+	[RplProp()]
+	 float m_statistik_player_sells_items = 0;
+    float ARMST_GET_STAT_SELLS()
+    {return m_statistik_player_sells_items;}
+	
+    void ARMST_SET_STAT_SELLS()
+    {m_statistik_player_sells_items = m_statistik_player_sells_items + 1;}
+	
+	 [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	 void Rpc_ARMST_SET_STAT_SELLS()
+	  {ARMST_SET_STAT_SELLS();}
+	
+	
 	
     float ArmstPlayerGetMoney()
     {
@@ -74,7 +141,12 @@ class ARMST_PLAYER_STATS_COMPONENT: ScriptComponent
 	}
     float m_armst_radiactive_level;    // Уровень радиации вокруг игрока 
 	
+	[RplProp()]
+	bool m_pda_check = true;
+	
 	bool m_stat_check = false;
+	
+	bool m_surge_safe_check = false;
 	
 	[Attribute("1", UIWidgets.Slider, "Множитель к урону", "0 50 1", desc: "Урон", category: "Статы")]
 	float m_damageValue;
@@ -108,6 +180,28 @@ class ARMST_PLAYER_STATS_COMPONENT: ScriptComponent
 	//		Print("Инициация статистики");
 		
 	//}
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ShowNotification(string title, string message, float duration)
+	{
+	    ARMST_NotificationHelper.ShowNotification(GetOwner(), title, message, duration);
+	}
+    void ArmstPlayerPdaOn()
+    {
+        m_pda_check = true;
+    }
+    void ArmstPlayerPdaOff()
+    {
+        m_pda_check = false;
+    }
+	
+    void ArmstPlayerSafeSurgeOn()
+    {
+        m_surge_safe_check = true;
+    }
+    void ArmstPlayerSafeSurgeOff()
+    {
+        m_surge_safe_check = false;
+    }
 	
 	 [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
 	  void Rpc_ArmstPlayerINIT()

@@ -4,6 +4,7 @@ modded class ZEL_ClaimStorageAction : ZEL_ClaimedStorageUserActionBase
 	
 	SCR_InventoryStorageManagerComponent m_InventoryManagerComponent;
 	
+	protected vector m_aOriginalTransform[4];
 	//------------------------------------------------------------------------------------------------
  	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
  	{
@@ -15,6 +16,28 @@ modded class ZEL_ClaimStorageAction : ZEL_ClaimedStorageUserActionBase
             Print("[ARMST_START] succelfull player LOADOUT");
 			//playerStats.Rpc(playerStats.Rpc_ArmstPlayerSetMoney, -m_fFixedPrice);
 			playerStats.Rpc_ArmstPlayerSetMoney(50000);
+			
+					vector transform[4];
+					SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+					m_aOriginalTransform = transform;
+					EntitySpawnParams params = new EntitySpawnParams();
+					params.Transform = m_aOriginalTransform;
+					params.TransformMode = ETransformMode.WORLD;
+			            
+			        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+			        if (!inventoryManager)
+				        return;
+			
+						Resource resource1 = Resource.Load("{2243768D6050B899}Prefabs/Items/Moneys/armst_itm_money_5000rub.et");
+			 			int spawnCount1 = 10;
+        				if (resource1)
+						{
+							  for (int i = 0; i < spawnCount1; i++)
+                       			{
+            					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource1, GetGame().GetWorld(), params);
+								inventoryManager.TryInsertItem(spawnedObject);
+								}
+						}
         }
 		
 		

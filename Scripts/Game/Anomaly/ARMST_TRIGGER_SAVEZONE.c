@@ -50,9 +50,16 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
         if (!EntityUtils.IsPlayer(ent))
             return;
         
+        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(ent.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        if (!statsComponent) 
+            return;
+		
+        statsComponent.ArmstPlayerSafeSurgeOn();
+		Print("В безопасности");
+		
 		SCR_DamageManagerComponent m_DamageManager = SCR_DamageManagerComponent.Cast(owner2.FindComponent(SCR_DamageManagerComponent));
 		if(!m_DamageManager) return;
-		m_DamageManager.EnableDamageHandling(false);	
+		//m_DamageManager.EnableDamageHandling(false);	
 		
     };
     override void OnDeactivate(IEntity ent) {
@@ -63,9 +70,15 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
         if (!owner2)
             return;
 		
+        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(ent.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        if (!statsComponent) 
+            return;
+		
+        statsComponent.ArmstPlayerSafeSurgeOff();
+		Print("Больше не в безопасности");
 		SCR_DamageManagerComponent m_DamageManager = SCR_DamageManagerComponent.Cast(owner2.FindComponent(SCR_DamageManagerComponent));
 		if(!m_DamageManager) return;
-		m_DamageManager.EnableDamageHandling(true);	
+		//m_DamageManager.EnableDamageHandling(true);	
         
     };
 };

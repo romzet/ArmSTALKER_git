@@ -1,9 +1,20 @@
-class ARMST_RANDOM_INVENTORYClass: BaseLoadoutManagerComponentClass
+class ARMST_RANDOM_CLOTHES_COMPONENTClass: BaseLoadoutManagerComponentClass
 {
 }
 
-class ARMST_RANDOM_INVENTORY : BaseLoadoutManagerComponent
+class ARMST_RANDOM_CLOTHES_COMPONENT : BaseLoadoutManagerComponent
 {
+	[Attribute("true", UIWidgets.CheckBox, "Реагировать на болт или нет", category: "Toggle")];
+	bool m_fClothesEnabled;
+	
+	[Attribute("true", UIWidgets.CheckBox, "Реагировать на болт или нет", category: "Toggle")];
+	bool m_fWeaponEnabled;
+	
+	[Attribute(defvalue:"1", params:"0 inf", desc:"Minimum amount of loot items to populate in storage")]
+	int m_minLootItems;
+	
+	[Attribute(defvalue:"10", params:"0 inf", desc:"Maximum amount of loot items to populate in storage")]
+	int m_maxLootItems;
 	
 	[Attribute(defvalue:"1", params:"0 inf", desc:"Minimum amount of magazines to populate in storage")]
 	int m_minMagazines;
@@ -11,21 +22,24 @@ class ARMST_RANDOM_INVENTORY : BaseLoadoutManagerComponent
 	[Attribute(defvalue:"5", params:"0 inf", desc:"Maximum amount of magazines to populate in storage")]
 	int m_maxMagazines;
 	
-	string m_skipPrefabName = "SKIP";
+	string m_skipPrefabName = "";
 	
-	void ARMST_RandomizedLoadoutManagerComponent(IEntityComponentSource src, IEntity ent, IEntity parent)
+	bool m_storageFull = false;
+	
+	void ARMST_RANDOM_CLOTHES_COMPONENT(IEntityComponentSource src, IEntity ent, IEntity parent)
 	{
-		//if (!Replication.IsServer()) // only run on server, spawned items should get replicated to clients automatically
-		//	return;
-		
+		if (!Replication.IsServer()) // only run on server, spawned items should get replicated to clients automatically
+			return;
+		if(!m_fClothesEnabled)
+			return;
 		SCR_ChimeraCharacter char = SCR_ChimeraCharacter.Cast(ent);
 		if (char)
-			GetGame().GetCallqueue().Call(DressNPC, char);
+        	GetGame().GetCallqueue().CallLater(ApplyRandomizedLoadout, 500, false, char);
 	}
 	
-	void DressNPC(SCR_ChimeraCharacter char)
+	void ApplyRandomizedLoadout(SCR_ChimeraCharacter char)
 	{
-		IEntityComponentSource inventoryManagerComponent = SCR_BaseContainerTools.FindComponentSource(char.GetPrefabData().GetPrefab(), ARMST_RANDOM_INVENTORY);
+		IEntityComponentSource inventoryManagerComponent = SCR_BaseContainerTools.FindComponentSource(char.GetPrefabData().GetPrefab(), ARMST_RANDOM_CLOTHES_COMPONENT);
 		SCR_InventoryStorageManagerComponent inv = SCR_InventoryStorageManagerComponent.Cast(char.FindComponent(SCR_InventoryStorageManagerComponent));
 		
 		if (!inventoryManagerComponent || !inv)
@@ -56,10 +70,11 @@ class ARMST_RANDOM_INVENTORY : BaseLoadoutManagerComponent
 				SCR_EntityHelper.DeleteEntityAndChildren(placeholder);
 			}
 			
-				GetGame().GetCallqueue().Call(EquipItem, char, slotPrefab, slotType);
+				GetGame().GetCallqueue().CallLater(EquipItem, Math.RandomInt(1, 500), false, char, slotPrefab, slotType);
 		}
 		
-		GetGame().GetCallqueue().Call(EquipWeaponAndAmmo, char);
+		if (m_fWeaponEnabled)
+			GetGame().GetCallqueue().CallLater(EquipWeaponAndAmmo, 500, false, char);
 	}
 	
 	void EquipItem(SCR_ChimeraCharacter char, ResourceName slotResource, LoadoutAreaType slotType)
@@ -99,6 +114,12 @@ class ARMST_RANDOM_INVENTORY : BaseLoadoutManagerComponent
 		if (!char)
 			return;
 		
+        // Получаем информацию о персонаже
+        SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(char);
+        if (!character)
+            return;
+            
+		
 		SCR_InventoryStorageManagerComponent inv = SCR_InventoryStorageManagerComponent.Cast(char.FindComponent(SCR_InventoryStorageManagerComponent));
 		CharacterControllerComponent ctrl = char.GetCharacterController();
 		BaseWeaponManagerComponent wm = char.GetWeaponManager();
@@ -121,7 +142,7 @@ class ARMST_RANDOM_INVENTORY : BaseLoadoutManagerComponent
 			
 			// replace it with randomized variant
  			inv.EquipWeapon(weapon);
-			ctrl.TryEquipRightHandItem(weapon, EEquipItemType.EEquipTypeWeapon);
+			//ctrl.TryEquipRightHandItem(weapon, EEquipItemType.EEquipTypeWeapon);
 			
 			// add mags for selected weapon
 			BaseWeaponComponent wc = BaseWeaponComponent.Cast(weapon.FindComponent(BaseWeaponComponent));
@@ -149,6 +170,48 @@ class ARMST_RANDOM_INVENTORY : BaseLoadoutManagerComponent
 		}
 	}
 	
+	void StoreLoot(SCR_ChimeraCharacter char, ResourceName slotResource)
+	{
+		if (!char)
+			return;
+		
+		int lootCount;
+		for (int lootLimit = Math.RandomInt(m_minLootItems, m_maxLootItems); lootCount < lootLimit; lootCount++)
+		{
+			GetGame().GetCallqueue().Call(SpawnLootItem, char, slotResource);
+		}
+	}
+	
+	bool SpawnLootItem(SCR_ChimeraCharacter char, ResourceName slotResource)
+	{
+		// get random variant from slotted resource
+		ResourceName variant = GetRandomVariant(slotResource);
+		if (m_storageFull || !variant || variant == m_skipPrefabName)
+			return true;
+		
+		SCR_InventoryStorageManagerComponent inv = SCR_InventoryStorageManagerComponent.Cast(char.FindComponent(SCR_InventoryStorageManagerComponent));
+		Resource variantResource = Resource.Load(variant);
+		
+		EntitySpawnParams itemParams = EntitySpawnParams();
+		itemParams.Parent = char;
+		
+		IEntity item = GetGame().SpawnEntityPrefab(variantResource, GetGame().GetWorld(), itemParams);
+		BaseInventoryStorageComponent storage = inv.FindStorageForItem(item, EStoragePurpose.PURPOSE_DEPOSIT);
+		if (inv.CanInsertItem(item) && storage && storage.CanStoreItem(item, -1) && storage.FindSuitableSlotForItem(item))
+		{
+			bool insertedItem = inv.TryInsertItem(item);
+			if (!insertedItem) {
+				m_storageFull = true;
+				SCR_EntityHelper.DeleteEntityAndChildren(item);
+			}
+			
+			return insertedItem;
+		} else {
+			m_storageFull = true;
+			SCR_EntityHelper.DeleteEntityAndChildren(item);
+			return false;
+		}
+	}
 	
 	ResourceName GetRandomVariant(ResourceName prefab)
 	{

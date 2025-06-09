@@ -46,7 +46,6 @@ modded class SCR_AIPerformSmartUserAction : AITaskScripted
 						if (statsComponent)
 							{
 							statsComponent.ArmstStalkerTalkInit(controlledEntity);
-							GetGame().GetWorld().QueryEntitiesBySphere(controlledEntity.GetOrigin(), 5, ArmstFireplaceEnter);
 							return false;
 							}
 				
@@ -56,32 +55,4 @@ modded class SCR_AIPerformSmartUserAction : AITaskScripted
 		return ENodeResult.FAIL;
 	}
 	
-	protected SCR_FireplaceComponent m_FireplaceComponent;
-	protected bool ArmstFireplaceEnter(IEntity ent)
-	{
-		//проверка на тип объекта
-		m_FireplaceComponent = SCR_FireplaceComponent.Cast(ent.FindComponent(SCR_FireplaceComponent));
-		if (m_FireplaceComponent)
-			{
-				Print("Нашел костер");
-				m_FireplaceComponent.TurnOn();
-				return false;
-			};
-		return true;
-	}
-	bool ArmstCheckPlayer (IEntity owner)
-	{
-		if (EntityUtils.IsPlayer(owner))
-			{
-					ARMST_BOT_INTERACTION_COMPONENT statsComponent = ARMST_BOT_INTERACTION_COMPONENT.Cast(controlledEntity_temp.FindComponent(ARMST_BOT_INTERACTION_COMPONENT));
-						if (statsComponent)
-							{
-							statsComponent.ArmstStalkerTalkInit(controlledEntity_temp);
-							return false;
-							}
-			}
-		return true;
-		
-		
-	}
 };

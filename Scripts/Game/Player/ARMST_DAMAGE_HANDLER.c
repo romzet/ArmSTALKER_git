@@ -101,21 +101,23 @@ class ARMST_DeathHandlerComponent : ScriptComponent
     {
         IEntity owner = GetOwner();
         
-        // Получаем информацию о персонаже
-        SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(owner);
-        if (!character)
-            return;
-            
         // Получаем фракцию персонажа
-        FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(
-            owner.FindComponent(FactionAffiliationComponent)
-        );
+        FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent) );
         
-        if (!factionComponent)
-            return;
+		if(!m_LastInstigatorEntity)
+				return;
             
+		 ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+		 if (!playerStats)
+			return;
+		
         string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
-        
+                    if (characterFaction == "BACON_622120A5448725E3_FACTION")
+                    {
+				            playerStats.Rpc_ArmstPlayerSetReputation(1);
+				            playerStats.Rpc_ARMST_SET_STAT_MONSTER();
+							return;
+                    }
         // Получаем имя персонажа
         SCR_CharacterIdentityComponent identityComponent = SCR_CharacterIdentityComponent.Cast(
             owner.FindComponent(SCR_CharacterIdentityComponent)
@@ -124,8 +126,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
         if (!identityComponent)
             return;
             
-        string characterName = identityComponent.GetIdentity().GetName() + " " + 
-                              identityComponent.GetIdentity().GetSurname();
+        string characterName = identityComponent.GetIdentity().GetSurname();
         
         // Проверяем подходящие фракции
         if (characterFaction == "FACTION_STALKER" || characterFaction == "FACTION_BANDIT")
@@ -137,22 +138,20 @@ class ARMST_DeathHandlerComponent : ScriptComponent
                 PlayerController playerController = GetGame().GetPlayerController();
                 if (playerController && playerController.GetControlledEntity() == m_LastInstigatorEntity)
                 {
+					
                     // Если игрок убил союзника (из той же фракции)
                     if (m_LastInstigatorFaction == characterFaction)
                     {
 							
-				        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-				        if (playerStats)
 				            playerStats.Rpc_ArmstPlayerSetReputation(-REPUTATION_LOSS_FRIENDLY_KILL);
 						
                        
                     }
                     // Если игрок убил врага
-                    else
+                    if (characterFaction == "FACTION_BANDIT")
                     {
-				        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-				        if (playerStats)
-				            playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
+				            playerStats.Rpc_ArmstPlayerSetReputation(3);
+				            playerStats.Rpc_ARMST_SET_STAT_BAND2();
                     }
                 }
             }
@@ -166,7 +165,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
             float delay = Math.RandomFloat(2.0, 4.0);
             
             // Отправляем сообщение с задержкой
-	    ARMST_NotificationHelper.BroadcastNotificationInRadius(owner.GetOrigin(), 200, systemMessage, deathMessage, 5);
+	    ARMST_NotificationHelper.BroadcastNotificationInRadius(owner.GetOrigin(), 500, systemMessage, deathMessage, 10);
         }
     }
     
@@ -174,94 +173,122 @@ class ARMST_DeathHandlerComponent : ScriptComponent
     string GetDeathReason()
     {
         string deathReason;
+    	array<string> deathReasons = {};
         
         if (m_LastDamageType != EDamageType.TRUE)
         {
             switch (m_LastDamageType)
             {
-	//! This damage type ignores damage multipliers, damage reduction and threshold!
-//	TRUE,
-//	COLLISION,
-//	MELEE,
-//	KINETIC,
-//	FRAGMENTATION,
-//	EXPLOSIVE,
-//	INCENDIARY,
-//	FIRE,
-//	BLEEDING,
-//	PROCESSED_FRAGMENTATION,
-//	Physicals,  	
-//	Electro, 			
-//    Toxic, 			
-//    Radiactive,  
-//    Psy,    
                     
-                case EDamageType.COLLISION:
-                    deathReason = "от сильного удара";
-                    break;
-                    
-                case EDamageType.MELEE:
-                    deathReason = "от укусов и ранений";
-                    break;
-                    
-                case EDamageType.KINETIC:
-                    if (m_LastHitZoneName.Contains("Head"))
-                        deathReason = "от выстрела в голову";
-                    else if (m_LastHitZoneName.Contains("Chest") || m_LastHitZoneName.Contains("Spine"))
-                        deathReason = "от выстрела в грудь";
-                    else
-                        deathReason = "от пулевого ранения";
-                    break;
-				
-                case EDamageType.FRAGMENTATION:
-                    deathReason = "от осколков";
-                    break;
-				
-                case EDamageType.EXPLOSIVE:
-                    deathReason = "от взрыва";
-                    break;
-				
-                case EDamageType.INCENDIARY:
-                    deathReason = "от НЕИЗВЕСТНО";
-                    break;
-				
-                case EDamageType.FIRE:
-                    deathReason = "от ожогов";
-                    break;
-                    
-                case EDamageType.BLEEDING:
-                    deathReason = "от кровотечения";
-                    break;
-                    
-                    
-                case EDamageType.INCENDIARY:
-                    deathReason = "от столкновения с транспортом";
-                    break;
-                    
-                case EDamageType.Physicals:
-                    deathReason = "от разрыва внутренностей";
-                    break;
-                    
-                case EDamageType.Electro:
-                    deathReason = "от удара электричеством";
-                    break;
-                    
-                case EDamageType.Toxic:
-                    deathReason = "от отравления токсинами";
-                    break;
-				
-                case EDamageType.PROCESSED_FRAGMENTATION:
-                    deathReason = "от выброса";
-                    break;
-				
-                default:
-                    deathReason = "от НЕИЗВЕСТНО";
+               case EDamageType.COLLISION:
+				    deathReasons.Insert("#armst_death_1"); // от сильного удара
+				    deathReasons.Insert("#armst_death_2"); // от столкновения с твердой поверхностью
+				    deathReasons.Insert("#armst_death_3"); // от перелома внутренних органов после падения
+				    deathReasons.Insert("#armst_death_4"); // от сильного сотрясения
+				    deathReasons.Insert("#armst_death_5"); // от перелома шейных позвонков
+				    break;
+				                    
+				case EDamageType.MELEE:
+				    deathReasons.Insert("#armst_death_6"); // от укусов и ранений
+				    deathReasons.Insert("#armst_death_7"); // от глубоких рваных ран
+				    deathReasons.Insert("#armst_death_8"); // от удара холодным оружием
+				    deathReasons.Insert("#armst_death_9"); // от множественных разрывов тканей
+				    deathReasons.Insert("#armst_death_10"); // от тупой травмы с разрывом внутренних органов
+				    break;
+				                    
+				case EDamageType.KINETIC:
+				    deathReasons.Insert("#armst_death_11"); // от пулевого ранения
+				    deathReasons.Insert("#armst_death_12"); // от множественных огнестрельных ранений
+				    deathReasons.Insert("#armst_death_13"); // от проникающего ранения жизненно важных органов
+				    deathReasons.Insert("#armst_death_14"); // от потери крови вследствие огнестрельного ранения
+				    deathReasons.Insert("#armst_death_15"); // от травматического шока после попадания пули
+				    break;
+				                
+				case EDamageType.FRAGMENTATION:
+				    deathReasons.Insert("#armst_death_16"); // от осколков
+				    deathReasons.Insert("#armst_death_17"); // от множественных ран, нанесенных осколками
+				    deathReasons.Insert("#armst_death_18"); // от проникающих ранений металлическими фрагментами
+				    deathReasons.Insert("#armst_death_19"); // от кровопотери после осколочных ранений
+				    deathReasons.Insert("#armst_death_20"); // от повреждения внутренних органов осколками снаряда
+				    break;
+				                
+				case EDamageType.EXPLOSIVE:
+				    deathReasons.Insert("#armst_death_21"); // от взрыва
+				    deathReasons.Insert("#armst_death_22"); // от мощной взрывной волны
+				    deathReasons.Insert("#armst_death_23"); // от баротравмы вследствие взрыва
+				    deathReasons.Insert("#armst_death_24"); // от обширных разрывов тканей при детонации
+				    deathReasons.Insert("#armst_death_25"); // от критических травм, вызванных близким взрывом
+				    break;
+				                
+				case EDamageType.FIRE:
+				    deathReasons.Insert("#armst_death_26"); // от ожогов
+				    deathReasons.Insert("#armst_death_27"); // от обширных термических повреждений
+				    deathReasons.Insert("#armst_death_28"); // от удушья в дыму и пламени
+				    deathReasons.Insert("#armst_death_29"); // от отказа органов после сильных ожогов
+				    deathReasons.Insert("#armst_death_30"); // от испепеляющего жара открытого огня
+				    break;
+				                    
+				case EDamageType.BLEEDING:
+				    deathReasons.Insert("#armst_death_31"); // от кровотечения
+				    deathReasons.Insert("#armst_death_32"); // от потери критического объема крови
+				    deathReasons.Insert("#armst_death_33"); // от несвертываемости крови
+				    deathReasons.Insert("#armst_death_34"); // от массивной кровопотери
+				    deathReasons.Insert("#armst_death_35"); // от внутреннего кровоизлияния
+				    break;
+				                    
+				case EDamageType.INCENDIARY:
+				    deathReasons.Insert("#armst_death_36"); // от НЕИЗВЕСТНО
+				    deathReasons.Insert("#armst_death_57"); // при загадочных обстоятельствах
+				    deathReasons.Insert("#armst_death_58"); // от воздействия неизвестных сил
+				    deathReasons.Insert("#armst_death_59"); // при необъяснимых обстоятельствах
+				    deathReasons.Insert("#armst_death_60"); // при странном стечении обстоятельств
+				    break;
+				                    
+				case EDamageType.Physicals:
+				    deathReasons.Insert("#armst_death_37"); // от разрыва внутренностей
+				    deathReasons.Insert("#armst_death_38"); // от баротравмы легких
+				    deathReasons.Insert("#armst_death_39"); // от повреждения внутренних органов
+				    deathReasons.Insert("#armst_death_40"); // от внутреннего кровоизлияния
+				    deathReasons.Insert("#armst_death_41"); // от физического воздействия, разорвавшего ткани тела
+				    break;
+				                    
+				case EDamageType.Electro:
+				    deathReasons.Insert("#armst_death_42"); // от удара электричеством
+				    deathReasons.Insert("#armst_death_43"); // от остановки сердца после электрошока
+				    deathReasons.Insert("#armst_death_44"); // от мощного электрического разряда
+				    deathReasons.Insert("#armst_death_45"); // от нарушения сердечного ритма после электротравмы
+				    deathReasons.Insert("#armst_death_46"); // от поражения центральной нервной системы током
+				    break;
+				                    
+				case EDamageType.Toxic:
+				    deathReasons.Insert("#armst_death_47"); // от отравления токсинами
+				    deathReasons.Insert("#armst_death_48"); // от воздействия сильнодействующего яда
+				    deathReasons.Insert("#armst_death_49"); // от отказа органов после интоксикации
+				    deathReasons.Insert("#armst_death_50"); // от паралича дыхательных путей ядовитым веществом
+				    deathReasons.Insert("#armst_death_51"); // от химического ожога внутренних органов
+				    break;
+				                
+				case EDamageType.PROCESSED_FRAGMENTATION:
+				    deathReasons.Insert("#armst_death_52"); // от выброса
+				    deathReasons.Insert("#armst_death_53"); // от мощного пси-воздействия
+				    deathReasons.Insert("#armst_death_54"); // от аномальной активности
+				    deathReasons.Insert("#armst_death_55"); // от разрушения нервной системы во время выброса
+				    deathReasons.Insert("#armst_death_56"); // от энергетического шока во время аномального явления
+				    break;
+				                
+				default:
+				    deathReasons.Insert("#armst_death_36"); // от НЕИЗВЕСТНО
+				    deathReasons.Insert("#armst_death_57"); // при загадочных обстоятельствах
+				    deathReasons.Insert("#armst_death_58"); // от воздействия неизвестных сил
+				    deathReasons.Insert("#armst_death_59"); // при необъяснимых обстоятельствах
+				    deathReasons.Insert("#armst_death_60"); // при странном стечении обстоятельств
             }
-             		
+        int randomIndex = Math.RandomInt(0, deathReasons.Count());
+        deathReason = deathReasons[randomIndex];
             // Добавляем информацию об убийце, если она есть
             if (m_LastInstigatorName && m_LastInstigatorName != "")
             {
-                deathReason += " (убит " + m_LastInstigatorName + ")";
+               // deathReason += " (убит " + m_LastInstigatorName + ")";
             }
         }
         else
@@ -275,7 +302,6 @@ class ARMST_DeathHandlerComponent : ScriptComponent
             
         return deathReason;
     }
-    
 }
 
 

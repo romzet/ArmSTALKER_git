@@ -51,7 +51,6 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 					}
 				
         		Bot.Rpc(Bot.Rpc_ArmstHelloReaction);
-				Bot.Rpc_ArmstHelloReaction();
 				charComp.TryStartCharacterGesture(ECharacterGestures.POINT_WITH_FINGER, 1500);
 				
 			
