@@ -42,7 +42,7 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
     float m_fRewardMultiplier;
     
     // Минимальная награда (если стоимость предмета не определена)
-    [Attribute("300", UIWidgets.EditBox, desc: "Минимальная награда (если стоимость предмета не определена)", params: "100 999999", category: "Quest Settings")]
+    [Attribute("2000", UIWidgets.EditBox, desc: "Минимальная награда (если стоимость предмета не определена)", params: "100 999999", category: "Quest Settings")]
     int m_iMinReward;
     
     // Текущие параметры квеста
@@ -76,17 +76,32 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
                 playerStats.Rpc_ARMST_SET_STAT_QUESTS();
                 
                 // Оповещаем игрока
-                ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_completed", 
-    string.Format("#armst_quest_ui_reward_money_text %1 #armst_quest_ui_currency", m_iCurrentReward), 15.0);
                 m_bQuestFinish = true;
                 // Сбрасываем статус квеста
                 m_bQuestStart = false;
+				
+			        if (Replication.IsServer()) {
+			            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			            return;
+			        }
+					else
+					{
+                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", 
+   				 string.Format("#armst_quest_ui_reward_money_text %1 #armst_quest_ui_currency", m_iCurrentReward), 15.0);
+					}
             }
             else
             {
                 // Сообщаем, что недостаточно предметов
-                ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_not_enough_items", 
+			        if (Replication.IsServer()) {
+			            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			            return;
+			        }
+					else
+					{
+                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", 
     string.Format("#armst_quest_ui_required %1 #armst_quest_ui_pcs %2", m_iCurrentQuestItems, GetPrefabDisplayName(m_SelectedPrefab)), 15.0);
+					}
             }
         }
         else // Если квест еще не запущен
@@ -95,9 +110,17 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
             GenerateRandomQuest();
             
             m_bQuestStart = true;
+                // Сообщаем, что недостаточно предметов
+			        if (Replication.IsServer()) {
+			            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			            return;
+			        }
+					else
+					{
             ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_quest_taken", 
     string.Format("#armst_quest_ui_bring %1 #armst_quest_ui_pcs %2. #armst_quest_ui_reward: %3 #armst_quest_ui_currency", 
     m_iCurrentQuestItems, GetPrefabDisplayName(m_SelectedPrefab), m_iCurrentReward), 15.0);
+					}
         }
     }
     
@@ -155,29 +178,19 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
     // Получает цену предмета из его компонента
     float GetPrefabPrice(ResourceName prefab)
     {
-        // Создаем временный экземпляр предмета для получения его цены
-        Resource resource = Resource.Load(prefab);
-        if (!resource || !resource.IsValid())
-            return 0;
-            
-        EntitySpawnParams spawnParams = new EntitySpawnParams();
-        spawnParams.TransformMode = ETransformMode.WORLD;
-        
-        IEntity tempItem = GetGame().SpawnEntityPrefab(resource, null, spawnParams);
-        if (!tempItem)
-            return 0;
-            
-        float price = 0;
-        
-        // Получаем компонент статистики предмета
-        ARMST_ITEMS_STATS_COMPONENTS statsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(tempItem.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
-        if (statsComponent)
-        {
-            price = Math.Floor(statsComponent.GetBuyPrice());
-        }
-        
-        // Удаляем временный предмет
-        SCR_EntityHelper.DeleteEntityAndChildren(tempItem);
+	    Resource entityResource = Resource.Load(prefab);
+	    IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(entityResource);
+	    // Ищем компонент ARMST_ITEMS_STATS_COMPONENTS
+	    float price = 0;
+	    for(int nComponent = 0, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
+	    {
+	        IEntityComponentSource componentSource = entitySource.GetComponent(nComponent);
+	        if(componentSource.GetClassName() == "ARMST_ITEMS_STATS_COMPONENTS")
+	        {
+				componentSource.Get("m_fBuyPrice", price);
+	        }
+	    }
+	    
         
         return price;
     }

@@ -116,16 +116,32 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	            }
 	            
 	            // Оповещаем игрока через RPC
-		    	ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
 	            
 	            // Сбрасываем статус квеста
 	            m_bQuestStart = false;
+					// Проверка, что код выполняется на сервере для изменения денег
+			        if (Replication.IsServer()) {
+			            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			            return;
+			        }
+					else
+					{
+		    			ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
+					}
 	        }
 	        else
 	        {
 	            // Сообщаем, что недостаточно предметов через RPC
 	            string message = "#armst_quest_ui_required " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + GetPrefabDisplayName(m_PrefabQuest);
-		    	ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
+					// Проверка, что код выполняется на сервере для изменения денег
+			        if (Replication.IsServer()) {
+			            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			            return;
+			        }
+					else
+					{
+		    			ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
+					}
 	        }
 	}
 	void MissionStart(IEntity pOwnerEntity, IEntity pUserEntity)
@@ -163,7 +179,15 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        
 	        m_bQuestStart = true;
 	        // Отправляем уведомление через RPC на клиент
-		    ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
+					// Проверка, что код выполняется на сервере для изменения денег
+			        if (Replication.IsServer()) {
+			            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			            return;
+			        }
+					else
+					{
+		    				ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
+					}
 	}
     override bool GetActionNameScript(out string outName)
     {

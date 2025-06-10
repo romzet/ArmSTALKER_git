@@ -29,26 +29,30 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
     float m_DefaultUpdateRate;
     [Attribute("75", UIWidgets.Slider, "Шанс появления группы (%)", "0 100 1", category: "Groups")]
     float m_SpawnChance;
-	
-	[Attribute("0", UIWidgets.ComboBox, "Тип приказа для группы", "", ParamEnumArray.FromEnum(ARMST_GroupOrderType), category: "Groups")]
-	ARMST_GroupOrderType m_GroupOrderType;
-	
-	
+    
+    [Attribute("0", UIWidgets.ComboBox, "Тип приказа для группы", "", ParamEnumArray.FromEnum(ARMST_GroupOrderType), category: "Groups")]
+    ARMST_GroupOrderType m_GroupOrderType;
+    
     protected ref array<IEntity> m_SpawnedGroups;
     private bool m_GroupSpawned = false;
     vector m_WorldTransform[4];
     private bool m_DeletePending = false;
 
     protected float GetRadius = -1;
-	
     vector PosTrigger;
-	SCR_EntityWaypoint m_FollowWaypoint = null;
-	
+    SCR_EntityWaypoint m_FollowWaypoint = null;
+    
     // Вспомним позицию последнего игрока, вошедшего в триггер (важно для приказа "атаковать")
     vector m_ActivationPlayerPos;
 
     override void OnInit(IEntity owner)
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Инициализация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         m_SpawnedGroups = new array<IEntity>();
         GetWorldTransform(m_WorldTransform);
         GetRadius = GetSphereRadius();
@@ -59,26 +63,32 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
 
     override void OnActivate(IEntity ent)
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Активация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         SetUpdateRate(m_ActiveUpdateRate);
         SetSphereRadius(GetSphereRadius() * 1);
 
-		//проверить что оно живое
-		if (!IsAlive(ent))
-			return;
-		
-		SCR_ChimeraCharacter owner2 = SCR_ChimeraCharacter.Cast(ent);
-		if (!owner2)
-			return;
-		CharacterControllerComponent contr = owner2.GetCharacterController();
-		if (!contr)
-			return;
-		
-		if (contr.GetLifeState() == ECharacterLifeState.DEAD)
-			return;
-		
-		if (!EntityUtils.IsPlayer(ent))
-			return;
-		
+        // Проверяем, что объект живой и является игроком
+        if (!IsAlive(ent))
+            return;
+        
+        SCR_ChimeraCharacter owner2 = SCR_ChimeraCharacter.Cast(ent);
+        if (!owner2)
+            return;
+        CharacterControllerComponent contr = owner2.GetCharacterController();
+        if (!contr)
+            return;
+        
+        if (contr.GetLifeState() == ECharacterLifeState.DEAD)
+            return;
+        
+        if (!EntityUtils.IsPlayer(ent))
+            return;
+        
         // Сохраняем позицию активации если это игрок (используется для приказа атаковать)
         m_ActivationPlayerPos = vector.Zero;
         if (ent)
@@ -137,7 +147,6 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
 
             // === Дать группе приказ ===
             SetOrderForGroup(newGroupEnt, m_GroupOrderType, center, ent);
-			
         }
         else
         {
@@ -148,82 +157,77 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
     // Ставит waypoint-группе согласно заданному типу приказа в Inspector
     void SetOrderForGroup(IEntity groupEnt, ARMST_GroupOrderType orderType, vector triggerCenter, IEntity ent)
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Выдача приказа группе игнорируется на клиенте.");
+            return;
+        }
+        
         SCR_AIGroup aiGroup = SCR_AIGroup.Cast(groupEnt);
         if (!aiGroup)
         {
             Print("Группа не является SCR_AIGroup, приказ не выдан!");
             return;
         }
-		
-		EntitySpawnParams params = EntitySpawnParams();
-		params.TransformMode = ETransformMode.WORLD;
-		params.Transform[3] = groupEnt.GetOrigin();
-		
-		Print(params);
-		
+        
+        EntitySpawnParams params = EntitySpawnParams();
+        params.TransformMode = ETransformMode.WORLD;
+        params.Transform[3] = groupEnt.GetOrigin();
+        
+        Print(params);
+        
         switch (orderType)
         {
             case ARMST_GroupOrderType.PATROL:
-				const ResourceName m_WaypointType_attack = "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et";
-				IEntity entity;
-				AIWaypoint wp;
-			
-				entity = GetGame().SpawnEntityPrefab(Resource.Load(m_WaypointType_attack), GetGame().GetWorld(), params);
-				wp = AIWaypoint.Cast(entity);
-			
-				wp.SetCompletionRadius(m_GroupSpreadRadius);
-				aiGroup.AddWaypoint(wp);
-			
+                const ResourceName m_WaypointType_attack = "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et";
+                IEntity entity;
+                AIWaypoint wp;
+                entity = GetGame().SpawnEntityPrefab(Resource.Load(m_WaypointType_attack), GetGame().GetWorld(), params);
+                wp = AIWaypoint.Cast(entity);
+                wp.SetCompletionRadius(m_GroupSpreadRadius);
+                aiGroup.AddWaypoint(wp);
                 break;
             case ARMST_GroupOrderType.DEFEND:
-				const ResourceName m_WaypointType_defend = "{93291E72AC23930F}Prefabs/AI/Waypoints/AIWaypoint_Defend.et";
-			
-				IEntity entity;
-				AIWaypoint wp;
-			
-				entity = GetGame().SpawnEntityPrefab(Resource.Load(m_WaypointType_defend), GetGame().GetWorld(), params);
-				wp = AIWaypoint.Cast(entity);
-			
-				wp.SetCompletionRadius(m_GroupSpreadRadius);
-				aiGroup.AddWaypoint(wp);
-			
+                const ResourceName m_WaypointType_defend = "{93291E72AC23930F}Prefabs/AI/Waypoints/AIWaypoint_Defend.et";
+                IEntity entityDefend;
+                AIWaypoint wpDefend;
+                entityDefend = GetGame().SpawnEntityPrefab(Resource.Load(m_WaypointType_defend), GetGame().GetWorld(), params);
+                wpDefend = AIWaypoint.Cast(entityDefend);
+                wpDefend.SetCompletionRadius(m_GroupSpreadRadius);
+                aiGroup.AddWaypoint(wpDefend);
                 break;
             case ARMST_GroupOrderType.ASSAULT:
-				const ResourceName m_WaypointType_assault = "{B3E7B8DC2BAB8ACC}Prefabs/AI/Waypoints/AIWaypoint_SearchAndDestroy.et";
-				IEntity entity;
-				AIWaypoint wp;
-			
-				entity = GetGame().SpawnEntityPrefab(Resource.Load(m_WaypointType_assault), GetGame().GetWorld(), params);
-				wp = AIWaypoint.Cast(entity);
-				wp.SetCompletionRadius(m_GroupSpreadRadius);
-				aiGroup.AddWaypoint(wp);
-				
+                const ResourceName m_WaypointType_assault = "{B3E7B8DC2BAB8ACC}Prefabs/AI/Waypoints/AIWaypoint_SearchAndDestroy.et";
+                IEntity entityAssault;
+                AIWaypoint wpAssault;
+                entityAssault = GetGame().SpawnEntityPrefab(Resource.Load(m_WaypointType_assault), GetGame().GetWorld(), params);
+                wpAssault = AIWaypoint.Cast(entityAssault);
+                wpAssault.SetCompletionRadius(m_GroupSpreadRadius);
+                aiGroup.AddWaypoint(wpAssault);
                 break;
             case ARMST_GroupOrderType.RANDOM:
-				const ResourceName m_WaypointType_assault = "{B3E7B8DC2BAB8ACC}Prefabs/AI/Waypoints/AIWaypoint_SearchAndDestroy.et";
-				const ResourceName m_WaypointType_defend = "{93291E72AC23930F}Prefabs/AI/Waypoints/AIWaypoint_Defend.et";
-				const ResourceName m_WaypointType_attack = "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et";
-			  	int randomChoice = Math.RandomInt(0, 3);
-			  ResourceName selectedWaypointType;
-			    switch (randomChoice) {
-			        case 0:
-			            selectedWaypointType = m_WaypointType_assault;
-			            break;
-			        case 1:
-			            selectedWaypointType = m_WaypointType_defend;
-			            break;
-			        case 2:
-			            selectedWaypointType = m_WaypointType_attack;
-			            break;
-			    }
-				IEntity entity;
-				AIWaypoint wp;
-			
-				entity = GetGame().SpawnEntityPrefab(Resource.Load(selectedWaypointType), GetGame().GetWorld(), params);
-				wp = AIWaypoint.Cast(entity);
-				wp.SetCompletionRadius(m_GroupSpreadRadius);
-				aiGroup.AddWaypoint(wp);
-				
+                const ResourceName m_WaypointType_assault_random = "{B3E7B8DC2BAB8ACC}Prefabs/AI/Waypoints/AIWaypoint_SearchAndDestroy.et";
+                const ResourceName m_WaypointType_defend_random = "{93291E72AC23930F}Prefabs/AI/Waypoints/AIWaypoint_Defend.et";
+                const ResourceName m_WaypointType_attack_random = "{22A875E30470BD4F}Prefabs/AI/Waypoints/AIWaypoint_Patrol.et";
+                int randomChoice = Math.RandomInt(0, 3);
+                ResourceName selectedWaypointType;
+                switch (randomChoice) {
+                    case 0:
+                        selectedWaypointType = m_WaypointType_assault_random;
+                        break;
+                    case 1:
+                        selectedWaypointType = m_WaypointType_defend_random;
+                        break;
+                    case 2:
+                        selectedWaypointType = m_WaypointType_attack_random;
+                        break;
+                }
+                IEntity entityRandom;
+                AIWaypoint wpRandom;
+                entityRandom = GetGame().SpawnEntityPrefab(Resource.Load(selectedWaypointType), GetGame().GetWorld(), params);
+                wpRandom = AIWaypoint.Cast(entityRandom);
+                wpRandom.SetCompletionRadius(m_GroupSpreadRadius);
+                aiGroup.AddWaypoint(wpRandom);
                 break;
             default:
                 Print("Не выбран тип приказа группе.");
@@ -232,8 +236,13 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
 
     override void OnDeactivate(IEntity ent)
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Деактивация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         Print("Игрок покинул триггер, запущен таймер на удаление группы.");
-
         SetUpdateRate(m_DefaultUpdateRate);
         SetSphereRadius(GetSphereRadius());
 
@@ -251,16 +260,27 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
 
     void CallResetRate()
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Сброс частоты обновления игнорируется на клиенте.");
+            return;
+        }
         SetUpdateRate(m_DefaultUpdateRate);
     }
 
     void CallDeleteGroups()
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Удаление групп игнорируется на клиенте.");
+            return;
+        }
+        
         Print("Удаление группы по истечении задержки.");
         foreach (IEntity group : m_SpawnedGroups)
         {
             if (group)
-				SCR_EntityHelper.DeleteEntityAndChildren(group);
+                SCR_EntityHelper.DeleteEntityAndChildren(group);
         }
         m_SpawnedGroups.Clear();
         m_GroupSpawned = false;
@@ -269,6 +289,12 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
 
     void OnDestroy()
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_GROUPSPAWN: Уничтожение триггера игнорируется на клиенте.");
+            return;
+        }
+        
         if (m_DeletePending)
         {
             GetGame().GetCallqueue().Remove(CallDeleteGroups);

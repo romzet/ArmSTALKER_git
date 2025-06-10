@@ -186,33 +186,40 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
 			}
 	 SetMoney(pUserEntity, newEnt);
     }
-    void SetMoney(IEntity player, IEntity owner)
+       void SetMoney(IEntity player, IEntity owner)
+    {
+        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(player.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        if (playerStats)
+        {
+            Print("[ARMST_TRADE] succelfull player component");
+            float buyPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
+            // Вычитаем стоимость предмета из денег игрока
+            playerStats.Rpc_ArmstPlayerSetMoney(-buyPrice);
+            // Получаем обновленное количество денег
+            float updatedMoney = playerStats.ArmstPlayerGetMoney();
+            // Формируем сообщение о текущем балансе
+            string itemName4 = "#armst_player_cash";
+            string message = string.Format("%2: %1 RUB.", updatedMoney, itemName4);
+            // Формируем сообщение о покупке
+            string itemName3 = "#Armst_buy_done";
+            string itemName = GetPrefabDisplayName(m_PrefabToSpawn);
+            string message2 = string.Format("%3 %1 за %2 RUB.", itemName, buyPrice, itemName3);
+            // Показываем уведомление только конкретному игроку
+			
+			
+        // Проверка, что код выполняется на сервере для изменения денег
+        if (Replication.IsServer()) {
+            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+            return;
+        }
+		else
 		{
-		    ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(player.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-		    if (playerStats)
-		    {
-		        Print("[ARMST_TRADE] succelfull player component");
-		        float buyPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
-		        // Вычитаем стоимость предмета из денег игрока
-		        playerStats.Rpc_ArmstPlayerSetMoney(-buyPrice);
-		        // Получаем обновленное количество денег
-		        float updatedMoney = playerStats.ArmstPlayerGetMoney();
-		        // Формируем сообщение о текущем балансе
-		        string itemName4 = "#armst_player_cash";
-		        string message = string.Format("%2: %1 RUB.", updatedMoney, itemName4);
-		        // Формируем сообщение о покупке
-		        string itemName3 = "#Armst_buy_done";
-		        string itemName = GetPrefabDisplayName(m_PrefabToSpawn);
-		        string message2 = string.Format("%3 %1 за %2 RUB.", itemName, buyPrice, itemName3);
-		        // Показываем уведомление
-		        ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(player, message, message2, 10.0);
-		    }
-		    else 
-		    {
-		        Print("[ARMST_TRADE] unsuccelfull player component"); 
-		        return;
-		    }
+            Print("[ARMST_TRADE] Отправка уведомления игроку.");
+			ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
 		}
+           // 
+		}	
+	}
 	
 	
     //------------------------------------------------------------------------------------------------

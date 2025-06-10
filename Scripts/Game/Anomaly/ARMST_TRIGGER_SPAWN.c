@@ -42,6 +42,12 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
     vector PosTrigger;
 
     override void OnInit(IEntity owner) {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_SPAWN: Инициализация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         GetRadius = GetSphereRadius();
         PosTrigger = GetOrigin();
         m_SpawnedObjects = new array<IEntity>();
@@ -67,6 +73,12 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
     // Метод для получения случайной позиции спавна с учетом дистанции между объектами и отступа от края триггера
     protected vector GetRandomSpawnPositionValid() 
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
+            return Vector(0, 0, 0);
+        }
+        
         vector triggerCenter = GetOrigin();
         float radius = GetSphereRadius();
         // Используем значение из настройки для отступа от края триггера
@@ -106,6 +118,12 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
     // Метод для спавна артефакта рядом с аномалией
     protected void SpawnArtifactNearAnomaly(IEntity anomalyEntity)
     {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_SPAWN: Спавн артефакта игнорируется на клиенте.");
+            return;
+        }
+        
         // Получаем компонент аномалии для проверки шанса спавна артефакта
         ARMST_ARTEFACT_SPAWN_COMPONENTS artComponent = ARMST_ARTEFACT_SPAWN_COMPONENTS.Cast(anomalyEntity.FindComponent(ARMST_ARTEFACT_SPAWN_COMPONENTS));
         if (!artComponent)
@@ -161,6 +179,12 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
     }
 
     override void OnActivate(IEntity ent) {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_SPAWN: Активация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         // Проверяем, есть ли уже заспавненные объекты
         if (m_SpawnedObjects.Count() > 0) {
             Print("Объекты уже спавнены, триггер не может быть активирован.");
@@ -224,6 +248,12 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
 
     // Удаление объектов и артефактов при деактивации
     override void OnDeactivate(IEntity ent) {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_SPAWN: Деактивация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         Print("Игрок в радиусе действия триггера. Удаление объектов и артефактов.");
         // Удаляем аномалии
         for (int i = 0; i < m_SpawnedObjects.Count(); i++) {
@@ -239,4 +269,4 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
         Print(GetUpdateRate());
         super.OnDeactivate(ent);
     }
-}
+};

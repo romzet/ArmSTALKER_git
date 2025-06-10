@@ -69,7 +69,7 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
     
     
     void ArmstSellBox(IEntity owner, IEntity player)
-{
+	{
     float totalSellSum = 0; // Общая сумма продажи
     int itemsSold = 0; // Количество проданных предметов
     map<string, int> categoryStats = new map<string, int>(); // Статистика по категориям
@@ -281,7 +281,15 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
                 message2 = "";
             }
             
-            ARMST_NotificationHelper.ShowNotificationToSpecificPlayer(player, message, message2, 10.0);
+	        // Проверка, что код выполняется на сервере для изменения денег
+	        if (Replication.IsServer()) {
+	            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+	            return;
+	        }
+			else
+			{
+	            ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
+			}
         }
     }
 }

@@ -48,6 +48,9 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	override void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
 	{
 		
+        if (Replication.IsServer()) {
+            return;
+        }
 		FrameWidget FrameHUD = FrameWidget.Cast(HUDWidget.FindAnyWidget("FrameHUD"));
 		FrameHUD.SetOpacity(1);
 		
@@ -124,8 +127,8 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			Stat_Health.SetOpacity(1);
 			Stat_Stamina.SetOpacity(1);
 		
-		statsComponent2.ArmstPlayerStatSetWater(-statsComponent2.m_ModifierValueWater);
-		statsComponent2.ArmstPlayerStatSetEat(-statsComponent2.m_ModifierValueEat);
+		statsComponent2.ArmstPlayerStatSetWater(-0.002);
+		statsComponent2.ArmstPlayerStatSetEat(-0.004);
 		/*
         if (statsComponent2.m_player_reputation > -1)
             { 
@@ -523,21 +526,22 @@ modded class SCR_PlayerController : PlayerController
         m_bHudInitialized = false;
     }
 	
-	
-    // Публичный метод для вызова из других мест кода с значением по умолчанию
-    static void ShowNotification(IEntity player, string message,string message2, float duration = 5.0)
+	 // Публичный метод для вызова из других мест кода с значением по умолчанию
+    static void ShowNotification(IEntity player, string message, string message2, float duration = 5.0)
     {
         int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
         if (playerId == 0)
             return;
             
-        SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+        SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerId));
         if (controller)
-            controller.Rpc(controller.RpcDo_ShowHudNotification, message,message2, duration);
+        {
+            controller.Rpc(controller.RpcDo_ShowHudNotification, message, message2, duration);
+        }
     }
-	
+
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-     void RpcDo_ShowHudNotification(string message,string message2, float duration)
+     void RpcDo_ShowHudNotification(string message, string message2, float duration)
     {
         // Проверяем, есть ли у нас активные HUD
         if (m_aCurrentHuds.IsEmpty() || m_aHudUpdates.IsEmpty())
@@ -549,7 +553,7 @@ modded class SCR_PlayerController : PlayerController
             ARMST_TestHudUpdate testHud = ARMST_TestHudUpdate.Cast(m_aHudUpdates[i]);
             if (testHud && i < m_aCurrentHuds.Count())
             {
-                testHud.SetHudNotification(m_aCurrentHuds[i], message,message2, duration);
+                testHud.SetHudNotification(m_aCurrentHuds[i], message, message2, duration);
                 break; // Показываем только на первом найденном HUD
             }
         }
@@ -569,7 +573,7 @@ modded class SCR_PlayerController : PlayerController
     }
 	
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-    protected void RpcDo_ShowHudNotificationPDA(string message,string message2, float duration)
+     void RpcDo_ShowHudNotificationPDA(string message,string message2, float duration)
     {
         // Проверяем, есть ли у нас активные HUD
         if (m_aCurrentHuds.IsEmpty() || m_aHudUpdates.IsEmpty())

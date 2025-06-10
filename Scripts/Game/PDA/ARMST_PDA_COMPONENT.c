@@ -254,7 +254,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 				m_BlockMessage = true;
             	GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
 	   	 		//ARMST_NotificationHelper.BroadcastNotificationChat(m_User, "ANONIM", EditBoxToMessage.GetText(), 10);
-	   	 		ARMST_NotificationHelper.BroadcastNotification("ANONIM", EditBoxToMessage.GetText(), 10);
+	   	 		ARMST_NotificationHelper.BroadcastNotificationChat(m_User, "ANONIM", EditBoxToMessage.GetText(), 10);
 			    ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, "ANONIM", EditBoxToMessage.GetText(), 10);
 			}
 			else
@@ -263,7 +263,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 		        string Name_Plater = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2);
 				m_BlockMessage = true;
             	GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
-	   	 		ARMST_NotificationHelper.BroadcastNotification(Name_Plater, EditBoxToMessage.GetText(), 10);
+	   	 		ARMST_NotificationHelper.BroadcastNotificationChat(m_User, Name_Plater, EditBoxToMessage.GetText(), 10);
 			    ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, Name_Plater, EditBoxToMessage.GetText(), 10);
 			}
         	UpdatePdaUI();

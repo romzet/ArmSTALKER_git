@@ -27,10 +27,10 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
     [Attribute("50", UIWidgets.Slider, "Время до взрыва вертолета (секунды)", "0 18000 1", category: "Helicopter")]
     float m_HelicopterDamageTimer;
     
-	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Партикл на атаку", category: "Helicopter", params: "ptc")]
-	protected ResourceName m_sParticle_Attack;	
-	private ParticleEffectEntity m_pParticle_Attack;
-	
+    [Attribute("", UIWidgets.ResourcePickerThumbnail, "Партикл на атаку", category: "Helicopter", params: "ptc")]
+    protected ResourceName m_sParticle_Attack;    
+    private ParticleEffectEntity m_pParticle_Attack;
+    
     [Attribute("200", UIWidgets.Slider, "Высота полета вертолета (метры)", "50 500 10", category: "Helicopter")]
     float m_HelicopterFlyHeight;
     
@@ -46,14 +46,18 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
     private vector m_WorldTransform[4];
     
     protected override bool ScriptedEntityFilterForQuery(IEntity ent) {
-        //проверка живой или нет
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer())
+            return false;
+            
+        // Проверка живой или нет
         if (!IsAlive(ent))
             return false;
         
         if (!EntityUtils.IsPlayer(ent))
             return false;
         
-        //наносить урон только тем префабам, которые имеют damagemanagercomponent
+        // Наносить урон только тем префабам, которые имеют DamageManagerComponent
         DamageManagerComponent damageManager = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
         if (damageManager)
             return true;
@@ -61,12 +65,17 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
         return false;
     };
     
-    
     override void OnActivate(IEntity ent) {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Триггер активирован на клиенте, игнорируем.");
+            return;
+        }
+        
         if (!ent)
             return;
         
-        //проверить что оно живое
+        // Проверить, что оно живое
         if (!IsAlive(ent))
             return;
         
@@ -99,14 +108,27 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
         }
     }
     
-	ARMST_PDA_LIFE_GamemodeComponent PdaLife;	
-	protected void HelicopterNotify()
-	{
-			if(GetGame().InPlayMode())
-			PdaLife = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
-			PdaLife.SendRandomMessageOfType("HELI");
-	}
+    ARMST_PDA_LIFE_GamemodeComponent PdaLife;    
+    protected void HelicopterNotify()
+    {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Уведомление о вертолете игнорируется на клиенте.");
+            return;
+        }
+        
+        if (GetGame().InPlayMode())
+            PdaLife = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
+        PdaLife.SendRandomMessageOfType("HELI");
+    }
+    
     protected void SpawnHelicopter() {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Спавн вертолета игнорируется на клиенте.");
+            return;
+        }
+        
         if (m_ObjectHelicopter == ResourceName.Empty) {
             Print("ARMST_TRIGGER_HELICOPTER: Не указан префаб вертолета!");
             m_SpawnInProgress = false;
@@ -114,7 +136,7 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
         }
         
         GetGame().GetCallqueue().CallLater(HelicopterNotify, 20 * 1000, false);
-		
+        
         GetWorldTransform(m_WorldTransform);
         
         // Получаем позиции из маркеров, если они указаны
@@ -163,15 +185,12 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
         
         m_Helicopter = GetGame().SpawnEntityPrefab(helicopterResource, GetGame().GetWorld(), params);
         
-		
-		VehicleHelicopterSimulation m_Vehicle_s = VehicleHelicopterSimulation.Cast(m_Helicopter.FindComponent(VehicleHelicopterSimulation));
-		m_Vehicle_s.EngineStart();
-		m_Vehicle_s.SetThrottle(1);
-		m_Vehicle_s.RotorSetForceScaleState(0, 2);
-		m_Vehicle_s.RotorSetForceScaleState(1, 1);
-		
-		
-		
+        VehicleHelicopterSimulation m_Vehicle_s = VehicleHelicopterSimulation.Cast(m_Helicopter.FindComponent(VehicleHelicopterSimulation));
+        m_Vehicle_s.EngineStart();
+        m_Vehicle_s.SetThrottle(1);
+        m_Vehicle_s.RotorSetForceScaleState(0, 2);
+        m_Vehicle_s.RotorSetForceScaleState(1, 1);
+        
         if (!m_Helicopter) {
             Print("ARMST_TRIGGER_HELICOPTER: Не удалось создать вертолет!");
             m_SpawnInProgress = false;
@@ -197,34 +216,47 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
     }
     
     protected void MoveHelicopter() {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Движение вертолета игнорируется на клиенте.");
+            return;
+        }
+        
         if (!m_Helicopter)
             return;
         
-		vector velOrig = m_Helicopter.GetPhysics().GetVelocity();
-		vector rotVector = m_Helicopter.GetAngles();
-		vector vel = {velOrig[0] + Math.Sin(rotVector[1] * Math.DEG2RAD) * 50, velOrig[1], velOrig[2] + Math.Cos(rotVector[1] * Math.DEG2RAD) * m_HelicopterSpeed };
-		m_Helicopter.GetPhysics().SetVelocity(vel);
+        vector velOrig = m_Helicopter.GetPhysics().GetVelocity();
+        vector rotVector = m_Helicopter.GetAngles();
+        vector vel = {velOrig[0] + Math.Sin(rotVector[1] * Math.DEG2RAD) * 50, velOrig[1], velOrig[2] + Math.Cos(rotVector[1] * Math.DEG2RAD) * m_HelicopterSpeed };
+        m_Helicopter.GetPhysics().SetVelocity(vel);
         
         // Планируем следующее обновление позиции
         GetGame().GetCallqueue().CallLater(MoveHelicopter, 6000, false);
     }
     
     protected void DamageHelicopter() {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Взрыв вертолета игнорируется на клиенте.");
+            return;
+        }
+        
         if (!m_Helicopter || !m_HelicopterSpawned)
             return;
         
         Print("ARMST_TRIGGER_HELICOPTER: Вертолет взрывается!");
         
-			ParticleEffectEntitySpawnParams spawnParams2();
-			spawnParams2.Parent = m_Helicopter;
-			m_pParticle_Attack = ParticleEffectEntity.SpawnParticleEffect(m_sParticle_Attack, spawnParams2);
+        ParticleEffectEntitySpawnParams spawnParams2();
+        spawnParams2.Parent = m_Helicopter;
+        m_pParticle_Attack = ParticleEffectEntity.SpawnParticleEffect(m_sParticle_Attack, spawnParams2);
+        
         // Находим компонент DamageManager для нанесения урона
         DamageManagerComponent damageManager = DamageManagerComponent.Cast(m_Helicopter.FindComponent(DamageManagerComponent));
         if (damageManager) {
             // Наносим критический урон для взрыва
-	         BaseDamageContext damageCtx = new BaseDamageContext();
-	         damageCtx.damageValue = 10000;
-	         damageManager.HandleDamage(damageCtx);
+            BaseDamageContext damageCtx = new BaseDamageContext();
+            damageCtx.damageValue = 10000;
+            damageManager.HandleDamage(damageCtx);
         } else {
             // Если нет компонента DamageManager, просто удаляем вертолет
             Print("ARMST_TRIGGER_HELICOPTER: У вертолета нет компонента DamageManager, удаляем его");
@@ -236,6 +268,12 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
     }
     
     protected void DeleteHelicopter() {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Удаление вертолета игнорируется на клиенте.");
+            return;
+        }
+        
         if (!m_Helicopter)
             return;
         
@@ -247,6 +285,12 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
     }
     
     override void OnDeactivate(IEntity ent) {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Деактивация триггера игнорируется на клиенте.");
+            return;
+        }
+        
         if (!ent)
             return;
         
@@ -256,10 +300,15 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
     
     // Важно: очистка при удалении объекта
     void OnDelete(IEntity owner) {
+        // Проверка, что код выполняется на сервере
+        if (!Replication.IsServer()) {
+            Print("ARMST_TRIGGER_HELICOPTER: Удаление объекта игнорируется на клиенте.");
+            return;
+        }
+        
         if (m_Helicopter) {
             SCR_EntityHelper.DeleteEntityAndChildren(m_Helicopter);
             m_Helicopter = null;
         }
-        
     }
 };
