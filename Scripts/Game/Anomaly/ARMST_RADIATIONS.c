@@ -74,11 +74,9 @@ class ARMST_RADIATIONSEntity: SCR_BaseTriggerEntity {
         
         statsComponent.ArmstRadiactiveLevelSet(levelrad);
         
-        Print(m_fProtectionSumm);    
         if (m_fProtectionSumm > levelrad)
             return;
         
-        Print(levelrad);    
         if (statsComponent) 
             statsComponent.ArmstPlayerStatSetRadio(levelrad/10);
     };

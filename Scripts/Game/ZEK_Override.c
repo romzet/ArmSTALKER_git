@@ -14,9 +14,6 @@ modded class ZEL_ClaimStorageAction : ZEL_ClaimedStorageUserActionBase
         if (playerStats)
 		{
             Print("[ARMST_START] succelfull player LOADOUT");
-			//playerStats.Rpc(playerStats.Rpc_ArmstPlayerSetMoney, -m_fFixedPrice);
-			playerStats.Rpc_ArmstPlayerSetMoney(50000);
-			
 					vector transform[4];
 					SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
 					m_aOriginalTransform = transform;

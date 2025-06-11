@@ -1,3 +1,4 @@
+[BaseContainerProps()]
 class ARMST_PDA_UI : ChimeraMenuBase
 {
     protected Widget                 m_wRoot;
@@ -13,13 +14,12 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected TextWidget            Text_Protective_Thermo_Count;
     protected TextWidget            Text_Protective_Electro_Count;
     
-    
     protected TextWidget            Text_Life_Eat_Count;
     protected TextWidget            Text_Life_Water_Count;
     protected TextWidget            Text_Life_Toxic_Count;
     protected TextWidget            Text_Life_Radiactive_Count;
     protected TextWidget            Text_Life_PSY_Count;
-	
+    
     protected TextWidget            Text_Kill_Monster_count;
     protected TextWidget            Text_Kill_Bandit_count;
     protected TextWidget            Text_taynik_count;
@@ -28,21 +28,21 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected TextWidget            Text_artefact_found_counts;
     protected TextWidget            Text_surge_alive_counts;
     
-    protected ButtonWidget            Button_Exit;
-    protected ButtonWidget            Button_SendMessage;
+    protected ButtonWidget          Button_Exit;
+    protected ButtonWidget          Button_SendMessage;
     protected CheckBoxWidget        CheckBox_ON_OFF;
     protected CheckBoxWidget        CheckBox_UPDATE;
     protected CheckBoxWidget        CheckBox_ANONIM;
-	
-    protected MultilineEditBoxWidget        EditBoxToMessage;
     
-    protected MapWidget                Map;
+    protected MultilineEditBoxWidget EditBoxToMessage;
+    
+    protected MapWidget             Map;
     
     // Владелец КПК и пользователь
     protected IEntity m_User;
     
     private bool m_BlockMessage = false;
-	
+    
     // Компоненты для доступа к статистике
     protected ARMST_PLAYER_STATS_COMPONENT m_StatsComponent;
     protected ARMST_ITEMS_STATS_COMPONENTS m_ItemsStatsComponent;
@@ -51,11 +51,10 @@ class ARMST_PDA_UI : ChimeraMenuBase
     override void OnMenuInit()
     {
         super.OnMenuInit();
-        
     }
     
     //------------------------------------------------------------------------------------------------
-    void Init( IEntity User)
+    void Init(IEntity User)
     {
         Print("Открыл КПК");
         
@@ -84,7 +83,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Text_Life_Radiactive_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Life_Radiactive_Count"));
         Text_Life_PSY_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Life_PSY_Count"));
         
-		
         Text_Kill_Monster_count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Kill_Monster_count"));
         Text_Kill_Bandit_count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Kill_Bandit_count"));
         Text_taynik_count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_taynik_count"));
@@ -92,14 +90,13 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Text_sell_items_count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_sell_items_count"));
         Text_artefact_found_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_artefact_found_counts"));
         Text_surge_alive_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_surge_alive_counts"));
-		
+        
         Button_Exit = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Exit"));
         Button_SendMessage = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SendMessage"));
         CheckBox_ON_OFF = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_ON_OFF"));
         CheckBox_UPDATE = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_UPDATE"));
         CheckBox_ANONIM = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_ANONIM"));
-		
-		
+        
         EditBoxToMessage = MultilineEditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditBoxToMessage"));
         
         Map = MapWidget.Cast(m_wRoot.FindAnyWidget("Map"));
@@ -107,19 +104,19 @@ class ARMST_PDA_UI : ChimeraMenuBase
         // Настройка обработчиков событий
         if (Button_Exit)
             Button_Exit.AddHandler(this);
-		
+        
         if (Button_SendMessage)
             Button_SendMessage.AddHandler(this);
         
         if (CheckBox_ON_OFF)
             CheckBox_ON_OFF.AddHandler(this);
-		
+        
         if (CheckBox_UPDATE)
             CheckBox_UPDATE.AddHandler(this);
-		
+        
         if (CheckBox_ANONIM)
             CheckBox_ANONIM.AddHandler(this);
-		
+        
         m_User = User;
         
         // Получаем компоненты
@@ -145,8 +142,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
             return;
         
         // Получаем имя пользователя
-		
-	        int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
+        int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
         if (playerId2 && Text_User_Name)
         {
             Text_User_Name.SetText(SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2));
@@ -173,7 +169,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         float psy = m_StatsComponent.ArmstPlayerStatGetPsy();
         float water = m_StatsComponent.ArmstPlayerStatGetWater();
         float eat = m_StatsComponent.ArmstPlayerStatGetEat();
-		
+        
         float monstr = m_StatsComponent.ARMST_GET_STAT_MONSTER();
         float band = m_StatsComponent.ARMST_GET_STAT_BAND();
         float stash = m_StatsComponent.ARMST_GET_STAT_STASH();
@@ -189,39 +185,50 @@ class ARMST_PDA_UI : ChimeraMenuBase
         if (Text_Kill_Bandit_count) Text_Kill_Bandit_count.SetText(Math.Round(band).ToString());
         if (Text_taynik_count) Text_taynik_count.SetText(Math.Round(stash).ToString());
         if (Text_quest_count) Text_quest_count.SetText(Math.Round(quests).ToString());
-        if (Text_sell_items_count) Text_sell_items_count.SetText(Math.Round(sells).ToString() );
+        if (Text_sell_items_count) Text_sell_items_count.SetText(Math.Round(sells).ToString());
         
-        EditBoxToMessage.SetText("");
-        // Обновляем баланс, репутацию и фракцию, если эти данные доступны
+       //  EditBoxToMessage.SetText("");
+        // Обновляем баланс, репутацию и фракцию
         if (m_StatsComponent)
         {
             if (Text_Balance_Count)
-                Text_Balance_Count.SetText(m_StatsComponent.ArmstPlayerGetMoney().ToString());
+            {
+				SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
+				if (!inventory) 
+					return;
+				int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventory);
+                // Подсчитываем баланс через ARMST_MONEY_COMPONENTS
+                Text_Balance_Count.SetText(totalCurrency.ToString());
+            }
             
             if (Text_Reputation_Count)
                 Text_Reputation_Count.SetText(m_StatsComponent.ArmstPlayerGetReputation().ToString());
             
             if (Text_Fraction_Name)
-				{
-			        FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast( m_User.FindComponent(FactionAffiliationComponent));
-			        
-			        if (!factionComponent)
-			            return;
-			            
-			        string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
-			        if (!characterFaction)
-			            return;
-					if (characterFaction == "FACTION_STALKER")
-						Text_Fraction_Name.SetText("СТАЛКЕР");
-					if (characterFaction == "BACON_622120A5448725E3_FACTION")
-						Text_Fraction_Name.SetText("РЕНЕГАТ");
-				}
-               // Text_Fraction_Name.SetText(m_StatsComponent.ArmstPlayerGetFraction());
+            {
+                FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(m_User.FindComponent(FactionAffiliationComponent));
+                
+                if (!factionComponent)
+                    return;
+                    
+                string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
+                if (!characterFaction)
+                    return;
+                
+                if (characterFaction == "FACTION_STALKER")
+                    Text_Fraction_Name.SetText("СТАЛКЕР");
+                if (characterFaction == "BACON_622120A5448725E3_FACTION")
+                    Text_Fraction_Name.SetText("РЕНЕГАТ");
+            }
         }
     }
-	
-	void SetBlock()
-	{m_BlockMessage = false }
+    
+    
+    void SetBlock()
+    {
+        m_BlockMessage = false;
+    }
+    
     //------------------------------------------------------------------------------------------------
     override bool OnClick(Widget w, int x, int y, int button)
     {
@@ -230,56 +237,54 @@ class ARMST_PDA_UI : ChimeraMenuBase
             Close();
             return true;
         }
-        
+        /*
         if (w == Button_SendMessage)
         {
-			if (m_BlockMessage)
-			{
+            if (m_BlockMessage)
+            {
                 ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Timeout... Wait...", 5);
-				return true;
-			}
-			
-			if(EditBoxToMessage.GetText() == "")
-			{
+                return true;
+            }
+            
+            if (EditBoxToMessage.GetText() == "")
+            {
                 ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Message is empty!", 5);
-				return true;
-			}
-			if(!CheckBox_ON_OFF.IsChecked())
-			{
-			    ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network not found!", 5);
-			    return true;
-			}
-			if(CheckBox_ANONIM.IsChecked())
-			{
-				m_BlockMessage = true;
-            	GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
-	   	 		//ARMST_NotificationHelper.BroadcastNotificationChat(m_User, "ANONIM", EditBoxToMessage.GetText(), 10);
-	   	 		ARMST_NotificationHelper.BroadcastNotificationChat(m_User, "ANONIM", EditBoxToMessage.GetText(), 10);
-			    ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, "ANONIM", EditBoxToMessage.GetText(), 10);
-			}
-			else
-			{
-	        	int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
-		        string Name_Plater = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2);
-				m_BlockMessage = true;
-            	GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
-	   	 		ARMST_NotificationHelper.BroadcastNotificationChat(m_User, Name_Plater, EditBoxToMessage.GetText(), 10);
-			    ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, Name_Plater, EditBoxToMessage.GetText(), 10);
-			}
-        	UpdatePdaUI();
+                return true;
+            }
+            if (!CheckBox_ON_OFF.IsChecked())
+            {
+                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network not found!", 5);
+                return true;
+            }
+            if (CheckBox_ANONIM.IsChecked())
+            {
+                m_BlockMessage = true;
+                GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
+                ARMST_NotificationHelper.BroadcastNotificationChat(m_User, "ANONIM", EditBoxToMessage.GetText(), 10);
+                ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, "ANONIM", EditBoxToMessage.GetText(), 10);
+            }
+            else
+            {
+                int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
+                string Name_Plater = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2);
+                m_BlockMessage = true;
+                GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
+                ARMST_NotificationHelper.BroadcastNotificationChat(m_User, Name_Plater, EditBoxToMessage.GetText(), 10);
+                ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, Name_Plater, EditBoxToMessage.GetText(), 10);
+            }
+            UpdatePdaUI();
             return true;
         }
-        
+        */
         if (w == CheckBox_ANONIM)
         {
             if (!CheckBox_ANONIM.IsChecked())
             {
-				
-            	CheckBox_ANONIM.SetChecked(true);
+                CheckBox_ANONIM.SetChecked(true);
             }
             else
             {
-            	CheckBox_ANONIM.SetChecked(false);
+                CheckBox_ANONIM.SetChecked(false);
             }
             UpdatePdaUI();
             return true;
@@ -294,19 +299,18 @@ class ARMST_PDA_UI : ChimeraMenuBase
         {
             if (!CheckBox_ON_OFF.IsChecked())
             {
-				
-            	CheckBox_ON_OFF.SetChecked(true);
+                CheckBox_ON_OFF.SetChecked(true);
                 m_StatsComponent.ArmstPlayerPdaOn();
                 ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network connected...", 5);
             }
             else
             {
-            	CheckBox_ON_OFF.SetChecked(false);
+                CheckBox_ON_OFF.SetChecked(false);
                 m_StatsComponent.ArmstPlayerPdaOff();
                 ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network disconnected...", 5);
             }
-        // Обновляем данные интерфейса
-        UpdatePdaUI();
+            // Обновляем данные интерфейса
+            UpdatePdaUI();
             return true;
         }
         
@@ -331,8 +335,8 @@ class ARMST_PDA_UI : ChimeraMenuBase
     {
         super.OnMenuClose();
         
-		CharacterControllerComponent controller = CharacterControllerComponent.Cast(m_User.FindComponent(CharacterControllerComponent));
-		controller.RemoveGadgetFromHand(true);
+        CharacterControllerComponent controller = CharacterControllerComponent.Cast(m_User.FindComponent(CharacterControllerComponent));
+        controller.RemoveGadgetFromHand(true);
         // Освобождаем ссылки
         m_User = null;
         m_StatsComponent = null;
@@ -340,8 +344,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
     }
 }
 
-
 modded enum ChimeraMenuPreset
 {
-	PdaMenus,
+    PdaMenus,
 }

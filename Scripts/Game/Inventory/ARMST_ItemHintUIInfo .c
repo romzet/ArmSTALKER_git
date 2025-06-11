@@ -18,6 +18,7 @@ modded class SCR_InventoryUIInfo : UIInfo
     	 string Radiation = "#armst_uiunfoitem_Radiation";
     	 string Toxin = "#armst_uiunfoitem_Toxin";
     	 string Psi = "#armst_uiunfoitem_Psi";
+    	 string MoneyOnAccount = "#armst_uiunfo_money_account"; 
 	
 	//! Function to override to get custom inventory description
 	override string GetInventoryItemDescription(InventoryItemComponent item)
@@ -25,6 +26,15 @@ modded class SCR_InventoryUIInfo : UIInfo
 		string formattedText = "                                                                                    ";
 		string format = GetDescription();
 		formattedText += string.Format("\n %1 \n", format);
+		
+			// Проверяем наличие компонента ARMST_MONEY_COMPONENTS и добавляем информацию о деньгах
+            ARMST_MONEY_COMPONENTS pdaComponent = ARMST_MONEY_COMPONENTS.Cast(item.GetOwner().FindComponent(ARMST_MONEY_COMPONENTS));
+            if (pdaComponent)
+            {
+                int moneyValue = pdaComponent.GetValue();
+                formattedText += string.Format("\n%2 %1", moneyValue, MoneyOnAccount);
+				return formattedText;
+            }
         ARMST_ITEMS_STATS_COMPONENTS playerStats = ARMST_ITEMS_STATS_COMPONENTS.Cast(item.GetOwner().FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
         if (playerStats)
 		{	

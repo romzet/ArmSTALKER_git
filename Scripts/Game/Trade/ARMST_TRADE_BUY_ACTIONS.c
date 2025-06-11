@@ -1,4 +1,3 @@
-
 [BaseContainerProps()]
 class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
 {
@@ -8,10 +7,10 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
     
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб объекта", "et", category: "Объект")]
     ResourceName m_PrefabToSpawn;
-	
-	[Attribute("0", UIWidgets.EditBox, desc: "FixPrice",  params: "0 999999", category: "Торговля")]
-	float m_fFixedPrice;
-	
+    
+    [Attribute("0", UIWidgets.EditBox, desc: "FixPrice", params: "0 999999", category: "Торговля")]
+    float m_fFixedPrice;
+    
     // Важные данные для работы
     float f_fMoneyPlayer;
     protected bool m_bPrefabInitialized = false;
@@ -37,33 +36,29 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
         owner.SetObject(model, string.Empty);
     }
     //------------------------------------------------------------------------------------------------
-	// Получает цену покупки предмета из префаба
-	static float GetPrefabBuyPrice(ResourceName prefab)
-	{
-	
-	    Resource entityResource = Resource.Load(prefab);
-	    IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(entityResource);
-	    // Ищем компонент ARMST_ITEMS_STATS_COMPONENTS
-	    float buyPrice = 0;
-	    for(int nComponent = 0, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
-	    {
-	        IEntityComponentSource componentSource = entitySource.GetComponent(nComponent);
-	        if(componentSource.GetClassName() == "ARMST_ITEMS_STATS_COMPONENTS")
-	        {
-				componentSource.Get("m_fBuyPrice", buyPrice);
-	        }
-	    }
-	    
-	    
-	    return buyPrice;
-	}
+    // Получает цену покупки предмета из префаба
+    static float GetPrefabBuyPrice(ResourceName prefab)
+    {
+        Resource entityResource = Resource.Load(prefab);
+        IEntitySource entitySource = SCR_BaseContainerTools.FindEntitySource(entityResource);
+        // Ищем компонент ARMST_ITEMS_STATS_COMPONENTS
+        float buyPrice = 0;
+        for(int nComponent = 0, componentCount = entitySource.GetComponentCount(); nComponent < componentCount; nComponent++)
+        {
+            IEntityComponentSource componentSource = entitySource.GetComponent(nComponent);
+            if(componentSource.GetClassName() == "ARMST_ITEMS_STATS_COMPONENTS")
+            {
+                componentSource.Get("m_fBuyPrice", buyPrice);
+            }
+        }
+        return buyPrice;
+    }
     //------------------------------------------------------------------------------------------------
     // Получает имя предмета для отображения
     static string GetPrefabDisplayName(ResourceName prefab)
     {
         UIInfo itemUIInfo = GetItemUIInfo(prefab);
-            return itemUIInfo.GetName();
-        
+        return itemUIInfo.GetName();
     }
     //------------------------------------------------------------------------------------------------
     // Получает информацию UI для предмета
@@ -121,16 +116,14 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
     override bool GetActionNameScript(out string outName)
     {
         string itemName = GetPrefabDisplayName(m_PrefabToSpawn);
-		if (m_fFixedPrice > 0)
-		{
-        outName = string.Format("%1 - %2 руб.", itemName, m_fFixedPrice);
+        if (m_fFixedPrice > 0)
+        {
+            outName = string.Format("%1 - %2 руб.", itemName, m_fFixedPrice);
+            return true;
+        }
         
-        return true;
-		}
-		
-       	m_fFixedPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
+        m_fFixedPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
         outName = string.Format("%1 - %2 руб.", itemName, m_fFixedPrice);
-        
         return true;
     }
     
@@ -140,88 +133,83 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
         if (!user || !m_bPrefabInitialized)
             return false;
             
-        
         return true;
     }
     
     //------------------------------------------------------------------------------------------------
     override bool CanBePerformedScript(IEntity user)
     {
-        
         return true;
     }
     
-	
-	vector m_WorldTransform[4];
-	
+    vector m_WorldTransform[4];
+    
     //------------------------------------------------------------------------------------------------
     override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
     {
-		Resource m_Resource = Resource.Load(m_PrefabToSpawn);
-		EntitySpawnParams params();
-		m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
-		params.Parent = pOwnerEntity;
-		
-		//Resource m_Resource = Resource.Load(m_PrefabToSpawn);
-		
-        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-        if (playerStats)
-		{
-            f_fMoneyPlayer = playerStats.ArmstPlayerGetMoney();
-            if (f_fMoneyPlayer < GetPrefabBuyPrice(m_PrefabToSpawn))
-				return;
-		}
-		
-		IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
-		if (newEnt)
-				{
-                    Print("[ARMST_TRADE] Succefull spawn");
-                }
+        Resource m_Resource = Resource.Load(m_PrefabToSpawn);
+        EntitySpawnParams params();
+        m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
+        params.Parent = pOwnerEntity;
+        
+        // Получаем инвентарь игрока
         SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-            if (inventoryManager)
-            {
-                if (inventoryManager.TryInsertItem(newEnt))
-				{
-				}
-			}
-	 SetMoney(pUserEntity, newEnt);
-    }
-       void SetMoney(IEntity player, IEntity owner)
-    {
-        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(player.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-        if (playerStats)
+        if (!inventoryManager)
+            return;
+            
+        // Проверяем, достаточно ли денег у игрока
+        int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventoryManager);
+        float buyPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
+        if (totalCurrency < buyPrice)
         {
-            Print("[ARMST_TRADE] succelfull player component");
-            float buyPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
-            // Вычитаем стоимость предмета из денег игрока
-            playerStats.Rpc_ArmstPlayerSetMoney(-buyPrice);
-            // Получаем обновленное количество денег
-            float updatedMoney = playerStats.ArmstPlayerGetMoney();
-            // Формируем сообщение о текущем балансе
-            string itemName4 = "#armst_player_cash";
-            string message = string.Format("%2: %1 RUB.", updatedMoney, itemName4);
-            // Формируем сообщение о покупке
-            string itemName3 = "#Armst_buy_done";
-            string itemName = GetPrefabDisplayName(m_PrefabToSpawn);
-            string message2 = string.Format("%3 %1 за %2 RUB.", itemName, buyPrice, itemName3);
-            // Показываем уведомление только конкретному игроку
-			
-			
-        // Проверка, что код выполняется на сервере для изменения денег
-        if (Replication.IsServer()) {
+            Print("[ARMST_TRADE] Недостаточно денег для покупки!");
+            return;
+        }
+        
+        // Создаем предмет
+        IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
+        if (newEnt)
+        {
+            Print("[ARMST_TRADE] Успешно создан предмет");
+        }
+        
+        // Пытаемся добавить предмет в инвентарь
+        if (inventoryManager && inventoryManager.TryInsertItem(newEnt))
+        {
+            // Вычитаем деньги из инвентаря
+            if (ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventoryManager, buyPrice))
+            {
+                Print("[ARMST_TRADE] Деньги успешно списаны");
+                ShowPurchaseNotification(pUserEntity, buyPrice, totalCurrency - buyPrice);
+            }
+            else
+            {
+                Print("[ARMST_TRADE] Ошибка при списании денег", LogLevel.ERROR);
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------------
+    void ShowPurchaseNotification(IEntity player, float buyPrice, float updatedMoney)
+    {
+        
+        Print("[ARMST_TRADE] Отправка уведомления игроку.");
+        string itemName4 = "#armst_player_cash";
+        string message = string.Format("%2: %1 RUB.", updatedMoney, itemName4);
+        string itemName3 = "#Armst_buy_done";
+        string itemName = GetPrefabDisplayName(m_PrefabToSpawn);
+        string message2 = string.Format("%3 %1 за %2 RUB.", itemName, buyPrice, itemName3);
+        if (Replication.IsServer())
+        {
             Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
             return;
         }
-		else
+		else 
 		{
-            Print("[ARMST_TRADE] Отправка уведомления игроку.");
-			ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
+        ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
 		}
-           // 
-		}	
-	}
-	
-	
+    }
+    
     //------------------------------------------------------------------------------------------------
     void ~ARMST_TRADE_BUY_ACTIONS()
     {

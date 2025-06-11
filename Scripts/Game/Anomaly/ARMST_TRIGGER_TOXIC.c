@@ -40,7 +40,6 @@ class ARMST_TRIGGER_TOXIC: SCR_BaseTriggerEntity {
     override void OnActivate(IEntity ent) {
         if (!ent)
             return;
-        
         //проверить что оно живое
         if (!IsAlive(ent))
             return;

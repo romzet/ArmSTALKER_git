@@ -6,7 +6,6 @@ class ARMST_ItemPDAComponentClass : SCR_ConsumableItemComponentClass
 // Consumable gadget component
 class ARMST_ItemPDAComponent : SCR_ConsumableItemComponent
 {
-
 	protected bool m_bIsFirstTimeOpened = true;	
 	override void ModeSwitch(EGadgetMode mode, IEntity charOwner)
 	{

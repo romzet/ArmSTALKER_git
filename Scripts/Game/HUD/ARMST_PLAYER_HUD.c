@@ -48,9 +48,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	override void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
 	{
 		
-        if (Replication.IsServer()) {
-            return;
-        }
 		FrameWidget FrameHUD = FrameWidget.Cast(HUDWidget.FindAnyWidget("FrameHUD"));
 		FrameHUD.SetOpacity(1);
 		
@@ -108,10 +105,15 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		DataVarType MoneyCount;
 		DataVarType RepCount;
 		SliderWidget Slider_Water = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Water"));
+		ImageWidget Stat_Water = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Water"));
 		SliderWidget Slider_Eat = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Eat"));
+		ImageWidget Stat_Eat = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Eat"));
 		SliderWidget Slider_Psy = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Psy"));
+		ImageWidget Stat_Psy = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Psy"));
 		SliderWidget Slider_Radiation = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Radiation"));
+		ImageWidget Stat_Radiation = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Radiation"));
 		SliderWidget Slider_Toxic = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Toxic"));
+		ImageWidget Stat_Scheemese = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Scheemese"));
 		SliderWidget Stat_Health = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Health"));
 		SliderWidget Stat_Stamina = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Stamina"));
 		ImageWidget Gasmask_Breath = ImageWidget.Cast(HUDWidget.FindAnyWidget("Gasmask_Breath"));
@@ -129,24 +131,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		
 		statsComponent2.ArmstPlayerStatSetWater(-0.002);
 		statsComponent2.ArmstPlayerStatSetEat(-0.004);
-		/*
-        if (statsComponent2.m_player_reputation > -1)
-            { 
-       		 FactionAffiliationComponent factionComponent2 = FactionAffiliationComponent.Cast( owner.FindComponent(FactionAffiliationComponent));
-				if(factionComponent2)
-				factionComponent2.SetAffiliatedFactionByKey("FACTION_STALKER");
-			}
-        if (statsComponent2.m_player_reputation > 100)
-            { 
-			statsComponent2.m_player_reputation = 100; 
-			}
-		if (statsComponent2.m_player_reputation < -5)
-			{
-       		 FactionAffiliationComponent factionComponent2 = FactionAffiliationComponent.Cast( owner.FindComponent(FactionAffiliationComponent));
-				if(factionComponent2)
-				factionComponent2.SetAffiliatedFactionByKey("FACTION_RENEGADE");
-			}
-		*/
         if (statsComponent2.m_armst_player_stat_toxic < 0)
             { statsComponent2.m_armst_player_stat_toxic = 0; }
         if (statsComponent2.m_armst_player_stat_toxic > 100)
@@ -201,6 +185,17 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		float HealthStats = statsComponent2.ArmstPlayerStatGetHealth();
 		float StaminaStats = statsComponent2.ArmstPlayerStatGetStamina();
 		
+		TextWidget Text_money = TextWidget.Cast(HUDWidget.FindAnyWidget("Text_money"));
+		if (Text_money)
+			{ 
+			
+				SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(owner.FindComponent(SCR_InventoryStorageManagerComponent));
+				if (!inventory) 
+					return;
+				int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventory);
+				MoneyCount = totalCurrency;
+				Text_money.SetText(MoneyCount.ToString());
+			};
 		//   Отладочный вывод в консоль игры для проверки
 		StaminaStats = StaminaStats * 100;
 		Stat_Health.SetCurrent(HealthStats);
@@ -210,6 +205,96 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		Slider_Psy.SetCurrent(PsyStats);
 		Slider_Radiation.SetCurrent(RadiactiveStats);
 		Slider_Toxic.SetCurrent(ToxicStats);
+		
+	    // Цвета для индикаторов (голода, еды, здоровья, психики)
+	    // Красный: ниже 30, Желтый: ниже 60, иначе Белый
+	    if (WaterStats < 30)
+			{
+	        Slider_Water.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+	        Stat_Water.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+			}
+	    else if (WaterStats < 60)
+			{
+	        Slider_Water.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+	        Stat_Water.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+			}
+	    else
+			{
+	        Slider_Water.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+	        Stat_Water.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+			}
+	    if (EatStats < 30)
+			{
+	        Slider_Eat.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+	        Stat_Eat.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+			}
+	    else if (EatStats < 60)
+			{
+	        Slider_Eat.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+	        Stat_Eat.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+			}
+	    else
+			{
+	        Slider_Eat.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+	        Stat_Eat.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+			}
+	
+	    if (PsyStats < 30)
+			{
+	        Slider_Psy.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+	        Stat_Psy.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+			}
+	    else if (PsyStats < 60)
+			{
+	        Slider_Psy.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+	        Stat_Psy.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+			}
+	    else
+			{
+	        Slider_Psy.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+	        Stat_Psy.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+			}
+	
+	    if (HealthStats < 30)
+	        Stat_Health.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+	    else if (HealthStats < 60)
+	        Stat_Health.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+	    else
+	        Stat_Health.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+	
+	    // Цвета для индикаторов радиации и химии
+	    // Красный: выше 50, Желтый: выше 30, иначе Белый
+	    if (RadiactiveStats > 50)
+			{
+	        Slider_Radiation.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+	        Stat_Radiation.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+			}
+	    else if (RadiactiveStats > 30)
+			{
+	        Slider_Radiation.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+	        Stat_Radiation.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+			}
+	    else
+			{
+	        Slider_Radiation.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+	        Stat_Radiation.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+			}
+	
+	    if (ToxicStats > 50)
+			{
+	        Slider_Toxic.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+	        Stat_Scheemese.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
+			}
+	    else if (ToxicStats > 30)
+			{
+	        Slider_Toxic.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+	        Stat_Scheemese.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
+			}
+	    else
+			{
+	        Slider_Toxic.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+	        Stat_Scheemese.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
+			}
 		
 		if (ToxicStats > 10)
 			{

@@ -12,7 +12,6 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
     float m_fPsy;
     float m_fWater;
     float m_fEat;
-    float m_fMoney;
     float m_fRep;
     float m_fKillMonsters;  // Статистика убийств монстров
     float m_fKillBandits;   // Статистика убийств бандитов
@@ -32,7 +31,6 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         m_fPsy = statsComponent.ArmstPlayerStatGetPsy();
         m_fWater = statsComponent.ArmstPlayerStatGetWater();
         m_fEat = statsComponent.ArmstPlayerStatGetEat();
-        m_fMoney = statsComponent.ArmstPlayerGetMoney();
         m_fRep = statsComponent.ArmstPlayerGetReputation();
         m_fKillMonsters = statsComponent.ARMST_GET_STAT_MONSTER();
         m_fKillBandits = statsComponent.ARMST_GET_STAT_BAND();
@@ -46,7 +44,6 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
             float.AlmostEqual(m_fPsy, 100) &&
             float.AlmostEqual(m_fWater, 100) &&
             float.AlmostEqual(m_fEat, 100) &&
-            float.AlmostEqual(m_fMoney, 999999) &&
             float.AlmostEqual(m_fRep, 0) &&
             float.AlmostEqual(m_fKillMonsters, 0) &&
             float.AlmostEqual(m_fKillBandits, 0) &&
@@ -94,9 +91,6 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         float diffRep = m_fRep - currentRep;
         statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetReputation, diffRep);
         
-        float currentMoney = statsComponent.ArmstPlayerGetMoney();
-        float diffMoney = m_fMoney - currentMoney;
-        statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetMoney, diffMoney);
         
         // Устанавливаем значения статистики напрямую, так как нет прямых сеттеров с RPC для этих значений
         // Поскольку нет RPC для прямой установки, мы вызываем локальные методы
@@ -113,7 +107,7 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         {
             for (float i = statsComponent.ARMST_GET_STAT_BAND(); i < m_fKillBandits; i++)
             {
-                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_BAND2);
+                statsComponent.Rpc(statsComponent.Rpc_ARMST_SET_STAT_BAND);
             }
         }
         
@@ -155,7 +149,6 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
                float.AlmostEqual(m_fPsy, otherData.m_fPsy) &&
                float.AlmostEqual(m_fWater, otherData.m_fWater) &&
                float.AlmostEqual(m_fEat, otherData.m_fEat) &&
-               float.AlmostEqual(m_fMoney, otherData.m_fMoney) &&
                float.AlmostEqual(m_fRep, otherData.m_fRep) &&
                float.AlmostEqual(m_fKillMonsters, otherData.m_fKillMonsters) &&
                float.AlmostEqual(m_fKillBandits, otherData.m_fKillBandits) &&
@@ -252,6 +245,73 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 	        Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", prefab, EPF_PersistenceComponent), LogLevel.ERROR);
 	        SCR_EntityHelper.DeleteEntityAndChildren(character);
 	        return;
+	    }
+	}
+	//------------------------------------------------------------------------------------------------
+	override void OnPlayerKilled_S(int playerId, IEntity playerEntity, IEntity killerEntity, notnull Instigator killer)
+	{
+	    //PrintFormat("EPF_BaseRespawnSystemComponent.OnPlayerKilled_S(%1, %2, %3)", playerId, playerEntity, killerEntity);
+	
+	    // Удаляем все предметы с компонентом ARMST_MONEY_COMPONENTS из инвентаря игрока
+	    GetGame().GetCallqueue().CallLater(RemoveMoneyItemsFromInventory, 5000, false, playerEntity);
+	
+	    // Add the dead body root entity collection so it spawns back after restart for looting
+	    EPF_PersistenceComponent persistence = EPF_Component<EPF_PersistenceComponent>.Find(playerEntity);
+	    if (!persistence)
+	    {
+	        Debug.Error(string.Format("OnPlayerKilled(%1, %2, %3) -> Player killed that does not have persistence component?!? Something went terribly wrong!", playerId, playerEntity, killerEntity));
+	        return;
+	    }
+	
+	    string newId = persistence.GetPersistentId();
+	
+	    persistence.SetPersistentId(string.Empty); // Force generation of new id for dead body
+	    persistence.OverrideSelfSpawn(true);
+	
+	    // Fresh character spawn (NOTE: We need to push this to next frame due to a bug where on the same death frame we can not hand over a new char).
+	    GetGame().GetCallqueue().Call(CreateCharacter, playerId, newId);
+	   // GetGame().GetCallqueue().CallLater(CreateCharacter, 5000, false, playerId, newId);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	// Метод для удаления всех предметов с компонентом ARMST_MONEY_COMPONENTS из инвентаря
+	void RemoveMoneyItemsFromInventory(IEntity playerEntity)
+	{
+		if (playerEntity)
+			return;
+	    // Получаем компонент инвентаря игрока
+	    SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+	    if (!inventoryManager)
+	    {
+	        Print("[ARMST_MONEY] Не удалось найти SCR_InventoryStorageManagerComponent для удаления валюты при смерти.", LogLevel.WARNING);
+	        return;
+	    }
+	
+	    // Создаем массив для хранения всех предметов в инвентаре
+	    array<IEntity> items = new array<IEntity>();
+	    inventoryManager.GetItems(items);
+	
+	    // Перебираем все предметы в инвентаре
+	    int removedCount = 0;
+	    foreach (IEntity item : items)
+	    {
+	        // Проверяем наличие компонента ARMST_MONEY_COMPONENTS
+	        ARMST_MONEY_COMPONENTS moneyComponent = ARMST_MONEY_COMPONENTS.Cast(item.FindComponent(ARMST_MONEY_COMPONENTS));
+	        if (moneyComponent)
+	        {
+	            // Удаляем предмет
+	            SCR_EntityHelper.DeleteEntityAndChildren(item);
+	            removedCount++;
+	        }
+	    }
+	
+	    if (removedCount > 0)
+	    {
+	        Print(string.Format("[ARMST_MONEY] Удалено %1 предметов с компонентом ARMST_MONEY_COMPONENTS из инвентаря игрока при смерти.", removedCount));
+	    }
+	    else
+	    {
+	        Print("[ARMST_MONEY] Не найдено предметов с компонентом ARMST_MONEY_COMPONENTS в инвентаре игрока при смерти.");
 	    }
 	}
 }

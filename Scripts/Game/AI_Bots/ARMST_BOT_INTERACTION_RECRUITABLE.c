@@ -46,15 +46,15 @@ class ARMST_BOT_INTERACTION_RECRUITABLE : ScriptedUserAction {
 				ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
 						if (statsComponent)
 						{
-						int f_fMoneyPlayer = statsComponent.ArmstPlayerGetMoney();
-							if (f_fMoneyPlayer < f_price_recruit)
+							//int f_fMoneyPlayer = statsComponent.ArmstPlayerGetMoney();
+							//if (f_fMoneyPlayer < f_price_recruit)
 								return;
 						}
 				
 				if (GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(character) == 0)
 					groupController.RequestAddAIAgent(character, playerID);
 				
-				statsComponent.ArmstPlayerSetMoney(-f_price_recruit);	
+				//statsComponent.ArmstPlayerSetMoney(-f_price_recruit);	
 				Bot.SetRecruit(true);
 			
 			}

@@ -150,7 +150,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
                     if (characterFaction == "FACTION_BANDIT")
                     {
 				            playerStats.Rpc_ArmstPlayerSetReputation(3);
-				            playerStats.Rpc_ARMST_SET_STAT_BAND2();
+				            playerStats.Rpc_ARMST_SET_STAT_BAND();
                     }
                 }
             }

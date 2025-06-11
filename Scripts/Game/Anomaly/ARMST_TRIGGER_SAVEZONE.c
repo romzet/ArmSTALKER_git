@@ -3,6 +3,8 @@ class ARMST_TRIGGER_SAVEZONEClass: SCR_BaseTriggerEntityClass {
 
 class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
     
+	[Attribute("false", UIWidgets.CheckBox, "Бессмертие", category: "1. Bolt")];
+	bool m_fDisable_damage;
     
     vector m_WorldTransform[4];
     
@@ -36,6 +38,10 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
         if (!IsAlive(ent))
             return;
         
+        // Проверка, что код выполняется на сервере для изменения денег
+        if (Replication.IsServer()) {
+            return;
+        }
         SCR_ChimeraCharacter owner2 = SCR_ChimeraCharacter.Cast(ent);
         if (!owner2)
             return;
@@ -59,7 +65,9 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
 		
 		SCR_DamageManagerComponent m_DamageManager = SCR_DamageManagerComponent.Cast(owner2.FindComponent(SCR_DamageManagerComponent));
 		if(!m_DamageManager) return;
-		//m_DamageManager.EnableDamageHandling(false);	
+		
+		if(m_fDisable_damage)
+			m_DamageManager.EnableDamageHandling(false);	
 		
     };
     override void OnDeactivate(IEntity ent) {
@@ -78,6 +86,9 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
 		Print("Больше не в безопасности");
 		SCR_DamageManagerComponent m_DamageManager = SCR_DamageManagerComponent.Cast(owner2.FindComponent(SCR_DamageManagerComponent));
 		if(!m_DamageManager) return;
+		
+		if(m_fDisable_damage)
+			m_DamageManager.EnableDamageHandling(true);	
 		//m_DamageManager.EnableDamageHandling(true);	
         
     };

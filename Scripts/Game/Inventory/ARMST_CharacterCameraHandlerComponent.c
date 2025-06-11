@@ -19,7 +19,11 @@ modded class SCR_CharacterCameraHandlerComponent
 			{
 				BaseLoadoutClothComponent cloth3 = BaseLoadoutClothComponent.Cast(ent3.FindComponent(BaseLoadoutClothComponent));
 				if (cloth3)
-					cloth3.SetAlpha(a);
+					{
+						IEntity ent_head = m_LoadoutStorage.GetClothFromArea(LoadoutHeadCoverArea);
+						if (!ent_head)
+						cloth3.SetAlpha(a);
+					}
 			}	
 		}
 		
