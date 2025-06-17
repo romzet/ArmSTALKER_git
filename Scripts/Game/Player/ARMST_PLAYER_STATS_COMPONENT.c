@@ -53,17 +53,24 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     // Секция: Настройки и параметры урона
     //------------------------------------------------------------------------------------------------
     float m_armst_radiactive_level;               // Уровень радиации вокруг игрока
-    [Attribute("1", UIWidgets.Slider, "Множитель к урону", "0 50 1", desc: "Урон", category: "Статы")]
+    [Attribute("1", UIWidgets.Slider, "Множитель к урону", "0 50 1", desc: "Урон", category: "Stats")]
     float m_damageValue;                          // Множитель урона
-    [Attribute("0.005", "Минус к потреблению еды", desc: "Урон", category: "Статы")]
+    [Attribute("0.005", "Минус к потреблению еды", desc: "Урон", category: "Stats")]
     float m_ModifierValueEat;                     // Скорость уменьшения еды
-    [Attribute("0.010", "Минус к потреблению воды", desc: "Урон", category: "Статы")]
+    [Attribute("0.010", "Минус к потреблению воды", desc: "Урон", category: "Stats")]
     float m_ModifierValueWater;                   // Скорость уменьшения воды
-    [Attribute("10", UIWidgets.Slider, "Уровень урона от 0 до 100", "0 100 1", category: "Статы")]
+    [Attribute("10", UIWidgets.Slider, "Уровень урона от 0 до 100", "0 100 1", category: "Stats")]
     float m_DamageToxicLevel;                     // Порог токсичности для урона
-    [Attribute("10", UIWidgets.Slider, "Уровень урона от 0 до 100", "0 100 1", category: "Статы")]
+    [Attribute("10", UIWidgets.Slider, "Уровень урона от 0 до 100", "0 100 1", category: "Stats")]
     float m_DamageRadiactiveLevel;                // Порог радиации для урона
 
+	
+	
+	[Attribute("", UIWidgets.Auto, category: "Sounds")]
+	ref SCR_AudioSourceConfiguration m_AudioPsy;
+	
+	[Attribute("", UIWidgets.Auto, category: "Sounds")]
+	ref SCR_AudioSourceConfiguration m_AudioRadiactive;
     //------------------------------------------------------------------------------------------------
     // Секция: Ссылки и вспомогательные переменные
     //------------------------------------------------------------------------------------------------
@@ -97,6 +104,13 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
         }
     }
 
+	void ArmstPlayerPsySound()
+	{
+        SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+                if (soundManagerEntity)
+                    soundManagerEntity.CreateAndPlayAudioSource(GetOwner(), SCR_SoundEvent.PSY_SOUND);
+		
+	}
     //------------------------------------------------------------------------------------------------
     // Секция: Получение и установка жизненных показателей
     //------------------------------------------------------------------------------------------------

@@ -1,3 +1,4 @@
+[BaseContainerProps()]
 class ARMST_TRIGGER_SPAWNClass: SCR_BaseTriggerEntityClass {
 };
 
@@ -30,7 +31,7 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
 
     // Новая настройка: минимальная дистанция от края триггера для спавна аномалий
     [Attribute("10", UIWidgets.Slider, "Минимальная дистанция от края триггера для спавна (м)", "0 50 1", category: "Spawn")]
-    float m_SafetyMarginFromEdge;
+    float m_EdgeSafetyMargin;
     
     vector m_WorldTransform[4];
 
@@ -82,7 +83,12 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
         vector triggerCenter = GetOrigin();
         float radius = GetSphereRadius();
         // Используем значение из настройки для отступа от края триггера
-        float safetyMargin = m_SafetyMarginFromEdge;
+        float safetyMargin = m_EdgeSafetyMargin;
+        // Убедимся, что safetyMargin не больше радиуса
+        if (safetyMargin >= radius) {
+            safetyMargin = radius * 0.5; // Если значение слишком большое, берем половину радиуса как запас
+            Print("ARMST_TRIGGER_SPAWN: m_EdgeSafetyMargin больше или равен радиусу триггера, используется значение по умолчанию.");
+        }
         vector pos;
         const int maxAttempts = 40;
     

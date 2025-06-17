@@ -38,10 +38,6 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
         if (!IsAlive(ent))
             return;
         
-        // Проверка, что код выполняется на сервере для изменения денег
-        if (Replication.IsServer()) {
-            return;
-        }
         SCR_ChimeraCharacter owner2 = SCR_ChimeraCharacter.Cast(ent);
         if (!owner2)
             return;

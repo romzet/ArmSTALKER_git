@@ -351,7 +351,6 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 						return;
 				GetOwner().GetTransform(mat);
 				soundManagerEntity2.PlayAudioSource(audioSource2, mat);
-				Print("Привет");
 	}
 	
 	void ArmstWeaponReaction(IEntity owner)

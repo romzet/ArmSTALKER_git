@@ -120,6 +120,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		ImageWidget Gasmask_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Gasmask_HUD"));
 		ImageWidget Radiation_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Radiation_HUD"));
 		ImageWidget Toxin_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Toxin_HUD"));
+		ImageWidget Psy_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Psy_HUD"));
 		
 			Slider_Water.SetOpacity(1);
 			Slider_Eat.SetOpacity(1);
@@ -155,6 +156,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
         if (statsComponent2.m_armst_player_stat_psy < 1)
             {
 				statsComponent2.m_armst_player_stat_psy = 0;
+	        	GetGame().GetCallqueue().CallLater(SpawnZombiePlayer, 5000, false, owner);
                 Print("Игрок убит из-за низкого пси-здоровья");
                 ArmstPlayerStatKill(owner,10000); // Убиваем игрока
             }
@@ -305,6 +307,15 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 				Toxin_HUD.SetOpacity(0);
 			}
 		
+		if (PsyStats < 70)
+			{
+				Psy_HUD.SetOpacity(0.1);
+			}
+			else
+			{
+				Psy_HUD.SetOpacity(0);
+			}
+		
 		if (RadiactiveStats > 10)
 			{
 				Radiation_HUD.SetOpacity(RadiactiveStats/100 - 0.25);
@@ -342,6 +353,116 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		
 		
 	}
+	
+				
+	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	void RpcDo_SpawnZombiePlayer(RplId objectID)
+	{
+		IEntity object = IEntity.Cast(Replication.FindItem(objectID));
+		if (!object)
+			return;
+
+		
+		
+		protected vector m_aOriginalTransform[4];
+		vector transform[4];
+		SCR_TerrainHelper.GetTerrainBasis(object.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+		m_aOriginalTransform = transform;
+		EntitySpawnParams params = new EntitySpawnParams();
+		params.Transform = m_aOriginalTransform;
+		params.TransformMode = ETransformMode.WORLD;
+		
+		
+		
+        // Загружаем ресурс и спавним объект
+        Resource resource = Resource.Load("{D7741AB7EAD04EEE}Prefabs/Monsters/Zombie/Player_zombie/armst_monster_zombie_player.et");
+        if (resource)
+        {
+            IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+            if (spawnedObject)
+            {
+				
+				SCR_EntityHelper.SnapToGround(spawnedObject);
+				EquipedLoadoutStorageComponent armst_loadoutStorage = EquipedLoadoutStorageComponent.Cast(object.FindComponent(EquipedLoadoutStorageComponent));
+				IEntity armst_HeadCover = armst_loadoutStorage.GetClothFromArea(LoadoutHeadCoverArea);
+				IEntity armst_HeadGasmask = armst_loadoutStorage.GetClothFromArea(ZEL_FaceArea);
+				IEntity armst_Jacket = armst_loadoutStorage.GetClothFromArea(LoadoutJacketArea);
+				IEntity armst_Pants = armst_loadoutStorage.GetClothFromArea(LoadoutPantsArea);
+				IEntity armst_ArmoredVestSlot = armst_loadoutStorage.GetClothFromArea(LoadoutArmoredVestSlotArea);
+				IEntity armst_Vest = armst_loadoutStorage.GetClothFromArea(LoadoutVestArea);
+				IEntity armst_Boots = armst_loadoutStorage.GetClothFromArea(LoadoutBootsArea);
+				IEntity armst_HandwearSlot = armst_loadoutStorage.GetClothFromArea(LoadoutHandwearSlotArea);
+				IEntity armst_BackpackSlot = armst_loadoutStorage.GetClothFromArea(LoadoutBackpackArea);
+				
+				SCR_InventoryStorageManagerComponent inv2 = SCR_InventoryStorageManagerComponent.Cast(object.FindComponent(SCR_InventoryStorageManagerComponent));
+				InventoryStorageSlot itemSlot = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutHeadCoverArea);
+				itemSlot.DetachEntity();
+				InventoryStorageSlot itemSlot2 = inv2.GetCharacterStorage().GetSlotFromArea(ZEL_FaceArea);
+				itemSlot2.DetachEntity();
+				InventoryStorageSlot itemSlot3 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutJacketArea);
+				itemSlot3.DetachEntity();
+				InventoryStorageSlot itemSlot4 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutPantsArea);
+				itemSlot4.DetachEntity();
+				InventoryStorageSlot itemSlot5 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutArmoredVestSlotArea);
+				itemSlot5.DetachEntity();
+				InventoryStorageSlot itemSlot6 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutVestArea);
+				itemSlot6.DetachEntity();
+				InventoryStorageSlot itemSlot7 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutBootsArea);
+				itemSlot7.DetachEntity();
+				InventoryStorageSlot itemSlot8 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutHandwearSlotArea);
+				itemSlot8.DetachEntity();
+				InventoryStorageSlot itemSlot9 = inv2.GetCharacterStorage().GetSlotFromArea(LoadoutBackpackArea);
+				itemSlot9.DetachEntity();
+				
+				SCR_InventoryStorageManagerComponent inv = SCR_InventoryStorageManagerComponent.Cast(spawnedObject.FindComponent(SCR_InventoryStorageManagerComponent));
+				SCR_CharacterInventoryStorageComponent storage = inv.GetCharacterStorage();
+				InventoryStorageSlot slotLoadoutHeadCoverArea = storage.GetSlotFromArea(LoadoutHeadCoverArea);
+					if(slotLoadoutHeadCoverArea)
+						slotLoadoutHeadCoverArea.AttachEntity(armst_HeadCover);
+				InventoryStorageSlot slotZEL_FaceArea = storage.GetSlotFromArea(ZEL_FaceArea);
+					if(slotZEL_FaceArea)
+						slotZEL_FaceArea.AttachEntity(armst_HeadGasmask);
+				InventoryStorageSlot slotLoadoutJacketArea = storage.GetSlotFromArea(LoadoutJacketArea);
+					if(slotLoadoutJacketArea)
+						slotLoadoutJacketArea.AttachEntity(armst_Jacket);
+				InventoryStorageSlot slotLoadoutPantsArea = storage.GetSlotFromArea(LoadoutPantsArea);
+					if(slotLoadoutPantsArea)
+						slotLoadoutPantsArea.AttachEntity(armst_Pants);
+				InventoryStorageSlot slotLoadoutArmoredVestSlotArea = storage.GetSlotFromArea(LoadoutArmoredVestSlotArea);
+					if(slotLoadoutArmoredVestSlotArea)
+						slotLoadoutArmoredVestSlotArea.AttachEntity(armst_ArmoredVestSlot);
+				InventoryStorageSlot slotLoadoutVestArea = storage.GetSlotFromArea(LoadoutVestArea);
+					if(slotLoadoutVestArea)
+						slotLoadoutVestArea.AttachEntity(armst_Vest);
+				InventoryStorageSlot slotLoadoutBootsArea = storage.GetSlotFromArea(LoadoutBootsArea);
+					if(slotLoadoutBootsArea)
+						slotLoadoutBootsArea.AttachEntity(armst_Boots);
+				InventoryStorageSlot slotLoadoutHandwearSlotArea = storage.GetSlotFromArea(LoadoutHandwearSlotArea);
+					if(slotLoadoutHandwearSlotArea)
+						slotLoadoutHandwearSlotArea.AttachEntity(armst_HandwearSlot);
+				InventoryStorageSlot slotLoadoutBackpackArea = storage.GetSlotFromArea(LoadoutBackpackArea);
+					if(slotLoadoutBackpackArea)
+						slotLoadoutBackpackArea.AttachEntity(armst_BackpackSlot);
+				
+				AIControlComponent control = AIControlComponent.Cast(spawnedObject.FindComponent(AIControlComponent));
+					if (control) 
+						control.ActivateAI();
+					
+				SCR_EntityHelper.DeleteEntityAndChildren(object);
+            }
+        }
+	}
+	
+	void SpawnZombiePlayer(IEntity object)
+	{
+		RplId objectID = Replication.FindId(object);
+		if (!objectID.IsValid())
+			return;
+
+		RpcDo_SpawnZombiePlayer(objectID);
+
+	}
+	
 	void ArmstPlayerStatKill(IEntity owner,float damage)
     {   
         DamageManagerComponent damageManager = DamageManagerComponent.Cast(owner.FindComponent(DamageManagerComponent));

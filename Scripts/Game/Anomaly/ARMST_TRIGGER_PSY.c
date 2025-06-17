@@ -1,10 +1,10 @@
-class ARMST_TRIGGER_TOXICClass: SCR_BaseTriggerEntityClass {
+class ARMST_TRIGGER_PSYClass: SCR_BaseTriggerEntityClass {
 };
 
-class ARMST_TRIGGER_TOXIC: SCR_BaseTriggerEntity {
+class ARMST_TRIGGER_PSY: SCR_BaseTriggerEntity {
     
-    [Attribute("0", UIWidgets.Slider, "Уровень радиации от 0 до 500", "0 500 1", category: "Toxic")];
-    float m_DamageToxicLevel;
+    [Attribute("0", UIWidgets.Slider, "Уровень пси от 0 до 500", "0 500 1", category: "Toxic")];
+    float m_DamagePsyLevel;
     
     vector m_WorldTransform[4];
     
@@ -33,10 +33,9 @@ class ARMST_TRIGGER_TOXIC: SCR_BaseTriggerEntity {
     private float armst_distance_level(IEntity ent) {
         float distance = vector.DistanceXZ(GetOrigin(), ent.GetOrigin());
         float sphereRadius = GetSphereRadius();
-        float damageBase = Math.AbsFloat(Math.Map(distance, 0, sphereRadius, 0, m_DamageToxicLevel) - m_DamageToxicLevel);
+        float damageBase = Math.AbsFloat(Math.Map(distance, 0, sphereRadius, 0, m_DamagePsyLevel) - m_DamagePsyLevel);
         return damageBase;
     }
-    
     override void OnActivate(IEntity ent) {
         if (!ent)
             return;
@@ -58,26 +57,28 @@ class ARMST_TRIGGER_TOXIC: SCR_BaseTriggerEntity {
         if (!EntityUtils.IsPlayer(ent))
             return;
         
-        float levelrad = armst_distance_level(ent);
+        float levelrad = m_DamagePsyLevel;
         
         float m_fProtectionSumm = 0;
         ARMST_ITEMS_STATS_COMPONENTS StatComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(ent.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
         if (!StatComponent) 
             return;
         
-        m_fProtectionSumm = StatComponent.GetAllToxic(ent);
+        m_fProtectionSumm = StatComponent.GetAllPsy(ent);
         
         ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(ent.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
         if (!statsComponent) 
             return;
-        
-        Print(m_fProtectionSumm);    
+          
         if (m_fProtectionSumm > levelrad)
             return;
         
-        Print(levelrad);    
         if (statsComponent) 
-            statsComponent.ArmstPlayerStatSetToxic(levelrad/10);
+            statsComponent.ArmstPlayerStatSetPsy(-levelrad/10);
+		
+            statsComponent.ArmstPlayerPsySound();
+		
+		
     };
     override void OnDeactivate(IEntity ent) {
         if (!ent)

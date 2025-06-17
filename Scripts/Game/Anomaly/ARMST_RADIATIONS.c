@@ -4,7 +4,7 @@ class ARMST_RADIATIONSEntityClass: SCR_BaseTriggerEntityClass {
 class ARMST_RADIATIONSEntity: SCR_BaseTriggerEntity {
     
     [Attribute("0", UIWidgets.Slider, "Уровень радиации от 0 до 500", "0 500 1", category: "Radiation")];
-    float m_DamageToxicLevel;
+    float m_DamageRadioLevel;
     
     vector m_WorldTransform[4];
     
@@ -33,7 +33,7 @@ class ARMST_RADIATIONSEntity: SCR_BaseTriggerEntity {
     private float armst_distance_level(IEntity ent) {
         float distance = vector.DistanceXZ(GetOrigin(), ent.GetOrigin());
         float sphereRadius = GetSphereRadius();
-        float damageBase = Math.AbsFloat(Math.Map(distance, 0, sphereRadius, 0, m_DamageToxicLevel) - m_DamageToxicLevel);
+        float damageBase = Math.AbsFloat(Math.Map(distance, 0, sphereRadius, 0, m_DamageRadioLevel) - m_DamageRadioLevel);
         return damageBase;
     }
     

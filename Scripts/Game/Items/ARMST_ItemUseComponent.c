@@ -16,10 +16,6 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 		if (mode == EGadgetMode.ON_GROUND)
 			m_bIsFirstTimeOpened = true;
 				
-		// not current player	
-		IEntity controlledEnt = SCR_PlayerController.GetLocalControlledEntity();
-		if ( !controlledEnt || controlledEnt != m_CharacterOwner)
-			return;
 		
  		if (mode != EGadgetMode.IN_HAND)
 			return;

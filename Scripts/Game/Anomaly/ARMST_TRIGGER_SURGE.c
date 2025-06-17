@@ -124,7 +124,7 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 						return;
 			
 			
-        		statsComponent.ArmstPlayerStatSetPsy(-15);
+        		statsComponent.ArmstPlayerStatSetPsy(-m_SurgeDamage);
 			
 		        DamageManagerComponent damageManager = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
 		        if (damageManager)
@@ -132,13 +132,14 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 		            BaseDamageContext damageCtx = new BaseDamageContext();
 			 		damageCtx.damageType = EDamageType.PROCESSED_FRAGMENTATION;
 		            damageCtx.damageValue = m_SurgeDamage; // Использовать текущее здоровье, чтобы убить игрока
-		            damageManager.HandleDamage(damageCtx);
+		            //damageManager.HandleDamage(damageCtx);
 		        }
 			}
         
     }
     protected void ChangeSurgeWeather()
 	{
+		timeAndWeatherManager.ForceWeatherTo(false, "Surge"); //Clear Cloudy Overcast Surge
 		timeAndWeatherManager.ForceWeatherTo(false, "Surge"); //Clear Cloudy Overcast Surge
 		timeAndWeatherManager.SetFogAmountOverride(true, 1);
         ScheduleNextLightning();
@@ -158,7 +159,8 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
         	Print("Начинается выброс!");
         	GetGame().GetCallqueue().CallLater(SurgeNotify, 15 * 1000, false);
 			WeatherState weatherState = timeAndWeatherManager.GetCurrentWeatherState();
-			timeAndWeatherManager.ForceWeatherTo(false, "Overcast"); //Clear Cloudy Overcast Surge
+			timeAndWeatherManager.ForceWeatherTo(false, "Cloudy"); //Clear Cloudy Overcast Surge
+			timeAndWeatherManager.ForceWeatherTo(false, "Cloudy"); //Clear Cloudy Overcast Surge
             GetGame().GetCallqueue().CallLater(ChangeSurgeWeather, m_SurgeTimerAmbient * 1000, false);
 			
 			//timeAndWeatherManager.SetWindSpeedOverride(true, 20);
