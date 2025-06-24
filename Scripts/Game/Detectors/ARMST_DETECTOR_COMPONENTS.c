@@ -131,7 +131,6 @@ class ARMST_DETECTOR_COMPONENTS : SCR_GadgetComponent
                 m_Timer = 1000 - LevelRad;
                 if (m_Timer < 100) m_Timer = 100; // Минимальный интервал для предотвращения слишком частых вызовов
                 
-                Print(LevelRad);
                 // Повторный запуск проверки
                 GetGame().GetCallqueue().CallLater(ArmstDetectorCicle, m_Timer, false);
             }

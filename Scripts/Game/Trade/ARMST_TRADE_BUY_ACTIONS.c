@@ -174,8 +174,9 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
         }
         
         // Пытаемся добавить предмет в инвентарь
-        if (inventoryManager && inventoryManager.TryInsertItem(newEnt))
+        if (inventoryManager)
         {
+			inventoryManager.TryInsertItem(newEnt);
             // Вычитаем деньги из инвентаря
             if (ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventoryManager, buyPrice))
             {

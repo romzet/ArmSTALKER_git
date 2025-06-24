@@ -74,9 +74,8 @@ class ARMST_TRIGGER_PSY: SCR_BaseTriggerEntity {
             return;
         
         if (statsComponent) 
-            statsComponent.ArmstPlayerStatSetPsy(-levelrad/10);
+            statsComponent.ArmstPlayerStatSetPsy(-levelrad);
 		
-            statsComponent.ArmstPlayerPsySound();
 		
 		
     };

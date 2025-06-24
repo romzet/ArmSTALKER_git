@@ -160,160 +160,194 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
 
 modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 {
-	
-	[Attribute(defvalue: "{8641D9A55FF7D049}Prefabs/New_Equipment/Jackets/armst_jacket_army_sviter.et")]
-	ResourceName m_rPrefabJacket;
-	[Attribute(defvalue: "{E1EA4FAEDD70A1C1}Prefabs/New_Equipment/Pants/armst_pants_jeans.et")]
-	ResourceName m_rPrefabPants;
-	[Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
-	ResourceName m_rPrefabBoots;
-	[Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
-	ResourceName m_rPrefab;
+    [Attribute(defvalue: "{8641D9A55FF7D049}Prefabs/New_Equipment/Jackets/armst_jacket_army_sviter.et")]
+    ResourceName m_rPrefabJacket;
+    [Attribute(defvalue: "{E1EA4FAEDD70A1C1}Prefabs/New_Equipment/Pants/armst_pants_jeans.et")]
+    ResourceName m_rPrefabPants;
+    [Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
+    ResourceName m_rPrefabBoots;
+    [Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
+    ResourceName m_rPrefab;
 
-	override void HandoverToPlayer(int playerId, IEntity character)
-	{
-		//PrintFormat("HandoverToPlayer(%1, %2)", playerId, character);
-		SCR_PlayerController playerController = SCR_PlayerController.Cast(m_pPlayerManager.GetPlayerController(playerId));
-		EDF_ScriptInvokerCallback2<IEntity, IEntity> callback(this, "OnHandoverComplete", new Tuple1<int>(playerId));
-		playerController.m_OnControlledEntityChanged.Insert(callback.Invoke);
+    // Хранилище для денег игрока, которые будут перенесены на нового персонажа
+    protected ref map<int, int> m_mPlayerMoneyToTransfer = new map<int, int>();
 
-		playerController.SetInitialMainEntity(character);
+    override void HandoverToPlayer(int playerId, IEntity character)
+    {
+        //PrintFormat("HandoverToPlayer(%1, %2)", playerId, character);
+        SCR_PlayerController playerController = SCR_PlayerController.Cast(m_pPlayerManager.GetPlayerController(playerId));
+        EDF_ScriptInvokerCallback2<IEntity, IEntity> callback(this, "OnHandoverComplete", new Tuple1<int>(playerId));
+        playerController.m_OnControlledEntityChanged.Insert(callback.Invoke);
 
-		m_pGameMode.OnPlayerEntityChanged_S(playerId, null, character);
+        playerController.SetInitialMainEntity(character);
 
-		SCR_RespawnComponent respawn = SCR_RespawnComponent.Cast(playerController.GetRespawnComponent());
-		respawn.NotifySpawn(character);
-		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-	        if (statsComponent)
-			{
-				GetGame().GetCallqueue().CallLater(statsComponent.Rpc_ArmstPlayerINIT, 1000, false);
-			}
-	}
-	vector m_WorldTransform[4];
-	override protected void CreateCharacter(int playerId, string characterPersistenceId)
+        m_pGameMode.OnPlayerEntityChanged_S(playerId, null, character);
+
+        SCR_RespawnComponent respawn = SCR_RespawnComponent.Cast(playerController.GetRespawnComponent());
+        respawn.NotifySpawn(character);
+        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        if (statsComponent)
+        {
+        }
+
+        // Перенос денег на нового персонажа, если они есть в хранилище
+        if (m_mPlayerMoneyToTransfer.Contains(playerId))
+        {
+            int moneyToTransfer = m_mPlayerMoneyToTransfer.Get(playerId);
+            if (moneyToTransfer > 0)
+            {
+                SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(character.FindComponent(SCR_InventoryStorageManagerComponent));
+                if (inventoryManager)
+                {
+            		GetGame().GetCallqueue().CallLater(statsComponent.Rpc_ArmstPlayerINIT, 1000, false);
+            		GetGame().GetCallqueue().CallLater(AddCurrency, 1000, false,inventoryManager ,moneyToTransfer);
+                    Print(string.Format("[ARMST_MONEY] Перенесено %1 денег на нового персонажа для игрока %2.", moneyToTransfer, playerId));
+                }
+            }
+            // Удаляем запись после переноса
+            m_mPlayerMoneyToTransfer.Remove(playerId);
+        }
+    }
+	void AddCurrency(SCR_InventoryStorageManagerComponent inventoryManager,int moneyToTransfer)
 	{
-	    ResourceName prefab = GetCreationPrefab(playerId, characterPersistenceId);
+       ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, moneyToTransfer);
 	
-	    vector position, yawPitchRoll;
-	    GetCreationPosition(playerId, characterPersistenceId, position, yawPitchRoll);
-	
-	    #ifdef WORKBENCH
-	    if (m_bUseFromCamera)
-	    {
-	        position = m_vFromCameraPosition;
-	        yawPitchRoll = m_vFromCameraYPR;
-	    }
-	    #endif
-	
-	    IEntity character = EPF_Utils.SpawnEntityPrefab(prefab, position + "0 0.1 0", yawPitchRoll);
-	    m_mLoadingCharacters.Set(playerId, character);
-	
-	    EPF_PersistenceComponent persistenceComponent = EPF_Component<EPF_PersistenceComponent>.Find(character);
-	    if (persistenceComponent)
-	    {
-	        persistenceComponent.SetPersistentId(characterPersistenceId);
-	        OnCharacterCreated(playerId, characterPersistenceId, character);
-	        HandoverToPlayer(playerId, character);
-			
-			
-			Resource m_Resource = Resource.Load(m_rPrefabJacket);
-			Resource m_Resource2 = Resource.Load(m_rPrefabPants);
-			Resource m_Resource3 = Resource.Load(m_rPrefabBoots);
-			Resource m_Resource4 = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
-			EntitySpawnParams params();
-			m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
-			params.Parent = character;
-		
-			IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
-			IEntity newEnt2 = GetGame().SpawnEntityPrefab(m_Resource2, GetGame().GetWorld(), params);
-			IEntity newEnt3 = GetGame().SpawnEntityPrefab(m_Resource3, GetGame().GetWorld(), params);
-			IEntity newEnt4 = GetGame().SpawnEntityPrefab(m_Resource4, GetGame().GetWorld(), params);
-			
-	        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(character.FindComponent(SCR_InventoryStorageManagerComponent));
-	            if (inventoryManager)
-	            {
-	                inventoryManager.TryInsertItem(newEnt);
-	                inventoryManager.TryInsertItem(newEnt2);
-	                inventoryManager.TryInsertItem(newEnt3);
-	                inventoryManager.TryInsertItem(newEnt4);
-				}
-			
-			
-	    }
-	    else
-	    {
-	        Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", prefab, EPF_PersistenceComponent), LogLevel.ERROR);
-	        SCR_EntityHelper.DeleteEntityAndChildren(character);
-	        return;
-	    }
 	}
-	//------------------------------------------------------------------------------------------------
-	override void OnPlayerKilled_S(int playerId, IEntity playerEntity, IEntity killerEntity, notnull Instigator killer)
-	{
-	    //PrintFormat("EPF_BaseRespawnSystemComponent.OnPlayerKilled_S(%1, %2, %3)", playerId, playerEntity, killerEntity);
-	
-	    // Удаляем все предметы с компонентом ARMST_MONEY_COMPONENTS из инвентаря игрока
-	    GetGame().GetCallqueue().CallLater(RemoveMoneyItemsFromInventory, 5000, false, playerEntity);
-	
-	    // Add the dead body root entity collection so it spawns back after restart for looting
-	    EPF_PersistenceComponent persistence = EPF_Component<EPF_PersistenceComponent>.Find(playerEntity);
-	    if (!persistence)
-	    {
-	        Debug.Error(string.Format("OnPlayerKilled(%1, %2, %3) -> Player killed that does not have persistence component?!? Something went terribly wrong!", playerId, playerEntity, killerEntity));
-	        return;
-	    }
-	
-	    string newId = persistence.GetPersistentId();
-	
-	    persistence.SetPersistentId(string.Empty); // Force generation of new id for dead body
-	    persistence.OverrideSelfSpawn(true);
-	
-	    // Fresh character spawn (NOTE: We need to push this to next frame due to a bug where on the same death frame we can not hand over a new char).
-	    GetGame().GetCallqueue().Call(CreateCharacter, playerId, newId);
-	   // GetGame().GetCallqueue().CallLater(CreateCharacter, 5000, false, playerId, newId);
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	// Метод для удаления всех предметов с компонентом ARMST_MONEY_COMPONENTS из инвентаря
-	void RemoveMoneyItemsFromInventory(IEntity playerEntity)
-	{
-		if (playerEntity)
-			return;
-	    // Получаем компонент инвентаря игрока
-	    SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-	    if (!inventoryManager)
-	    {
-	        Print("[ARMST_MONEY] Не удалось найти SCR_InventoryStorageManagerComponent для удаления валюты при смерти.", LogLevel.WARNING);
-	        return;
-	    }
-	
-	    // Создаем массив для хранения всех предметов в инвентаре
-	    array<IEntity> items = new array<IEntity>();
-	    inventoryManager.GetItems(items);
-	
-	    // Перебираем все предметы в инвентаре
-	    int removedCount = 0;
-	    foreach (IEntity item : items)
-	    {
-	        // Проверяем наличие компонента ARMST_MONEY_COMPONENTS
-	        ARMST_MONEY_COMPONENTS moneyComponent = ARMST_MONEY_COMPONENTS.Cast(item.FindComponent(ARMST_MONEY_COMPONENTS));
-	        if (moneyComponent)
-	        {
-	            // Удаляем предмет
-	            SCR_EntityHelper.DeleteEntityAndChildren(item);
-	            removedCount++;
-	        }
-	    }
-	
-	    if (removedCount > 0)
-	    {
-	        Print(string.Format("[ARMST_MONEY] Удалено %1 предметов с компонентом ARMST_MONEY_COMPONENTS из инвентаря игрока при смерти.", removedCount));
-	    }
-	    else
-	    {
-	        Print("[ARMST_MONEY] Не найдено предметов с компонентом ARMST_MONEY_COMPONENTS в инвентаре игрока при смерти.");
-	    }
-	}
+    vector m_WorldTransform[4];
+    override protected void CreateCharacter(int playerId, string characterPersistenceId)
+    {
+        ResourceName prefab = GetCreationPrefab(playerId, characterPersistenceId);
+
+        vector position, yawPitchRoll;
+        GetCreationPosition(playerId, characterPersistenceId, position, yawPitchRoll);
+
+        #ifdef WORKBENCH
+        if (m_bUseFromCamera)
+        {
+            position = m_vFromCameraPosition;
+            yawPitchRoll = m_vFromCameraYPR;
+        }
+        #endif
+
+        IEntity character = EPF_Utils.SpawnEntityPrefab(prefab, position + "0 0.1 0", yawPitchRoll);
+        m_mLoadingCharacters.Set(playerId, character);
+
+        EPF_PersistenceComponent persistenceComponent = EPF_Component<EPF_PersistenceComponent>.Find(character);
+        if (persistenceComponent)
+        {
+            persistenceComponent.SetPersistentId(characterPersistenceId);
+            OnCharacterCreated(playerId, characterPersistenceId, character);
+            HandoverToPlayer(playerId, character);
+            
+            Resource m_Resource = Resource.Load(m_rPrefabJacket);
+            Resource m_Resource2 = Resource.Load(m_rPrefabPants);
+            Resource m_Resource3 = Resource.Load(m_rPrefabBoots);
+            Resource m_Resource4 = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
+            EntitySpawnParams params();
+            m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
+            params.Parent = character;
+        
+            IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
+            IEntity newEnt2 = GetGame().SpawnEntityPrefab(m_Resource2, GetGame().GetWorld(), params);
+            IEntity newEnt3 = GetGame().SpawnEntityPrefab(m_Resource3, GetGame().GetWorld(), params);
+            IEntity newEnt4 = GetGame().SpawnEntityPrefab(m_Resource4, GetGame().GetWorld(), params);
+            
+            SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(character.FindComponent(SCR_InventoryStorageManagerComponent));
+            if (inventoryManager)
+            {
+                inventoryManager.TryInsertItem(newEnt);
+                inventoryManager.TryInsertItem(newEnt2);
+                inventoryManager.TryInsertItem(newEnt3);
+                inventoryManager.TryInsertItem(newEnt4);
+            }
+        }
+        else
+        {
+            Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", prefab, EPF_PersistenceComponent), LogLevel.ERROR);
+            SCR_EntityHelper.DeleteEntityAndChildren(character);
+            return;
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------
+    override void OnPlayerKilled_S(int playerId, IEntity playerEntity, IEntity killerEntity, notnull Instigator killer)
+    {
+        //PrintFormat("EPF_BaseRespawnSystemComponent.OnPlayerKilled_S(%1, %2, %3)", playerId, playerEntity, killerEntity);
+
+        // Сохраняем деньги игрока перед удалением предметов
+        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+        if (inventoryManager)
+        {
+            int totalMoney = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventoryManager);
+            if (totalMoney > 0)
+            {
+                m_mPlayerMoneyToTransfer.Set(playerId, totalMoney);
+                Print(string.Format("[ARMST_MONEY] Сохранено %1 денег для переноса на нового персонажа игрока %2.", totalMoney, playerId));
+            }
+        }
+
+        // Удаляем все предметы с компонентом ARMST_MONEY_COMPONENTS из инвентаря игрока
+        GetGame().GetCallqueue().CallLater(RemoveMoneyItemsFromInventory, 5000, false, playerEntity);
+
+        // Add the dead body root entity collection so it spawns back after restart for looting
+        EPF_PersistenceComponent persistence = EPF_Component<EPF_PersistenceComponent>.Find(playerEntity);
+        if (!persistence)
+        {
+            Debug.Error(string.Format("OnPlayerKilled(%1, %2, %3) -> Player killed that does not have persistence component?!? Something went terribly wrong!", playerId, playerEntity, killerEntity));
+            return;
+        }
+
+        string newId = persistence.GetPersistentId();
+
+        persistence.SetPersistentId(string.Empty); // Force generation of new id for dead body
+        persistence.OverrideSelfSpawn(true);
+
+        // Fresh character spawn (NOTE: We need to push this to next frame due to a bug where on the same death frame we can not hand over a new char).
+        GetGame().GetCallqueue().Call(CreateCharacter, playerId, newId);
+    }
+
+    //------------------------------------------------------------------------------------------------
+    // Метод для удаления всех предметов с компонентом ARMST_MONEY_COMPONENTS из инвентаря
+    void RemoveMoneyItemsFromInventory(IEntity playerEntity)
+    {
+        if (!playerEntity)
+            return;
+
+        // Получаем компонент инвентаря игрока
+        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+        if (!inventoryManager)
+        {
+            Print("[ARMST_MONEY] Не удалось найти SCR_InventoryStorageManagerComponent для удаления валюты при смерти.", LogLevel.WARNING);
+            return;
+        }
+
+        // Создаем массив для хранения всех предметов в инвентаре
+        array<IEntity> items = new array<IEntity>();
+        inventoryManager.GetItems(items);
+
+        // Перебираем все предметы в инвентаре
+        int removedCount = 0;
+        foreach (IEntity item : items)
+        {
+            // Проверяем наличие компонента ARMST_MONEY_COMPONENTS
+            ARMST_MONEY_COMPONENTS moneyComponent = ARMST_MONEY_COMPONENTS.Cast(item.FindComponent(ARMST_MONEY_COMPONENTS));
+            if (moneyComponent)
+            {
+                // Удаляем предмет
+                SCR_EntityHelper.DeleteEntityAndChildren(item);
+                removedCount++;
+            }
+        }
+
+        if (removedCount > 0)
+        {
+            Print(string.Format("[ARMST_MONEY] Удалено %1 предметов с компонентом ARMST_MONEY_COMPONENTS из инвентаря игрока при смерти.", removedCount));
+        }
+        else
+        {
+            Print("[ARMST_MONEY] Не найдено предметов с компонентом ARMST_MONEY_COMPONENTS в инвентаре игрока при смерти.");
+        }
+    }
 }
 
 

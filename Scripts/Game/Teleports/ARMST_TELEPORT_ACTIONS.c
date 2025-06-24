@@ -77,7 +77,6 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
         {
             IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
             GetGame().GetCallqueue().CallLater(UpdateTeleportTimer, 1000, true, spawnedObject, pUserEntity);
-            Print("Начинаем телепорт");
         }
     }
     //------------------------------------------------------------------------------------------------
@@ -88,17 +87,12 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
             GetGame().GetCallqueue().Remove(UpdateTeleportTimer);
             return;
         }
-        if (Replication.IsServer()) {} else {
-            ARMST_NotificationHelper.ShowNotificationPDA(pUserEntity, StartTeleport, m_sTeleportActionName, 5.0);
-        }
         
-        Print("Проверка телепорта");
         // Проверяем, не покинул ли игрок радиус телепорта
         float distance = vector.Distance(m_UserStartPosition, m_UserEntity.GetOrigin());
         if (distance > m_fTeleportRadius)
         {
             SCR_EntityHelper.DeleteEntityAndChildren(newEnt);
-            Print("Телепортация отменена! Вы покинули зону активации");
             m_bTeleportInProgress = false;
             GetGame().GetCallqueue().Remove(UpdateTeleportTimer);
             return;
@@ -150,14 +144,34 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
             SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
             if (inventoryManager)
             {
-                if (ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventoryManager, m_iCost))
+                if (!ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventoryManager, m_iCost))
                 {
-                    Print(string.Format("[ARMST_TELEPORT] Деньги успешно списаны: %1 RUB", m_iCost));
+                    return;
+                }
+            }
+        }
+        
+        // Удаляем требуемый предмет, если он указан
+        if (m_sRequiredItem != "")
+        {
+            SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+            if (inventoryManager)
+            {
+                array<IEntity> items = new array<IEntity>();
+                B_PrefabNamePredicate pred = new B_PrefabNamePredicate();
+                pred.prefabName.Insert(m_sRequiredItem);
+                
+                if (inventoryManager.FindItems(items, pred) && items.Count() > 0)
+                {
+                    // Удаляем первый найденный предмет
+                    IEntity itemToRemove = items[0];
+                    inventoryManager.TryRemoveItemFromInventory(itemToRemove);
+                    Print("Требуемый предмет удален из инвентаря: " + m_sRequiredItem);
                 }
                 else
                 {
-                    Print("[ARMST_TELEPORT] Ошибка при списании денег для телепортации", LogLevel.ERROR);
-                    return;
+                    Print("Не удалось найти требуемый предмет для удаления: " + m_sRequiredItem);
+                    return; // На всякий случай, если предмет не найден
                 }
             }
         }
@@ -183,16 +197,11 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
                 int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventoryManager);
                 if (totalCurrency < m_iCost)
                 {
-                    if (Replication.IsServer()) {} else {
-                        ARMST_NotificationHelper.ShowNotification(userEntity, "#armst_error", "#armst_insufficient_money", 5.0);
-                    }
-                    Print(string.Format("[ARMST_TELEPORT] Недостаточно денег для телепортации: требуется %1, есть %2", m_iCost, totalCurrency));
                     return false;
                 }
             }
             else
             {
-                Print("[ARMST_TELEPORT] Ошибка: Не найден компонент SCR_InventoryStorageManagerComponent");
                 return false;
             }
         }
@@ -210,8 +219,6 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
             {
                 if (playerStats.ArmstPlayerGetReputation() < m_iCostReputations)
                 {
-                    // Уведомляем игрока, если репутации недостаточно
-                    ARMST_NotificationHelper.ShowNotification(userEntity, "#armst_error", "#armst_insufficient_reputation", 5.0);
                     return false;
                 }
             }

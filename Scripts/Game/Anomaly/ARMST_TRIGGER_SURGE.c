@@ -101,10 +101,11 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 			
             // Запускаем таймер выброса
             GetGame().GetCallqueue().CallLater(StartSurge, m_SurgeTimer * 1000, false);
+            Print("Запущен таймер выброса, выброс начнется через " + m_SurgeTimer + " секунд");
 			
-			int timerMinutes = Math.Max(0, m_SurgeTimer / 60);
             m_SurgeActive = true;
         }
+		
 		if (m_SurgeActiveDamage)
 			{
 				if (!m_SurgeEffects)
@@ -124,16 +125,17 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 						return;
 			
 			
-        		statsComponent.ArmstPlayerStatSetPsy(-m_SurgeDamage);
+        		//statsComponent.ArmstPlayerStatSetPsy(-m_SurgeDamage);
 			
-		        DamageManagerComponent damageManager = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
-		        if (damageManager)
-		        {
-		            BaseDamageContext damageCtx = new BaseDamageContext();
-			 		damageCtx.damageType = EDamageType.PROCESSED_FRAGMENTATION;
-		            damageCtx.damageValue = m_SurgeDamage; // Использовать текущее здоровье, чтобы убить игрока
-		            //damageManager.HandleDamage(damageCtx);
-		        }
+			        DamageManagerComponent damageManager = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
+			        if (damageManager)
+			        {
+			            BaseDamageContext damageCtx = new BaseDamageContext();
+				 		damageCtx.damageType = EDamageType.PROCESSED_FRAGMENTATION;
+			            damageCtx.damageValue = m_SurgeDamage; // Использовать текущее здоровье, чтобы убить игрока
+			            damageManager.HandleDamage(damageCtx);
+            			Print("Урон от выброса " + damageCtx.damageValue);
+			        }
 			}
         
     }

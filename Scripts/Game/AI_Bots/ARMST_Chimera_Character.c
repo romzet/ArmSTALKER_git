@@ -1,39 +1,28 @@
 
-modded class Bacon_622120A5448725E3_InfectedCharacter: SCR_ChimeraCharacter {
-	
-	[Attribute("1", UIWidgets.Slider, "", "0 1 0.05", category: "Stance")];
-	float m_fStaticStance;
-	
-	override void UpdateStance() {
-		// if (m_fDynamicStance < 0.99)
-		if(m_fStaticStance > 0.99)
-			{
-				m_controller.SetDynamicStance(m_fDynamicStance);
-			}
-			else
-			{
-				m_controller.SetDynamicStance(m_fStaticStance);
-			}
-	}
-}
-
-
 class Armst_Monster_CharacterClass: Bacon_622120A5448725E3_InfectedCharacterClass {}
 class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 	
 	[Attribute("1", UIWidgets.Slider, "", "0 1 0.05", category: "Stance")];
-	float m_fDynamicSpeed;
+	float m_fStaticStance;
 	
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Партинкл на персонажа", category: "Attack", params: "ptc")]
 	protected ResourceName m_sParticle_Idle;
 	
 	
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб радиуса", "et", category: "Attack")]
+    ResourceName m_ObjectParticle;
+	
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб радиуса", "et", category: "Attack")]
     ResourceName m_ObjectZone;
 		
+    protected bool m_bDeathProcessed = false;
+	
 	ParticleEffectEntity m_pParticle_Attack;
 	
+	IEntity m_ObjectParticleEnt;
 	IEntity m_ObjectZoneEnt;
+	
+	IEntity owner2;
 	
 	vector m_WorldTransform[4];
 	
@@ -48,10 +37,12 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 				m_controller.SetDynamicStance(m_fStaticStance);
 			}
 	}
+	
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
 		
+		owner2 = owner;
 		if (SCR_Global.IsEditMode())
 			return;
 		
@@ -71,18 +62,20 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 		EventHandlerManagerComponent ev = EventHandlerManagerComponent.Cast(FindComponent(EventHandlerManagerComponent));
 		ev.RegisterScriptHandler("OnDestroyed", this, OnDestroyed);
 		
-		// PlaySoundServer
 		
 		m_fDynamicStance = s_AIRandomGenerator.RandFloatXY(0.82, 0.92);
-//		m_fMovementSpeedIdle = s_AIRandomGenerator.RandFloatXY(0.45, 0.65);
-//		m_fMovementSpeedAlert = s_AIRandomGenerator.RandFloatXY(0.75, 0.9);
-//		m_fMovementSpeedSprint = s_AIRandomGenerator.RandFloatXY(0.9, 1.0);
 		
+		if (m_ObjectParticle)
+		{
+			Resource m_Resource = Resource.Load(m_ObjectParticle);
+        	EntitySpawnParams params2();
+			params2.Parent = owner;
+			m_ObjectParticleEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params2);
+		}
 		if (m_ObjectZone)
 		{
 			Resource m_Resource = Resource.Load(m_ObjectZone);
 			EntitySpawnParams params();
-			m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0;
 			params.Parent = owner;
 			m_ObjectZoneEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
 		}
@@ -94,16 +87,17 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 			m_pParticle_Attack = ParticleEffectEntity.SpawnParticleEffect(m_sParticle_Idle, spawnParams2);
 		}	
 		
+        
 		GetGame().GetCallqueue().CallLater(DelayedInitServer, 16, false);
 	}
 	
 	override protected void OnDestroyed(IEntity ent) {
+			if (m_ObjectParticleEnt)
+					SCR_EntityHelper.DeleteEntityAndChildren(m_ObjectParticleEnt);
 			if (m_ObjectZoneEnt)
 					SCR_EntityHelper.DeleteEntityAndChildren(m_ObjectZoneEnt);
 			if (m_pParticle_Attack)
 					SCR_EntityHelper.DeleteEntityAndChildren(m_pParticle_Attack);
-		PlaySoundServer("SOUND_DEATH");
 	}
-	
 	
 }

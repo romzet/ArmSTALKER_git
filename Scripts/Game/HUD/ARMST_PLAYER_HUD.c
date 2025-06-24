@@ -130,8 +130,9 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			Stat_Health.SetOpacity(1);
 			Stat_Stamina.SetOpacity(1);
 		
-		statsComponent2.ArmstPlayerStatSetWater(-0.002);
-		statsComponent2.ArmstPlayerStatSetEat(-0.004);
+		statsComponent2.ArmstPlayerStatSetWater(-0.004);
+		statsComponent2.ArmstPlayerStatSetEat(-0.002);
+		
         if (statsComponent2.m_armst_player_stat_toxic < 0)
             { statsComponent2.m_armst_player_stat_toxic = 0; }
         if (statsComponent2.m_armst_player_stat_toxic > 100)

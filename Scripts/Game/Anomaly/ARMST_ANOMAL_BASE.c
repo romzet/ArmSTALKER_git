@@ -61,6 +61,9 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	float m_Attack_Timer2;
 	bool m_Attack_Timer_bool;
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб атаки", "et", category: "2. Attack")]
+    ResourceName m_MonsterToSpawn;
+	
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб атаки", "et", category: "2. Attack")]
     ResourceName m_PrefabToSpawn;
 	//партикл на атаку
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Партинкл на атаку", category: "2. Attack", params: "ptc")]
@@ -75,6 +78,9 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	[Attribute("", UIWidgets.Coords, category: "2. Attack")]
 	private vector m_vSoundOffset;
 	private AudioHandle m_AudioHandle = AudioHandle.Invalid;
+	
+	[Attribute("true", UIWidgets.CheckBox, "Реагировать на монстров или нет", category: "2. Attack")];
+	bool m_fMonsterDamage;
 	
 	
 	
@@ -159,7 +165,10 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
         	SetUpdateRate(m_Attack_Timer2);
 		m_Attack_Timer_bool = false;
 	};
-	
+	void DeleteMonster(IEntity ent)
+	{
+		SCR_EntityHelper.DeleteEntityAndChildren(ent);
+	}
 	override void OnActivate(IEntity ent) {
 		
 		vector mat[4];
@@ -178,14 +187,42 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		if (!AudioSystem.IsSoundPlayed(m_AudioHandle))
 			return;
 		
+		if(!m_fMonsterDamage)
+		{
+        	if (!EntityUtils.IsPlayer(ent))
+            	return;
+		}
 		
 		 if (m_Attack_Timer_bool)
             return;
 		
-		
-		
 		//==========================================================================================================================================
 		//==========================================================================================================================================
+		
+        // Спавн монстра в эпицентре аномалии
+        if (m_MonsterToSpawn != "")
+        {
+            Resource resource = Resource.Load(m_MonsterToSpawn);
+            if (resource)
+            {
+				protected vector m_aOriginalTransform[4];
+				vector transform[4];
+				SCR_TerrainHelper.GetTerrainBasis(GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+				m_aOriginalTransform = transform;
+				EntitySpawnParams params = new EntitySpawnParams();
+				params.Transform = m_aOriginalTransform;
+				params.TransformMode = ETransformMode.WORLD;
+                IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+                if (spawnedObject)
+                {
+                    SCR_EntityHelper.SnapToGround(spawnedObject);
+                    AIControlComponent control = AIControlComponent.Cast(spawnedObject.FindComponent(AIControlComponent));
+                    if (control)
+                        control.ActivateAI();
+						GetGame().GetCallqueue().CallLater(DeleteMonster, 90000, false, spawnedObject);
+                }
+            }
+        }
 		//реагировать ли на болт
 		if (m_fBoltAction) 
 			{

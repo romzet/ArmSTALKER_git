@@ -3,7 +3,7 @@ class ARMST_TRIGGER_SAVEZONEClass: SCR_BaseTriggerEntityClass {
 
 class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
     
-	[Attribute("false", UIWidgets.CheckBox, "Бессмертие", category: "1. Bolt")];
+	[Attribute("false", UIWidgets.CheckBox, "Бессмертие", category: "Safezone")];
 	bool m_fDisable_damage;
     
     vector m_WorldTransform[4];
@@ -57,7 +57,6 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
             return;
 		
         statsComponent.ArmstPlayerSafeSurgeOn();
-		Print("В безопасности");
 		
 		SCR_DamageManagerComponent m_DamageManager = SCR_DamageManagerComponent.Cast(owner2.FindComponent(SCR_DamageManagerComponent));
 		if(!m_DamageManager) return;
@@ -79,7 +78,6 @@ class ARMST_TRIGGER_SAVEZONE: SCR_BaseTriggerEntity {
             return;
 		
         statsComponent.ArmstPlayerSafeSurgeOff();
-		Print("Больше не в безопасности");
 		SCR_DamageManagerComponent m_DamageManager = SCR_DamageManagerComponent.Cast(owner2.FindComponent(SCR_DamageManagerComponent));
 		if(!m_DamageManager) return;
 		
