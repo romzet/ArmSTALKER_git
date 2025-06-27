@@ -114,6 +114,10 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	//Сила толчка
 	[Attribute("true", UIWidgets.CheckBox, "Делать бросок или нет ", category: "5. Throw")];
 	bool m_DamageForceAction;
+	[Attribute("true", UIWidgets.CheckBox, "Делать бросок или нет регдол", category: "5. Throw")];
+	bool m_DamageForceActionRagdol;
+	[Attribute("false", UIWidgets.CheckBox, "Отключать гравитацию", category: "5. Throw")];
+	bool m_DamageForceActionGravity;
 	[Attribute("0", UIWidgets.Slider, "С какой силой отбрасывать тело", "0 100 5", category: "5. Throw")];
 	float m_damageForceKick;
 	[Attribute("0", UIWidgets.Slider, "Бросок X", "0 20 1", category: "5. Throw")];
@@ -388,6 +392,7 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 			damageValue = Math.Max(0, damageValue);
 		if (m_DamageForceAction) 
 			{								
+			
 					ArmstDamageForceAction(ent);
 			};
 		
@@ -435,6 +440,14 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		};
 	};
 			
+	void EnableGravity(IEntity ent)
+	{
+		if(ent)
+		{
+			Physics physics = ent.GetPhysics();
+			physics.EnableGravity(true);
+		}
+	}
 	//запуск скрипта пинка
 	void ArmstDamageForceAction(IEntity ent)
 	{
@@ -449,7 +462,21 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		if (!character)
 			return;
 		
-		controller.Ragdoll(true);
+		if(m_DamageForceActionRagdol)
+			controller.Ragdoll(true);
+		
+		if(m_DamageForceActionGravity)
+		{
+			Physics physics = ent.GetPhysics();
+			physics.EnableGravity(false);
+			controller.SetJump(1);
+	        vector velOrig = ent.GetPhysics().GetVelocity();
+	        vector rotVector = ent.GetAngles();
+	        vector vel = {velOrig[0] + Math.Sin(rotVector[1] * Math.DEG2RAD) * 1, velOrig[1] + 1, velOrig[2] + Math.Cos(rotVector[1] * Math.DEG2RAD) * 1 };
+	        ent.GetPhysics().SetVelocity(vel);
+			GetGame().GetCallqueue().CallLater(EnableGravity, 2000, false, ent);
+			return;
+		}
 		
 		
 		CharacterAnimationComponent animationComponent = CharacterAnimationComponent.Cast(ent.FindComponent(CharacterAnimationComponent));

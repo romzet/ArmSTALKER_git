@@ -1,41 +1,24 @@
-modded class ZEL_ClaimStorageAction : ZEL_ClaimedStorageUserActionBase
+
+
+modded class ZEL_RelinquishClaimedStorageUserAction : ZEL_ClaimedStorageUserActionBase
 {
-	SCR_UniversalInventoryStorageComponent m_StorageComponent;
-	
-	SCR_InventoryStorageManagerComponent m_InventoryManagerComponent;
+	override bool CanBeShownScript(IEntity user)
+	{
+		return false;
+	}	
+}
+
+class ARMST_ClaimFisrtEnterAction : ZEL_ClaimedStorageUserActionBase
+{
 	
 	protected vector m_aOriginalTransform[4];
-	//------------------------------------------------------------------------------------------------
- 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
+	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
  	{
 		super.PerformAction(pOwnerEntity,pUserEntity);	
 		
         ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-        if (playerStats)
-		{
-            Print("[ARMST_START] succelfull player LOADOUT");
-					vector transform[4];
-					SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
-					m_aOriginalTransform = transform;
-					EntitySpawnParams params = new EntitySpawnParams();
-					params.Transform = m_aOriginalTransform;
-					params.TransformMode = ETransformMode.WORLD;
-			            
-			        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-			        if (!inventoryManager)
-				        return;
-			
-						Resource resource1 = Resource.Load("{2243768D6050B899}Prefabs/Items/Moneys/armst_itm_money_5000rub.et");
-			 			int spawnCount1 = 10;
-        				if (resource1)
-						{
-							  for (int i = 0; i < spawnCount1; i++)
-                       			{
-            					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource1, GetGame().GetWorld(), params);
-								inventoryManager.TryInsertItem(spawnedObject);
-								}
-						}
-        }
+        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+        ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, 70000);
 		
 		
 		if(!Replication.IsServer())
@@ -54,12 +37,26 @@ modded class ZEL_ClaimStorageAction : ZEL_ClaimedStorageUserActionBase
 		ZEL_PlayerClaimComponent PlayerClaimComponent = ZEL_PlayerClaimComponent.Cast(pUserEntity.FindComponent(ZEL_PlayerClaimComponent));
 		PlayerClaimComponent.InsertDeniedClaim(m_ClaimableComponent.GetClaimType());	
  	}
-};
-
-modded class ZEL_RelinquishClaimedStorageUserAction : ZEL_ClaimedStorageUserActionBase
-{
+	//------------------------------------------------------------------------------------------------	
+	override bool CanBePerformedScript(IEntity user)
+ 	{
+		return CanBeShownScript(user);
+ 	}
+	//------------------------------------------------------------------------------------------------
+	override bool GetActionNameScript(out string outName)
+	{
+		outName = "Take start money";
+		return true;
+	}	
+	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
-		return false;
-	}	
-}
+		if(!m_ClaimableComponent)
+			return false;
+		
+		ZEL_PlayerClaimComponent PlayerClaimComponent = ZEL_PlayerClaimComponent.Cast(user.FindComponent(ZEL_PlayerClaimComponent));
+
+		return PlayerClaimComponent.CanClaim(m_ClaimableComponent.GetClaimType()) == true;
+	}
+	//------------------------------------------------------------------------------------------------
+};

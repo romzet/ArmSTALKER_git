@@ -65,12 +65,6 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     float m_DamageRadiactiveLevel;                // Порог радиации для урона
 
 	
-	
-	[Attribute("", UIWidgets.Auto, category: "Sounds")]
-	ref SCR_AudioSourceConfiguration m_AudioPsy;
-	
-	[Attribute("", UIWidgets.Auto, category: "Sounds")]
-	ref SCR_AudioSourceConfiguration m_AudioRadiactive;
     //------------------------------------------------------------------------------------------------
     // Секция: Ссылки и вспомогательные переменные
     //------------------------------------------------------------------------------------------------

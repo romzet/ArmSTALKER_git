@@ -213,13 +213,6 @@ class ARMST_NotificationHelper
         SCR_InventoryStorageManagerComponent storageMan = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
         if (!storageMan)
             return false;
-
-        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-		if (statsComponent)
-		{
-			if(!statsComponent.m_pda_check)
-				{return false;}
-		}	
         array<IEntity> items = new array<IEntity>();
 		B_PrefabNamePredicate pred = new B_PrefabNamePredicate();
 		pred.prefabName.Insert("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");

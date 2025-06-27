@@ -6,6 +6,23 @@ class ARMST_ItemPDAComponentClass : SCR_ConsumableItemComponentClass
 // Consumable gadget component
 class ARMST_ItemPDAComponent : SCR_ConsumableItemComponent
 {
+	
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Quests")]
+    ref array<ref ResourceName> m_sQuests;
+	
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Wiki")]
+    ref array<ref ResourceName> m_sWikiConfigGame;
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Wiki")]
+    ref array<ref ResourceName> m_sWikiConfigLocations;
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Wiki")]
+    ref array<ref ResourceName> m_sWikiConfigFactions;
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Wiki")]
+    ref array<ref ResourceName> m_sWikiConfigMutants;
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Wiki")]
+    ref array<ref ResourceName> m_sWikiConfigAnomalies;
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Wiki")]
+    ref array<ref ResourceName> m_sWikiConfigOthers;
+	
 	protected bool m_bIsFirstTimeOpened = true;	
 	override void ModeSwitch(EGadgetMode mode, IEntity charOwner)
 	{
@@ -27,6 +44,6 @@ class ARMST_ItemPDAComponent : SCR_ConsumableItemComponent
 		GetGame().GetInputManager().ActivateContext("PdaContext"); //активируем управление кнопками -- указываем в ChimeraInputCommon
 		ARMST_PDA_UI armstpda = ARMST_PDA_UI.Cast(myMenu); //вызываем скрипт отображения 
 		if(armstpda)
-			armstpda.Init(charOwner); //вызываем на предмет и на пользователя
+			armstpda.Init(charOwner, GetOwner()); //вызываем на предмет и на пользователя
 	}
 }

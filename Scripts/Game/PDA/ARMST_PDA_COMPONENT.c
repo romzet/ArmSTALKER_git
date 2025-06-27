@@ -2,6 +2,13 @@
 class ARMST_PDA_UI : ChimeraMenuBase
 {
     protected Widget                 m_wRoot;
+    protected Widget                 Block_message;
+    protected Widget                 Block_stats;
+    protected Widget                 Block_map;
+    protected Widget                 Block_Quests;
+    protected Widget                 Block_Wiki;
+    protected Widget                 Block_Notes;
+	
     protected TextWidget            Text_User_Name;
     protected TextWidget            Text_Balance_Count;
     protected TextWidget            Text_Reputation_Count;
@@ -27,19 +34,48 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected TextWidget            Text_sell_items_count;
     protected TextWidget            Text_artefact_found_counts;
     protected TextWidget            Text_surge_alive_counts;
-    
+    protected TextWidget            TextName;
+    protected TextWidget            TextDesc;
+    protected TextWidget            Text_QuestName;
+    protected TextWidget            Text_QuestDesc;
+    protected TextWidget            Text_QuestAward;
+	
+    protected ImageWidget          ImageWiki;
+    protected ImageWidget          ImageQuest;
+	
     protected ButtonWidget          Button_Exit;
+    protected ButtonWidget          Button_Messenger;
+    protected ButtonWidget          Button_PlayerInfo;
+    protected ButtonWidget          Button_Map;
+    protected ButtonWidget          Button_Quests;
+    protected ButtonWidget          Button_Wiki;
     protected ButtonWidget          Button_SendMessage;
+    protected ButtonWidget          Button_Network;
+    protected ButtonWidget          Button_Update;
+    protected ButtonWidget          Button_Wiki_Game;
+    protected ButtonWidget          Button_Wiki_Locations;
+    protected ButtonWidget          Button_Wiki_Factions;
+    protected ButtonWidget          Button_Wiki_Mutants;
+    protected ButtonWidget          Button_Wiki_Anomalies;
+    protected ButtonWidget          Button_Wiki_Others;
+    protected ButtonWidget          Button_Notes;
+    protected ButtonWidget          Button_QuestDone;
+    protected ButtonWidget          Button_QuestAccept;
+    protected ButtonWidget          Button_QuestDecline;
     protected CheckBoxWidget        CheckBox_ON_OFF;
     protected CheckBoxWidget        CheckBox_UPDATE;
     protected CheckBoxWidget        CheckBox_ANONIM;
     
     protected MultilineEditBoxWidget EditBoxToMessage;
+    protected TextListboxWidget TextListboxPlayers;
+    protected TextListboxWidget TextListboxWiki;
+    protected TextListboxWidget TextListboxQuest;
     
     protected MapWidget             Map;
     
     // Владелец КПК и пользователь
     protected IEntity m_User;
+    protected IEntity m_PDA;
     
     private bool m_BlockMessage = false;
     
@@ -53,8 +89,12 @@ class ARMST_PDA_UI : ChimeraMenuBase
         super.OnMenuInit();
     }
     
+	void CloseNotebook()
+	{
+		Close();
+	}
     //------------------------------------------------------------------------------------------------
-    void Init(IEntity User)
+    void Init(IEntity User, IEntity PDA)
     {
         Print("Открыл КПК");
         
@@ -65,11 +105,18 @@ class ARMST_PDA_UI : ChimeraMenuBase
             return;
         
         // Находим все виджеты по их именам
-        Text_User_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_User_Name"));
-        Text_Balance_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Balance_Count"));
-        Text_Reputation_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Reputation_Count"));
-        Text_Fraction_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Fraction_Name"));
-        
+        Block_message = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_message"));
+        TextListboxPlayers = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxPlayers"));
+        EditBoxToMessage = MultilineEditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditBoxToMessage"));
+        Button_SendMessage = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SendMessage"));
+        if (Button_SendMessage)
+            Button_SendMessage.AddHandler(this);
+        CheckBox_ANONIM = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_ANONIM"));
+        if (CheckBox_ANONIM)
+            CheckBox_ANONIM.AddHandler(this);
+		
+		
+        Block_stats = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_stats"));
         Text_Protective_Toxic_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Protective_Toxic_Count"));
         Text_Protective_Radiactive_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Protective_Radiactive_Count"));
         Text_Protective_Psi_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Protective_Psi_Count"));
@@ -90,34 +137,113 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Text_sell_items_count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_sell_items_count"));
         Text_artefact_found_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_artefact_found_counts"));
         Text_surge_alive_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_surge_alive_counts"));
-        
-        Button_Exit = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Exit"));
-        Button_SendMessage = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SendMessage"));
-        CheckBox_ON_OFF = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_ON_OFF"));
-        CheckBox_UPDATE = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_UPDATE"));
-        CheckBox_ANONIM = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_ANONIM"));
-        
-        EditBoxToMessage = MultilineEditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditBoxToMessage"));
-        
+		
+		
+		
+        Block_map = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_map"));
         Map = MapWidget.Cast(m_wRoot.FindAnyWidget("Map"));
+		if (Map)
+    	Map.AddHandler(this);
+		
+		
+        Block_Quests = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_Quests"));
+        Text_QuestName = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_QuestName"));
+        Text_QuestDesc = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_QuestDesc"));
+        Text_QuestAward = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_QuestAward"));
+        ImageQuest = ImageWidget.Cast(m_wRoot.FindAnyWidget("ImageQuest"));
+        Button_QuestDone = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_QuestDone"));
+    	Button_QuestDone.AddHandler(this);
+        Button_QuestAccept = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_QuestAccept"));
+    	Button_QuestAccept.AddHandler(this);
+        Button_QuestDecline = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_QuestDecline"));
+    	Button_QuestDecline.AddHandler(this);
+        TextListboxQuest = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxQuest"));
+		if (TextListboxQuest)
+    	TextListboxQuest.AddHandler(this);
+		
+		
+        Block_Wiki = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_Wiki"));
+        TextListboxWiki = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxWiki"));
+		if (TextListboxWiki)
+    	TextListboxWiki.AddHandler(this);
+        TextName = TextWidget.Cast(m_wRoot.FindAnyWidget("TextName"));
+        TextDesc = TextWidget.Cast(m_wRoot.FindAnyWidget("TextDesc"));
+        Text_QuestAward = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_QuestAward"));
+        ImageWiki = ImageWidget.Cast(m_wRoot.FindAnyWidget("ImageWiki"));
+        Button_Wiki_Game = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Game"));
+    	Button_Wiki_Game.AddHandler(this);
+        Button_Wiki_Locations = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Locations"));
+    	Button_Wiki_Locations.AddHandler(this);
+        Button_Wiki_Factions = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Factions"));
+    	Button_Wiki_Factions.AddHandler(this);
+        Button_Wiki_Mutants = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Mutants"));
+    	Button_Wiki_Mutants.AddHandler(this);
+        Button_Wiki_Anomalies = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Anomalies"));
+    	Button_Wiki_Anomalies.AddHandler(this);
+        Button_Wiki_Others = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Others"));
+    	Button_Wiki_Others.AddHandler(this);
+		
+        Text_Balance_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Balance_Count"));
+        Text_Reputation_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Reputation_Count"));
+        Text_Fraction_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Fraction_Name"));
         
+        
+        Button_Messenger = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Messenger"));
+        Button_PlayerInfo = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_PlayerInfo"));
+        Button_Map = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Map"));
+        Button_Quests = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Quests"));
+        Button_Wiki = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki"));
+		
+        Button_Exit = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Exit"));
+		ScriptInvoker onPressedClose = ButtonActionComponent.GetOnAction(Button_Exit);
+		if (onPressedClose) 
+			onPressedClose.Insert(Close);
+		GetGame().GetInputManager().AddActionListener("Escape", EActionTrigger.DOWN, CloseNotebook);
+		
+        Button_Update = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Update"));
+        Button_Network = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Network"));
+        
+        
+        
+	    Block_stats.SetVisible(true);
+			Block_map.SetVisible(false);
+			Block_Quests.SetVisible(false);
+			Block_Wiki.SetVisible(false);
+			Block_message.SetVisible(false);
+			Block_message.SetVisible(false);
+		
         // Настройка обработчиков событий
         if (Button_Exit)
             Button_Exit.AddHandler(this);
         
-        if (Button_SendMessage)
-            Button_SendMessage.AddHandler(this);
+        if (Button_Messenger)
+            Button_Messenger.AddHandler(this);
+		
+        if (Button_PlayerInfo)
+            Button_PlayerInfo.AddHandler(this);
+		
+        if (Button_Quests)
+            Button_Quests.AddHandler(this);
+		
+        if (Button_Wiki)
+            Button_Wiki.AddHandler(this);
+		
         
+        if (Button_Update)
+            Button_Update.AddHandler(this);
+        
+        if (Button_Network)
+            Button_Network.AddHandler(this);
+		
         if (CheckBox_ON_OFF)
             CheckBox_ON_OFF.AddHandler(this);
         
         if (CheckBox_UPDATE)
             CheckBox_UPDATE.AddHandler(this);
         
-        if (CheckBox_ANONIM)
-            CheckBox_ANONIM.AddHandler(this);
         
         m_User = User;
+        m_PDA = PDA;
         
         // Получаем компоненты
         m_StatsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
@@ -126,7 +252,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
         // Обновляем данные интерфейса
         UpdatePdaUI();
         
-        CheckBox_UPDATE.SetChecked(true);
         CheckBox_ANONIM.SetChecked(true);
         // Обновляем статус включения КПК
         if (m_StatsComponent && CheckBox_ON_OFF)
@@ -232,12 +357,210 @@ class ARMST_PDA_UI : ChimeraMenuBase
     //------------------------------------------------------------------------------------------------
     override bool OnClick(Widget w, int x, int y, int button)
     {
+		
+        if (w == Button_PlayerInfo)
+        {
+            UpdatePdaUI();
+			Block_stats.SetVisible(true);
+			Block_map.SetVisible(false);
+			Block_Quests.SetVisible(false);
+			Block_Wiki.SetVisible(false);
+			Block_message.SetVisible(false);
+            return true;
+        }
+	    if (w == Button_Messenger)
+	    {
+	        UpdatePdaUI();
+	        Block_stats.SetVisible(false);
+	        Block_map.SetVisible(false);
+	        Block_Quests.SetVisible(false);
+	        Block_Wiki.SetVisible(false);
+	        Block_message.SetVisible(true);
+	
+	        // Проверяем наличие виджета TextListboxPlayers
+	        if (!TextListboxPlayers)
+	        {
+	            Print("[ARMST PDA] Ошибка: TextListboxPlayers не инициализирован.", LogLevel.ERROR);
+	            return true;
+	        }
+	
+	        // Очищаем текущий список игроков перед обновлением
+	        TextListboxPlayers.ClearItems();
+			
+	        Print("[ARMST PDA] Список игроков очищен.", LogLevel.NORMAL);
+	
+	        // Получаем менеджер игроков
+	        PlayerManager playerManager = GetGame().GetPlayerManager();
+	        if (!playerManager)
+	        {
+	            Print("[ARMST PDA] Ошибка: Не удалось получить PlayerManager.", LogLevel.ERROR);
+	            return true;
+	        }
+	
+	        // Получаем список ID всех игроков
+	        array<int> playerIds = new array<int>();
+	        playerManager.GetPlayers(playerIds);
+	
+	        // Счетчик для диагностики
+	        int addedPlayers = 0;
+	
+	        // Добавляем имена игроков в список, только если у них есть ПДА
+	        foreach (int playerId : playerIds)
+	        {
+	            if (playerId == 0)
+	                continue;
+	
+	            IEntity playerEntity = playerManager.GetPlayerControlledEntity(playerId);
+	            if (playerEntity)
+	            {
+	                // Проверяем наличие ПДА в инвентаре
+	                if (HasRequiredItem(playerEntity))
+	                {
+	                    string playerName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId);
+	                    if (playerName != "")
+	                    {
+	                        // Добавляем имя игрока в список, column=0 (первый столбец), row=-1 (в конец списка)
+	                        int rowIndex = TextListboxPlayers.AddItem(playerName, null, 0, -1);
+	                        if (rowIndex >= 0)
+	                        {
+	                            addedPlayers++;
+	                            Print("[ARMST PDA] Добавлен игрок с ПДА: " + playerName + " (ID: " + playerId + ", Row: " + rowIndex + ")", LogLevel.NORMAL);
+	                        }
+	                        else
+	                        {
+	                            Print("[ARMST PDA] Ошибка: Не удалось добавить игрока: " + playerName + " (ID: " + playerId + ")", LogLevel.ERROR);
+	                        }
+	                    }
+	                    else
+	                    {
+	                        Print("[ARMST PDA] Пустое имя для игрока с ID: " + playerId, LogLevel.WARNING);
+	                    }
+	                }
+	                else
+	                {
+	                    Print("[ARMST PDA] Игрок с ID: " + playerId + " не имеет ПДА.", LogLevel.NORMAL);
+	                }
+	            }
+	            else
+	            {
+	                Print("[ARMST PDA] Не удалось найти сущность игрока с ID: " + playerId, LogLevel.WARNING);
+	            }
+	        }
+	
+	        Print("[ARMST PDA] Обновлен список игроков в мессенджере. Добавлено: " + addedPlayers + " из " + playerIds.Count(), LogLevel.NORMAL);
+	        return true;
+	    }
+        if (w == Button_Map)
+        {
+            UpdatePdaUI();
+			Block_stats.SetVisible(false);
+			Block_map.SetVisible(true);
+			Block_Quests.SetVisible(false);
+			Block_Wiki.SetVisible(false);
+			Block_message.SetVisible(false);
+            return true;
+        }
+       if (w == Button_Quests)
+		{
+		    ARMST_ItemPDAComponent pdaComponent = ARMST_ItemPDAComponent.Cast(m_PDA.FindComponent(ARMST_ItemPDAComponent));
+		    if (!pdaComponent)
+		    {
+		        return true;
+		    }
+		    LoadQuestsCategory(pdaComponent.m_sQuests, "Quests");
+		    return true;
+		}
+       if (w == Button_QuestAccept)
+		{
+		    ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Квест взят", 10);
+		    return true;
+		}
+       if (w == Button_QuestDone)
+		{
+		    return true;
+		}
+		
+		
+		    ARMST_ItemPDAComponent pdaComponent = ARMST_ItemPDAComponent.Cast(m_PDA.FindComponent(ARMST_ItemPDAComponent));
+		
+		if (w == Button_Wiki)
+		{
+		    if (!pdaComponent)
+		    {
+		        Print("[ARMST PDA] Ошибка: Не удалось получить ARMST_ItemPDAComponent.", LogLevel.ERROR);
+		        return true;
+		    }
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigGame, "Game");
+		    return true;
+		}
+		// Обработка кнопок категорий Wiki
+		if (w == Button_Wiki_Game)
+		{
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigGame, "Game");
+		    return true;
+		}
+		if (w == Button_Wiki_Locations)
+		{
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigLocations, "Locations");
+		    return true;
+		}
+		if (w == Button_Wiki_Factions)
+		{
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigFactions, "Factions");
+		    return true;
+		}
+		if (w == Button_Wiki_Mutants)
+		{
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigMutants, "Mutants");
+		    return true;
+		}
+		if (w == Button_Wiki_Anomalies)
+		{
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigAnomalies, "Anomalies");
+		    return true;
+		}
+		if (w == Button_Wiki_Others)
+		{
+		    LoadWikiCategory(pdaComponent.m_sWikiConfigOthers, "Others");
+		    return true;
+		}		
+		
+		
+		
         if (w == Button_Exit)
         {
             Close();
             return true;
         }
-        /*
+        if (w == CheckBox_ANONIM)
+        {
+            if (!CheckBox_ANONIM.IsChecked())
+            {
+                CheckBox_ANONIM.SetChecked(true);
+            }
+            else
+            {
+                CheckBox_ANONIM.SetChecked(false);
+            }
+            UpdatePdaUI();
+            return true;
+        }
+        
+        if (w == Button_Update)
+        {
+            UpdatePdaUI();
+            return true;
+        }
+        if (w == Button_Network)
+        {
+                CheckBox_ON_OFF.SetChecked(true);
+                m_StatsComponent.ArmstPlayerPdaOn();
+                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network connected...", 5);
+            // Обновляем данные интерфейса
+            UpdatePdaUI();
+            return true;
+        }
+        
         if (w == Button_SendMessage)
         {
             if (m_BlockMessage)
@@ -249,11 +572,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
             if (EditBoxToMessage.GetText() == "")
             {
                 ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Message is empty!", 5);
-                return true;
-            }
-            if (!CheckBox_ON_OFF.IsChecked())
-            {
-                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network not found!", 5);
                 return true;
             }
             if (CheckBox_ANONIM.IsChecked())
@@ -275,61 +593,451 @@ class ARMST_PDA_UI : ChimeraMenuBase
             UpdatePdaUI();
             return true;
         }
-        */
-        if (w == CheckBox_ANONIM)
-        {
-            if (!CheckBox_ANONIM.IsChecked())
-            {
-                CheckBox_ANONIM.SetChecked(true);
-            }
-            else
-            {
-                CheckBox_ANONIM.SetChecked(false);
-            }
-            UpdatePdaUI();
-            return true;
-        }
-        
-        if (w == CheckBox_UPDATE)
-        {
-            UpdatePdaUI();
-            return true;
-        }
-        if (w == CheckBox_ON_OFF)
-        {
-            if (!CheckBox_ON_OFF.IsChecked())
-            {
-                CheckBox_ON_OFF.SetChecked(true);
-                m_StatsComponent.ArmstPlayerPdaOn();
-                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network connected...", 5);
-            }
-            else
-            {
-                CheckBox_ON_OFF.SetChecked(false);
-                m_StatsComponent.ArmstPlayerPdaOff();
-                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network disconnected...", 5);
-            }
-            // Обновляем данные интерфейса
-            UpdatePdaUI();
-            return true;
-        }
-        
         return false;
     }
-    
+	
+	override bool OnItemSelected(Widget w, int row, int column, int oldRow, int oldColumn)
+	{
+	    if (w == TextListboxWiki)
+	    {
+	        int selectedRow = TextListboxWiki.GetSelectedRow();
+	        if (selectedRow >= 0)
+	        {
+	            // Получаем данные элемента из userData, переданного при добавлении в список
+	            ARMST_PDA_WIKI_DATA wikiItem = ARMST_PDA_WIKI_DATA.Cast(TextListboxWiki.GetItemData(selectedRow, 0));
+	            if (wikiItem)
+	            {
+	                // Обновляем название, описание и иконку
+	                if (TextName)
+	                    TextName.SetText(wikiItem.m_sName);
+	                if (TextDesc)
+	                    TextDesc.SetText(wikiItem.m_sDesc);
+	                if (ImageWiki)
+	                    ImageWiki.LoadImageTexture(0, wikiItem.Icon);
+	                Print("[ARMST PDA] Выбран элемент Wiki: " + wikiItem.m_sName, LogLevel.NORMAL);
+	            }
+	            else
+	            {
+	                // Если это категория (нет данных wikiItem), очищаем поля
+	                Print("[ARMST PDA] Выбранный элемент не содержит данных Wiki (возможно, это категория).", LogLevel.NORMAL);
+	                if (TextName)
+	                    TextName.SetText("");
+	                if (TextDesc)
+	                    TextDesc.SetText("");
+	                if (ImageWiki)
+	                    ImageWiki.LoadImageTexture(0, "");
+	            }
+	        }
+	        return true;
+	    }
+	    else if (w == TextListboxQuest)
+	    {
+	        int selectedRow = TextListboxQuest.GetSelectedRow();
+	        if (selectedRow >= 0)
+	        {
+	            // Получаем данные элемента из userData, переданного при добавлении в список
+	            ARMST_PDA_QUEST_DATA questItem = ARMST_PDA_QUEST_DATA.Cast(TextListboxQuest.GetItemData(selectedRow, 0));
+	            if (questItem)
+	            {
+	                // Обновляем название, описание и награду
+	                if (ImageQuest)
+	                    ImageQuest.LoadImageTexture(0, questItem.Icon);
+	                if (Text_QuestName)
+	                    Text_QuestName.SetText(questItem.m_sName);
+	                if (Text_QuestDesc)
+	                    Text_QuestDesc.SetText(questItem.m_sDesc);
+	                if (Text_QuestAward)
+	                    Text_QuestAward.SetText(questItem.m_iPrice.ToString());
+	                Print("[ARMST PDA] Выбран квест: " + questItem.m_sName, LogLevel.NORMAL);
+	            }
+	            else
+	            {
+	                // Если это категория (нет данных questItem), очищаем поля
+	                Print("[ARMST PDA] Выбранный элемент не содержит данных квеста (возможно, это категория).", LogLevel.NORMAL);
+	                if (ImageQuest)
+	                    ImageQuest.LoadImageTexture(0, "");
+	                if (Text_QuestName)
+	                    Text_QuestName.SetText("");
+	                if (Text_QuestDesc)
+	                    Text_QuestDesc.SetText("");
+	                if (Text_QuestAward)
+	                    Text_QuestAward.SetText("");
+	            }
+	        }
+	        return true;
+	    }
+	    return false;
+	}
+	//------------------------------------------------------------------------------------------------
+	void LoadQuestsCategory(array<ref ResourceName> questsConfigs, string categoryName)
+	{
+	    UpdatePdaUI();
+	    Block_stats.SetVisible(false);
+	    Block_map.SetVisible(false);
+	    Block_Quests.SetVisible(true);
+	    Block_Wiki.SetVisible(false);
+	    Block_message.SetVisible(false);
+	
+	    // Проверяем наличие виджета TextListboxQuest
+	    if (!TextListboxQuest)
+	    {
+	        Print("[ARMST PDA] Ошибка: TextListboxQuest не инициализирован.", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    // Очищаем текущий список квестов перед обновлением
+	    TextListboxQuest.ClearItems();
+	    Print("[ARMST PDA] Список квестов очищен для категории: " + categoryName, LogLevel.NORMAL);
+	
+	    if (!questsConfigs || questsConfigs.IsEmpty())
+	    {
+	        Print("[ARMST PDA] Ошибка: Конфигурация квестов для категории " + categoryName + " не задана или пуста.", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    // Счетчик для диагностики
+	    int addedQuestItems = 0;
+	
+	    // Загружаем данные из каждой конфигурации
+	    foreach (ResourceName configResource : questsConfigs)
+	    {
+	        if (configResource.IsEmpty())
+	        {
+	            Print("[ARMST PDA] Предупреждение: Пустой ResourceName в конфигурации квестов для категории " + categoryName, LogLevel.WARNING);
+	            continue;
+	        }
+	
+	        // Загружаем ресурс как контейнер
+	        Resource resource = BaseContainerTools.LoadContainer(configResource);
+	        if (!resource.IsValid())
+	        {
+	            Print("[ARMST PDA] Ошибка: Не удалось загрузить ресурс: " + configResource + " для категории " + categoryName, LogLevel.ERROR);
+	            continue;
+	        }
+	
+	        BaseContainer container = resource.GetResource().ToBaseContainer();
+	        if (!container)
+	        {
+	            Print("[ARMST PDA] Ошибка: Не удалось получить BaseContainer из ресурса: " + configResource + " для категории " + categoryName, LogLevel.ERROR);
+	            continue;
+	        }
+	
+	        // Пробуем создать экземпляр ARMST_PDA_QUEST из контейнера
+	        ARMST_PDA_QUEST questCategory = ARMST_PDA_QUEST.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+	        if (questCategory)
+	        {
+	            // Добавляем название категории квестов (m_sName) в список как заголовок
+	            if (!questCategory.m_sName.IsEmpty())
+	            {
+	                int categoryRowIndex = TextListboxQuest.AddItem("[" + questCategory.m_sName + "]", null, 0, -1);
+	                if (categoryRowIndex >= 0)
+	                {
+	                    addedQuestItems++;
+	                    Print("[ARMST PDA] Добавлена категория квестов: " + questCategory.m_sName + " (Row: " + categoryRowIndex + ") для категории " + categoryName, LogLevel.NORMAL);
+	                }
+	                else
+	                {
+	                    Print("[ARMST PDA] Ошибка: Не удалось добавить категорию квестов: " + questCategory.m_sName + " для категории " + categoryName, LogLevel.ERROR);
+	                }
+	            }
+	
+	            // Добавляем элементы из m_QUESTData
+	            if (questCategory.m_QUESTData && questCategory.m_QUESTData.Count() > 0)
+	            {
+	                foreach (ARMST_PDA_QUEST_DATA questItem : questCategory.m_QUESTData)
+	                {
+	                    if (!questItem.m_sName.IsEmpty())
+	                    {
+	                        int itemRowIndex = TextListboxQuest.AddItem("  - " + questItem.m_sName, questItem, 0, -1);
+	                        if (itemRowIndex >= 0)
+	                        {
+	                            addedQuestItems++;
+	                            Print("[ARMST PDA] Добавлен квест: " + questItem.m_sName + " (Row: " + itemRowIndex + ") для категории " + categoryName, LogLevel.NORMAL);
+	                        }
+	                        else
+	                        {
+	                            Print("[ARMST PDA] Ошибка: Не удалось добавить квест: " + questItem.m_sName + " для категории " + categoryName, LogLevel.ERROR);
+	                        }
+	                    }
+	                }
+	            }
+	            else
+	            {
+	                Print("[ARMST PDA] Предупреждение: m_QUESTData пусто или отсутствует для категории: " + questCategory.m_sName + " в " + categoryName, LogLevel.WARNING);
+	            }
+	        }
+	        else
+	        {
+	            // Если это не ARMST_PDA_QUEST, пробуем ARMST_PDA_QUESTConfig
+	            ARMST_PDA_QUESTConfig questConfig = ARMST_PDA_QUESTConfig.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+	            if (questConfig)
+	            {
+	                if (questConfig.m_QUESTData && questConfig.m_QUESTData.Count() > 0)
+	                {
+	                    foreach (ARMST_PDA_QUEST_DATA questItem : questConfig.m_QUESTData)
+	                    {
+	                        if (!questItem.m_sName.IsEmpty())
+	                        {
+	                            int itemRowIndex = TextListboxQuest.AddItem(questItem.m_sName, questItem, 0, -1);
+	                            if (itemRowIndex >= 0)
+	                            {
+	                                addedQuestItems++;
+	                                Print("[ARMST PDA] Добавлен квест из Config: " + questItem.m_sName + " (Row: " + itemRowIndex + ") для категории " + categoryName, LogLevel.NORMAL);
+	                            }
+	                            else
+	                            {
+	                                Print("[ARMST PDA] Ошибка: Не удалось добавить квест из Config: " + questItem.m_sName + " для категории " + categoryName, LogLevel.ERROR);
+	                            }
+	                        }
+	                    }
+	                }
+	                else
+	                {
+	                    Print("[ARMST PDA] Предупреждение: m_QUESTData пусто или отсутствует в конфигурации: " + configResource + " для категории " + categoryName, LogLevel.WARNING);
+	                }
+	            }
+	            else
+	            {
+	                Print("[ARMST PDA] Ошибка: Не удалось преобразовать контейнер ни в ARMST_PDA_QUEST, ни в ARMST_PDA_QUESTConfig: " + configResource + " для категории " + categoryName, LogLevel.ERROR);
+	            }
+	        }
+	    }
+	
+	    Print("[ARMST PDA] Обновлен список квестов для категории " + categoryName + ". Добавлено: " + addedQuestItems + " элементов.", LogLevel.NORMAL);
+	}
+	//------------------------------------------------------------------------------------------------
+	void LoadWikiCategory(array<ref ResourceName> wikiConfigs, string categoryName)
+	{
+	    UpdatePdaUI();
+	    Block_stats.SetVisible(false);
+	    Block_map.SetVisible(false);
+	    Block_Quests.SetVisible(false);
+	    Block_Wiki.SetVisible(true);
+	    Block_message.SetVisible(false);
+	
+	    // Проверяем наличие виджета TextListboxWiki
+	    if (!TextListboxWiki)
+	    {
+	        Print("[ARMST PDA] Ошибка: TextListboxWiki не инициализирован.", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    // Очищаем текущий список Wiki перед обновлением
+	    TextListboxWiki.ClearItems();
+	    Print("[ARMST PDA] Список Wiki очищен для категории: " + categoryName, LogLevel.NORMAL);
+	
+	    if (!wikiConfigs || wikiConfigs.IsEmpty())
+	    {
+	        Print("[ARMST PDA] Ошибка: Конфигурация Wiki для категории " + categoryName + " не задана или пуста.", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    // Счетчик для диагностики
+	    int addedWikiItems = 0;
+	
+	    // Загружаем данные из каждой конфигурации
+	    foreach (ResourceName configResource : wikiConfigs)
+	    {
+	        if (configResource.IsEmpty())
+	        {
+	            Print("[ARMST PDA] Предупреждение: Пустой ResourceName в конфигурации Wiki для категории " + categoryName, LogLevel.WARNING);
+	            continue;
+	        }
+	
+	        // Загружаем ресурс как контейнер
+	        Resource resource = BaseContainerTools.LoadContainer(configResource);
+	        if (!resource.IsValid())
+	        {
+	            Print("[ARMST PDA] Ошибка: Не удалось загрузить ресурс: " + configResource + " для категории " + categoryName, LogLevel.ERROR);
+	            continue;
+	        }
+	
+	        BaseContainer container = resource.GetResource().ToBaseContainer();
+	        if (!container)
+	        {
+	            Print("[ARMST PDA] Ошибка: Не удалось получить BaseContainer из ресурса: " + configResource + " для категории " + categoryName, LogLevel.ERROR);
+	            continue;
+	        }
+	
+	        // Пробуем создать экземпляр ARMST_PDA_WIKI из контейнера
+	        ARMST_PDA_WIKI wikiCategory = ARMST_PDA_WIKI.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+	        if (wikiCategory)
+	        {
+	            // Добавляем название категории Wiki (m_sName) в список как заголовок
+	            if (!wikiCategory.m_sName.IsEmpty())
+	            {
+	                int categoryRowIndex = TextListboxWiki.AddItem("[" + wikiCategory.m_sName + "]", null, 0, -1);
+	                if (categoryRowIndex >= 0)
+	                {
+	                    addedWikiItems++;
+	                    Print("[ARMST PDA] Добавлена категория Wiki: " + wikiCategory.m_sName + " (Row: " + categoryRowIndex + ") для категории " + categoryName, LogLevel.NORMAL);
+	                }
+	                else
+	                {
+	                    Print("[ARMST PDA] Ошибка: Не удалось добавить категорию Wiki: " + wikiCategory.m_sName + " для категории " + categoryName, LogLevel.ERROR);
+	                }
+	            }
+	
+	            // Добавляем элементы из m_WikiData
+	            if (wikiCategory.m_WikiData && wikiCategory.m_WikiData.Count() > 0)
+	            {
+	                foreach (ARMST_PDA_WIKI_DATA wikiItem : wikiCategory.m_WikiData)
+	                {
+	                    if (!wikiItem.m_sName.IsEmpty())
+	                    {
+	                        int itemRowIndex = TextListboxWiki.AddItem("  - " + wikiItem.m_sName, wikiItem, 0, -1);
+	                        if (itemRowIndex >= 0)
+	                        {
+	                            addedWikiItems++;
+	                            Print("[ARMST PDA] Добавлен элемент Wiki: " + wikiItem.m_sName + " (Row: " + itemRowIndex + ") для категории " + categoryName, LogLevel.NORMAL);
+	                        }
+	                        else
+	                        {
+	                            Print("[ARMST PDA] Ошибка: Не удалось добавить элемент Wiki: " + wikiItem.m_sName + " для категории " + categoryName, LogLevel.ERROR);
+	                        }
+	                    }
+	                }
+	            }
+	            else
+	            {
+	                Print("[ARMST PDA] Предупреждение: m_WikiData пусто или отсутствует для категории: " + wikiCategory.m_sName + " в " + categoryName, LogLevel.WARNING);
+	            }
+	        }
+	        else
+	        {
+	            // Если это не ARMST_PDA_WIKI, пробуем ARMST_PDA_WIKIConfig
+	            ARMST_PDA_WIKIConfig wikiConfig = ARMST_PDA_WIKIConfig.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+	            if (wikiConfig)
+	            {
+	                if (wikiConfig.m_WikiData && wikiConfig.m_WikiData.Count() > 0)
+	                {
+	                    foreach (ARMST_PDA_WIKI_DATA wikiItem : wikiConfig.m_WikiData)
+	                    {
+	                        if (!wikiItem.m_sName.IsEmpty())
+	                        {
+	                            int itemRowIndex = TextListboxWiki.AddItem(wikiItem.m_sName, wikiItem, 0, -1);
+	                            if (itemRowIndex >= 0)
+	                            {
+	                                addedWikiItems++;
+	                                Print("[ARMST PDA] Добавлен элемент Wiki из Config: " + wikiItem.m_sName + " (Row: " + itemRowIndex + ") для категории " + categoryName, LogLevel.NORMAL);
+	                            }
+	                            else
+	                            {
+	                                Print("[ARMST PDA] Ошибка: Не удалось добавить элемент Wiki из Config: " + wikiItem.m_sName + " для категории " + categoryName, LogLevel.ERROR);
+	                            }
+	                        }
+	                    }
+	                }
+	                else
+	                {
+	                    Print("[ARMST PDA] Предупреждение: m_WikiData пусто или отсутствует в конфигурации: " + configResource + " для категории " + categoryName, LogLevel.WARNING);
+	                }
+	            }
+	            else
+	            {
+	                Print("[ARMST PDA] Ошибка: Не удалось преобразовать контейнер ни в ARMST_PDA_WIKI, ни в ARMST_PDA_WIKIConfig: " + configResource + " для категории " + categoryName, LogLevel.ERROR);
+	            }
+	        }
+	    }
+	
+	    Print("[ARMST PDA] Обновлен список Wiki для категории " + categoryName + ". Добавлено: " + addedWikiItems + " элементов.", LogLevel.NORMAL);
+	}
+	
+    static bool HasRequiredItem(IEntity pUserEntity)
+	{
+	    SCR_InventoryStorageManagerComponent storageMan = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+	    if (!storageMan)
+	        return false;
+	    
+	    array<IEntity> items = new array<IEntity>();
+	    B_PrefabNamePredicate pred = new B_PrefabNamePredicate();
+	    pred.prefabName.Insert("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
+	    
+	    if (storageMan.FindItems(items, pred))
+	    {   
+	        if (items.Count() > 0) 
+	        {
+	            return true;
+	        }
+	        else 
+	        {
+	            return false;
+	        }
+	    }
+	    else 
+	    {
+	        return false;
+	    }
+	    
+	    return false;
+	}
     //------------------------------------------------------------------------------------------------
-    override bool OnDoubleClick(Widget w, int x, int y, int button)
-    {
-        // Обработка двойного клика, например для карты
-        if (w == Map)
-        {
-            // Добавьте здесь обработку двойного клика по карте
-            return true;
-        }
-        
-        return false;
-    }
-    
+	//------------------------------------------------------------------------------------------------
+	override bool OnDoubleClick(Widget w, int x, int y, int button)
+	{
+	    // Обработка двойного клика для карты
+	    if (w == Map)
+	    {
+	        if (!m_User)
+	        {
+	            Print("[ARMST PDA] Ошибка: Пользователь не инициализирован.", LogLevel.ERROR);
+	            ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Ошибка: Пользователь не найден.", 5);
+	            return true;
+	        }
+	
+	        // Получаем текущую позицию игрока
+	        vector playerPos = m_User.GetOrigin();
+	        Print("[ARMST PDA] Двойной клик по карте. Позиция игрока: " + playerPos.ToString(), LogLevel.NORMAL);
+	
+	        // Центрируем карту на позиции игрока
+	        if (Map)
+	        {
+	            // Получаем экземпляр SCR_MapEntity для взаимодействия с картой
+	            SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
+	            if (!mapEntity)
+	            {
+	                Print("[ARMST PDA] Ошибка: Не удалось получить SCR_MapEntity.", LogLevel.ERROR);
+	                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Ошибка: Карта не доступна.", 5);
+	                return true;
+	            }
+	
+	            // Устанавливаем позицию игрока как центр карты
+	            // Поскольку z игнорируется (как указано в CanvasWidgetBase), используем только x и y (в мире это x и z)
+	            vector mapPos = vector.Zero;
+	            mapPos[0] = playerPos[0]; // X координата в мире
+	            mapPos[1] = playerPos[2]; // Z координата в мире (для карты это Y)
+	            mapPos[2] = 0; // Z игнорируется
+	
+	            // Преобразуем мировые координаты в пиксели на карте
+	            vector pixelPos = Map.PosToPixels(mapPos);
+	            Print("[ARMST PDA] Позиция игрока в пикселях: " + pixelPos.ToString(), LogLevel.NORMAL);
+	
+	            // Вычисляем смещение, чтобы центр карты был на позиции игрока
+	            vector mapSizePx = vector.Zero;
+	            float width, height;
+	            Map.GetScreenSize(width, height);
+	            mapSizePx[0] = width;
+	            mapSizePx[1] = height;
+	            vector offsetPx = vector.Zero;
+	            offsetPx[0] = pixelPos[0] - mapSizePx[0] / 2; // Центрируем по X
+	            offsetPx[1] = pixelPos[1] - mapSizePx[1] / 2; // Центрируем по Y
+	            Map.SetOffsetPx(offsetPx);
+	            Print("[ARMST PDA] Карта центрирована на позиции игрока с offset: " + offsetPx.ToString(), LogLevel.NORMAL);
+	
+	            // Уведомляем игрока
+	            ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Карта центрирована на вашей позиции.", 3);
+	        }
+	        else
+	        {
+	            Print("[ARMST PDA] Ошибка: Виджет карты не инициализирован.", LogLevel.ERROR);
+	            ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Ошибка: Карта не доступна.", 5);
+	        }
+	
+	        return true;
+	    }
+	    
+	    return false;
+	}
     //------------------------------------------------------------------------------------------------
     override void OnMenuClose()
     {
