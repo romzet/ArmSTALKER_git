@@ -33,10 +33,52 @@ class ARMST_OpenStorageAction : ScriptedUserAction
         TryToSpawnLoot();
         
         ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-        if (!playerStats)
-            return;
-        playerStats.Rpc_ARMST_SET_STAT_STASH();
+        if (playerStats)
+        {
+            playerStats.Rpc_ARMST_SET_STAT_STASH();
+        }
+        
+        // Открываем инвентарь только для конкретного игрока на его клиенте
+        OpenInventoryForUser(pUserEntity, pOwnerEntity);
     };    
+    
+    // Метод для открытия инвентаря только для конкретного игрока
+    protected void OpenInventoryForUser(IEntity userEntity, IEntity ownerEntity)
+    {
+        // Проверяем, что код выполняется на клиенте
+        if (!Replication.IsClient())
+        {
+            return;
+        }
+
+        // Получаем локального игрока
+        int localPlayerId = SCR_PlayerController.GetLocalPlayerId();
+        IEntity localPlayerEntity = GetGame().GetPlayerManager().GetPlayerControlledEntity(localPlayerId);
+        if (!localPlayerEntity)
+        {
+            Print("[ARMST_OpenStorageAction] Ошибка: Не удалось получить локального игрока для открытия инвентаря.", LogLevel.ERROR);
+            return;
+        }
+
+        // Проверяем, что пользователь, инициировавший действие, является локальным игроком
+        if (userEntity != localPlayerEntity)
+        {
+            return;
+        }
+
+        // Получаем компонент инвентаря игрока
+        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(userEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+        if (!inventoryManager)
+        {
+            Print("[ARMST_OpenStorageAction] Ошибка: Не удалось найти SCR_InventoryStorageManagerComponent у игрока.", LogLevel.ERROR);
+            return;
+        }
+
+        // Устанавливаем хранилище для открытия и открываем инвентарь
+        inventoryManager.SetStorageToOpen(ownerEntity);
+        inventoryManager.OpenInventory();
+        Print("[ARMST_OpenStorageAction] Инвентарь открыт для локального игрока.", LogLevel.NORMAL);
+    }
     
     override protected void OnActionStart(IEntity pUserEntity) 
     {

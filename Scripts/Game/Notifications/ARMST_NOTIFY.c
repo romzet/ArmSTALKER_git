@@ -77,7 +77,8 @@ class ARMST_NotificationHelper
         {
             if (playerId == 0)
                 continue;
-                
+             
+			Print("Send to" + playerId);
             IEntity playerEntity = playerManager.GetPlayerControlledEntity(playerId);
             if (playerEntity)
             {

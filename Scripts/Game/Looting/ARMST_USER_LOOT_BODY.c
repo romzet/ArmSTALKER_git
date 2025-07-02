@@ -2,6 +2,9 @@ class ARMST_USER_LOOT_BODY : ScriptedUserAction
 {
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб обьекта", "et", category: "Объект")]
     ResourceName m_PrefabToSpawn;
+    
+    [Attribute("false", UIWidgets.CheckBox, "Удалять или нет", category: "Объект")]
+    protected bool m_bDeleteBody;
 	
 	protected SCR_CharacterControllerComponent m_CharController;
 	protected vector m_vAnglesCurrent;	// current local angles
@@ -30,11 +33,13 @@ class ARMST_USER_LOOT_BODY : ScriptedUserAction
             IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
             if (spawnedObject)
             {
-				
 				SCR_EntityHelper.SnapToGround(spawnedObject);
 				GetGame().GetCallqueue().CallLater(DeleteTemp, 120000, false, spawnedObject);	
             }
+			if (m_bDeleteBody)
+				SCR_EntityHelper.DeleteEntityAndChildren(pOwnerEntity);
         }
+		
 	};	
 	void DeleteTemp(IEntity spawnedObject)
 	{
@@ -43,6 +48,9 @@ class ARMST_USER_LOOT_BODY : ScriptedUserAction
 	}
 	override bool CanBePerformedScript(IEntity user)
 	{		
+		if (m_bDeleteBody)
+			return true;
+		
 		if (!m_lock_ent)
 			return false;
 		

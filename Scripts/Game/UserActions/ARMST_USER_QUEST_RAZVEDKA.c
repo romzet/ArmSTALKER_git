@@ -155,7 +155,7 @@ class ARMST_USER_QUEST_KILL : ScriptedUserAction
         }
         
         // Ищем сущность по имени
-        IEntity spawnPoint = GetGame().GetWorld().FindEntityByName(spawnPointName);
+        IEntity spawnPoint = GetGame().GetWorld().FindEntityByName(m_sLocationTarget);
         vector spawnPos = vector.Zero;
         
         if (spawnPoint)

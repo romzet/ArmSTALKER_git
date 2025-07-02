@@ -39,6 +39,8 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected TextWidget            Text_QuestName;
     protected TextWidget            Text_QuestDesc;
     protected TextWidget            Text_QuestAward;
+    protected TextWidget            TextNameHistory;
+    protected TextWidget            TextMessageHistory;
 	
     protected ImageWidget          ImageWiki;
     protected ImageWidget          ImageQuest;
@@ -67,6 +69,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected CheckBoxWidget        CheckBox_ANONIM;
     
     protected MultilineEditBoxWidget EditBoxToMessage;
+    protected TextListboxWidget TextListboxMessages;
     protected TextListboxWidget TextListboxPlayers;
     protected TextListboxWidget TextListboxWiki;
     protected TextListboxWidget TextListboxQuest;
@@ -107,8 +110,11 @@ class ARMST_PDA_UI : ChimeraMenuBase
         // Находим все виджеты по их именам
         Block_message = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_message"));
         TextListboxPlayers = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxPlayers"));
+        TextListboxMessages = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxMessages"));
         EditBoxToMessage = MultilineEditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditBoxToMessage"));
         Button_SendMessage = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SendMessage"));
+        TextMessageHistory = TextWidget.Cast(m_wRoot.FindAnyWidget("TextMessageHistory"));
+        TextNameHistory = TextWidget.Cast(m_wRoot.FindAnyWidget("TextNameHistory"));
         if (Button_SendMessage)
             Button_SendMessage.AddHandler(this);
         CheckBox_ANONIM = CheckBoxWidget.Cast(m_wRoot.FindAnyWidget("CheckBox_ANONIM"));
@@ -168,7 +174,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
     	TextListboxWiki.AddHandler(this);
         TextName = TextWidget.Cast(m_wRoot.FindAnyWidget("TextName"));
         TextDesc = TextWidget.Cast(m_wRoot.FindAnyWidget("TextDesc"));
-        Text_QuestAward = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_QuestAward"));
         ImageWiki = ImageWidget.Cast(m_wRoot.FindAnyWidget("ImageWiki"));
         Button_Wiki_Game = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Game"));
     	Button_Wiki_Game.AddHandler(this);
@@ -252,7 +257,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         // Обновляем данные интерфейса
         UpdatePdaUI();
         
-        CheckBox_ANONIM.SetChecked(true);
+        CheckBox_ANONIM.SetChecked(false);
         // Обновляем статус включения КПК
         if (m_StatsComponent && CheckBox_ON_OFF)
         {
@@ -565,32 +570,44 @@ class ARMST_PDA_UI : ChimeraMenuBase
         {
             if (m_BlockMessage)
             {
-                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Timeout... Wait...", 5);
+                SCR_PlayerController.ShowNotificationPDA(m_User, "#armst_pda_system", "Timeout... Wait...", 5);
                 return true;
             }
             
-            if (EditBoxToMessage.GetText() == "")
+            string messageText = EditBoxToMessage.GetText();
+            if (messageText == "")
             {
-                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Message is empty!", 5);
+                SCR_PlayerController.ShowNotificationPDA(m_User, "#armst_pda_system", "Message is empty!", 5);
                 return true;
             }
+
+            string senderName;
             if (CheckBox_ANONIM.IsChecked())
             {
-                m_BlockMessage = true;
-                GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
-                ARMST_NotificationHelper.BroadcastNotificationChat(m_User, "ANONIM", EditBoxToMessage.GetText(), 10);
-                ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, "ANONIM", EditBoxToMessage.GetText(), 10);
+                senderName = "ANONIM";
             }
             else
             {
-                int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
-                string Name_Plater = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2);
-                m_BlockMessage = true;
-                GetGame().GetCallqueue().CallLater(SetBlock, 30000, false);
-                ARMST_NotificationHelper.BroadcastNotificationChat(m_User, Name_Plater, EditBoxToMessage.GetText(), 10);
-                ARMST_NotificationHelper.BroadcastNotificationInRadius(m_User.GetOrigin(), 2500, Name_Plater, EditBoxToMessage.GetText(), 10);
+                int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
+                senderName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId);
             }
-            UpdatePdaUI();
+
+            // Устанавливаем тайм-аут для предотвращения спама
+             m_BlockMessage = true;
+             GetGame().GetCallqueue().CallLater(SetBlock, 5000, false);
+
+            // Получаем SCR_PlayerController текущего игрока
+            SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+            if (!controller)
+            {
+                return true;
+            }
+
+            // Передаем сообщение в SCR_PlayerController для отправки на сервер
+            controller.SendPDAMessageToServer(senderName, messageText, 10.0); // Длительность уведомления 10 секунд
+
+            // Очищаем поле ввода
+            EditBoxToMessage.SetText("");
             return true;
         }
         return false;

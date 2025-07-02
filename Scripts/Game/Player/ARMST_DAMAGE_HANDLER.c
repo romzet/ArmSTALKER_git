@@ -1,4 +1,3 @@
-// DeathHandlerComponent.c
 [ComponentEditorProps(category: "ARMST/Character", description: "Обработчик смерти и изменения репутации")]
 class ARMST_DeathHandlerComponentClass: ScriptComponentClass
 {
@@ -7,10 +6,10 @@ class ARMST_DeathHandlerComponentClass: ScriptComponentClass
 class ARMST_DeathHandlerComponent : ScriptComponent
 {
     // Константы для управления репутацией
-	[Attribute("40", UIWidgets.Slider, "Штраф", "0 100 1", category: "Reputatuions")];
-	float REPUTATION_LOSS_FRIENDLY_KILL;
-	[Attribute("5", UIWidgets.Slider, "Плюс репа", "0 100 1", category: "Reputatuions")];
-	float REPUTATION_GAIN_ENEMY_KILL;
+    [Attribute("40", UIWidgets.Slider, "Штраф", "0 100 1", category: "Reputatuions")];
+    float REPUTATION_LOSS_FRIENDLY_KILL;
+    [Attribute("5", UIWidgets.Slider, "Плюс репа", "0 100 1", category: "Reputatuions")];
+    float REPUTATION_GAIN_ENEMY_KILL;
    
     // Хранение информации о последнем уроне
     protected EDamageType m_LastDamageType = EDamageType.TRUE;
@@ -19,9 +18,6 @@ class ARMST_DeathHandlerComponent : ScriptComponent
     protected string m_LastInstigatorName = "";
     protected float m_LastDamageValue = 0;
     protected string m_LastInstigatorFaction = "";
-    
-    // Ссылка на компонент управления репутацией
-    //private ARMST_ReputationManagerComponent m_ReputationManager;
     
     // Состояние жизни персонажа для отслеживания изменений
     private ECharacterLifeState m_CurrentLifeState = ECharacterLifeState.ALIVE;
@@ -37,9 +33,6 @@ class ARMST_DeathHandlerComponent : ScriptComponent
         {
             characterController.m_OnLifeStateChanged.Insert(OnLifeStateChanged);
         }
-        
-        // Получаем ссылку на менеджер репутации
-        //m_ReputationManager = ARMST_ReputationManagerComponent.GetInstance();
     }
     
     // Метод для установки информации о полученном уроне
@@ -108,65 +101,124 @@ class ARMST_DeathHandlerComponent : ScriptComponent
             return;
             
         string characterName = identityComponent.GetIdentity().GetSurname();
-		
-        // Получаем фракцию персонажа
-        FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent) );
         
-		if(!m_LastInstigatorEntity)
-				return;
-            
-		 ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-		 if (!playerStats)
-			return;
-		
+        // Получаем фракцию персонажа
+        FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent));
+        
+        if (!factionComponent)
+            return;
         
         string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
-                    if (characterFaction == "BACON_622120A5448725E3_FACTION")
-                    {
-				            playerStats.Rpc_ArmstPlayerSetReputation(1);
-				            playerStats.Rpc_ARMST_SET_STAT_MONSTER();
-							return;
-                    }
-        // Проверяем подходящие фракции
-        if (characterFaction == "FACTION_STALKER" || characterFaction == "FACTION_BANDIT")
+        
+        // Проверяем, относится ли персонаж к фракции, для которой нужно обрабатывать смерть
+        if (characterFaction == "BACON_622120A5448725E3_FACTION")
         {
-            // Изменяем репутацию игрока, если это убийство
             if (m_LastInstigatorEntity)
             {
-                // Проверяем, является ли убийца игроком
-                PlayerController playerController = GetGame().GetPlayerController();
-                if (playerController && playerController.GetControlledEntity() == m_LastInstigatorEntity)
+                ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+                if (playerStats)
                 {
-					
-                    // Если игрок убил союзника (из той же фракции)
-                    if (m_LastInstigatorFaction == characterFaction)
+                    playerStats.Rpc_ArmstPlayerSetReputation(1);
+                    playerStats.Rpc_ARMST_SET_STAT_MONSTER();
+                }
+            }
+            return;
+        }
+        
+        // Проверяем подходящие фракции для отправки сообщения
+        if (characterFaction == "FACTION_STALKER" || characterFaction == "FACTION_BANDIT" || characterFaction == "FACTION_MERCENARIES" || characterFaction == "FACTION_SCIENCES" || characterFaction == "FACTION_ARMY")
+        {
+            // Изменяем репутацию игрока, если это убийство и убийца существует
+            if (m_LastInstigatorEntity)
+            {
+                ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+                if (playerStats)
+                {
+                    // Проверяем, является ли убийца игроком
+                    PlayerController playerController = GetGame().GetPlayerController();
+                    if (playerController && playerController.GetControlledEntity() == m_LastInstigatorEntity)
                     {
-							
-				            playerStats.Rpc_ArmstPlayerSetReputation(-REPUTATION_LOSS_FRIENDLY_KILL);
-						
-                       
-                    }
-                    // Если игрок убил врага
-                    if (characterFaction == "FACTION_BANDIT")
-                    {
-				            playerStats.Rpc_ArmstPlayerSetReputation(3);
-				            playerStats.Rpc_ARMST_SET_STAT_BAND();
+                        // Если игрок убил союзника (из той же фракции)
+                        if (m_LastInstigatorFaction == characterFaction)
+                        {
+                            playerStats.Rpc_ArmstPlayerSetReputation(-REPUTATION_LOSS_FRIENDLY_KILL);
+                        }
+                        // Если игрок убил врага
+                        if (characterFaction == "FACTION_BANDIT")
+                        {
+                            playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
+                            playerStats.Rpc_ARMST_SET_STAT_BAND();
+                        }
+                        // Если игрок убил врага
+                        if (characterFaction == "FACTION_MERCENARIES")
+                        {
+                            playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
+                            playerStats.Rpc_ARMST_SET_STAT_BAND();
+                        }
+                        // Если игрок убил врага
+                        if (characterFaction == "FACTION_ARMY")
+                        {
+                            playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
+                            playerStats.Rpc_ARMST_SET_STAT_BAND();
+                        }
+                        // Если игрок убил врага
+                        if (characterFaction == "FACTION_SCIENCES")
+                        {
+                            playerStats.Rpc_ArmstPlayerSetReputation(-REPUTATION_LOSS_FRIENDLY_KILL);
+                        }
                     }
                 }
             }
            
-            // Формируем сообщение о смерти
+            // Формируем сообщение о смерти в любом случае
             string deathReason = GetDeathReason();
             string deathMessage = "#armst_pda_user " + characterName + " погиб " + deathReason;
             string systemMessage = "#armst_pda_system";
             
-            // Устанавливаем случайную задержку от 2 до 4 секунд
-            
-            // Отправляем сообщение с задержкой
-	    	ARMST_NotificationHelper.BroadcastNotificationInRadius(owner.GetOrigin(), 3000, systemMessage, deathMessage, 10);
-		}
+            // Отправляем сообщение через собственный метод
+            SendPDAMessageToServer(systemMessage, deathMessage, 10.0); // Длительность уведомления 10 секунд
+            Print("[ARMST_DeathHandlerComponent] Сообщение о смерти отправлено: " + deathMessage, LogLevel.NORMAL);
+        }
     }
     
+    // Метод для отправки сообщения от клиента на сервер
+    void SendPDAMessageToServer(string senderName, string message, float duration)
+    {
+        if (Replication.IsServer())
+        {
+            // Если мы уже на сервере, напрямую вызываем обработку
+            ARMST_PDA_LIFE_GamemodeComponent pdaComponent = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
+            if (pdaComponent)
+            {
+                pdaComponent.HandleMessageFromClient(senderName, message, duration);
+            }
+            else
+            {
+                Print("[ARMST_DeathHandlerComponent] Ошибка: Не удалось получить ARMST_PDA_LIFE_GamemodeComponent на сервере.", LogLevel.ERROR);
+            }
+            return;
+        }
+
+        // Если мы на клиенте, отправляем сообщение на сервер через RPC
+        Print("[ARMST_DeathHandlerComponent] Клиент: Отправка сообщения от " + senderName + ": " + message, LogLevel.NORMAL);
+        Rpc(RpcAsk_SendPDAMessageToServer, senderName, message, duration);
+    }
+
+    // RPC-метод для отправки сообщения на сервер
+    [RplRpc(RplChannel.Reliable, RplRcver.Server)]
+    protected void RpcAsk_SendPDAMessageToServer(string senderName, string message, float duration)
+    {
+        Print("[ARMST_DeathHandlerComponent] Сервер: Получено сообщение от клиента: " + senderName + ": " + message, LogLevel.NORMAL);
+        ARMST_PDA_LIFE_GamemodeComponent pdaComponent = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
+        if (pdaComponent)
+        {
+            pdaComponent.HandleMessageFromClient(senderName, message, duration);
+        }
+        else
+        {
+            Print("[ARMST_DeathHandlerComponent] Ошибка: Не удалось получить ARMST_PDA_LIFE_GamemodeComponent на сервере.", LogLevel.ERROR);
+        }
+    }
     // Метод для получения причины смерти на основе информации о последнем уроне
     string GetDeathReason()
     {
@@ -312,7 +364,6 @@ modded class SCR_CharacterDamageManagerComponent : SCR_ExtendedDamageManagerComp
     {
         // Вызываем родительский метод
         super.OnDamage(damageContext);
-        /*
         // Пытаемся сохранить информацию о повреждении для DeathHandler компонента
         if (damageContext.struckHitZone && damageContext.damageValue > 0)
         {
@@ -326,14 +377,12 @@ modded class SCR_CharacterDamageManagerComponent : SCR_ExtendedDamageManagerComp
                 if (damageContext.instigator)
                     instigatorEntity = damageContext.instigator.GetInstigatorEntity();
                 
-                deathHandler.SetDamageInfo(
+                	deathHandler.SetDamageInfo(
                     damageContext.damageType, 
                     damageContext.struckHitZone.GetName(), 
                     instigatorEntity, 
-                    damageContext.damageValue
-                );
+                    damageContext.damageValue );
             }
         }
-	*/
     }
 }

@@ -51,6 +51,12 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
     [Attribute("15", UIWidgets.Slider, "Какой процент от цены вычитать", "0 100 1", category: "% for price Clothes category")];
     float m_fBuyClothesPercent;
     
+    [Attribute("false", UIWidgets.CheckBox, "Продавать в общем", category: "% for price mut parts category")]
+    protected bool m_bBuyMutPartsToggle;
+    [Attribute("15", UIWidgets.Slider, "Какой процент от цены вычитать", "0 100 1", category: "% for price mut parts category")];
+    float m_fBuyMutPartsPercent;
+    
+	
     override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
     {
         ArmstSellBox(pOwnerEntity, pUserEntity);
@@ -211,6 +217,15 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
                                         itemSold = true;
                                         categoryName = "#armst_trader_category_clothes";
                                         Print(string.Format("[ARMST_TRADE] Продан предмет (Clothes): %1, цена: %2", itemCategory, itemPrice));
+                                    }
+                                case ArmstTradeItemCategory.Mutant:
+                                    if (m_bBuyMutPartsToggle)
+                                    {
+                                        itemPrice = Math.Floor(statsComponent.GetBuyPrice() * (100 - m_fBuyMutPartsPercent) / 100);
+                                        SCR_EntityHelper.DeleteEntityAndChildren(item);
+                                        itemSold = true;
+                                        categoryName = "#armst_trader_category_clothes";
+                                        Print(string.Format("[ARMST_TRADE] Продан предмет (Mut parts): %1, цена: %2", itemCategory, itemPrice));
                                     }
                                     break;
                                 default:

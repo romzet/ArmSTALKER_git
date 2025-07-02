@@ -5,106 +5,111 @@ class ARMST_PDA_LIFE_GamemodeComponentClass: SCR_BaseGameModeComponentClass
 
 class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
 {
-
-	[Attribute("600", UIWidgets.Slider, "Интервал автоматической отправки сообщений (в секундах)", "0 1800 10", category: "PDA")]
-	float m_AutoMessageInterval;
-	[Attribute("true", UIWidgets.CheckBox, "Включить автоматическую отправку сообщений", category: "PDA")]
+    [Attribute("600", UIWidgets.Slider, "Интервал автоматической отправки сообщений (в секундах)", "0 1800 10", category: "PDA")]
+    float m_AutoMessageInterval;
+    [Attribute("true", UIWidgets.CheckBox, "Включить автоматическую отправку сообщений", category: "PDA")]
     bool m_EnableAutoMessages;
 
-	[Attribute("10", UIWidgets.Slider, "Время отображения сообщений (в секундах)", "5 30 1", category: "PDA")]
-	float m_MessageDisplayTime;
+    [Attribute("10", UIWidgets.Slider, "Время отображения сообщений (в секундах)", "5 30 1", category: "PDA")]
+    float m_MessageDisplayTime;
     [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о повседневной жизни", category: "Типы сообщений")]
     bool m_SendLifeMessages;
 
-	[Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о нападениях", category: "Типы сообщений")]
-	bool m_SendAttackMessages;
-	[Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения об убийствах мутантов", category: "Типы сообщений")]
+    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о нападениях", category: "Типы сообщений")]
+    bool m_SendAttackMessages;
+    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения об убийствах мутантов", category: "Типы сообщений")]
     bool m_SendAttackFinalMessages;
 
-	[Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о найденных трупах", category: "Типы сообщений")]
-	bool m_SendFoundDeathMessages;
-     ref array<string>  m_NameSender = {};
-     ref array<string>  m_TextHelicopter = {};
-     ref array<string>  m_TextSurgeStart = {};
-     ref array<string>  m_TextSurge = {};
-     ref array<string>  m_TextLife = {};
-     ref array<string>  m_TextAttack = {};
-     ref array<string>  m_TextAttackFinal = {};
-     ref array<string>  m_TextAttackEnemy = {};
-     ref array<string>  m_TextFoundDeath = {};
+    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о найденных трупах", category: "Типы сообщений")]
+    bool m_SendFoundDeathMessages;
 
-	// Переменная для таймера автоматических сообщений
-	protected int m_AutoMessageTimerID = -1;
-// Системное сообщение для отправки
+    ref array<string> m_NameSender = {};
+    ref array<string> m_TextHelicopter = {};
+    ref array<string> m_TextSurgeStart = {};
+    ref array<string> m_TextSurge = {};
+    ref array<string> m_TextLife = {};
+    ref array<string> m_TextAttack = {};
+    ref array<string> m_TextAttackFinal = {};
+    ref array<string> m_TextAttackEnemy = {};
+    ref array<string> m_TextFoundDeath = {};
+
+    // Переменная для таймера автоматических сообщений
+    protected int m_AutoMessageTimerID = -1;
+    // Системное сообщение для отправки
     protected string m_SystemMessage = "#armst_pda_system";
 
-	bool m_Processed = false;
-	override void OnWorldPostProcess(World world)
-	{
-		super.OnWorldPostProcess(world);
-		m_Processed = true;
-	}
-	
-	static ARMST_PDA_LIFE_GamemodeComponent GetInstance()
-	{
-		if (GetGame().GetGameMode())
-			return ARMST_PDA_LIFE_GamemodeComponent.Cast(GetGame().GetGameMode().FindComponent(ARMST_PDA_LIFE_GamemodeComponent));
-		else
-			return null;
-	}	
-	
-	override void OnPostInit(IEntity owner) {
-	    // Инициализация массивов с сообщениями
-	    InitializeMessageArrays();
-	    // Запуск таймера автоматических сообщений, если они включены
-	    if (m_EnableAutoMessages) 
-			{
-	      		 StartAutoMessageTimer();
-	   		}
-	}
-	
-	override void EOnInit(IEntity owner) {
-	    // Инициализация массивов с сообщениями
-	    InitializeMessageArrays();
-	    // Запуск таймера автоматических сообщений, если они включены
-	    if (m_EnableAutoMessages) 
-			{
-	      		 StartAutoMessageTimer();
-	   		}
-	}
+    bool m_Processed = false;
 
-	// Инициализация массивов с сообщениями
-	protected void InitializeMessageArrays() {
-	    // Заполнение массива имен отправителей
-	    InitializeNameSenderArray();
-	    
-	    // Заполнение массива сообщений о вертолете
-	    InitializeHelicopterTextArray();
-		
-	    // Заполнение массива сообщений о выбросе
-	    InitializeSurgeStartTextArray();
-		
-	    // Заполнение массива сообщений о выбросе
-	    InitializeSurgeTextArray();
-	    
-	    // Заполнение массива сообщений о жизни
-	    InitializeLifeTextArray();
-	    
-	    // Заполнение массива сообщений о нападениях
-	    InitializeAttackTextArray();
-	    
-	    // Заполнение массива сообщений о финале нападений
-	    InitializeAttackFinalTextArray();
-	    
-	    // Заполнение массива сообщений о врагах
-	    InitializeAttackEnemyTextArray();
-	    
-	    // Заполнение массива сообщений о найденных трупах
-	    InitializeFoundDeathTextArray();
-	}
-// Заполнение массива имен отправителей
-    protected void InitializeNameSenderArray() {
-        for (int i = 1; i <= 300; i++) {
+    override void OnWorldPostProcess(World world)
+    {
+        super.OnWorldPostProcess(world);
+        m_Processed = true;
+    }
+    
+    static ARMST_PDA_LIFE_GamemodeComponent GetInstance()
+    {
+        if (GetGame().GetGameMode())
+            return ARMST_PDA_LIFE_GamemodeComponent.Cast(GetGame().GetGameMode().FindComponent(ARMST_PDA_LIFE_GamemodeComponent));
+        else
+            return null;
+    }    
+    
+    override void OnPostInit(IEntity owner)
+    {
+        // Инициализация массивов с сообщениями только на сервере
+        if (Replication.IsServer())
+        {
+            InitializeMessageArrays();
+            // Запуск таймера автоматических сообщений, если они включены
+            if (m_EnableAutoMessages)
+            {
+                StartAutoMessageTimer();
+            }
+        }
+    }
+    
+    override void EOnInit(IEntity owner)
+    {
+        // Инициализация массивов с сообщениями только на сервере
+        if (Replication.IsServer())
+        {
+            InitializeMessageArrays();
+            // Запуск таймера автоматических сообщений, если они включены
+            if (m_EnableAutoMessages)
+            {
+                StartAutoMessageTimer();
+            }
+        }
+    }
+
+    // Инициализация массивов с сообщениями
+    protected void InitializeMessageArrays()
+    {
+        // Заполнение массива имен отправителей
+        InitializeNameSenderArray();
+        // Заполнение массива сообщений о вертолете
+        InitializeHelicopterTextArray();
+        // Заполнение массива сообщений о выбросе
+        InitializeSurgeStartTextArray();
+        // Заполнение массива сообщений о выбросе
+        InitializeSurgeTextArray();
+        // Заполнение массива сообщений о жизни
+        InitializeLifeTextArray();
+        // Заполнение массива сообщений о нападениях
+        InitializeAttackTextArray();
+        // Заполнение массива сообщений о финале нападений
+        InitializeAttackFinalTextArray();
+        // Заполнение массива сообщений о врагах
+        InitializeAttackEnemyTextArray();
+        // Заполнение массива сообщений о найденных трупах
+        InitializeFoundDeathTextArray();
+    }
+
+    // Заполнение массивов (оставляем без изменений)
+    protected void InitializeNameSenderArray()
+    {
+        for (int i = 1; i <= 300; i++)
+        {
             m_NameSender.Insert("#armst_stalker_new_name_" + i);
         }
     }
@@ -389,111 +394,110 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         };
     }
 
-	// Запуск таймера автоматических сообщений
-	void StartAutoMessageTimer() {
-	    
-	    GetGame().GetCallqueue().CallLater(SendRandomMessage, m_AutoMessageInterval * 1000, true);
-	}
+    // Запуск таймера автоматических сообщений только на сервере
+    void StartAutoMessageTimer()
+    {
+        if (!Replication.IsServer())
+            return;
 
-	// Автоматическая отправка случайного сообщения
-	void SendRandomMessage() {
-	    // Список доступных типов сообщений
-	    array<string> availableMessageTypes = {};
-	    
-	    // Добавляем типы сообщений в зависимости от настроек
-	    if (m_SendLifeMessages)
-	        availableMessageTypes.Insert("LIFE");
-	    
-	    if (m_SendAttackMessages)
-	        availableMessageTypes.Insert("ATTACK");
-	    
-	        if (m_SendAttackFinalMessages)
-	            availableMessageTypes.Insert("ATTACK_FINAL");
-	        
-	        if (m_SendFoundDeathMessages)
-	            availableMessageTypes.Insert("FOUND_DEATH");
-	        
-	        // Если нет доступных типов сообщений, выходим
-	        if (availableMessageTypes.Count() == 0)
-	            return;
-	        
-	        // Выбираем случайный тип сообщения
-	        int randomIndex = Math.RandomInt(0, availableMessageTypes.Count());
-	        string randomMessageType = availableMessageTypes[randomIndex];
-	        
-	        // Отправляем сообщение выбранного типа
-	        PDA_SEND_ALL(randomMessageType);
+        GetGame().GetCallqueue().CallLater(SendRandomMessage, m_AutoMessageInterval * 1000, true);
+    }
+
+    // Автоматическая отправка случайного сообщения только на сервере
+    void SendRandomMessage()
+    {
+        if (!Replication.IsServer())
+            return;
+
+        // Список доступных типов сообщений
+        array<string> availableMessageTypes = {};
+        
+        // Добавляем типы сообщений в зависимости от настроек
+        if (m_SendLifeMessages)
+            availableMessageTypes.Insert("LIFE");
+        
+        if (m_SendAttackMessages)
+            availableMessageTypes.Insert("ATTACK");
+        
+        if (m_SendAttackFinalMessages)
+            availableMessageTypes.Insert("ATTACK_FINAL");
+        
+        if (m_SendFoundDeathMessages)
+            availableMessageTypes.Insert("FOUND_DEATH");
+        
+        // Если нет доступных типов сообщений, выходим
+        if (availableMessageTypes.Count() == 0)
+            return;
+        
+        // Выбираем случайный тип сообщения
+        int randomIndex = Math.RandomInt(0, availableMessageTypes.Count());
+        string randomMessageType = availableMessageTypes[randomIndex];
+        
+        // Отправляем сообщение выбранного типа
+        PDA_SEND_ALL(randomMessageType);
     }
     
-    // Метод для отправки сообщения определенного типа
-    void PDA_SEND_ALL(string selectText) {
+    // Метод для отправки сообщения определенного типа только на сервере
+    void PDA_SEND_ALL(string selectText)
+    {
+        if (!Replication.IsServer())
+            return;
+
         // Проверяем корректность типа сообщения
         if (selectText != "SURGE" && selectText != "HELI" && selectText != "SURGE_START" && selectText != "LIFE" && selectText != "ATTACK" && 
-            selectText != "ATTACK_FINAL" && selectText != "FOUND_DEATH") {
+            selectText != "ATTACK_FINAL" && selectText != "FOUND_DEATH")
+        {
             Print("ARMST_PDA_LIFE: Unknown message type: " + selectText);
             return;
         }
         
         // Выбираем случайное имя отправителя
         string senderName = GetRandomSenderName();
-        
-        // Отправляем сообщение в зависимости от типа
-        if (selectText == "HELI") {
-            // Получаем случайное сообщение о выбросе
-            string surgeHelicopterMessage = GetRandomHelicopterMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, surgeHelicopterMessage, m_MessageDisplayTime);
+        string message = "";
+
+        // Формируем сообщение в зависимости от типа
+        if (selectText == "HELI")
+        {
+            message = GetRandomHelicopterMessage();
         }
-        // Отправляем сообщение в зависимости от типа
-        if (selectText == "SURGE_START") {
-            // Получаем случайное сообщение о выбросе
-            string surgeStartMessage = GetRandomSurgeStartMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, surgeStartMessage, m_MessageDisplayTime);
+        else if (selectText == "SURGE_START")
+        {
+            message = GetRandomSurgeStartMessage();
         }
-        if (selectText == "SURGE") {
-            // Получаем случайное сообщение о выбросе
-            string surgeMessage = GetRandomSurgeMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, surgeMessage, m_MessageDisplayTime);
+        else if (selectText == "SURGE")
+        {
+            message = GetRandomSurgeMessage();
         }
-        else if (selectText == "LIFE") {
-            // Получаем случайное сообщение о жизни
-            string lifeMessage = GetRandomLifeMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, lifeMessage, m_MessageDisplayTime);
+        else if (selectText == "LIFE")
+        {
+            message = GetRandomLifeMessage();
         }
-        else if (selectText == "ATTACK") {
-            // Получаем случайное сообщение о нападении и случайного врага
+        else if (selectText == "ATTACK")
+        {
             string attackMessage = GetRandomAttackMessage();
             string enemyMessage = GetRandomEnemyMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, attackMessage + enemyMessage, m_MessageDisplayTime);
+            message = attackMessage + enemyMessage;
         }
-        else if (selectText == "ATTACK_FINAL") {
-            // Получаем случайное сообщение о финале нападения и случайного врага
+        else if (selectText == "ATTACK_FINAL")
+        {
             string attackFinalMessage = GetRandomAttackFinalMessage();
             string enemyMessage = GetRandomEnemyMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, attackFinalMessage + enemyMessage, m_MessageDisplayTime);
+            message = attackFinalMessage + enemyMessage;
         }
-        else if (selectText == "FOUND_DEATH") {
-            // Получаем случайное сообщение о найденном трупе
-            string foundDeathMessage = GetRandomFoundDeathMessage();
-            
-            // Отправляем сообщение
-            ARMST_NotificationHelper.BroadcastNotification(senderName, foundDeathMessage, m_MessageDisplayTime);
+        else if (selectText == "FOUND_DEATH")
+        {
+            message = GetRandomFoundDeathMessage();
         }
+
+        // Отправляем сообщение всем клиентам через RPC
+        Print("[ARMST PDA] Сервер: Отправка сообщения типа " + selectText + " от " + senderName);
+        Rpc(RPC_BroadcastMessageToClients, senderName, message, m_MessageDisplayTime);
     }
-    
-    // Получение случайного имени отправителя
-    string GetRandomSenderName() {
+
+
+    // Получение случайного имени отправителя и других сообщений (оставляем без изменений)
+    string GetRandomSenderName()
+    {
         if (m_NameSender.Count() == 0)
             return "#armst_stalker_new_name_1";
         
@@ -501,22 +505,26 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_NameSender[randomIndex];
     }
     
-    // Получение случайного сообщения о выбросе
-    string GetRandomSurgeMessage() {
+    string GetRandomSurgeMessage()
+    {
         if (m_TextSurge.Count() == 0)
             return "Выброс закончился.";
         
         int randomIndex = Math.RandomInt(0, m_TextSurge.Count());
         return m_TextSurge[randomIndex];
     }
-    string GetRandomSurgeStartMessage() {
+
+    string GetRandomSurgeStartMessage()
+    {
         if (m_TextSurgeStart.Count() == 0)
             return "Выброс начался.";
         
         int randomIndex = Math.RandomInt(0, m_TextSurgeStart.Count());
         return m_TextSurgeStart[randomIndex];
     }
-    string GetRandomHelicopterMessage() {
+
+    string GetRandomHelicopterMessage()
+    {
         if (m_TextHelicopter.Count() == 0)
             return "Вертушка.";
         
@@ -524,8 +532,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_TextHelicopter[randomIndex];
     }
     
-    // Получение случайного сообщения о жизни
-    string GetRandomLifeMessage() {
+    string GetRandomLifeMessage()
+    {
         if (m_TextLife.Count() == 0)
             return "Жизнь в Зоне продолжается.";
         
@@ -533,8 +541,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_TextLife[randomIndex];
     }
     
-    // Получение случайного сообщения о нападении
-    string GetRandomAttackMessage() {
+    string GetRandomAttackMessage()
+    {
         if (m_TextAttack.Count() == 0)
             return "На нас напали ";
         
@@ -542,8 +550,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_TextAttack[randomIndex];
     }
     
-    // Получение случайного сообщения о финале нападения
-    string GetRandomAttackFinalMessage() {
+    string GetRandomAttackFinalMessage()
+    {
         if (m_TextAttackFinal.Count() == 0)
             return "Отбились от ";
         
@@ -551,8 +559,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_TextAttackFinal[randomIndex];
     }
     
-    // Получение случайного сообщения о враге
-    string GetRandomEnemyMessage() {
+    string GetRandomEnemyMessage()
+    {
         if (m_TextAttackEnemy.Count() == 0)
             return " мутантов";
         
@@ -560,8 +568,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_TextAttackEnemy[randomIndex];
     }
     
-    // Получение случайного сообщения о найденном трупе
-    string GetRandomFoundDeathMessage() {
+    string GetRandomFoundDeathMessage()
+    {
         if (m_TextFoundDeath.Count() == 0)
             return "Нашел труп.";
         
@@ -569,11 +577,45 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         return m_TextFoundDeath[randomIndex];
     }
     
-    
-    
-    // Метод для ручной отправки случайного сообщения определенного типа
-    void SendRandomMessageOfType(string messageType) {
+    // Метод для ручной отправки случайного сообщения определенного типа только на сервере
+    void SendRandomMessageOfType(string messageType)
+    {
+        if (!Replication.IsServer())
+            return;
+
         PDA_SEND_ALL(messageType);
     }
-    
-}
+	 // Метод для обработки сообщения от клиента на сервере
+    void HandleMessageFromClient(string senderName, string message, float duration)
+    {
+        if (!Replication.IsServer())
+            return;
+
+        Print("[ARMST PDA] Сервер: Обработка сообщения от клиента: " + senderName + ": " + message, LogLevel.NORMAL);
+        
+        // Рассылаем сообщение всем клиентам
+        Rpc(RPC_BroadcastMessageToClients, senderName, message, duration);
+    }
+
+    // RPC-метод для рассылки сообщения всем клиентам
+    [RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+    void RPC_BroadcastMessageToClients(string senderName, string message, float duration)
+    {
+        Print("[ARMST PDA] Клиент: Получено сообщение от " + senderName, LogLevel.NORMAL);
+        // Вызываем метод ShowNotificationPDA из SCR_PlayerController для отображения уведомления
+        SCR_PlayerController.ShowNotificationPDA(null, senderName, message, duration);
+    }
+	  // RPC-метод для получения сообщения от клиента
+    [RplRpc(RplChannel.Reliable, RplRcver.Server)]
+    void RPC_ReceiveMessageFromClient(string senderName, string message, float duration)
+    {
+        if (!Replication.IsServer())
+            return;
+
+        Print("[ARMST PDA] Сервер: Получено сообщение от клиента: " + senderName + ": " + message, LogLevel.NORMAL);
+        
+        // Рассылаем сообщение всем клиентам
+        Rpc(RPC_BroadcastMessageToClients, senderName, message, duration);
+    }
+
+};

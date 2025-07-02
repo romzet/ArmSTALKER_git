@@ -7,7 +7,8 @@ enum ArmstTradeItemCategory {
     Money,          // оружие, магазины, гранаты
     Artefact,       // оружие, магазины, гранаты
     Weapons,        // оружие, магазины, гранаты
-    Clothes         // одежда
+    Clothes,         // одежда
+	Mutant			//части мутантов
 }
 
 class ARMST_ITEMS_STATS_COMPONENTSClass : GameComponentClass
