@@ -147,6 +147,7 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
     //------------------------------------------------------------------------------------------------
     override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
     {
+		
         Resource m_Resource = Resource.Load(m_PrefabToSpawn);
         EntitySpawnParams params();
         m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
@@ -194,7 +195,6 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
     void ShowPurchaseNotification(IEntity player, float buyPrice, float updatedMoney)
     {
         
-        Print("[ARMST_TRADE] Отправка уведомления игроку.");
         string itemName4 = "#armst_player_cash";
         string message = string.Format("%2: %1 RUB.", updatedMoney, itemName4);
         string itemName3 = "#Armst_buy_done";
@@ -202,8 +202,14 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
         string message2 = string.Format("%3 %1 за %2 RUB.", itemName, buyPrice, itemName3);
         if (Replication.IsServer())
         {
-            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
-            return;
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+        		ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
+	        }
+			else 
+			{
+			}
         }
 		else 
 		{

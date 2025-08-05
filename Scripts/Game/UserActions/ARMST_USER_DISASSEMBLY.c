@@ -62,12 +62,7 @@ class ARMST_USER_DISASSEMBLY : ScriptedUserAction
 				ChimeraCharacter userCharacter = ChimeraCharacter.Cast(pUserEntity);
 				CharacterControllerComponent userController = userCharacter.GetCharacterController();
 					
-				IEntity itemAtSlot = userController.GetAttachedGadgetAtLeftHandSlot();
 				IEntity itemToRemove = items[0];
-					if (itemToRemove == itemAtSlot)
-            			{
-						}
-					else {return;}
 			}
 		    else {return;}
 		}
@@ -94,6 +89,7 @@ class ARMST_USER_DISASSEMBLY : ScriptedUserAction
 							  for (int i = 0; i < spawnCount1; i++)
                        			{
             					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource1, GetGame().GetWorld(), params);
+								SCR_EntityHelper.SnapToGround(spawnedObject);
 								}
 						}
 						Resource resource2 = Resource.Load(itemStatsComponent.GetPrefab2ToSpawn());
@@ -103,6 +99,7 @@ class ARMST_USER_DISASSEMBLY : ScriptedUserAction
 							  for (int i = 0; i < spawnCount1; i++)
                        			{
             					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource2, GetGame().GetWorld(), params);
+								SCR_EntityHelper.SnapToGround(spawnedObject);
 								}
 						}
 						Resource resource3 = Resource.Load(itemStatsComponent.GetPrefab3ToSpawn());
@@ -112,6 +109,7 @@ class ARMST_USER_DISASSEMBLY : ScriptedUserAction
 							  for (int i = 0; i < spawnCount1; i++)
                        			{
             					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource3, GetGame().GetWorld(), params);
+								SCR_EntityHelper.SnapToGround(spawnedObject);
 								}
 						}
 						Resource resource4 = Resource.Load(itemStatsComponent.GetPrefab4ToSpawn());
@@ -121,6 +119,7 @@ class ARMST_USER_DISASSEMBLY : ScriptedUserAction
 							  for (int i = 0; i < spawnCount1; i++)
                        			{
             					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource4, GetGame().GetWorld(), params);
+								SCR_EntityHelper.SnapToGround(spawnedObject);
 								}
 						}
 						Resource resource5 = Resource.Load(itemStatsComponent.GetPrefab5ToSpawn());
@@ -130,6 +129,7 @@ class ARMST_USER_DISASSEMBLY : ScriptedUserAction
 							  for (int i = 0; i < spawnCount1; i++)
                        			{
             					IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource5, GetGame().GetWorld(), params);
+								SCR_EntityHelper.SnapToGround(spawnedObject);
 								}
 						}
 					SCR_EntityHelper.DeleteEntityAndChildren(pOwnerEntity);

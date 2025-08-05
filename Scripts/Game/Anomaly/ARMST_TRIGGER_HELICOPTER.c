@@ -135,7 +135,7 @@ class ARMST_TRIGGER_HELICOPTER: SCR_BaseTriggerEntity {
             return;
         }
         
-        GetGame().GetCallqueue().CallLater(HelicopterNotify, 20 * 1000, false);
+       // GetGame().GetCallqueue().CallLater(HelicopterNotify, 20 * 1000, false);
         
         GetWorldTransform(m_WorldTransform);
         

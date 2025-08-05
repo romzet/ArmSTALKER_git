@@ -38,18 +38,46 @@ class ARMST_OpenStorageAction : ScriptedUserAction
             playerStats.Rpc_ARMST_SET_STAT_STASH();
         }
         
+		SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+		        // Получаем локального игрока
+		        int localPlayerId = SCR_PlayerController.GetLocalPlayerId();
+		        IEntity localPlayerEntity = GetGame().GetPlayerManager().GetPlayerControlledEntity(localPlayerId);
+		        if (!localPlayerEntity)
+		        {
+		            Print("[ARMST_OpenStorageAction] Ошибка: Не удалось получить локального игрока для открытия инвентаря.", LogLevel.ERROR);
+		            return;
+		        }
+		
+		        // Проверяем, что пользователь, инициировавший действие, является локальным игроком
+		        if (pUserEntity != localPlayerEntity)
+		        {
+		            return;
+		        }
+		
+		        // Получаем компонент инвентаря игрока
+		        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+		        if (!inventoryManager)
+		        {
+		            Print("[ARMST_OpenStorageAction] Ошибка: Не удалось найти SCR_InventoryStorageManagerComponent у игрока.", LogLevel.ERROR);
+		            return;
+		        }
+		
+		        // Устанавливаем хранилище для открытия и открываем инвентарь
+		        inventoryManager.SetStorageToOpen(pOwnerEntity);
+		        inventoryManager.OpenInventory();
+				return;
+	        }
         // Открываем инвентарь только для конкретного игрока на его клиенте
+		
         OpenInventoryForUser(pUserEntity, pOwnerEntity);
     };    
     
     // Метод для открытия инвентаря только для конкретного игрока
     protected void OpenInventoryForUser(IEntity userEntity, IEntity ownerEntity)
     {
-        // Проверяем, что код выполняется на клиенте
-        if (!Replication.IsClient())
-        {
-            return;
-        }
+		
 
         // Получаем локального игрока
         int localPlayerId = SCR_PlayerController.GetLocalPlayerId();

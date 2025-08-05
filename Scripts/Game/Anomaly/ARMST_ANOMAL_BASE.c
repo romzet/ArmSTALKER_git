@@ -34,7 +34,8 @@ enum ArmstDamageType {
 enum ArmstAnomalyDeath {
     Trampoline, 		
     Teleport,  	
-    Psy,     		
+    Psy,     	
+	Miracle,     		
 	Water  
 }
 class ARMST_DamagingTriggerEntityClass: SCR_BaseTriggerEntityClass {
@@ -86,7 +87,7 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	
 	//Значение урона
 	[Attribute("1.0", desc: "Урон", category: "3. Damage")]
-	protected float m_damageValue;
+	float m_damageValue;
 	//Рандомный урон
 	[Attribute("0", desc: "Рандом к урону", category: "3. Damage")]
 	protected float m_damageRandomize;
@@ -102,7 +103,11 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	bool m_Attack_Death_Actions;
 	[Attribute("0", UIWidgets.ComboBox, "Вид фаталити", "", ParamEnumArray.FromEnum(ArmstAnomalyDeath), category: "4. Fatality")]
 	EDamageType m_Attack_Death_Scripts;
-	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Партинкл на Фаталити", category: "4. Fatality", params: "ptc")]
+	
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб атаки", "et", category: "4. Fatality")]
+    ResourceName m_PrefabAnimation;
+	
+	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Партинкл на Фаталити", category: "4. Fatality", params: "et")]
 	protected ResourceName m_Attack_Death_Particle;	
 	private ParticleEffectEntity m_Attack_Death_Particle2;
 	[Attribute("", UIWidgets.Auto, "Звук на фаталити", category: "4. Fatality")]
@@ -187,9 +192,6 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
         if (!IsAlive(ent))
             return;
 		
-		//если звук еще не доиграл, то не активировать
-		if (!AudioSystem.IsSoundPlayed(m_AudioHandle))
-			return;
 		
 		if(!m_fMonsterDamage)
 		{
@@ -200,9 +202,23 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		 if (m_Attack_Timer_bool)
             return;
 		
+		BaseVehicleNodeComponent vehicle = BaseVehicleNodeComponent.Cast(ent.FindComponent(BaseVehicleNodeComponent));
+			if (vehicle)
+			{
+	        DamageManagerComponent damageManager2 = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
+	        if (damageManager2) {
+	            // Наносим критический урон для взрыва
+	            BaseDamageContext damageCtx2 = new BaseDamageContext();
+	            damageCtx2.damageValue = 10000;
+	            damageManager2.HandleDamage(damageCtx2);
+				return;
+				}
+			}
 		//==========================================================================================================================================
 		//==========================================================================================================================================
 		
+		GetWorldTransform(m_WorldTransform);
+		m_WorldTransform[3][1] = m_WorldTransform[3][1] - 0.7;
         // Спавн монстра в эпицентре аномалии
         if (m_MonsterToSpawn != "")
         {
@@ -231,8 +247,8 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		if (m_fBoltAction) 
 			{
 				
-		DamageManagerComponent damageManager = DamageManagerComponent.Cast(ent.FindComponent(DamageManagerComponent));
-			if (!damageManager)
+			GrenadeMoveComponent damageManager = GrenadeMoveComponent.Cast(ent.FindComponent(GrenadeMoveComponent));
+			if (damageManager)
 				{
 					//спавн партикла
 					GetTransform(mat);
@@ -272,12 +288,11 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		
 		if (m_Attack_Death_Actions)
 			{
-				m_Attack_Death_Timer = m_Attack_Death_Timer * 1000;
-				GetGame().GetCallqueue().CallLater(ActivateDeathCode, m_Attack_Death_Timer, false, ent);
+				GetGame().GetCallqueue().CallLater(ActivateDeathCode, m_Attack_Death_Timer * 1000, false, ent);
 			};
 		
 		float m_Attack_Timer5 = m_Attack_Timer;
-        	SetUpdateRate(m_Attack_Timer5);
+        SetUpdateRate(m_Attack_Timer5);
 		GetGame().GetCallqueue().CallLater(ArmstAttackTimer, m_Attack_Timer5 * 1000, false);
 		
 		//==========================================================================================================================================
@@ -288,6 +303,7 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		//vector mat[4];
 		if (m_AudioSourceConfiguration)
 		{
+			Print("проигрыш звука");
 			SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
 					if (!soundManagerEntity)
 						return;
@@ -315,45 +331,12 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 			spawnParams2.Parent = this;
 			ParticleEffectEntitySpawnParams params3();
 			params3.Transform = m_WorldTransform;
-			m_pParticle_Attack = ParticleEffectEntity.SpawnParticleEffect(m_sParticle_Attack, params3);
+			m_pParticle_Attack = ParticleEffectEntity.SpawnParticleEffect(m_sParticle_Attack, spawnParams2);
 			m_pParticle_Attack2 = ParticleEffectEntity.SpawnParticleEffect(m_sParticle_Attack2, params3);
 		
 		
-		//==========================================================================================================================================
-		//==========================================================================================================================================
-		//нанесение урона
-		
-		
-		//Дебаг
-		//BaseChatComponent chatComponent = BaseChatComponent.Cast(GetGame().GetPlayerController().FindComponent(BaseChatComponent));
-		//chatComponent.SendMessage(string.Format("Защита:%1, Урон у аномалии:%2 , Получаемый урон:%3 ", m_fProtectionSumm, anomal_damage, damageCtx.damageValue), 0)
-		
-		
-		
-		//==========================================================================================================================================
-		//==========================================================================================================================================
-		//пинок для регдола
-		
-		
-		//==========================================================================================================================================
-		//==========================================================================================================================================
-		//запуск фаталити
 	};
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
-	protected void RpcAsk_ArmstDAMAGE(int playerID)
-	{
-		
-		PlayerManager pMan = GetGame().GetPlayerManager();
-		
-		if (!pMan)
-			return;
-		
-		SCR_ChimeraCharacter player = SCR_ChimeraCharacter.Cast(pMan.GetPlayerControlledEntity(playerID));
-		if (!player)
-			return;
-		ArmstDamageStart(player);
-	}
 	
 	//спавн звука
 	void ArmstSoundSpawn()
@@ -410,12 +393,9 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	        if (damageManager)
 	        {
 	            BaseDamageContext damageCtx = new BaseDamageContext();
-	            damageCtx.damageValue = damageValue; // Использовать текущее здоровье, чтобы убить игрока
+	            damageCtx.damageValue = damageValue;
 			 	damageCtx.damageType = m_damageTypeVanilla;
 	            damageManager.HandleDamage(damageCtx);
-				Print(m_damageTypeVanilla);
-				Print(damageValue);
-				//GetGame().GetCallqueue().CallLater(ArmstCheckAlive, 5000, false, ent);
 	        }
 		}
 		
@@ -424,8 +404,6 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(ent.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
 		if (statsComponent) 
 		{ 
-			//statsComponent.ArmstPlayerDamage(damageValue, m_damageTypeVanilla); 
-			
 			switch (m_damageTypeVanilla) {
 	        				case EDamageType.Toxic:
 							statsComponent.ArmstPlayerStatSetToxic(damageValue);
@@ -517,8 +495,8 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 						if (!audioSource2)
 							return;
 					
-					ent.GetTransform(mat);
-					mat[3] = ent.CoordToParent(m_vSoundOffset);
+					this.GetTransform(mat);
+					mat[3] = this.CoordToParent(m_vSoundOffset);
 					soundManagerEntity2.PlayAudioSource(audioSource2, mat);
 					
 					SCR_EntityHelper.DeleteEntityAndChildren(ent);
@@ -530,49 +508,29 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	//фаталити
 	void ActivateDeathCode(IEntity ent) {
 		
-		 if (!ent)
-            return;
 		 switch (m_Attack_Death_Scripts) {
         				case ArmstAnomalyDeath.Trampoline:
-							GetTransform(mat3);
-							ParticleEffectEntitySpawnParams spawnParams();
-							spawnParams.Parent = ent;
-							m_Attack_Death_Particle2 = ParticleEffectEntity.SpawnParticleEffect(m_Attack_Death_Particle, spawnParams);
-							
+							Resource m_Resource = Resource.Load(m_Attack_Death_Particle);
+							EntitySpawnParams params();
+							params.Parent = ent;
+							IEntity spawnedObject = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
+			
 							//спавн звука
 							SCR_SoundManagerEntity soundManagerEntityFatality = GetGame().GetSoundManagerEntity();
 							if (!soundManagerEntityFatality)
 									return;
 					
-							SCR_AudioSource audioSourceFatality = soundManagerEntityFatality.CreateAudioSource(m_Attack_Death_Particle2, m_AudioSourceConfigurationFatality);
+							SCR_AudioSource audioSourceFatality = soundManagerEntityFatality.CreateAudioSource(spawnedObject, m_AudioSourceConfigurationFatality);
 							if (!audioSourceFatality)
 									return;
-					
-							
-							ent.GetTransform(mat3);
-							mat3[3] = ent.CoordToParent(m_vSoundOffset);
+
+							spawnedObject.GetTransform(mat3);
+							mat3[3] = spawnedObject.CoordToParent(m_vSoundOffset);
 							soundManagerEntityFatality.PlayAudioSource(audioSourceFatality, mat3);
-							SCR_EntityHelper.DeleteEntityAndChildren(ent);
+							//SCR_EntityHelper.DeleteEntityAndChildren(ent);
 						break;
 						case ArmstAnomalyDeath.Teleport:
-							GetTransform(mat3);
-							ParticleEffectEntitySpawnParams spawnParams();
-							spawnParams.Parent = ent;
-							m_Attack_Death_Particle2 = ParticleEffectEntity.SpawnParticleEffect(m_Attack_Death_Particle, spawnParams);
-							
-							//спавн звука
-							SCR_SoundManagerEntity soundManagerEntityFatality = GetGame().GetSoundManagerEntity();
-							if (!soundManagerEntityFatality)
-									return;
-					
-							SCR_AudioSource audioSourceFatality = soundManagerEntityFatality.CreateAudioSource(m_Attack_Death_Particle2, m_AudioSourceConfigurationFatality);
-							if (!audioSourceFatality)
-									return;
-					
-							
-							ent.GetTransform(mat3);
-							mat3[3] = ent.CoordToParent(m_vSoundOffset);
-							soundManagerEntityFatality.PlayAudioSource(audioSourceFatality, mat3);
+			
 							vector targetPos = GetOrigin();
 							// Случайное смещение в пределах 2-3 метров от цели
 				            float angle = Math.RandomFloat(0, Math.PI2); // Случайный угол
@@ -583,8 +541,26 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 				            offset[2] = Math.Sin(angle) * distance;
 				            offset[1] =  offset[1] + 10;
 							vector spawnPosition = targetPos + offset;
-    							ent.SetOrigin(spawnPosition);
-                				SCR_EntityHelper.SnapToGround(ent);
+    						ent.SetOrigin(spawnPosition);
+                			SCR_EntityHelper.SnapToGround(ent);
+			
+							Resource m_Resource = Resource.Load(m_Attack_Death_Particle);
+							EntitySpawnParams params();
+							params.Parent = ent;
+							IEntity spawnedObject = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
+			
+							//спавн звука
+							SCR_SoundManagerEntity soundManagerEntityFatality = GetGame().GetSoundManagerEntity();
+							if (!soundManagerEntityFatality)
+									return;
+					
+							SCR_AudioSource audioSourceFatality = soundManagerEntityFatality.CreateAudioSource(ent, m_AudioSourceConfigurationFatality);
+							if (!audioSourceFatality)
+									return;
+					
+							ent.GetTransform(mat3);
+							mat3[3] = ent.CoordToParent(m_vSoundOffset);
+							soundManagerEntityFatality.PlayAudioSource(audioSourceFatality, mat3);
 			
 							ChimeraCharacter character = ChimeraCharacter.Cast(ent);
 							if (!character)
@@ -599,16 +575,60 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 							WeaponSlotComponent currentSlot = weaponManager.GetCurrentSlot();
 							if (!currentSlot)
 								return;
+			
 							controller.DropItemFromLeftHand();
 							controller.DropWeapon(currentSlot);
 						break;
 						case ArmstAnomalyDeath.Psy:
-						break;
-						case ArmstAnomalyDeath.Water:
+				        		Resource resource = Resource.Load(m_PrefabAnimation);
+								protected vector m_aOriginalTransform[4];
+								vector transform[4];
+								SCR_TerrainHelper.GetTerrainBasis(ent.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+								m_aOriginalTransform = transform;
+								EntitySpawnParams params = new EntitySpawnParams();
+								params.Transform = m_aOriginalTransform;
+								params.TransformMode = ETransformMode.WORLD;
+				                IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+								Print(spawnedObject);
+					            if (spawnedObject)
+					            {
+									SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(ent.FindComponent(SCR_InventoryStorageManagerComponent));
+									Print(inventoryManager);
+									inventoryManager.TryInsertItem(spawnedObject);
+									ChimeraCharacter character = ChimeraCharacter.Cast(ent);
+									if (!character)
+										return;
+									CharacterControllerComponent controller = character.GetCharacterController();
+									Print(controller);
+									controller.RemoveGadgetFromHand(false);
+									controller.SetWeaponRaised(false);
+									controller.SelectWeapon(null);
+									controller.TakeGadgetInLeftHand(spawnedObject, EGadgetType.CONSUMABLE);
+									GetGame().GetCallqueue().CallLater(ArmstAnimationDelete, 8000, false, spawnedObject);
+					       		 }
+						case ArmstAnomalyDeath.Miracle:
+			
+									ChimeraCharacter character = ChimeraCharacter.Cast(ent);
+									DamageManagerComponent damageManager = DamageManagerComponent.Cast(character.FindComponent(DamageManagerComponent));
+									if (!damageManager)
+										return;
+									
+							         BaseDamageContext damageCtx = new BaseDamageContext();
+							         damageCtx.damageValue = -10;
+							         damageCtx.hitEntity = character;
+									 damageCtx.damageType = EDamageType.HEALING;
+							         damageCtx.instigator = Instigator.CreateInstigator(character);
+							         damageManager.HandleDamage(damageCtx);
 						break;
 					}
 	};
 	
+	void ArmstAnimationDelete(IEntity spawnedObject)
+	{
+		Print("Delete ent");
+		if (spawnedObject)
+			SCR_EntityHelper.DeleteEntityAndChildren(spawnedObject);
+	}
 	//рассчет защиты
 	private float ArmstCalcDef(IEntity ent) {
 		

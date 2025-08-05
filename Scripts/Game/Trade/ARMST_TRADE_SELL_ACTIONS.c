@@ -360,7 +360,14 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
         
         // Проверка, что код выполняется на клиенте для отображения уведомления
         if (Replication.IsServer()) {
-            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+        		ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);
+	        }
+			else 
+			{
+			}
         }
         else {
             ARMST_NotificationHelper.ShowNotification(player, message, message2, 10.0);

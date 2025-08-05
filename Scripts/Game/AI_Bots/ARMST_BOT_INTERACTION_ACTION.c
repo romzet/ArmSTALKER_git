@@ -1,5 +1,4 @@
 
-
 //первоначальное взаимодействие с ботом
 class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 	
@@ -50,7 +49,8 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 							}
 					}
 				
-        		Bot.Rpc(Bot.Rpc_ArmstHelloReaction);
+        		//Bot.Rpc(Bot.Rpc_ArmstHelloReaction);
+				ArmstHelloReaction(pOwnerEntity);
 				charComp.TryStartCharacterGesture(ECharacterGestures.POINT_WITH_FINGER, 1500);
 				
 			
@@ -60,17 +60,34 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 		
 	};
 	
+	void ArmstHelloReaction(IEntity pOwnerEntity)
+	{
+		ARMST_BOT_INTERACTION_COMPONENT Bot = ARMST_BOT_INTERACTION_COMPONENT.Cast(GetOwner().FindComponent(ARMST_BOT_INTERACTION_COMPONENT));
+		if (Bot)
+			{
+			vector mat[4];
+				SCR_SoundManagerEntity soundManagerEntity2 = GetGame().GetSoundManagerEntity();
+				if (!soundManagerEntity2)
+						return;
+			
+			if (!Bot.m_AudioReactionHello2 || !Bot.m_AudioReactionHello2.IsValid())
+				return;
+				SCR_AudioSource audioSource2 = soundManagerEntity2.CreateAudioSource(pOwnerEntity, Bot.m_AudioReactionHello2);
+				if (!audioSource2)
+						return;
+				pOwnerEntity.GetTransform(mat);
+				soundManagerEntity2.PlayAudioSource(audioSource2, mat);
+			}
+	}
+	
 	void ArmstTalkTimerOff()
 	{
 		ARMST_BOT_INTERACTION_COMPONENT Bot = ARMST_BOT_INTERACTION_COMPONENT.Cast(GetOwner().FindComponent(ARMST_BOT_INTERACTION_COMPONENT));
 		Bot.SetTalkCheck(true);
 	}
+	
 	void ArmstStartLookOnPlayer(AIAgent owner, IEntity player, float dt)
 	{
-		
-		
-		
-		
 		
 		vector lookPosition;
 		float priority;

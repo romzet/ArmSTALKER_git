@@ -9,6 +9,8 @@ class ARMST_ARTEFACT_SPAWN_COMPONENTS : GameComponent
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна", "et", category: "Artifact")]
     ResourceName m_ObjectPrefab;
 	
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна", "et", category: "Flash")]
+    ResourceName m_ObjectPrefabFlashSpawn;
 	
     [Attribute("100", UIWidgets.Slider, "Шанс спавна артефакта в процентах", "0 100 1", category: "Artifact")]
     int m_ArtifactSpawnChance;
@@ -23,5 +25,9 @@ class ARMST_ARTEFACT_SPAWN_COMPONENTS : GameComponent
 		return m_ObjectPrefab;
 	};
 	
+	ResourceName getArmstFlashPrefab()
+	{
+		return m_ObjectPrefabFlashSpawn;
+	};
 	
 };

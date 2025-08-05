@@ -40,6 +40,12 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Спавн молний", "et", category: "Surge")]
     ResourceName m_ObjectSurgeLight;
     
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Звук тревоги", "et", category: "Surge")]
+    ResourceName m_ObjectSurgeAlarm;
+    
+    [Attribute("PositionAlarm", UIWidgets.EditBox, "Имя маркера начальной точки", category: "Surge")]
+    protected string m_sPositionAlarm;
+	
     vector m_WorldTransform[4];
     private ref array<IEntity> m_SpawnedObjects; // Массив для сохраненных объектов
     private bool m_SurgeActive = false; // Флаг активности выброса
@@ -49,7 +55,7 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
     private IEntity m_SurgeSoundAmbient; // Ссылка на объект звука выброса
     private IEntity m_SurgeSoundEnd; // Ссылка на объект звука выброса
     private IEntity m_SurgeEffects; // Ссылка на объект
-    
+    private IEntity m_SurgeAlarmSound; // Ссылка на объект звука тревоги
 	TimeAndWeatherManagerEntity timeAndWeatherManager;
 	
     protected override bool ScriptedEntityFilterForQuery(IEntity ent) {
@@ -97,11 +103,18 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
             if (controller && controller.GetLifeState() == ECharacterLifeState.DEAD)
                 return;
         }
+		
+	        // Проверяем, включены ли выбросы в глобальных настройках
+	        if (!IsSurgeEnabled())
+	        {
+	            return;
+	        }
+		
         if (!m_SurgeActive) {
 			
             // Запускаем таймер выброса
             GetGame().GetCallqueue().CallLater(StartSurge, m_SurgeTimer * 1000, false);
-            Print("Запущен таймер выброса, выброс начнется через " + m_SurgeTimer + " секунд");
+            Print("[ARMST_SURGE] SURGER START TIMER " + m_SurgeTimer + " sec");
 			
             m_SurgeActive = true;
         }
@@ -134,11 +147,88 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 				 		damageCtx.damageType = EDamageType.PROCESSED_FRAGMENTATION;
 			            damageCtx.damageValue = m_SurgeDamage; // Использовать текущее здоровье, чтобы убить игрока
 			            damageManager.HandleDamage(damageCtx);
-            			Print("Урон от выброса " + damageCtx.damageValue);
 			        }
 			}
         
     }
+	protected void SpawnSurgeAlarmSound()
+	{
+	    if (m_ObjectSurgeAlarm == ResourceName.Empty)
+	        return;
+	
+	    Resource resource = Resource.Load(m_ObjectSurgeAlarm);
+	    if (!resource)
+	        return;
+	
+	    // Получаем позицию для спавна звука
+	    vector alarmTransform[4];
+	    if (!m_sPositionAlarm.IsEmpty())
+	    {
+	        // Если указан маркер, пытаемся найти его позицию
+	        IEntity marker = GetGame().GetWorld().FindEntityByName(m_sPositionAlarm);
+	        if (marker)
+	        {
+	            marker.GetTransform(alarmTransform);
+	        }
+	        else
+	        {
+	            Print("[ARMST_SURGE] Не найден маркер для звука тревоги: " + m_sPositionAlarm, LogLevel.WARNING);
+	            // В случае ошибки используем центр триггера
+	            vector triggerCenter = GetOrigin();
+	            alarmTransform[3] = triggerCenter;
+	            alarmTransform[3][1] = triggerCenter[1] + 500; // Устанавливаем высоту
+	        }
+	    }
+	    else
+	    {
+	        // Если маркер не указан, используем центр триггера
+	        vector triggerCenter = GetOrigin();
+	        alarmTransform[3] = triggerCenter;
+	        alarmTransform[3][1] = triggerCenter[1] + 500; // Устанавливаем высоту
+	    }
+	
+	    EntitySpawnParams params();
+	    params.Transform = alarmTransform;
+	    params.TransformMode = ETransformMode.WORLD;
+	
+	    m_SurgeAlarmSound = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+	    if (m_SurgeAlarmSound)
+	    {
+	        Print("[ARMST_SURGE] Звук тревоги успешно спавнен");
+	    }
+	    else
+	    {
+	        Print("[ARMST_SURGE] Не удалось спавнить звук тревоги", LogLevel.ERROR);
+	    }
+	}
+	
+	protected bool IsSurgeEnabled()
+    {
+        // Получаем текущий игровой режим
+        BaseGameMode gameMode = BaseGameMode.Cast(GetGame().GetGameMode());
+        if (!gameMode)
+        {
+            Print("[ARMST_SURGE] Ошибка: Не удалось получить игровой режим для проверки Surge!", LogLevel.ERROR);
+            return false;
+        }
+
+        // Получаем компонент глобальных настроек ARMST_EDITOR_GLOBAL_SETTINGS
+        ARMST_EDITOR_GLOBAL_SETTINGS surgeSettings = ARMST_EDITOR_GLOBAL_SETTINGS.Cast(gameMode.FindComponent(ARMST_EDITOR_GLOBAL_SETTINGS));
+        if (!surgeSettings)
+        {
+            Print("[ARMST_SURGE] Ошибка: Не удалось найти ARMST_EDITOR_GLOBAL_SETTINGS для проверки Surge!", LogLevel.ERROR);
+            return false;
+        }
+
+        // Проверяем значение атрибута m_SurgeEnable
+        bool surgeEnabled = surgeSettings.m_SurgeEnable;
+        if (!surgeEnabled)
+        {
+            Print("[ARMST_SURGE] SURGE IS DISABLED", LogLevel.WARNING);
+        }
+        return surgeEnabled;
+    }
+	
     protected void ChangeSurgeWeather()
 	{
 		timeAndWeatherManager.ForceWeatherTo(false, "Surge"); //Clear Cloudy Overcast Surge
@@ -156,13 +246,19 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 			PdaLife.SendRandomMessageOfType("SURGE_START");
 	}
     protected void StartSurge() {
+		
+	        // Проверяем, включены ли выбросы в глобальных настройках
+	        if (!IsSurgeEnabled())
+	        {
+	            return;
+	        }
         	m_LightningSpawned = 0;
 		
-        	Print("Начинается выброс!");
+        	Print("[ARMST_SURGE] START SURGE!!!");
         	GetGame().GetCallqueue().CallLater(SurgeNotify, 15 * 1000, false);
 			WeatherState weatherState = timeAndWeatherManager.GetCurrentWeatherState();
-			timeAndWeatherManager.ForceWeatherTo(false, "Cloudy"); //Clear Cloudy Overcast Surge
-			timeAndWeatherManager.ForceWeatherTo(false, "Cloudy"); //Clear Cloudy Overcast Surge
+			timeAndWeatherManager.ForceWeatherTo(false, "Storm"); //Clear Cloudy Overcast Surge
+			timeAndWeatherManager.ForceWeatherTo(false, "Storm"); //Clear Cloudy Overcast Surge
             GetGame().GetCallqueue().CallLater(ChangeSurgeWeather, m_SurgeTimerAmbient * 1000, false);
 			
 			//timeAndWeatherManager.SetWindSpeedOverride(true, 20);
@@ -174,8 +270,11 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
             SpawnSurgeSoundStart();
         }
         
-        
-        // Запускаем цикл спавна молний
+	    // Спавним звук тревоги, если указан
+	    if (m_ObjectSurgeAlarm != ResourceName.Empty)
+	    {
+	        SpawnSurgeAlarmSound();
+	    }
     }
     
     protected void ScheduleNextLightning() {
@@ -318,19 +417,19 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 			
             // Запускаем таймер выброса
             GetGame().GetCallqueue().CallLater(StartSurge, m_SurgeTimer * 1000, false);
-            Print("Запущен таймер выброса, выброс начнется через " + m_SurgeTimer + " секунд");
+            Print("[ARMST_SURGE] SURGE TIMER START" + m_SurgeTimer + " sec");
             m_SurgeActive = true;
 	}
     
     protected void SurgeOff() {
 		m_SurgeActiveDamage = false;
-		timeAndWeatherManager.ForceWeatherTo(false, "Overcast"); //Clear Cloudy Overcast
+		timeAndWeatherManager.ForceWeatherTo(false, "Storm"); //Clear Cloudy Overcast
 		timeAndWeatherManager.SetFogAmountOverride(true, 0.4);
 	    if (m_SurgeSoundEnd) {
 	        SCR_EntityHelper.DeleteEntityAndChildren(m_SurgeSoundEnd);
 	        m_SurgeSoundEnd = null;
 	    }
-		timeAndWeatherManager.ForceWeatherTo(false, "Overcast"); //Clear Cloudy Overcast
+		timeAndWeatherManager.ForceWeatherTo(false, "Storm"); //Clear Cloudy Overcast
 	    
 		PdaLife = ARMST_PDA_LIFE_GamemodeComponent.GetInstance();
 		PdaLife.SendRandomMessageOfType("SURGE");
@@ -357,7 +456,14 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 	        SCR_EntityHelper.DeleteEntityAndChildren(m_SurgeEffects);
 	        m_SurgeEffects = null;
 	    }
-	    
+		    
+	    // Удаляем звук тревоги, если был создан
+	    if (m_SurgeAlarmSound)
+	    {
+	        SCR_EntityHelper.DeleteEntityAndChildren(m_SurgeAlarmSound);
+	        m_SurgeAlarmSound = null;
+	        Print("[ARMST_SURGE] Звук тревоги удалён");
+	    }
 	    
         
         // Через некоторое время удаляем созданные молнии

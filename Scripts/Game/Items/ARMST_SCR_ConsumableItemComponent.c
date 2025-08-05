@@ -21,54 +21,35 @@ modded class SCR_ConsumableItemComponent: SCR_GadgetComponent {
 			return;
 		soundManagerEntity.CreateAndPlayAudioSource(item, SCR_SoundEvent.ARMST_ITEM_USED);
 	}
-	int m_ArmstChangeHP = 0;
-	int m_ArmstChangeToxic = 0;
-	int m_ArmstChangeRadiactive = 0;
-	int m_ArmstChangePsy = 0;
-	int m_ArmstChangeWater = 0;
-	int m_ArmstChangeEat = 0;
-	void Get_AllStats()
-		{
-		    if (!m_ConsumableEffect)
-		        return;
-		    // Проверяем, существует ли эффект и является ли он ARMST_ConsumableBaseItem
-		    if (m_ConsumableEffect)
-		    {
-		        ARMST_ConsumableBaseItem armstEffect = ARMST_ConsumableBaseItem.Cast(m_ConsumableEffect);
-		        if (armstEffect)
-					{
-		            m_ArmstChangeHP = armstEffect.Get_ArmstChangeHP();
-		            m_ArmstChangeToxic = armstEffect.Get_m_ArmstChangeToxic();
-		            m_ArmstChangeRadiactive = armstEffect.Get_m_ArmstChangeRadiactive();
-		            m_ArmstChangePsy = armstEffect.Get_m_ArmstChangePsy();
-		            m_ArmstChangeWater = armstEffect.Get_m_ArmstChangeWater();
-		            m_ArmstChangeEat = armstEffect.Get_m_ArmstChangeEat();
-					};
-		    };
-		
-		}
+	int m_ArmstChangeHP2 = 0;
+	int m_ArmstChangeToxic2 = 0;
+	int m_ArmstChangeRadiactive2 = 0;
+	int m_ArmstChangePsy2 = 0;
+	int m_ArmstChangeWater2 = 0;
+	int m_ArmstChangeEat2 = 0;
+	
 	int GetChangeHP()
 			{
-				return m_ArmstChangeHP;
+				return m_ArmstChangeHP2;
 			}
 	int GetChangeToxic()
 			{
-				return m_ArmstChangeToxic;
+				return m_ArmstChangeToxic2;
 			}
 	int GetChangeRadiactive()
 			{
-				return m_ArmstChangeRadiactive;
+				return m_ArmstChangeRadiactive2;
 			}
 	int GetChangePsy()
 			{
-				return m_ArmstChangePsy;
+				return m_ArmstChangePsy2;
 			}
 	int GetChangeWater()
 			{
-				return m_ArmstChangeWater;
+				return m_ArmstChangeWater2;
 			}
 	int GetChangeEat()
 			{
-				return m_ArmstChangeEat;
+				return m_ArmstChangeEat2;
 			}
 };

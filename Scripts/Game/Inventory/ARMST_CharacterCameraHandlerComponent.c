@@ -14,6 +14,7 @@ modded class SCR_CharacterCameraHandlerComponent
 				if (cloth)
 					cloth.SetAlpha(a);
 			}	
+			/*
 			IEntity ent3 = m_LoadoutStorage.GetClothFromArea(LoadoutJacketArea);
 			if (ent3)
 			{
@@ -25,6 +26,7 @@ modded class SCR_CharacterCameraHandlerComponent
 						cloth3.SetAlpha(a);
 					}
 			}	
+			*/
 		}
 		
 	}

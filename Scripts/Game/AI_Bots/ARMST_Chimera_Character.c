@@ -5,6 +5,9 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 	[Attribute("1", UIWidgets.Slider, "", "0 1 0.05", category: "Stance")];
 	float m_fStaticStance;
 	
+	[Attribute("1", UIWidgets.Slider, "", "0 5 0.05", category: "Speed")];
+	float m_fForceSpeed;
+	
 	[Attribute("", UIWidgets.ResourcePickerThumbnail, "Партинкл на персонажа", category: "Attack", params: "ptc")]
 	protected ResourceName m_sParticle_Idle;
 	
@@ -19,6 +22,8 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 	
 	ParticleEffectEntity m_pParticle_Attack;
 	
+	protected ParametricMaterialInstanceComponent m_EmissiveMaterial;
+	
 	IEntity m_ObjectParticleEnt;
 	IEntity m_ObjectZoneEnt;
 	
@@ -28,6 +33,7 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 	
 	override void UpdateStance() {
 		// if (m_fDynamicStance < 0.99)
+		m_controller.OverrideMaxSpeed(m_fForceSpeed);
 		if(m_fStaticStance > 0.99)
 			{
 				m_controller.SetDynamicStance(m_fDynamicStance);
@@ -41,6 +47,7 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(owner);
+		
 		
 		owner2 = owner;
 		if (SCR_Global.IsEditMode())
@@ -92,6 +99,19 @@ class Armst_Monster_Character: Bacon_622120A5448725E3_InfectedCharacter {
 	}
 	
 	override protected void OnDestroyed(IEntity ent) {
+		
+	        EquipedLoadoutStorageComponent armst_loadoutStorage = EquipedLoadoutStorageComponent.Cast(ent.FindComponent(EquipedLoadoutStorageComponent));
+	        if (!armst_loadoutStorage)
+	            return;
+		
+	        IEntity armst_Jacket = armst_loadoutStorage.GetClothFromArea(LoadoutJacketArea);
+	        if (armst_Jacket)
+	        {
+				m_EmissiveMaterial = ParametricMaterialInstanceComponent.Cast(armst_Jacket.FindComponent(ParametricMaterialInstanceComponent));
+				m_EmissiveMaterial.SetUserAlphaTestParam(0);
+				m_EmissiveMaterial.SetEmissiveMultiplier(90);
+	        }
+		
 			if (m_ObjectParticleEnt)
 					SCR_EntityHelper.DeleteEntityAndChildren(m_ObjectParticleEnt);
 			if (m_ObjectZoneEnt)

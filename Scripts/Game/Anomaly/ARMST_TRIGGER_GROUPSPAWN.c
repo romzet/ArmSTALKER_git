@@ -70,7 +70,6 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
         }
         
         SetUpdateRate(m_ActiveUpdateRate);
-        SetSphereRadius(GetSphereRadius() * 1);
 
         // Проверяем, что объект живой и является игроком
         if (!IsAlive(ent))
@@ -110,6 +109,7 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
         if (rnd > m_SpawnChance)
         {
             Print(string.Format("Группа не создана, шанс не сработал: %1 > %2", rnd, m_SpawnChance));
+        	SetUpdateRate(1200);
             GetGame().GetCallqueue().CallLater(CallResetRate, m_ActiveUpdateRate * 1000, false);
             return;
         }
@@ -244,7 +244,6 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
         
         Print("Игрок покинул триггер, запущен таймер на удаление группы.");
         SetUpdateRate(m_DefaultUpdateRate);
-        SetSphereRadius(GetSphereRadius());
 
         if (m_DeletePending)
             GetGame().GetCallqueue().Remove(CallDeleteGroups);

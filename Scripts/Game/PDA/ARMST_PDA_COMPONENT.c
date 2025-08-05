@@ -9,7 +9,9 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected Widget                 Block_Wiki;
     protected Widget                 Block_Notes;
 	
+    protected TextWidget            Text_User;
     protected TextWidget            Text_User_Name;
+    protected TextWidget            Text_Time;
     protected TextWidget            Text_Balance_Count;
     protected TextWidget            Text_Reputation_Count;
     protected TextWidget            Text_Fraction_Name;
@@ -99,8 +101,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
     //------------------------------------------------------------------------------------------------
     void Init(IEntity User, IEntity PDA)
     {
-        Print("Открыл КПК");
-        
         // Получаем виджеты из лейаута
         m_wRoot = GetRootWidget();
         
@@ -188,10 +188,13 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Button_Wiki_Others = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki_Others"));
     	Button_Wiki_Others.AddHandler(this);
 		
+        Text_User = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_User"));
+        Text_User_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_User_Name"));
         Text_Balance_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Balance_Count"));
         Text_Reputation_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Reputation_Count"));
         Text_Fraction_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Fraction_Name"));
         
+        Text_Time = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Time"));
         
         Button_Messenger = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Messenger"));
         Button_PlayerInfo = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_PlayerInfo"));
@@ -259,9 +262,9 @@ class ARMST_PDA_UI : ChimeraMenuBase
         
         CheckBox_ANONIM.SetChecked(false);
         // Обновляем статус включения КПК
-        if (m_StatsComponent && CheckBox_ON_OFF)
+        if (CheckBox_ON_OFF)
         {
-            CheckBox_ON_OFF.SetChecked(m_StatsComponent.m_pda_check);
+            CheckBox_ON_OFF.SetChecked(false);
         }
     }
     
@@ -278,6 +281,16 @@ class ARMST_PDA_UI : ChimeraMenuBase
             Text_User_Name.SetText(SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2));
         }
         
+				protected int m_iSeconds;
+				protected int m_iMinutes;
+				protected int m_iHours;
+				protected TimeAndWeatherManagerEntity m_TimeMgr;
+				ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
+				m_TimeMgr = world.GetTimeAndWeatherManager();
+				m_TimeMgr.GetHoursMinutesSeconds(m_iHours, m_iMinutes, m_iSeconds);
+				string m_SystemMessage = string.Format("%1:%2:%3", m_iHours, m_iMinutes, m_iSeconds);
+            	Text_Time.SetText(m_SystemMessage);
+		
         // Обновляем защиту
         float toxicProt = m_ItemsStatsComponent.GetAllToxic(m_User);
         float radProt = m_ItemsStatsComponent.GetAllRadiactive(m_User);
@@ -346,9 +359,22 @@ class ARMST_PDA_UI : ChimeraMenuBase
                     return;
                 
                 if (characterFaction == "FACTION_STALKER")
-                    Text_Fraction_Name.SetText("СТАЛКЕР");
-                if (characterFaction == "BACON_622120A5448725E3_FACTION")
-                    Text_Fraction_Name.SetText("РЕНЕГАТ");
+                    Text_Fraction_Name.SetText("#Armst_neutral_character");
+				
+                if (characterFaction == "FACTION_BANDIT")
+                    Text_Fraction_Name.SetText("#Armst_bandit_character");
+				
+                if (characterFaction == "FACTION_ARMY")
+                    Text_Fraction_Name.SetText("#Armst_army_light");
+				
+                if (characterFaction == "FACTION_RENEGADE")
+                    Text_Fraction_Name.SetText("#Armst_renegades_character");
+				
+                if (characterFaction == "FACTION_SCIENCES")
+                    Text_Fraction_Name.SetText("#Armst_science_character");
+				
+                if (characterFaction == "FACTION_MERCENARIES")
+                    Text_Fraction_Name.SetText("#Armst_faction_mercenaries");
             }
         }
     }
@@ -358,6 +384,56 @@ class ARMST_PDA_UI : ChimeraMenuBase
     {
         m_BlockMessage = false;
     }
+	
+	protected bool m_bIsMapOpen;
+	protected bool m_bIsFirstTimeOpened = true;		// whether the map has bene opened since put into a lot
+	protected SCR_MapEntity m_MapEntity;			// map instance
+	protected SCR_FadeInOutEffect m_FadeInOutEffect;
+	protected void ToggleMapGadget(bool state)
+	{			
+		if (state)
+		{
+			SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
+			SCR_MapEntity.GetOnMapClose().Insert(OnMapClose);
+			
+			MenuManager menuManager = g_Game.GetMenuManager();
+			menuManager.OpenMenu(ChimeraMenuPreset.MapMenu);
+			m_bIsMapOpen = true;
+		}
+		else
+		{			
+			MenuManager menuManager = g_Game.GetMenuManager();
+			menuManager.CloseMenuByPreset(ChimeraMenuPreset.MapMenu);
+			m_bIsMapOpen = false;
+		}		
+	}
+				
+	//------------------------------------------------------------------------------------------------
+	//! SCR_MapEntity event
+	//! \param[in] config
+	protected void OnMapOpen(MapConfiguration config)
+	{
+		if (m_FadeInOutEffect)
+			m_FadeInOutEffect.FadeOutEffect(false, 10); // fade in after map open
+		
+		// first open
+		if (!m_bIsFirstTimeOpened)
+			return;
+		
+		m_bIsFirstTimeOpened = false;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! SCR_MapEntity event
+	//! \param[in] config
+	protected void OnMapClose(MapConfiguration config)
+	{
+		if (m_FadeInOutEffect)
+			m_FadeInOutEffect.FadeOutEffect(false, 10); // fade in after map close 
+		
+		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
+		SCR_MapEntity.GetOnMapClose().Remove(OnMapClose);
+	}
     
     //------------------------------------------------------------------------------------------------
     override bool OnClick(Widget w, int x, int y, int button)
@@ -382,23 +458,14 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	        Block_Wiki.SetVisible(false);
 	        Block_message.SetVisible(true);
 	
-	        // Проверяем наличие виджета TextListboxPlayers
-	        if (!TextListboxPlayers)
-	        {
-	            Print("[ARMST PDA] Ошибка: TextListboxPlayers не инициализирован.", LogLevel.ERROR);
-	            return true;
-	        }
 	
 	        // Очищаем текущий список игроков перед обновлением
 	        TextListboxPlayers.ClearItems();
 			
-	        Print("[ARMST PDA] Список игроков очищен.", LogLevel.NORMAL);
-	
 	        // Получаем менеджер игроков
 	        PlayerManager playerManager = GetGame().GetPlayerManager();
 	        if (!playerManager)
 	        {
-	            Print("[ARMST PDA] Ошибка: Не удалось получить PlayerManager.", LogLevel.ERROR);
 	            return true;
 	        }
 	
@@ -418,9 +485,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	            IEntity playerEntity = playerManager.GetPlayerControlledEntity(playerId);
 	            if (playerEntity)
 	            {
-	                // Проверяем наличие ПДА в инвентаре
-	                if (HasRequiredItem(playerEntity))
-	                {
 	                    string playerName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId);
 	                    if (playerName != "")
 	                    {
@@ -431,38 +495,15 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	                            addedPlayers++;
 	                            Print("[ARMST PDA] Добавлен игрок с ПДА: " + playerName + " (ID: " + playerId + ", Row: " + rowIndex + ")", LogLevel.NORMAL);
 	                        }
-	                        else
-	                        {
-	                            Print("[ARMST PDA] Ошибка: Не удалось добавить игрока: " + playerName + " (ID: " + playerId + ")", LogLevel.ERROR);
-	                        }
-	                    }
-	                    else
-	                    {
-	                        Print("[ARMST PDA] Пустое имя для игрока с ID: " + playerId, LogLevel.WARNING);
-	                    }
-	                }
-	                else
-	                {
-	                    Print("[ARMST PDA] Игрок с ID: " + playerId + " не имеет ПДА.", LogLevel.NORMAL);
-	                }
-	            }
-	            else
-	            {
-	                Print("[ARMST PDA] Не удалось найти сущность игрока с ID: " + playerId, LogLevel.WARNING);
-	            }
-	        }
-	
+						}
+	        	}
+			}
 	        Print("[ARMST PDA] Обновлен список игроков в мессенджере. Добавлено: " + addedPlayers + " из " + playerIds.Count(), LogLevel.NORMAL);
 	        return true;
 	    }
         if (w == Button_Map)
         {
-            UpdatePdaUI();
-			Block_stats.SetVisible(false);
-			Block_map.SetVisible(true);
-			Block_Quests.SetVisible(false);
-			Block_Wiki.SetVisible(false);
-			Block_message.SetVisible(false);
+			//GetGame().GetCallqueue().CallLater(ToggleMapGadget, 1, false, true);
             return true;
         }
        if (w == Button_Quests)
@@ -477,7 +518,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
 		}
        if (w == Button_QuestAccept)
 		{
-		    ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Квест взят", 10);
 		    return true;
 		}
        if (w == Button_QuestDone)
@@ -558,10 +598,17 @@ class ARMST_PDA_UI : ChimeraMenuBase
         }
         if (w == Button_Network)
         {
-                CheckBox_ON_OFF.SetChecked(true);
-                m_StatsComponent.ArmstPlayerPdaOn();
-                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Network connected...", 5);
-            // Обновляем данные интерфейса
+			
+		ARMST_PLAYER_STATS_COMPONENT statsComponent2 = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+				if(statsComponent2.m_hud_check)
+				{
+					statsComponent2.ArmstPlayerHUD(false);
+				}
+				else
+				{
+					statsComponent2.ArmstPlayerHUD(true);
+                	ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "HUD Enabled", 5);
+				}
             UpdatePdaUI();
             return true;
         }
@@ -612,7 +659,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
         }
         return false;
     }
-	
 	override bool OnItemSelected(Widget w, int row, int column, int oldRow, int oldColumn)
 	{
 	    if (w == TextListboxWiki)
@@ -989,72 +1035,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	    return false;
 	}
     //------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------
-	override bool OnDoubleClick(Widget w, int x, int y, int button)
-	{
-	    // Обработка двойного клика для карты
-	    if (w == Map)
-	    {
-	        if (!m_User)
-	        {
-	            Print("[ARMST PDA] Ошибка: Пользователь не инициализирован.", LogLevel.ERROR);
-	            ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Ошибка: Пользователь не найден.", 5);
-	            return true;
-	        }
 	
-	        // Получаем текущую позицию игрока
-	        vector playerPos = m_User.GetOrigin();
-	        Print("[ARMST PDA] Двойной клик по карте. Позиция игрока: " + playerPos.ToString(), LogLevel.NORMAL);
-	
-	        // Центрируем карту на позиции игрока
-	        if (Map)
-	        {
-	            // Получаем экземпляр SCR_MapEntity для взаимодействия с картой
-	            SCR_MapEntity mapEntity = SCR_MapEntity.GetMapInstance();
-	            if (!mapEntity)
-	            {
-	                Print("[ARMST PDA] Ошибка: Не удалось получить SCR_MapEntity.", LogLevel.ERROR);
-	                ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Ошибка: Карта не доступна.", 5);
-	                return true;
-	            }
-	
-	            // Устанавливаем позицию игрока как центр карты
-	            // Поскольку z игнорируется (как указано в CanvasWidgetBase), используем только x и y (в мире это x и z)
-	            vector mapPos = vector.Zero;
-	            mapPos[0] = playerPos[0]; // X координата в мире
-	            mapPos[1] = playerPos[2]; // Z координата в мире (для карты это Y)
-	            mapPos[2] = 0; // Z игнорируется
-	
-	            // Преобразуем мировые координаты в пиксели на карте
-	            vector pixelPos = Map.PosToPixels(mapPos);
-	            Print("[ARMST PDA] Позиция игрока в пикселях: " + pixelPos.ToString(), LogLevel.NORMAL);
-	
-	            // Вычисляем смещение, чтобы центр карты был на позиции игрока
-	            vector mapSizePx = vector.Zero;
-	            float width, height;
-	            Map.GetScreenSize(width, height);
-	            mapSizePx[0] = width;
-	            mapSizePx[1] = height;
-	            vector offsetPx = vector.Zero;
-	            offsetPx[0] = pixelPos[0] - mapSizePx[0] / 2; // Центрируем по X
-	            offsetPx[1] = pixelPos[1] - mapSizePx[1] / 2; // Центрируем по Y
-	            Map.SetOffsetPx(offsetPx);
-	            Print("[ARMST PDA] Карта центрирована на позиции игрока с offset: " + offsetPx.ToString(), LogLevel.NORMAL);
-	
-	            // Уведомляем игрока
-	            ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Карта центрирована на вашей позиции.", 3);
-	        }
-	        else
-	        {
-	            Print("[ARMST PDA] Ошибка: Виджет карты не инициализирован.", LogLevel.ERROR);
-	            ARMST_NotificationHelper.ShowNotificationPDA(m_User, "#armst_pda_system", "Ошибка: Карта не доступна.", 5);
-	        }
-	
-	        return true;
-	    }
-	    
-	    return false;
-	}
     //------------------------------------------------------------------------------------------------
     override void OnMenuClose()
     {
@@ -1072,4 +1053,5 @@ class ARMST_PDA_UI : ChimeraMenuBase
 modded enum ChimeraMenuPreset
 {
     PdaMenus,
+	BookMenus
 }

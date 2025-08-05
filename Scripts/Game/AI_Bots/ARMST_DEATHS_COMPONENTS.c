@@ -12,7 +12,13 @@ class ARMST_DEATH_COMPONENTS : ScriptComponent
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб, который будет заспавнен после смерти", "et")]
     ResourceName m_PrefabToSpawnDeath;
     
-	[Attribute("0 0.5 0")]
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб обьекта", "et", category: "Death sounds")]
+    ResourceName m_PrefabDeathSound;
+   
+    [Attribute("false", UIWidgets.CheckBox, "Death work", category: "Death sounds")]
+    protected bool m_bProcessSound;
+	
+	[Attribute("0 0.2 0")]
 	protected vector m_vOffset;
 	
     [Attribute("false", UIWidgets.CheckBox, "Death work")]
@@ -73,7 +79,7 @@ class ARMST_DEATH_COMPONENTS : ScriptComponent
 
 		m_fired = true;
 		
-		SpawnLocal();
+		//SpawnLocal();
 		Rpc(SpawnBroadcast);
 	}
 	
@@ -94,7 +100,23 @@ class ARMST_DEATH_COMPONENTS : ScriptComponent
 		GetGame().GetCallqueue().CallLater(Hide, 0, false);
 
 		Resource loaded = Resource.Load(m_PrefabToSpawnDeath);
-		GetGame().SpawnEntityPrefab(loaded, GetGame().GetWorld(), params);
+        if (loaded)
+			GetGame().SpawnEntityPrefab(loaded, GetGame().GetWorld(), params);
+		
+		
+		if(!m_bProcessSound)
+		{
+			return;
+		}
+        // Загружаем ресурс и спавним объект
+        Resource resource = Resource.Load(m_PrefabDeathSound);
+        if (resource)
+        {
+		
+            IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+			
+			GetGame().GetCallqueue().CallLater(Delete, 4000, false, spawnedObject);
+        }
 	};
 	
 	private void Hide() {
@@ -103,8 +125,13 @@ class ARMST_DEATH_COMPONENTS : ScriptComponent
 			
 		//GetOwner().ClearFlags(EntityFlags.VISIBLE, false);
 	}
+	private void Delete(IEntity ent) {
+            SCR_EntityHelper.DeleteEntityAndChildren(ent);
+			
+		//GetOwner().ClearFlags(EntityFlags.VISIBLE, false);
+	}
 	
-	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
+	[RplRpc(RplChannel.Reliable, RplRcver.Server)]
 	private void SpawnBroadcast()
 	{
 		SpawnLocal();

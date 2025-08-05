@@ -1,19 +1,23 @@
+modded enum ELoiteringType
+{
+	CUSTOM2
+}
 class ARMST_USER_ATMOS : ScriptedUserAction
 {    
     protected static ref ScriptInvokerInt s_onToiletFlushed;
     protected TAnimGraphCommand m_PlayerAnims = -1;
-    
-    //------------------------------------------------------------------------------------------------
-    override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
-    {
-        ARMST_DETECTOR_COMPONENTS DetectorComponents = ARMST_DETECTOR_COMPONENTS.Cast(pOwnerEntity.FindComponent(ARMST_DETECTOR_COMPONENTS));
-        DetectorComponents.ArmstDetectorToggles();
-    }
-    
-    TAnimGraphCommand GetApplyToSelfAnimCmnd(IEntity user)
-    {
-        return m_PlayerAnims;
-    }    
+    IEntity ent;
+	    //------------------------------------------------------------------------------------------------
+	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
+	{
+		 // Переключаем состояние детектора, если он есть
+	    ARMST_DETECTOR_COMPONENTS DetectorComponents = ARMST_DETECTOR_COMPONENTS.Cast(pOwnerEntity.FindComponent(ARMST_DETECTOR_COMPONENTS));
+	    if (DetectorComponents)
+	    {
+	        DetectorComponents.ArmstDetectorToggles();
+	    }
+	}
+	
     //------------------------------------------------------------------------------------------------
     override bool GetActionNameScript(out string outName)
     {

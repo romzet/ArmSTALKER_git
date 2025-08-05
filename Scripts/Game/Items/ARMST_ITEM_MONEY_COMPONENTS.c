@@ -128,8 +128,6 @@ class ARMST_MONEY_COMPONENTS : ScriptComponent
 			ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(item.FindComponent(ARMST_MONEY_COMPONENTS));
 			if (currencyComp) 
 			{
-				Print("Выдача денег");
-				Print(amount);
 				currencyComp.ModifyValue(amount, true);
 				didAdd = true;
 				break;

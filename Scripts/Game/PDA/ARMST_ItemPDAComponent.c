@@ -7,6 +7,11 @@ class ARMST_ItemPDAComponentClass : SCR_ConsumableItemComponentClass
 class ARMST_ItemPDAComponent : SCR_ConsumableItemComponent
 {
 	
+	protected RTTextureWidget m_wRenderTargetTexture
+	protected Widget m_wRootWidget;
+	
+	
+	
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Quests")]
     ref array<ref ResourceName> m_sQuests;
 	
@@ -39,11 +44,24 @@ class ARMST_ItemPDAComponent : SCR_ConsumableItemComponent
  		if (mode != EGadgetMode.IN_HAND)
 			return;
 		
+		/*
+		
+		m_wRootWidget = GetGame().GetWorkspace().CreateWidgets("{D53EC7A7407692B4}UI/PDA/HUD_PDA2.layout");
+		if (!m_wRootWidget)
+			return;
+
+		m_wRenderTargetTexture = RTTextureWidget.Cast(m_wRootWidget.FindAnyWidget("RTTexture0"));
+		
+		m_wRenderTargetTexture.SetRenderTarget(GetOwner());
+		m_wRenderTargetTexture.SetEnabled(true);
+		*/
+		
 		MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
 		MenuBase myMenu = menuManager.OpenMenu(ChimeraMenuPreset.PdaMenus); //получаем конкретное меню -- надо указать в chimeraMenus.conf
 		GetGame().GetInputManager().ActivateContext("PdaContext"); //активируем управление кнопками -- указываем в ChimeraInputCommon
 		ARMST_PDA_UI armstpda = ARMST_PDA_UI.Cast(myMenu); //вызываем скрипт отображения 
 		if(armstpda)
 			armstpda.Init(charOwner, GetOwner()); //вызываем на предмет и на пользователя
+		
 	}
 }

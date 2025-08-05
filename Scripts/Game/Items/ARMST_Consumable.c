@@ -21,59 +21,8 @@ class ARMST_Consumable : SCR_ConsumableEffectBase
 	[Attribute("0", UIWidgets.ComboBox, "Damage type", "", ParamEnumArray.FromEnum(SCR_EConsumableType), category: "Stats" )]
 	EDamageType m_damageTypeConsuble;
 	
-	
-	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон", "-100 100 5", category: "Stats")]
-	protected int m_ArmstChangeHP;
-	
-	int Get_ArmstChangeHP()
-	{
-		return m_ArmstChangeHP;
-	}
-	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон","-100 100 1", category: "Stats")]
-	protected int m_ArmstChangeToxic;	
-	
-	int Get_m_ArmstChangeToxic()
-	{
-		return m_ArmstChangeToxic;
-	}
-	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон","-100 100 1", category: "Stats")]
-	protected int m_ArmstChangeRadiactive;
-	
-	int Get_m_ArmstChangeRadiactive()
-	{
-		return m_ArmstChangeRadiactive;
-	}
-	[Attribute("0", UIWidgets.Slider, "В минус тратить, в плюс прибавить","-100 100 1", category: "Stats")]
-	protected int m_ArmstChangePsy;
-	
-	int Get_m_ArmstChangePsy()
-	{
-		return m_ArmstChangePsy;
-	}
-	[Attribute("0", UIWidgets.Slider, "В минус тратить, в плюс прибавить","-100 100 1", category: "Stats")]
-	protected int m_ArmstChangeWater;
-	
-	int Get_m_ArmstChangeWater()
-	{
-		return m_ArmstChangeWater;
-	}
-	[Attribute("0", UIWidgets.Slider, "В минус тратить, в плюс прибавить","-100 100 1", category: "Stats")]
-	protected int m_ArmstChangeEat;
-	
-	int Get_m_ArmstChangeEat()
-	{
-		return m_ArmstChangeEat;
-	}
-    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Что спавнить", "et", category: "Stats")]
-    ResourceName m_PrefabToSpawn;
-	
-	[Attribute("false", UIWidgets.CheckBox, "Спавнить в инвентаре (если нет, то на земле)", category: "Stats")]
-	protected bool m_bSpawnInInventory;
-	
-	[Attribute("600", UIWidgets.Slider, "В минус тратить, в плюс прибавить","0 18000 1", category: "Stats")]
-	protected int m_DeleteTimer;
-	
-	
+	ARMST_ItemUseComponent ItemUseComponent;
+	IEntity Temp;
 	//------------------------------------------------------------------------------------------------	
 	override void ApplyEffect(notnull IEntity target, notnull IEntity user, IEntity item, ItemUseParameters animParams)
 	{
@@ -96,7 +45,7 @@ class ARMST_Consumable : SCR_ConsumableEffectBase
 		SCR_InventoryStorageManagerComponent inventoryStorageComp = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 		if (!inventoryStorageComp)
 			return;
-		
+		Temp = item;
 		AddConsumableDamageEffects(char, user);
 		
         // Загружаем ресурс и спавним объект
@@ -107,13 +56,15 @@ class ARMST_Consumable : SCR_ConsumableEffectBase
 		params.Transform = m_aOriginalTransform;
 		params.TransformMode = ETransformMode.WORLD;
 		
-        Resource resource = Resource.Load(m_PrefabToSpawn);
+		ItemUseComponent = ARMST_ItemUseComponent.Cast(Temp.FindComponent(ARMST_ItemUseComponent));
+		
+        Resource resource = Resource.Load(ItemUseComponent.m_PrefabToSpawn);
         if (resource)
         {
             IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
             if (spawnedObject)
             {
-				if (m_bSpawnInInventory)
+				if (ItemUseComponent.m_bSpawnInInventory)
 					{
 						SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(user.FindComponent(SCR_InventoryStorageManagerComponent));
 						if (inventoryManager)
@@ -179,18 +130,21 @@ class ARMST_Consumable : SCR_ConsumableEffectBase
 		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(char.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
 		if (!statsComponent)
 			return;
-		statsComponent.ArmstPlayerStatSetToxic(m_ArmstChangeToxic);
-		statsComponent.ArmstPlayerStatSetRadio(m_ArmstChangeRadiactive);
-		statsComponent.ArmstPlayerStatSetPsy(m_ArmstChangePsy);
-		statsComponent.ArmstPlayerStatSetWater(m_ArmstChangeWater);
-		statsComponent.ArmstPlayerStatSetEat(m_ArmstChangeEat);
+		
+		ItemUseComponent = ARMST_ItemUseComponent.Cast(Temp.FindComponent(ARMST_ItemUseComponent));
+		
+		statsComponent.ArmstPlayerStatSetToxic(ItemUseComponent.m_ArmstChangeToxic);
+		statsComponent.ArmstPlayerStatSetRadio(ItemUseComponent.m_ArmstChangeRadiactive);
+		statsComponent.ArmstPlayerStatSetPsy(ItemUseComponent.m_ArmstChangePsy);
+		statsComponent.ArmstPlayerStatSetWater(ItemUseComponent.m_ArmstChangeWater);
+		statsComponent.ArmstPlayerStatSetEat(ItemUseComponent.m_ArmstChangeEat);
 		
 		DamageManagerComponent damageManager = DamageManagerComponent.Cast(char.FindComponent(DamageManagerComponent));
 		if (!damageManager)
 			return;
 		
          BaseDamageContext damageCtx = new BaseDamageContext();
-         damageCtx.damageValue = m_ArmstChangeHP;
+         damageCtx.damageValue = ItemUseComponent.m_ArmstChangeHP;
          damageCtx.hitEntity = char;
 		 damageCtx.damageType = m_damageTypeVanilla;
          damageCtx.instigator = Instigator.CreateInstigator(char);

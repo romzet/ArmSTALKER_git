@@ -10,7 +10,7 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб объекта", "et", category: "Teleport")]
     ResourceName m_PrefabToSpawn;
     
-    [Attribute("10", UIWidgets.EditBox, desc: "Время ожидания телепортации (с)", params: "2 60", category: "Teleport")]
+    [Attribute("10", UIWidgets.EditBox, desc: "Время ожидания телепортации (с)", params: "0 60", category: "Teleport")]
     protected float m_fTeleportDelay;
     
     [Attribute("5", UIWidgets.EditBox, desc: "Радиус активации телепорта (м)", category: "Teleport")]
@@ -27,6 +27,12 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Требуемый предмет для телепортации", "et", category: "Requirements")]
     ResourceName m_sRequiredItem;
     
+	[Attribute("true", UIWidgets.CheckBox, "Удалять или нет предмет для перемещения", category: "Requirements")];
+	bool m_DeleteItem;
+    
+	[Attribute("false", UIWidgets.CheckBox, "Удалять или нет предмет для перемещения", category: "Requirements")];
+	bool m_InShelter;
+	
     protected bool m_bTeleportInProgress = false;
     protected float m_fTeleportCountdown = 0;
     protected IEntity m_UserEntity;
@@ -60,7 +66,6 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
                 return;
         }
         
-        Print("Готовим телепорт телепорт");
         m_UserEntity = pUserEntity;
         m_UserStartPosition = m_UserEntity.GetOrigin();
         m_bTeleportInProgress = true;
@@ -165,12 +170,11 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
                 {
                     // Удаляем первый найденный предмет
                     IEntity itemToRemove = items[0];
-                    inventoryManager.TryRemoveItemFromInventory(itemToRemove);
-                    Print("Требуемый предмет удален из инвентаря: " + m_sRequiredItem);
+					if (m_DeleteItem)
+                    	inventoryManager.TryRemoveItemFromInventory(itemToRemove);
                 }
                 else
                 {
-                    Print("Не удалось найти требуемый предмет для удаления: " + m_sRequiredItem);
                     return; // На всякий случай, если предмет не найден
                 }
             }
@@ -178,7 +182,18 @@ class ARMST_TELEPORT_ACTIONS : ScriptedUserAction
         
         // Получаем координаты цели
         vector targetPos = targetEntity.GetOrigin();
-        
+        if (m_InShelter)
+			{
+			
+         		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_UserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+		 		targetPos = statsComponent.ARMST_GET_SHELTER();
+				Print(targetPos);
+				if (targetPos == vector.Zero)
+				{
+					return;
+				}
+			}
+		//SCR_Global.TeleportLocalPlayer(targetPos);
         // Телепортируем игрока
         m_UserEntity.SetOrigin(targetPos);
         

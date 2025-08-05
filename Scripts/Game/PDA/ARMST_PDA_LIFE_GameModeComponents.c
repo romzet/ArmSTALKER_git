@@ -15,11 +15,6 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
     [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о повседневной жизни", category: "Типы сообщений")]
     bool m_SendLifeMessages;
 
-    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о нападениях", category: "Типы сообщений")]
-    bool m_SendAttackMessages;
-    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения об убийствах мутантов", category: "Типы сообщений")]
-    bool m_SendAttackFinalMessages;
-
     [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о найденных трупах", category: "Типы сообщений")]
     bool m_SendFoundDeathMessages;
 
@@ -81,7 +76,33 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
             }
         }
     }
+ // Метод для проверки, разрешена ли отправка сообщений
+    protected bool IsPdaMessageEnabled()
+    {
+        // Получаем текущий игровой режим
+        BaseGameMode gameMode = BaseGameMode.Cast(GetGame().GetGameMode());
+        if (!gameMode)
+        {
+            Print("Ошибка: Не удалось получить игровой режим для проверки отправки сообщений PDA!", LogLevel.ERROR);
+            return false;
+        }
 
+        // Получаем компонент глобальных настроек ARMST_EDITOR_GLOBAL_SETTINGS
+        ARMST_EDITOR_GLOBAL_SETTINGS settings = ARMST_EDITOR_GLOBAL_SETTINGS.Cast(gameMode.FindComponent(ARMST_EDITOR_GLOBAL_SETTINGS));
+        if (!settings)
+        {
+            Print("Ошибка: Не удалось найти ARMST_EDITOR_GLOBAL_SETTINGS для проверки отправки сообщений PDA!", LogLevel.ERROR);
+            return false;
+        }
+
+        // Проверяем значение атрибута m_PdaMessageEnable
+        bool messageEnabled = settings.IsMessageEnable();
+        if (!messageEnabled)
+        {
+            Print("[ARMST PDA] SEND MESSAGE DISABLE IN GLOBAL SETTINGS.", LogLevel.WARNING);
+        }
+        return messageEnabled;
+    }
     // Инициализация массивов с сообщениями
     protected void InitializeMessageArrays()
     {
@@ -95,12 +116,6 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         InitializeSurgeTextArray();
         // Заполнение массива сообщений о жизни
         InitializeLifeTextArray();
-        // Заполнение массива сообщений о нападениях
-        InitializeAttackTextArray();
-        // Заполнение массива сообщений о финале нападений
-        InitializeAttackFinalTextArray();
-        // Заполнение массива сообщений о врагах
-        InitializeAttackEnemyTextArray();
         // Заполнение массива сообщений о найденных трупах
         InitializeFoundDeathTextArray();
     }
@@ -254,43 +269,6 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         };
     }
 
-	// Заполнение массива сообщений о нападениях
-	protected void InitializeAttackTextArray() {
-	    m_TextAttack = {
-	        "Сука, нарвался на",
-	        "Черт, это же",
-	        "Ведем бой с",
-	        "На нас напали",
-	        "Ребята, выручайте! На нас напали",
-	        "Несем потери, нарвались на",
-	        "Нас окружили",
-	        "Хелп! Сижу на крыше, вокруг меня полно"
-	    };
-	}
-// Заполнение массива сообщений о финале нападений
-    protected void InitializeAttackFinalTextArray() {
-        m_TextAttackFinal = {
-            "Фух, отбились от",
-            "Замочил",
-            "Грохнул",
-            "Меня так просто не взять, получили"
-        };
-    }
-
-	// Заполнение массива сообщений о врагах
-	protected void InitializeAttackEnemyTextArray() {
-	    m_TextAttackEnemy = {
-	        " зомби",
-	        " кабаны",
-	        " пауки",
-	        " ночные сталкеры",
-	        " твари",
-	        " гады",
-	        " ублюдки",
-	        " бандиты",
-	        " военные"
-	    };
-	}
 // Заполнение массива сообщений о найденных трупах
     protected void InitializeFoundDeathTextArray() {
         m_TextFoundDeath = {
@@ -406,21 +384,16 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
     // Автоматическая отправка случайного сообщения только на сервере
     void SendRandomMessage()
     {
+		
         if (!Replication.IsServer())
             return;
-
+		
         // Список доступных типов сообщений
         array<string> availableMessageTypes = {};
         
         // Добавляем типы сообщений в зависимости от настроек
         if (m_SendLifeMessages)
             availableMessageTypes.Insert("LIFE");
-        
-        if (m_SendAttackMessages)
-            availableMessageTypes.Insert("ATTACK");
-        
-        if (m_SendAttackFinalMessages)
-            availableMessageTypes.Insert("ATTACK_FINAL");
         
         if (m_SendFoundDeathMessages)
             availableMessageTypes.Insert("FOUND_DEATH");
@@ -437,9 +410,50 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         PDA_SEND_ALL(randomMessageType);
     }
     
+	// Метод для выбора фракции на основе весов
+	string SelectFactionByWeight(array<string> factions, array<int> weights)
+	{
+	    // Проверяем, что массивы имеют одинаковую длину
+	    if (factions.Count() != weights.Count() || factions.Count() == 0)
+	    {
+	        Print("[ARMST PDA] Ошибка: Неверное количество фракций или весов.", LogLevel.ERROR);
+	        return factions[0]; // Возвращаем первую фракцию по умолчанию в случае ошибки
+	    }
+	
+	    // Вычисляем сумму всех весов
+	    int totalWeight = 0;
+	    for (int i = 0; i < weights.Count(); i++)
+	    {
+	        totalWeight += weights[i];
+	    }
+	
+	    // Генерируем случайное число в диапазоне от 0 до суммы весов
+	    int randomValue = Math.RandomInt(0, totalWeight);
+	    int cumulativeWeight = 0;
+	
+	    // Выбираем фракцию на основе весов
+	    for (int i = 0; i < factions.Count(); i++)
+	    {
+	        cumulativeWeight += weights[i];
+	        if (randomValue <= cumulativeWeight)
+	        {
+	            return factions[i];
+	        }
+	    }
+	
+	    // Если что-то пошло не так, возвращаем последнюю фракцию
+	    return factions[factions.Count() - 1];
+	}
+	
     // Метод для отправки сообщения определенного типа только на сервере
     void PDA_SEND_ALL(string selectText)
     {
+        // Проверяем, разрешена ли отправка сообщений
+        if (!IsPdaMessageEnabled())
+        {
+            Print("[ARMST PDA] SEND MESSAGE DISABLE IN GLOBAL SETTINGS.", LogLevel.WARNING);
+            return;
+        }
         if (!Replication.IsServer())
             return;
 
@@ -454,7 +468,22 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         // Выбираем случайное имя отправителя
         string senderName = GetRandomSenderName();
         string message = "";
-
+		
+	 // Список доступных группировок и их весов
+	    array<string> factions = {
+	        "#Armst_neutral_character",
+	        "#Armst_smuggler_character",
+	        "#Armst_bandit_character",
+	    //    "#Armst_science_character",
+	    //    "#Armst_army_light"
+	    };
+   		array<int> weights = {80, 10, 5}; // Вес для каждой фракции (в процентах или относительных единицах)
+		
+		 // Выбираем случайную группировку на основе весов
+    	string selectedFaction = SelectFactionByWeight(factions, weights);
+		
+		
+		senderName = senderName + " [" + selectedFaction + "]";
         // Формируем сообщение в зависимости от типа
         if (selectText == "HELI")
         {
@@ -472,26 +501,24 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         {
             message = GetRandomLifeMessage();
         }
-        else if (selectText == "ATTACK")
-        {
-            string attackMessage = GetRandomAttackMessage();
-            string enemyMessage = GetRandomEnemyMessage();
-            message = attackMessage + enemyMessage;
-        }
-        else if (selectText == "ATTACK_FINAL")
-        {
-            string attackFinalMessage = GetRandomAttackFinalMessage();
-            string enemyMessage = GetRandomEnemyMessage();
-            message = attackFinalMessage + enemyMessage;
-        }
         else if (selectText == "FOUND_DEATH")
         {
             message = GetRandomFoundDeathMessage();
         }
-
+		
+		
+		
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+        		Print("[ARMST PDA] Сервер: Отправка сообщения типа " + selectText + " от " + senderName);
+	            SCR_PlayerController.ShowNotificationPDA(null, senderName, message, m_MessageDisplayTime);
+				return;
+	        }
         // Отправляем сообщение всем клиентам через RPC
         Print("[ARMST PDA] Сервер: Отправка сообщения типа " + selectText + " от " + senderName);
         Rpc(RPC_BroadcastMessageToClients, senderName, message, m_MessageDisplayTime);
+
     }
 
 
@@ -588,6 +615,14 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
 	 // Метод для обработки сообщения от клиента на сервере
     void HandleMessageFromClient(string senderName, string message, float duration)
     {
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+				Print("HandleMessageFromClient");
+        		Print("[ARMST PDA] Сервер: Обработка сообщения от клиента: " + senderName + ": " + message, LogLevel.NORMAL);
+       			 SCR_PlayerController.ShowNotificationPDA(null, senderName, message, duration);
+				return;
+	        }
         if (!Replication.IsServer())
             return;
 
@@ -595,6 +630,22 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         
         // Рассылаем сообщение всем клиентам
         Rpc(RPC_BroadcastMessageToClients, senderName, message, duration);
+    }
+	 // Метод для обработки сообщения от клиента на сервере
+    void HandleMessageFromBot(string randomMessageType)
+    {
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+				
+        		PDA_SEND_ALL(randomMessageType);
+				return;
+	        }
+        if (!Replication.IsServer())
+            return;
+        
+        // Рассылаем сообщение всем клиентам
+        PDA_SEND_ALL(randomMessageType);
     }
 
     // RPC-метод для рассылки сообщения всем клиентам

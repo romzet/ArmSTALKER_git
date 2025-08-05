@@ -69,8 +69,8 @@ modded class SCR_PlayerController : PlayerController
             if (cameraController)
             {
                 // Убедимся, что обработчик не добавлен дважды
-                cameraController.GetThirdPersonSwitchInvoker().Remove(OnThirdPerson);
-                cameraController.GetThirdPersonSwitchInvoker().Insert(OnThirdPerson);
+               // cameraController.GetThirdPersonSwitchInvoker().Remove(OnThirdPerson);
+               // cameraController.GetThirdPersonSwitchInvoker().Insert(OnThirdPerson);
             }
         }
     }
@@ -207,6 +207,7 @@ modded class SCR_PlayerController : PlayerController
 	static void ShowNotificationPDA(IEntity player, string message, string message2, float duration = 5.0)
 	{
 		
+				Print("запуск уведомлялки");
 	    if (player)
 	    {
 	        int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(player);
@@ -214,13 +215,21 @@ modded class SCR_PlayerController : PlayerController
 	            return;
 	         
 			if (!HasRequiredItem(player))
+				{
+				Print("PDA не найден");
 				return;
+				}
 	        SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerId));
 	        if (controller)
 	            controller.Rpc(controller.RpcDo_ShowHudNotificationPDA, message, message2, duration);
 	    }
 	    else
 	    {
+			if(!HasRequiredItem(SCR_PlayerController.GetLocalControlledEntity()))
+			{
+				Print("PDA не найден");
+				return;
+			}
 	        // Если player == null, предполагаем, что это локальный клиент (для Broadcast)
 	        SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
 	        if (controller)
@@ -449,112 +458,241 @@ modded class SCR_PlayerController : PlayerController
             BaseInventoryStorageComponent.Cast(Replication.FindItem(storageFrom))
         );
     }    
-
-    //------------------------------------------------------------------------------------------------
-    // Процесс объединения денег между КПК на сервере
-    void ARMST_MoneyMerge_Repack(ARMST_MONEY_COMPONENTS sourceMoneyComp, ARMST_MONEY_COMPONENTS targetMoneyComp, SCR_InventoryStorageManagerComponent inventoryManager, BaseInventoryStorageComponent targetStorage, BaseInventoryStorageComponent sourceStorage)
+	    // Публичный метод для вызова покупки с клиента
+    void RequestTraderBuy(IEntity user, ResourceName prefabTrader, int buyCount, float totalCost)
     {
-        if (!sourceMoneyComp || !targetMoneyComp)
+        if (Replication.IsServer())
         {
-            Print("[ARMST] Ошибка: Не удалось найти компоненты денег.", LogLevel.ERROR);
-            return;
+            // Если уже на сервере, выполняем напрямую
+            ArmstTraderBuy(user, prefabTrader, buyCount, totalCost);
         }
-
-        if (!inventoryManager)
+        else
         {
-            Print("[ARMST] Ошибка: Не удалось найти менеджер инвентаря.", LogLevel.ERROR);
-            return;
-        }
-
-        // Получаем текущую сумму денег на обоих КПК
-        int sourceAmount = sourceMoneyComp.GetValue();
-        int targetAmount = targetMoneyComp.GetValue();
-
-        IEntity sourceItem = sourceMoneyComp.GetOwner();
-        IEntity targetItem = targetMoneyComp.GetOwner();
-
-        Print(string.Format("[ARMST] Источник содержит: %1 RUB.", sourceAmount));
-        Print(string.Format("[ARMST] Цель содержит: %1 RUB.", targetAmount));
-
-        if (sourceAmount <= 0)
-        {
-            Print("[ARMST] В источнике нет денег для переноса.");
-            return;
-        }
-
-        // Переносим все деньги из источника в цель, так как максимального значения нет
-        int amountToTransfer = sourceAmount;
-        int remainingInSource = 0;
-
-        // Обновляем суммы (вызываем SetValue на сервере)
-        targetMoneyComp.SetValue(targetAmount + amountToTransfer);
-        sourceMoneyComp.SetValue(remainingInSource);
-
-        Print(string.Format("[ARMST] Перенесено %1 RUB в целевой КПК. Теперь в цели: %2 RUB. В источнике осталось: %3 RUB.", amountToTransfer, targetMoneyComp.GetValue(), sourceMoneyComp.GetValue()));
-
-        // Перемещаем оба предмета в оптимальные слоты для корректного отображения
-        if (inventoryManager.TryRemoveItemFromInventory(targetItem, targetStorage))
-        {
-            if (!inventoryManager.TryInsertItemInStorage(targetItem, inventoryManager.FindStorageForItem(targetItem, EStoragePurpose.PURPOSE_ANY)))
-            {
-                Print("[ARMST] Предупреждение: Не удалось вернуть целевой КПК в инвентарь. Если не удалось выбросить, он удален.", LogLevel.WARNING);
-                if (!inventoryManager.TryRemoveItemFromInventory(targetItem)) { SCR_EntityHelper.DeleteEntityAndChildren(targetItem); }
-            }
-        }
-
-        if (inventoryManager.TryRemoveItemFromInventory(sourceItem, sourceStorage))
-        {
-            if (!inventoryManager.TryInsertItemInStorage(sourceItem, inventoryManager.FindStorageForItem(sourceItem, EStoragePurpose.PURPOSE_ANY)))
-            {
-                Print("[ARMST] Предупреждение: Не удалось вернуть исходный КПК в инвентарь. Если не удалось выбросить, он удален.", LogLevel.WARNING);
-                if (!inventoryManager.TryRemoveItemFromInventory(sourceItem)) { SCR_EntityHelper.DeleteEntityAndChildren(sourceItem); }
-            }
+            // Если на клиенте, отправляем запрос на сервер
+			PlayerController player = GetGame().GetPlayerController();
+            Rpc(RpcAsk_TraderBuy, player.GetPlayerId(), prefabTrader, buyCount, totalCost);
         }
     }
 
-    //------------------------------------------------------------------------------------------------
-    // Запрос на объединение денег через RPC на сервер
+    // RPC-метод для отправки запроса на покупку на сервер
     [RplRpc(RplChannel.Reliable, RplRcver.Server)]
-    void ARMST_MoneyMerge_RpcAsk_Repack(RplId sourceMoneyId, RplId targetMoneyId, RplId inventoryManagerId, RplId targetStorageId, RplId sourceStorageId)
+    protected void RpcAsk_TraderBuy(int playerId, ResourceName prefabTrader, int buyCount, float totalCost)
     {
-        // Проверка валидности идентификаторов
-        if (!sourceMoneyId.IsValid())
+		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerId));
+		if (!scrPlayerController) 
+		{
+			Print("Error! Could not find player controller.", LogLevel.ERROR);
+			return;
+		}
+		
+		IEntity player = scrPlayerController.GetMainEntity();
+        if (!player)
         {
-            Print("[ARMST] Ошибка: Неверный идентификатор источника денег.", LogLevel.ERROR);
+            Print("[ARMST_TRADE] Ошибка: Не удалось найти игрока на сервере по RplId", LogLevel.ERROR);
             return;
         }
 
-        if (!targetMoneyId.IsValid())
+        ArmstTraderBuy(player, prefabTrader, buyCount, totalCost);
+    }
+
+    // Публичный метод для вызова продажи с клиента
+    void RequestTraderSell(IEntity user, ResourceName prefabTrader, int sellCount, float totalRevenue)
+    {
+        if (Replication.IsServer())
         {
-            Print("[ARMST] Ошибка: Неверный идентификатор цели денег.", LogLevel.ERROR);
+            // Если уже на сервере, выполняем напрямую
+            ArmstTraderSell(user, prefabTrader, sellCount, totalRevenue);
+        }
+        else
+        {
+            // Если на клиенте, отправляем запрос на сервер
+			PlayerController player = GetGame().GetPlayerController();
+            Rpc(RpcAsk_TraderSell, player.GetPlayerId(), prefabTrader, sellCount, totalRevenue);
+        }
+    }
+
+    // RPC-метод для отправки запроса на продажу на сервер
+    [RplRpc(RplChannel.Reliable, RplRcver.Server)]
+    protected void RpcAsk_TraderSell(int playerId, ResourceName prefabTrader, int sellCount, float totalRevenue)
+    {
+		SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(playerId));
+		if (!scrPlayerController) 
+		{
+			Print("Error! Could not find player controller.", LogLevel.ERROR);
+			return;
+		}
+		
+		IEntity player = scrPlayerController.GetMainEntity();
+        if (!player)
+        {
+            Print("[ARMST_TRADE] Ошибка: Не удалось найти игрока на сервере по RplId", LogLevel.ERROR);
             return;
         }
 
-        if (!inventoryManagerId.IsValid())
+        ArmstTraderSell(player, prefabTrader, sellCount, totalRevenue);
+    }
+
+    // Метод покупки (выполняется на сервере)
+    void ArmstTraderBuy(IEntity m_User, ResourceName m_PrefabTrader, int buyCount, float totalCost)
+    {
+        if (!Replication.IsServer())
         {
-            Print("[ARMST] Ошибка: Неверный идентификатор менеджера инвентаря.", LogLevel.ERROR);
+            Print("[ARMST_TRADE] Ошибка: ArmstTraderBuy должен вызываться только на сервере", LogLevel.ERROR);
             return;
         }
 
-        if (!targetStorageId.IsValid())
+        SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
+        if (!inventory)
         {
-            Print("[ARMST] Ошибка: Неверный идентификатор целевого хранилища.", LogLevel.ERROR);
+            Print("[ARMST_TRADE] Ошибка: Не удалось найти компонент инвентаря", LogLevel.ERROR);
             return;
         }
 
-        if (!sourceStorageId.IsValid())
+        // Выполняем покупку: списываем деньги и добавляем предметы в инвентарь
+        if (ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventory, totalCost))
         {
-            Print("[ARMST] Ошибка: Неверный идентификатор исходного хранилища.", LogLevel.ERROR);
+            bool allItemsAdded = true;
+            // Добавляем предметы в инвентарь игрока
+            for (int i = 0; i < buyCount; i++)
+            {
+                Resource entityResource = Resource.Load(m_PrefabTrader);
+                if (entityResource && entityResource.IsValid())
+                {
+					vector transform[4];
+					SCR_TerrainHelper.GetTerrainBasis(m_User.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+					 vector m_aOriginalTransform[4];
+					m_aOriginalTransform = transform;
+					EntitySpawnParams params = new EntitySpawnParams();
+					params.Transform = m_aOriginalTransform;
+					params.TransformMode = ETransformMode.WORLD;
+                    IEntity itemEntity = GetGame().SpawnEntityPrefab(entityResource, GetGame().GetWorld(), params);
+                    if (itemEntity)
+                    {
+                        if (!inventory.TryInsertItem(itemEntity))
+                        {
+                            Print("[ARMST_TRADE] Ошибка: Не удалось добавить предмет в инвентарь", LogLevel.WARNING);
+                            //SCR_EntityHelper.DeleteEntityAndChildren(itemEntity);
+                            allItemsAdded = false;
+                        }
+                    }
+                    else
+                    {
+                        Print("[ARMST_TRADE] Ошибка: Не удалось создать предмет", LogLevel.ERROR);
+                        allItemsAdded = false;
+                    }
+                }
+                else
+                {
+                    Print("[ARMST_TRADE] Ошибка: Не удалось загрузить ресурс предмета " + m_PrefabTrader, LogLevel.ERROR);
+                    allItemsAdded = false;
+                }
+            }
+
+            if (!allItemsAdded)
+            {
+                Print("[ARMST_TRADE] Предупреждение: Не все предметы были добавлены в инвентарь", LogLevel.WARNING);
+            }
+            else
+            {
+                Print("[ARMST_TRADE] Покупка успешна! Куплено: " + buyCount + " предметов за " + totalCost, LogLevel.NORMAL);
+            }
+        }
+        else
+        {
+            Print("[ARMST_TRADE] Ошибка: Недостаточно средств для покупки", LogLevel.ERROR);
+        }
+    }
+
+    // Метод продажи (выполняется на сервере)
+    void ArmstTraderSell(IEntity m_User, ResourceName m_PrefabTrader, int sellCount, float totalRevenue)
+    {
+        if (!Replication.IsServer())
+        {
+            Print("[ARMST_TRADE] Ошибка: ArmstTraderSell должен вызываться только на сервере", LogLevel.ERROR);
             return;
         }
 
-        // Вызов процесса объединения с преобразованными компонентами
-        ARMST_MoneyMerge_Repack(
-            ARMST_MONEY_COMPONENTS.Cast(Replication.FindItem(sourceMoneyId)),
-            ARMST_MONEY_COMPONENTS.Cast(Replication.FindItem(targetMoneyId)),
-            SCR_InventoryStorageManagerComponent.Cast(Replication.FindItem(inventoryManagerId)),
-            BaseInventoryStorageComponent.Cast(Replication.FindItem(targetStorageId)),
-            BaseInventoryStorageComponent.Cast(Replication.FindItem(sourceStorageId))
-        );
-    }    
+        SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
+        if (!inventory)
+        {
+            Print("[ARMST_TRADE] Ошибка: Не удалось найти компонент инвентаря", LogLevel.ERROR);
+            return;
+        }
+
+        // Удаляем предметы из инвентаря
+        array<IEntity> items = new array<IEntity>();
+        B_PrefabNamePredicate pred = new B_PrefabNamePredicate();
+        pred.prefabName.Insert(m_PrefabTrader);
+
+        if (inventory.FindItems(items, pred))
+        {
+            int itemsRemoved = 0;
+            for (int i = 0; i < items.Count() && itemsRemoved < sellCount; i++)
+            {
+                IEntity item = items[i];
+                SCR_EntityHelper.DeleteEntityAndChildren(item);
+                itemsRemoved++;
+            }
+
+            if (itemsRemoved == sellCount)
+            {
+                // Добавляем валюту игроку
+                if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
+                {
+                    Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
+                }
+                else
+                {
+                    Print("[ARMST_TRADE] Не удалось начислить деньги напрямую, создаем PDA для хранения валюты", LogLevel.WARNING);
+
+                    // Создаем новый предмет PDA
+                    Resource pdaResource = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
+                    if (!pdaResource.IsValid())
+                    {
+                        Print("[ARMST_TRADE] Ошибка: Не удалось загрузить ресурс PDA", LogLevel.ERROR);
+                        return;
+                    }
+
+                    EntitySpawnParams params = new EntitySpawnParams();
+                    params.Parent = m_User; // Привязываем к игроку как родительскому объекту
+
+                    // Спавним PDA
+                    IEntity pdaEntity = GetGame().SpawnEntityPrefab(pdaResource, GetGame().GetWorld(), params);
+                    if (!pdaEntity)
+                    {
+                        Print("[ARMST_TRADE] Ошибка: Не удалось создать PDA", LogLevel.ERROR);
+                        return;
+                    }
+
+                    // Пробуем добавить PDA в инвентарь игрока
+                    if (!inventory.TryInsertItem(pdaEntity))
+                    {
+                        Print("[ARMST_TRADE] Ошибка: Не удалось добавить PDA в инвентарь игрока", LogLevel.ERROR);
+                        SCR_EntityHelper.DeleteEntityAndChildren(pdaEntity); // Удаляем, если не удалось добавить
+                        return;
+                    }
+
+                    if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
+                    {
+                        Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
+                    }
+                    else
+                    {
+                        Print("[ARMST_TRADE] Ошибка: Не удалось начислить деньги даже после создания PDA", LogLevel.ERROR);
+                    }
+                }
+            }
+            else
+            {
+                Print("[ARMST_TRADE] Ошибка: Не удалось удалить достаточное количество предметов для продажи", LogLevel.ERROR);
+            }
+        }
+        else
+        {
+            Print("[ARMST_TRADE] Ошибка: Не удалось найти предметы для продажи", LogLevel.ERROR);
+        }
+    }
+	
+	
 }
+	

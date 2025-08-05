@@ -64,7 +64,17 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
 	    
 	    if (Replication.IsServer())
 	    {
-	        Print("[ARMST_QUEST_RANDOM] Отправка уведомления игнорируется на сервере.");
+            Print("[ARMST_TRADE] Отправка уведомления игнорируется на сервере.");
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+	        	ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", 
+	            string.Format("#armst_quest_ui_bring %1 #armst_quest_ui_pcs %2. #armst_quest_ui_reward: %3 #armst_quest_ui_currency", 
+	            m_iCurrentQuestItems, GetPrefabDisplayName(m_SelectedPrefab), m_iCurrentReward), 15.0);
+	        }
+			else 
+			{
+			}
 	        return;
 	    }
 	    else
@@ -115,7 +125,15 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
 	        
 	        if (Replication.IsServer())
 	        {
-	            Print("[ARMST_QUEST_RANDOM] Отправка уведомления игнорируется на сервере.");
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+	            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", 
+	                string.Format("#armst_quest_ui_reward_money_text %1 #armst_quest_ui_currency", m_iCurrentReward), 15.0);
+	        }
+			else 
+			{
+			}
 	            return;
 	        }
 	        else
@@ -129,7 +147,15 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
 	        // Сообщаем, что недостаточно предметов
 	        if (Replication.IsServer())
 	        {
-	            Print("[ARMST_QUEST_RANDOM] Отправка уведомления игнорируется на сервере.");
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+	            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", 
+	                string.Format("#armst_quest_ui_required %1 #armst_quest_ui_pcs %2", m_iCurrentQuestItems, GetPrefabDisplayName(m_SelectedPrefab)), 15.0);
+	        }
+			else 
+			{
+			}
 	            return;
 	        }
 	        else

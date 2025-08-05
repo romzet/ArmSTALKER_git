@@ -16,11 +16,6 @@ class ARMST_ClaimFisrtEnterAction : ZEL_ClaimedStorageUserActionBase
  	{
 		super.PerformAction(pOwnerEntity,pUserEntity);	
 		
-        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-        ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, 70000);
-		
-		
 		if(!Replication.IsServer())
 			return;
 		
@@ -36,6 +31,10 @@ class ARMST_ClaimFisrtEnterAction : ZEL_ClaimedStorageUserActionBase
 
 		ZEL_PlayerClaimComponent PlayerClaimComponent = ZEL_PlayerClaimComponent.Cast(pUserEntity.FindComponent(ZEL_PlayerClaimComponent));
 		PlayerClaimComponent.InsertDeniedClaim(m_ClaimableComponent.GetClaimType());	
+		
+		        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+		        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+		        ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, 50000);
  	}
 	//------------------------------------------------------------------------------------------------	
 	override bool CanBePerformedScript(IEntity user)

@@ -49,7 +49,26 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	{
 		
 		FrameWidget FrameHUD = FrameWidget.Cast(HUDWidget.FindAnyWidget("FrameHUD"));
-		FrameHUD.SetOpacity(1);
+		ImageWidget Gasmask_Breath = ImageWidget.Cast(HUDWidget.FindAnyWidget("Gasmask_Breath"));
+		ImageWidget Gasmask_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Gasmask_HUD"));
+		ImageWidget Radiation_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Radiation_HUD"));
+		ImageWidget Toxin_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Toxin_HUD"));
+		ImageWidget Psy_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Psy_HUD"));
+		DataVarType MoneyCount;
+		DataVarType rad_level;
+		DataVarType RepCount;
+		SliderWidget Slider_Water = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Water"));
+		ImageWidget Stat_Water = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Water"));
+		SliderWidget Slider_Eat = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Eat"));
+		ImageWidget Stat_Eat = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Eat"));
+		SliderWidget Slider_Psy = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Psy"));
+		ImageWidget Stat_Psy = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Psy"));
+		SliderWidget Slider_Radiation = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Radiation"));
+		ImageWidget Stat_Radiation = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Radiation"));
+		SliderWidget Slider_Toxic = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Toxic"));
+		ImageWidget Stat_Scheemese = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Scheemese"));
+		ProgressBarWidget Stat_Health = ProgressBarWidget.Cast(HUDWidget.FindAnyWidget("Slider_Health"));
+		ProgressBarWidget Stat_Stamina = ProgressBarWidget.Cast(HUDWidget.FindAnyWidget("Slider_Stamina"));
 		
 		if (!owner)
 		{
@@ -101,84 +120,31 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			FrameHUD.SetOpacity(0);
 				return;	
 		}
+		if (!statsComponent2.m_hud_check)
+			{
+			FrameHUD.SetOpacity(0);
+			Gasmask_Breath.SetOpacity(0);
+			Gasmask_HUD.SetOpacity(0);
+			Radiation_HUD.SetOpacity(0);
+			Toxin_HUD.SetOpacity(0);
+			Psy_HUD.SetOpacity(0);
+			}
+			else
+			{
+			FrameHUD.SetOpacity(1);
+			}
 		
-		DataVarType MoneyCount;
-		DataVarType RepCount;
-		SliderWidget Slider_Water = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Water"));
-		ImageWidget Stat_Water = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Water"));
-		SliderWidget Slider_Eat = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Eat"));
-		ImageWidget Stat_Eat = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Eat"));
-		SliderWidget Slider_Psy = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Psy"));
-		ImageWidget Stat_Psy = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Psy"));
-		SliderWidget Slider_Radiation = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Radiation"));
-		ImageWidget Stat_Radiation = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Radiation"));
-		SliderWidget Slider_Toxic = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Toxic"));
-		ImageWidget Stat_Scheemese = ImageWidget.Cast(HUDWidget.FindAnyWidget("Stat_Scheemese"));
-		SliderWidget Stat_Health = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Health"));
-		SliderWidget Stat_Stamina = SliderWidget.Cast(HUDWidget.FindAnyWidget("Slider_Stamina"));
-		ImageWidget Gasmask_Breath = ImageWidget.Cast(HUDWidget.FindAnyWidget("Gasmask_Breath"));
-		ImageWidget Gasmask_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Gasmask_HUD"));
-		ImageWidget Radiation_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Radiation_HUD"));
-		ImageWidget Toxin_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Toxin_HUD"));
-		ImageWidget Psy_HUD = ImageWidget.Cast(HUDWidget.FindAnyWidget("Psy_HUD"));
-		
-			Slider_Water.SetOpacity(1);
-			Slider_Eat.SetOpacity(1);
-			Slider_Psy.SetOpacity(1);
-			Slider_Radiation.SetOpacity(1);
-			Slider_Toxic.SetOpacity(1);
+			Slider_Water.SetOpacity(0);
+			Slider_Eat.SetOpacity(0);
+			Slider_Psy.SetOpacity(0);
+			Slider_Radiation.SetOpacity(0);
+			Slider_Toxic.SetOpacity(0);
 			Stat_Health.SetOpacity(1);
 			Stat_Stamina.SetOpacity(1);
 		
+		
 		statsComponent2.ArmstPlayerStatSetWater(-0.004);
 		statsComponent2.ArmstPlayerStatSetEat(-0.002);
-		
-        if (statsComponent2.m_armst_player_stat_toxic < 0)
-            { statsComponent2.m_armst_player_stat_toxic = 0; }
-        if (statsComponent2.m_armst_player_stat_toxic > 100)
-            { statsComponent2.m_armst_player_stat_toxic = 100; }
-        if (statsComponent2.m_armst_player_stat_toxic > statsComponent2.m_DamageToxicLevel)
-            {
-				float ArmstToxicDamage = (statsComponent2.m_armst_player_stat_toxic/600) * statsComponent2.m_damageValue;
-                ArmstPlayerStatKill(owner,ArmstToxicDamage); // Убиваем игрока
-            }
-        if (statsComponent2.m_armst_player_stat_radiactive < 0)
-            { statsComponent2.m_armst_player_stat_radiactive = 0; }
-        if (statsComponent2.m_armst_player_stat_radiactive > 100)
-            { statsComponent2.m_armst_player_stat_radiactive = 100; }
-        if (statsComponent2.m_armst_player_stat_radiactive > statsComponent2.m_DamageRadiactiveLevel)
-            {
-				float ArmstRadioDamage = (statsComponent2.m_armst_player_stat_radiactive/600) * statsComponent2.m_damageValue;
-				//Print(ArmstRadioDamage);
-                ArmstPlayerStatKill(owner,ArmstRadioDamage); // Убиваем игрока
-            }
-        if (statsComponent2.m_armst_player_stat_psy > 100)
-            { statsComponent2.m_armst_player_stat_psy = 100; }
-        if (statsComponent2.m_armst_player_stat_psy < 1)
-            {
-				statsComponent2.m_armst_player_stat_psy = 0;
-	        	GetGame().GetCallqueue().CallLater(SpawnZombiePlayer, 5000, false, owner);
-                Print("Игрок убит из-за низкого пси-здоровья");
-                ArmstPlayerStatKill(owner,10000); // Убиваем игрока
-            }
-        if (statsComponent2.m_armst_player_stat_water > 100)
-            { statsComponent2.m_armst_player_stat_water = 100; }
-        if (statsComponent2.m_armst_player_stat_water < 1)
-            {
-				statsComponent2.m_armst_player_stat_water = 0;
-                Print("Игрок убит из-за жажды!");
-				float ArmstRadioDamage = 1 * statsComponent2.m_damageValue;
-                ArmstPlayerStatKill(owner, ArmstRadioDamage); // Убиваем игрока
-            }
-        if (statsComponent2.m_armst_player_stat_eat > 100)
-            { statsComponent2.m_armst_player_stat_eat = 100; }
-        if (statsComponent2.m_armst_player_stat_eat < 1)
-            {
-				statsComponent2.m_armst_player_stat_eat = 0;
-                Print("Игрок убит из-за голода!");
-				float ArmstRadioDamage = 1 * statsComponent2.m_damageValue;
-                ArmstPlayerStatKill(owner, ArmstRadioDamage); // Убиваем игрока
-            }
 		
 		float WaterStats = statsComponent2.ArmstPlayerStatGetWater();
 		float EatStats = statsComponent2.ArmstPlayerStatGetEat();
@@ -191,14 +157,27 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		TextWidget Text_money = TextWidget.Cast(HUDWidget.FindAnyWidget("Text_money"));
 		if (Text_money)
 			{ 
-			
+			Text_money.SetOpacity(0);
+			/*
 				SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(owner.FindComponent(SCR_InventoryStorageManagerComponent));
 				if (!inventory) 
 					return;
 				int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventory);
 				MoneyCount = totalCurrency;
 				Text_money.SetText(MoneyCount.ToString());
+			*/
 			};
+		
+		/*
+		TextWidget Text_rad_level = TextWidget.Cast(HUDWidget.FindAnyWidget("Text_rad_level"));
+			if(Text_rad_level)
+				{
+            		float LevelRad = statsComponent2.ArmstRadiactiveLevelGet();
+                    outName = string.Format("#Armst_detector_on (Radiation: %1)", LevelRad);
+					rad_level = LevelRad;
+					Text_money.SetText(rad_level.ToString());
+				}
+		*/
 		//   Отладочный вывод в консоль игры для проверки
 		StaminaStats = StaminaStats * 100;
 		Stat_Health.SetCurrent(HealthStats);
@@ -210,91 +189,106 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		Slider_Toxic.SetCurrent(ToxicStats);
 		
 	    // Цвета для индикаторов (голода, еды, здоровья, психики)
-	    // Красный: ниже 30, Желтый: ниже 60, иначе Белый
-	    if (WaterStats < 30)
+	    // Красный: ниже 20, Желтый: ниже 60, иначе Белый
+	    if (WaterStats < 20)
 			{
+			Stat_Water.SetOpacity(1);
 	        Slider_Water.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 	        Stat_Water.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 			}
 	    else if (WaterStats < 60)
 			{
+			Stat_Water.SetOpacity(1);
 	        Slider_Water.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 	        Stat_Water.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 			}
 	    else
 			{
+			Stat_Water.SetOpacity(0);
 	        Slider_Water.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 	        Stat_Water.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 			}
-	    if (EatStats < 30)
+	    if (EatStats < 20)
 			{
+			Stat_Eat.SetOpacity(1);
 	        Slider_Eat.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 	        Stat_Eat.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 			}
 	    else if (EatStats < 60)
 			{
+			Stat_Eat.SetOpacity(1);
 	        Slider_Eat.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 	        Stat_Eat.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 			}
 	    else
 			{
+			Stat_Eat.SetOpacity(0);
 	        Slider_Eat.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 	        Stat_Eat.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 			}
 	
-	    if (PsyStats < 30)
+	    if (PsyStats < 20)
 			{
+			//Stat_Psy.SetOpacity(1);
 	        Slider_Psy.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 	        Stat_Psy.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 			}
-	    else if (PsyStats < 60)
+	    else if (PsyStats < 50)
 			{
+			//Stat_Psy.SetOpacity(1);
 	        Slider_Psy.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 	        Stat_Psy.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 			}
 	    else
 			{
+			//Stat_Psy.SetOpacity(0);
 	        Slider_Psy.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 	        Stat_Psy.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 			}
-	
+		/*
 	    if (HealthStats < 30)
 	        Stat_Health.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 	    else if (HealthStats < 60)
 	        Stat_Health.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 	    else
 	        Stat_Health.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
-	
+		*/
 	    // Цвета для индикаторов радиации и химии
 	    // Красный: выше 50, Желтый: выше 30, иначе Белый
 	    if (RadiactiveStats > 50)
 			{
+			//Stat_Radiation.SetOpacity(1);
 	        Slider_Radiation.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 	        Stat_Radiation.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 			}
-	    else if (RadiactiveStats > 30)
+	    else if (RadiactiveStats > 20)
 			{
+			//Stat_Radiation.SetOpacity(1);
 	        Slider_Radiation.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 	        Stat_Radiation.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 			}
 	    else
 			{
+			//Stat_Radiation.SetOpacity(0);
 	        Slider_Radiation.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 	        Stat_Radiation.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 			}
 	
 	    if (ToxicStats > 50)
 			{
+			//Stat_Scheemese.SetOpacity(1);
 	        Slider_Toxic.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 	        Stat_Scheemese.SetColorInt(ARGB(255, 255, 0, 0)); // Красный
 			}
 	    else if (ToxicStats > 30)
 			{
+			//Stat_Scheemese.SetOpacity(1);
 	        Slider_Toxic.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 	        Stat_Scheemese.SetColorInt(ARGB(255, 255, 255, 0)); // Желтый
 			}
 	    else
 			{
+			//Stat_Scheemese.SetOpacity(0);
 	        Slider_Toxic.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 	        Stat_Scheemese.SetColorInt(ARGB(255, 255, 255, 255)); // Белый
 			}
@@ -308,9 +302,9 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 				Toxin_HUD.SetOpacity(0);
 			}
 		
-		if (PsyStats < 70)
+		if (PsyStats < 40)
 			{
-				Psy_HUD.SetOpacity(0.1);
+				Psy_HUD.SetOpacity(PsyStats/100 - 0.2);
 			}
 			else
 			{
@@ -334,14 +328,19 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 				ARMST_GASMASK_HUD_COMPONENT m_ArmstStat_HeadGasmask = ARMST_GASMASK_HUD_COMPONENT.Cast(armst_HeadGasmask.FindComponent(ARMST_GASMASK_HUD_COMPONENT));
 				if (m_ArmstStat_HeadGasmask)
 					{
-						//Resource m_Resource = Resource.Load(m_ArmstStat_HeadGasmask.GetImage());
-						//Gasmask_HUD.LoadMaskTexture(m_ArmstStat_HeadGasmask.GetImage());
+						Resource m_Resource = Resource.Load(m_ArmstStat_HeadGasmask.GetImage());
+						if(m_Resource)
+						{
+						Gasmask_HUD.LoadImageTexture(0,m_ArmstStat_HeadGasmask.GetImage());
 						Gasmask_HUD.SetOpacity(1);
-						Gasmask_Breath.SetOpacity(1 - PlayerStats.ArmstPlayerStatGetStamina() - 0.5);
-			
+						Gasmask_Breath.SetOpacity(1 - PlayerStats.ArmstPlayerStatGetStamina() - 0.7);
+						}
 					}
-				
-					
+					else
+					{
+						Gasmask_HUD.SetOpacity(0);
+						Gasmask_Breath.SetOpacity(0);
+					}
 				}
 				else
 				{
@@ -350,7 +349,70 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 				}
 		
 	        GetGame().GetCallqueue().CallLater(Update, 500, false, HUDWidget, owner, PlayerStats, ItemStats);
-          //  callQueue.CallLater(Update, 500, false, HUDWidget, owner, PlayerStats, ItemStats);
+		
+		        if (Replication.IsServer())
+		        {
+		        }
+				else 
+				{
+						if(SCR_Global.IsAdmin())
+						{
+						Print("Админка включена");
+						statsComponent2.m_armst_player_stat_toxic = 0;
+						statsComponent2.m_armst_player_stat_radiactive = 0;
+						statsComponent2.m_armst_player_stat_psy = 100;
+						statsComponent2.m_armst_player_stat_water = 100;
+						statsComponent2.m_armst_player_stat_eat = 100;
+						return;
+						}
+				}
+		
+	        if (statsComponent2.m_armst_player_stat_toxic < 0)
+	            { statsComponent2.m_armst_player_stat_toxic = 0; }
+	        if (statsComponent2.m_armst_player_stat_toxic > 100)
+	            { statsComponent2.m_armst_player_stat_toxic = 100; }
+	        if (statsComponent2.m_armst_player_stat_toxic > statsComponent2.m_DamageToxicLevel)
+	            {
+					float ArmstToxicDamage = (statsComponent2.m_armst_player_stat_toxic/600) * statsComponent2.m_damageValue;
+	                ArmstPlayerStatKill(owner,ArmstToxicDamage); // Убиваем игрока
+	            }
+	        if (statsComponent2.m_armst_player_stat_radiactive < 0)
+	            { statsComponent2.m_armst_player_stat_radiactive = 0; }
+	        if (statsComponent2.m_armst_player_stat_radiactive > 100)
+	            { statsComponent2.m_armst_player_stat_radiactive = 100; }
+	        if (statsComponent2.m_armst_player_stat_radiactive > statsComponent2.m_DamageRadiactiveLevel)
+	            {
+					float ArmstRadioDamage = (statsComponent2.m_armst_player_stat_radiactive/600) * statsComponent2.m_damageValue;
+					//Print(ArmstRadioDamage);
+	                ArmstPlayerStatKill(owner,ArmstRadioDamage); // Убиваем игрока
+	            }
+	        if (statsComponent2.m_armst_player_stat_psy > 100)
+	            { statsComponent2.m_armst_player_stat_psy = 100; }
+	        if (statsComponent2.m_armst_player_stat_psy < 1)
+	            {
+					statsComponent2.m_armst_player_stat_psy = 0;
+		        	GetGame().GetCallqueue().CallLater(SpawnZombiePlayer, 5000, false, owner);
+	                Print("[PLAYER] Kill from PSI");
+	                ArmstPlayerStatKill(owner,10000); // Убиваем игрока
+	            }
+	        if (statsComponent2.m_armst_player_stat_water > 100)
+	            { statsComponent2.m_armst_player_stat_water = 100; }
+	        if (statsComponent2.m_armst_player_stat_water < 1)
+	            {
+					statsComponent2.m_armst_player_stat_water = 0;
+	                Print("[PLAYER] Kill from WATER");
+					float ArmstRadioDamage = 1 * statsComponent2.m_damageValue;
+	                ArmstPlayerStatKill(owner, 0.02); // Убиваем игрока
+	            }
+	        if (statsComponent2.m_armst_player_stat_eat > 100)
+	            { statsComponent2.m_armst_player_stat_eat = 100; }
+	        if (statsComponent2.m_armst_player_stat_eat < 1)
+	            {
+					statsComponent2.m_armst_player_stat_eat = 0;
+	                Print("[PLAYER] Kill from HUNGRY");
+					float ArmstRadioDamage = 1 * statsComponent2.m_damageValue;
+	                ArmstPlayerStatKill(owner, 0.02); // Убиваем игрока
+	            }
 		
 		
 	}
@@ -518,6 +580,7 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		
 		void SetHudNotificationPDA(Widget HUDWidget, string message, string message2, float duration)
 		{
+		
 		    PanelWidget PanelPDA = PanelWidget.Cast(HUDWidget.FindAnyWidget("PanelPDA"));
 		    TextWidget InputText = TextWidget.Cast(HUDWidget.FindAnyWidget("InputText"));
 		    TextWidget InputName = TextWidget.Cast(HUDWidget.FindAnyWidget("InputName"));
@@ -529,9 +592,18 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		        {
 		            GetGame().GetCallqueue().Remove(ClearNotificationPDA);
 		        }
-		        
+			
+				protected int m_iSeconds;
+				protected int m_iMinutes;
+				protected int m_iHours;
+				protected TimeAndWeatherManagerEntity m_TimeMgr;
+				ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());
+				m_TimeMgr = world.GetTimeAndWeatherManager();
+				m_TimeMgr.GetHoursMinutesSeconds(m_iHours, m_iMinutes, m_iSeconds);
+				string m_SystemMessage = string.Format("%1:%2:%3 %4", m_iHours, m_iMinutes, m_iSeconds, message);
+			
 		        InputText.SetText(message2);
-		        InputName.SetText(message);
+		        InputName.SetText(m_SystemMessage);
 		        PanelPDA.SetVisible(true);
 		        
 		        // Устанавливаем новый таймер

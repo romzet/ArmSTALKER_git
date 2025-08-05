@@ -75,13 +75,12 @@ modded class SCR_InventoryUIInfo : UIInfo
 	        ARMST_ItemUseComponent consumable = ARMST_ItemUseComponent.Cast(item.GetOwner().FindComponent(ARMST_ItemUseComponent));
 	        if (consumable)
 			{
-				consumable.Get_AllStats();
-				 int HP = consumable.GetChangeHP();
-				 int Eat = consumable.GetChangeEat();
-				 int Water = consumable.GetChangeWater();
-				 int Radiactive = consumable.GetChangeRadiactive();
-				 int Toxic = consumable.GetChangeToxic();
-				 int Psy = consumable.GetChangePsy();
+				 int HP = consumable.Get_ArmstChangeHP();
+				 int Eat = consumable.Get_m_ArmstChangeEat();
+				 int Water = consumable.Get_m_ArmstChangeWater();
+				 int Radiactive = consumable.Get_m_ArmstChangeRadiactive();
+				 int Toxic = consumable.Get_m_ArmstChangeToxic();
+				 int Psy = consumable.Get_m_ArmstChangePsy();
 				
 				
 		    	formattedText += string.Format("\n%1:", Effects );

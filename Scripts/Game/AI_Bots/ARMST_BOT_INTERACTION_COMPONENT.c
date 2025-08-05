@@ -106,7 +106,7 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 		m_Talker_Bool = true;
 		GetGame().GetCallqueue().CallLater(ArmstStalkerTalkSelect, 2000, false, owner);
 		
-		//GetGame().GetWorld().QueryEntitiesBySphere(owner.GetOrigin(), 5, ArmstFireplaceEnter);
+		GetGame().GetWorld().QueryEntitiesBySphere(owner.GetOrigin(), 5, ArmstFireplaceEnter);
 	}
 	
 	//Запуск рандомайзера, что конкретно говорить
@@ -331,7 +331,7 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 	}
 	
 	protected RplId entity;
-	 [RplRpc(RplChannel.Reliable, RplRcver.Server)]
+	 [RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
 	  void Rpc_ArmstHelloReaction()
 	  {
 	    ArmstHelloReaction();

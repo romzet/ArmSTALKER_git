@@ -10,7 +10,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
     float REPUTATION_LOSS_FRIENDLY_KILL;
     [Attribute("5", UIWidgets.Slider, "Плюс репа", "0 100 1", category: "Reputatuions")];
     float REPUTATION_GAIN_ENEMY_KILL;
-   
+	
     // Хранение информации о последнем уроне
     protected EDamageType m_LastDamageType = EDamageType.TRUE;
     protected string m_LastHitZoneName = "";
@@ -87,6 +87,10 @@ class ARMST_DeathHandlerComponent : ScriptComponent
         }
     }
     
+	void DeleteMonster(IEntity ent)
+	{
+		SCR_EntityHelper.DeleteEntityAndChildren(ent);
+	}
     // Обработка смерти персонажа
     void ProcessDeath()
     {
@@ -102,6 +106,13 @@ class ARMST_DeathHandlerComponent : ScriptComponent
             
         string characterName = identityComponent.GetIdentity().GetSurname();
         
+		
+		
+        int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(owner);
+        if (playerId2)
+        {
+            characterName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2);
+        }
         // Получаем фракцию персонажа
         FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent));
         
@@ -111,7 +122,7 @@ class ARMST_DeathHandlerComponent : ScriptComponent
         string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
         
         // Проверяем, относится ли персонаж к фракции, для которой нужно обрабатывать смерть
-        if (characterFaction == "BACON_622120A5448725E3_FACTION")
+        if (characterFaction == "BACON_622120A5448725E3_FACTION" || characterFaction == "FACTION_MUTANTS")
         {
             if (m_LastInstigatorEntity)
             {
@@ -143,36 +154,18 @@ class ARMST_DeathHandlerComponent : ScriptComponent
                         {
                             playerStats.Rpc_ArmstPlayerSetReputation(-REPUTATION_LOSS_FRIENDLY_KILL);
                         }
-                        // Если игрок убил врага
-                        if (characterFaction == "FACTION_BANDIT")
-                        {
+						else
+						{
                             playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
                             playerStats.Rpc_ARMST_SET_STAT_BAND();
-                        }
-                        // Если игрок убил врага
-                        if (characterFaction == "FACTION_MERCENARIES")
-                        {
-                            playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
-                            playerStats.Rpc_ARMST_SET_STAT_BAND();
-                        }
-                        // Если игрок убил врага
-                        if (characterFaction == "FACTION_ARMY")
-                        {
-                            playerStats.Rpc_ArmstPlayerSetReputation(REPUTATION_GAIN_ENEMY_KILL);
-                            playerStats.Rpc_ARMST_SET_STAT_BAND();
-                        }
-                        // Если игрок убил врага
-                        if (characterFaction == "FACTION_SCIENCES")
-                        {
-                            playerStats.Rpc_ArmstPlayerSetReputation(-REPUTATION_LOSS_FRIENDLY_KILL);
-                        }
+						}
                     }
                 }
             }
            
             // Формируем сообщение о смерти в любом случае
             string deathReason = GetDeathReason();
-            string deathMessage = "#armst_pda_user " + characterName + " погиб " + deathReason;
+            string deathMessage = "#armst_pda_user " + characterName + " " + "#Armst_pda_death" + " "  + deathReason;
             string systemMessage = "#armst_pda_system";
             
             // Отправляем сообщение через собственный метод

@@ -1,10 +1,22 @@
-
+enum ARMST_FACTION_LABEL
+{
+	FACTION_STALKER,
+	FACTION_BANDIT,
+	FACTION_ARMY,
+	FACTION_MUTANTS,
+	FACTION_RENEGADE,
+	FACTION_SCIENCES,
+	FACTION_MERCENARIES
+}
 class ARMST_PLAYER_STATS_COMPONENTClass : ScriptComponentClass
 {
 };
 [BaseContainerProps()]
 class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 {
+	[Attribute("0", UIWidgets.ComboBox, "Фракция", "", ParamEnumArray.FromEnum(ARMST_FACTION_LABEL), category: "Faction")]
+	ARMST_FACTION_LABEL m_FactionKey;
+	
     //------------------------------------------------------------------------------------------------
     // Секция: Статистика состояния игрока (жизненные показатели)
     //------------------------------------------------------------------------------------------------
@@ -41,6 +53,9 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     [RplProp()]
     float m_statistik_player_sells_items = 0;     // Продано предметов
 
+    [RplProp()]
+    vector m_player_shelter;                // Репутация игрока
+
     //------------------------------------------------------------------------------------------------
     // Секция: Флаги состояния
     //------------------------------------------------------------------------------------------------
@@ -48,6 +63,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     bool m_pda_check = true;                      // Состояние КПК (включен/выключен)
     bool m_stat_check = false;                    // Флаг проверки состояния
     bool m_surge_safe_check = false;              // Флаг защиты от выброса
+    bool m_hud_check = true;              // Флаг защиты от выброса
 
     //------------------------------------------------------------------------------------------------
     // Секция: Настройки и параметры урона
@@ -79,6 +95,95 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
         // Инициализация компонента
     }
 
+	// 1. Добавим метод для получения и установки фракции
+	ARMST_FACTION_LABEL GetFactionKey()
+	{
+	    return m_FactionKey;
+	}
+	void SetFactionKey(ARMST_FACTION_LABEL factionKey)
+	{
+	    m_FactionKey = factionKey;
+	    
+	    // Получаем сущность владельца (игрока)
+	    IEntity owner = GetOwner();
+	    if (!owner)
+	        return;
+	    
+	    // Получаем компонент FactionAffiliationComponent для изменения фракции
+	    FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent));
+	    if (!factionComponent)
+	        return;
+	    
+	    // Преобразуем ARMST_FACTION_LABEL в строковый ключ фракции
+	    string factionKeyStr = "";
+	    switch (factionKey)
+	    {
+	        case ARMST_FACTION_LABEL.FACTION_STALKER:
+	            factionKeyStr = "FACTION_STALKER";
+	            break;
+	        case ARMST_FACTION_LABEL.FACTION_BANDIT:
+	            factionKeyStr = "FACTION_BANDIT";
+	            break;
+	        case ARMST_FACTION_LABEL.FACTION_ARMY:
+	            factionKeyStr = "FACTION_ARMY";
+	            break;
+	        case ARMST_FACTION_LABEL.FACTION_MUTANTS:
+	            factionKeyStr = "FACTION_MUTANTS";
+	            break;
+	        case ARMST_FACTION_LABEL.FACTION_RENEGADE:
+	            factionKeyStr = "FACTION_RENEGADE";
+	            break;
+	        case ARMST_FACTION_LABEL.FACTION_SCIENCES:
+	            factionKeyStr = "FACTION_SCIENCES";
+	            break;
+	        case ARMST_FACTION_LABEL.FACTION_MERCENARIES:
+	            factionKeyStr = "FACTION_MERCENARIES";
+	            break;
+	        default:
+	            factionKeyStr = "FACTION_STALKER"; // Значение по умолчанию
+	            break;
+	    }
+	    
+	    // Устанавливаем фракцию через FactionAffiliationComponent
+	    factionComponent.SetAffiliatedFactionByKey(factionKeyStr);
+	    Print(string.Format("Фракция игрока изменена на: %1", factionKeyStr));
+	}
+	
+	// 2. Добавим метод для определения фракции игрока
+	void UpdatePlayerFaction()
+	{
+	    IEntity owner = GetOwner();
+	    if (!owner)
+	        return;
+	        
+	    FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent));
+	    if (!factionComponent)
+	        return;
+	        
+	    string characterFaction = factionComponent.GetAffiliatedFaction().GetFactionKey();
+	    if (!characterFaction)
+	        return;
+	    
+	    // Преобразуем строковое представление фракции в ARMST_FACTION_LABEL
+	    if (characterFaction == "FACTION_STALKER")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_STALKER;
+	    else if (characterFaction == "FACTION_BANDIT")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_BANDIT;
+	    else if (characterFaction == "FACTION_ARMY")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_ARMY;
+	    else if (characterFaction == "FACTION_MUTANTS")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_MUTANTS;
+	    else if (characterFaction == "FACTION_RENEGADE")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_RENEGADE;
+	    else if (characterFaction == "FACTION_SCIENCES")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_SCIENCES;
+	    else if (characterFaction == "FACTION_MERCENARIES")
+	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_MERCENARIES;
+	}
+	
+	
+	
+	
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
     void Rpc_ArmstPlayerINIT()
     {
@@ -91,13 +196,22 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
         if (!owner)
             return;
 
+	    // Обновляем фракцию игрока
+	    UpdatePlayerFaction();
+		
         ARMST_HUDCharacterComponent stathud = ARMST_HUDCharacterComponent.Cast(owner.FindComponent(ARMST_HUDCharacterComponent));
         if (stathud)
         {
             // Инициализация HUD, если требуется
         }
     }
-
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_UpdatePlayerFaction()
+	{
+	    UpdatePlayerFaction();
+	}
+	
 	void ArmstPlayerPsySound()
 	{
         SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
@@ -324,6 +438,22 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
         ARMST_SET_STAT_SELLS();
     }
 
+    // Проданные предметы
+    vector ARMST_GET_SHELTER()
+    {
+        return m_player_shelter;
+    }
+
+    void ARMST_SET_SHELTER(vector m_player_shelter2)
+    {
+        m_player_shelter = m_player_shelter2;
+    }
+
+    [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+    void Rpc_ARMST_SET_SHELTER(vector m_player_shelter2)
+    {
+        ARMST_SET_SHELTER(m_player_shelter2);
+    }
     //------------------------------------------------------------------------------------------------
     // Секция: Управление состоянием КПК и выброса
     //------------------------------------------------------------------------------------------------
@@ -347,6 +477,10 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
         m_surge_safe_check = false;
     }
 
+    void ArmstPlayerHUD(bool status)
+    {
+        m_hud_check = status;
+    }
     //------------------------------------------------------------------------------------------------
     // Секция: Уведомления и транзакции
     //------------------------------------------------------------------------------------------------

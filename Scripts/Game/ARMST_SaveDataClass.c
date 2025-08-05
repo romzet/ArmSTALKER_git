@@ -3,7 +3,6 @@ class EPF_ArmstPlayerStatsComponentSaveDataClass : EPF_ComponentSaveDataClass
 {
     // Можно добавить фильтры для сохранения, если необходимо
 }
-
 [EDF_DbName.Automatic()]
 class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
 {
@@ -18,6 +17,8 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
     float m_fStashFounds;   // Статистика найденных тайников
     float m_fQuestsDone;    // Статистика выполненных квестов
     float m_fSellsItems;    // Статистика проданных предметов
+    vector m_fPosShelter;    // Статистика проданных предметов
+    ARMST_FACTION_LABEL m_FactionKey;  // Сохранение фракции игрока
     
     //------------------------------------------------------------------------------------------------
     override EPF_EReadResult ReadFrom(IEntity owner, GenericComponent component, EPF_ComponentSaveDataClass attributes)
@@ -37,22 +38,9 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         m_fStashFounds = statsComponent.ARMST_GET_STAT_STASH();
         m_fQuestsDone = statsComponent.ARMST_GET_STAT_QUESTS();
         m_fSellsItems = statsComponent.ARMST_GET_STAT_SELLS();
+        m_FactionKey = statsComponent.GetFactionKey(); // Сохраняем фракцию
+        m_fPosShelter = statsComponent.ARMST_GET_SHELTER(); // Сохраняем фракцию
         
-        // Если все значения в состоянии по умолчанию, не сохраняем
-        if (float.AlmostEqual(m_fToxic, 0) && 
-            float.AlmostEqual(m_fRadiactive, 0) && 
-            float.AlmostEqual(m_fPsy, 100) &&
-            float.AlmostEqual(m_fWater, 100) &&
-            float.AlmostEqual(m_fEat, 100) &&
-            float.AlmostEqual(m_fRep, 0) &&
-            float.AlmostEqual(m_fKillMonsters, 0) &&
-            float.AlmostEqual(m_fKillBandits, 0) &&
-            float.AlmostEqual(m_fStashFounds, 0) &&
-            float.AlmostEqual(m_fQuestsDone, 0) &&
-            float.AlmostEqual(m_fSellsItems, 0))
-        {
-            return EPF_EReadResult.DEFAULT;
-        }
         
         return EPF_EReadResult.OK;
     }
@@ -91,7 +79,11 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         float diffRep = m_fRep - currentRep;
         statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetReputation, diffRep);
         
+        // Устанавливаем фракцию
+        statsComponent.SetFactionKey(m_FactionKey);
+        statsComponent.ARMST_SET_SHELTER(m_fPosShelter);
         
+         // statsComponent.Rpc(statsComponent.ARMST_SET_SHELTER,m_fPosShelter);
         // Устанавливаем значения статистики напрямую, так как нет прямых сеттеров с RPC для этих значений
         // Поскольку нет RPC для прямой установки, мы вызываем локальные методы
         // Однако, если это нужно делать через сеть, потребуется добавить RPC методы
@@ -154,7 +146,9 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
                float.AlmostEqual(m_fKillBandits, otherData.m_fKillBandits) &&
                float.AlmostEqual(m_fStashFounds, otherData.m_fStashFounds) &&
                float.AlmostEqual(m_fQuestsDone, otherData.m_fQuestsDone) &&
-               float.AlmostEqual(m_fSellsItems, otherData.m_fSellsItems);
+               float.AlmostEqual(m_fSellsItems, otherData.m_fSellsItems) &&
+               m_fPosShelter == otherData.m_fPosShelter &&
+               m_FactionKey == otherData.m_FactionKey; // Сравнение фракции
     }
 }
 
@@ -247,6 +241,12 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
             m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
             params.Parent = character;
         
+            ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+            if (statsComponent)
+            {
+                statsComponent.SetFactionKey(playerFaction);
+                statsComponent.ARMST_SET_SHELTER(m_player_shelter);
+            }
             IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
             IEntity newEnt2 = GetGame().SpawnEntityPrefab(m_Resource2, GetGame().GetWorld(), params);
             IEntity newEnt3 = GetGame().SpawnEntityPrefab(m_Resource3, GetGame().GetWorld(), params);
@@ -268,12 +268,19 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
             return;
         }
     }
-
+	vector m_player_shelter;
+    ARMST_FACTION_LABEL playerFaction = ARMST_FACTION_LABEL.FACTION_STALKER; // Значение по умолчанию
     //------------------------------------------------------------------------------------------------
     override void OnPlayerKilled_S(int playerId, IEntity playerEntity, IEntity killerEntity, notnull Instigator killer)
     {
         //PrintFormat("EPF_BaseRespawnSystemComponent.OnPlayerKilled_S(%1, %2, %3)", playerId, playerEntity, killerEntity);
-
+		
+            ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(playerEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+            if (statsComponent)
+            {
+   				m_player_shelter = statsComponent.ARMST_GET_SHELTER();              
+                playerFaction = statsComponent.GetFactionKey();
+            }
         // Сохраняем деньги игрока перед удалением предметов
         SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));
         if (inventoryManager)

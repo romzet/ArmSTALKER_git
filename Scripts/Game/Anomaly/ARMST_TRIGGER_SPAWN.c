@@ -34,7 +34,9 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
     float m_EdgeSafetyMargin;
     
     vector m_WorldTransform[4];
-
+	[Attribute("10", UIWidgets.Slider, "Минимальная дистанция от игрока для спавна (м)", "5 50 1", category: "Spawn")]
+	float m_MinDistanceToPlayer;
+	private vector m_PlayerPosition;
     private ref array<IEntity> m_SpawnedObjects; // Массив для сохраненных объектов
     private bool m_Initialized = false; // Флаг для проверки инициализации
     float heightTerrain = 0;
@@ -73,53 +75,59 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
 
     // Метод для получения случайной позиции спавна с учетом дистанции между объектами и отступа от края триггера
     protected vector GetRandomSpawnPositionValid() 
-    {
-        // Проверка, что код выполняется на сервере
-        if (!Replication.IsServer()) {
-            Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
-            return Vector(0, 0, 0);
-        }
-        
-        vector triggerCenter = GetOrigin();
-        float radius = GetSphereRadius();
-        // Используем значение из настройки для отступа от края триггера
-        float safetyMargin = m_EdgeSafetyMargin;
-        // Убедимся, что safetyMargin не больше радиуса
-        if (safetyMargin >= radius) {
-            safetyMargin = radius * 0.5; // Если значение слишком большое, берем половину радиуса как запас
-            Print("ARMST_TRIGGER_SPAWN: m_EdgeSafetyMargin больше или равен радиусу триггера, используется значение по умолчанию.");
-        }
-        vector pos;
-        const int maxAttempts = 40;
-    
-        for (int attempt = 0; attempt < maxAttempts; attempt++)
-        {
-            float angle = Math.RandomFloat(0, Math.PI * 2);
-            // Спавн только в диапазоне от safetyMargin до (radius - safetyMargin)
-            float dist = Math.RandomFloat(safetyMargin, radius - safetyMargin);
-            float x = Math.Cos(angle) * dist;
-            float z = Math.Sin(angle) * dist;
-            pos = triggerCenter + Vector(x, 0, z);
-    
-            // Проверяем дистанцию до всех уже заспавненных объектов
-            bool tooClose = false;
-            foreach (IEntity spawnedObj : m_SpawnedObjects)
-            {
-                if (!spawnedObj) continue;
-                vector objPos = spawnedObj.GetOrigin();
-                if (vector.Distance(objPos, pos) < m_Min_distance_objs)
-                {
-                    tooClose = true;
-                    break;
-                }
-            }
-            if (!tooClose)
-                return pos;
-        }
-    
-        // Если не нашли свободное место - возвращаем последнюю попытку
-        return pos;
-    }
+	{
+	    // Проверка, что код выполняется на сервере
+	    if (!Replication.IsServer()) {
+	        Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
+	        return Vector(0, 0, 0);
+	    }
+	    
+	    vector triggerCenter = GetOrigin();
+	    float radius = GetSphereRadius();
+	    // Используем значение из настройки для отступа от края триггера
+	    float safetyMargin = m_EdgeSafetyMargin;
+	    // Убедимся, что safetyMargin не больше радиуса
+	    if (safetyMargin >= radius) {
+	        safetyMargin = radius * 0.5; // Если значение слишком большое, берем половину радиуса как запас
+	        Print("ARMST_TRIGGER_SPAWN: m_EdgeSafetyMargin больше или равен радиусу триггера, используется значение по умолчанию.");
+	    }
+	    vector pos;
+	    const int maxAttempts = 40;
+	    float minDistanceToPlayer = m_MinDistanceToPlayer; // Минимальная дистанция до игрока в метрах
+	
+	    for (int attempt = 0; attempt < maxAttempts; attempt++)
+	    {
+	        float angle = Math.RandomFloat(0, Math.PI * 2);
+	        // Спавн только в диапазоне от safetyMargin до (radius - safetyMargin)
+	        float dist = Math.RandomFloat(safetyMargin, radius - safetyMargin);
+	        float x = Math.Cos(angle) * dist;
+	        float z = Math.Sin(angle) * dist;
+	        pos = triggerCenter + Vector(x, 0, z);
+	
+	        // Проверяем дистанцию до игрока
+	        if (vector.Distance(m_PlayerPosition, pos) < minDistanceToPlayer) {
+	            continue; // Позиция слишком близко к игроку, пробуем снова
+	        }
+	    
+	        // Проверяем дистанцию до всех уже заспавненных объектов
+	        bool tooClose = false;
+	        foreach (IEntity spawnedObj : m_SpawnedObjects)
+	        {
+	            if (!spawnedObj) continue;
+	            vector objPos = spawnedObj.GetOrigin();
+	            if (vector.Distance(objPos, pos) < m_Min_distance_objs)
+	            {
+	                tooClose = true;
+	                break;
+	            }
+	        }
+	        if (!tooClose)
+	            return pos;
+	    }
+	
+	    // Если не нашли свободное место - возвращаем последнюю попытку
+	    return pos;
+	}
 
     // Метод для спавна артефакта рядом с аномалией
     protected void SpawnArtifactNearAnomaly(IEntity anomalyEntity)
@@ -170,7 +178,8 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
                 ARMST_ARTEFACT_COMPONENTS art = ARMST_ARTEFACT_COMPONENTS.Cast(newArtifact.FindComponent(ARMST_ARTEFACT_COMPONENTS));
                 if (art)
                     art.EnableLight();
-
+				
+                	m_SpawnedObjects.Insert(newArtifact);
                 Print("Артефакт успешно спавнен рядом с аномалией!");
             }
             else
@@ -214,6 +223,9 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
         if (!EntityUtils.IsPlayer(ent))
             return;
         
+	    // Сохраняем позицию игрока
+	    m_PlayerPosition = ent.GetOrigin();
+		
         // Спавним аномалии
         for (int i = 0; i < m_SpawnCount; ++i) 
         {
@@ -247,7 +259,7 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
         }
 
         SetUpdateRate(60);
-        SetSphereRadius(GetSphereRadius() * 2);
+        //SetSphereRadius(GetSphereRadius() * 2);
         Print(GetUpdateRate());
         m_Initialized = true;
     }
@@ -271,7 +283,7 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
         m_SpawnedObjects.Clear();
 
         SetUpdateRate(15);
-        SetSphereRadius(GetSphereRadius() / 2);
+        //SetSphereRadius(GetSphereRadius() / 2);
         Print(GetUpdateRate());
         super.OnDeactivate(ent);
     }

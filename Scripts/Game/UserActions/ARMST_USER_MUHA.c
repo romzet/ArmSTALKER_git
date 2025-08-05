@@ -10,13 +10,13 @@ class ARMST_USER_MUHA_Toggles_Start_Found_Distance : ScriptedUserAction
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{
 		
+		
 		ARMST_DETECTOR_ARTS_COMPONENTS DetectorComponents = ARMST_DETECTOR_ARTS_COMPONENTS.Cast(pOwnerEntity.FindComponent(ARMST_DETECTOR_ARTS_COMPONENTS));
 		if(!DetectorComponents)
 			return;
 		if(!pUserEntity)
 			return;
 		DetectorComponents.ArmstArtDetectorStartFoundDistance(pUserEntity);
-		
 		
 		SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
 		if(!soundManagerEntity)
