@@ -1,0 +1,292 @@
+$grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_GROUPS.et" {
+ {
+  coords 3398.711 308.577 1340.09
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+  m_GroupOrderType DEFEND
+ }
+ {
+  coords 3310.959 309.19 1317.408
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+  m_GroupOrderType RANDOM
+ }
+ {
+  coords 3263.689 308.577 1012.541
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3417.281 302.294 802.971
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3921.64 305.753 871.709
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 4031.839 309.333 607.323
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+  m_GroupOrderType RANDOM
+ }
+ {
+  coords 3554.143 305.201 1006.665
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3827.64 298.171 1365.436
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3814.032 300.819 1004.985
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3450.564 302.155 1031.435
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3812.702 320.407 1126.973
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3905.112 304.567 504.147
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3397.662 302.927 543.117
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3733.282 306.061 751.04
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 4113.916 315.219 1091.673
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 3590.388 302.248 1533.82
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 4626.006 311.06 1062.628
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ merc {
+  coords 4074.459 306.827 1367.235
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{38B28C3DB16B5675}Prefabs/Groups/MERCENARIES/Group_MERCENARIES_Location_4x_squad.et"
+  m_GroupPrefab2 "{38B28C3DB16B5675}Prefabs/Groups/MERCENARIES/Group_MERCENARIES_Location_4x_squad.et"
+  m_GroupPrefab3 "{38B28C3DB16B5675}Prefabs/Groups/MERCENARIES/Group_MERCENARIES_Location_4x_squad.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 100
+  m_GroupOrderType PATROL
+ }
+ {
+  coords 4191.178 311.131 682.713
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab3 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 100
+ }
+ {
+  coords 4140.211 309.452 689.38
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab3 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 100
+ }
+ {
+  coords 4211.951 307.778 1431.043
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+ {
+  coords 4094.585 311.284 1691.243
+  SphereRadius 143
+  ShapeColor 0 0.507 1 1
+  UpdatePeriod 3
+  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab2 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_GroupPrefab3 "{BB9E94F7D878AE66}Prefabs/Groups/BANDITS/Group_BANDIT_Location.et"
+  m_DeleteDelaySec 460
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 55
+ }
+}

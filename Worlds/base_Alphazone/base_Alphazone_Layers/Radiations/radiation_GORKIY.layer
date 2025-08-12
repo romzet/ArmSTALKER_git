@@ -1,0 +1,86 @@
+$grp ARMST_RADIATIONSEntity : "{1A22BD0AEAC9F5B6}Prefabs/Anomals/Radiation/ARMST_RADIATIONS.et" {
+ {
+  coords 3364.613 295.158 1850.497
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 80
+ }
+ {
+  coords 3173.094 288.398 1848.626
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 80
+ }
+ {
+  coords 3144.221 305.064 2230.562
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 80
+ }
+ {
+  coords 3857.807 321.568 1893.083
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 80
+ }
+ {
+  coords 3894.097 302.154 2076.753
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 3065.795 296.703 2004.595
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 80
+ }
+ {
+  coords 3833.595 310.664 2699.447
+  SphereRadius 400
+  DrawShape 0
+  m_DamageRadioLevel 500
+ }
+ {
+  coords 3692.186 307.905 2069.94
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 4035.874 308.404 1867.27
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 3276.832 307.287 1969.773
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 3240.538 309.047 2319.448
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 3026.139 292.607 2384.055
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 3442.122 309.004 2168.947
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+ {
+  coords 3625.451 313.268 2226.211
+  SphereRadius 60
+  DrawShape 0
+  m_DamageRadioLevel 40
+ }
+}

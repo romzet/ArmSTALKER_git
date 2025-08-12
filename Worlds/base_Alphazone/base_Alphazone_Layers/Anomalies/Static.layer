@@ -1,0 +1,41 @@
+ParticleEffectEntity : "{536D11B750570179}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_VOLGA.et" {
+ coords 5101.674 312.872 607.405
+}
+$grp ParticleEffectEntity : "{76B7DF585372AA23}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_UAZ.et" {
+ {
+  coords 5111.174 310.885 618.628
+ }
+ {
+  coords 4535.276 307.993 616.522
+ }
+ {
+  coords 3751.902 299.799 1065.505
+ }
+}
+ParticleEffectEntity : "{809740F0D40DA5CC}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_GAZ.et" {
+ coords 5326.424 305.809 914.615
+ angleY 20.126
+}
+$grp ParticleEffectEntity : "{9811EEE82112C280}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_TRAIN.et" {
+ {
+  coords 4533.797 314.784 445.655
+  EffectPath "{25EE95243E7F8B9E}Prefabs/Anomals/Zero_gravy/data/line_wrapper_train.ptc"
+ }
+ {
+  coords 4280.646 311.52 854.157
+ }
+}
+ParticleEffectEntity : "{A6A00434C0629B56}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_base.et" {
+ coords 4608.456 308.183 340.876
+}
+$grp ParticleEffectEntity : "{B1951BCC12C93A1D}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_ZIL.et" {
+ {
+  coords 4700.687 312.108 928.826
+ }
+ {
+  coords 4232.212 323.31 1636.982
+ }
+}
+ParticleEffectEntity : "{E1BE9FC3307E693F}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_MI8.et" {
+ coords 3504.001 304.971 1401.033
+}

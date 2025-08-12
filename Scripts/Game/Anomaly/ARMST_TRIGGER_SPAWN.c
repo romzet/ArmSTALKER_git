@@ -1,153 +1,159 @@
 [BaseContainerProps()]
-class ARMST_TRIGGER_SPAWNClass: SCR_BaseTriggerEntityClass {
-};
+class ARMST_TRIGGER_SPAWNClass : SCR_BaseTriggerEntityClass {};
 
-class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
-    // Тип объектов и количество на спавн
-    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна", "et", category: "Spawn")]
+class ARMST_TRIGGER_SPAWN : SCR_BaseTriggerEntity
+{
+    // Типы объектов для спавна (аномалии)
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна (1)", "et", category: "Spawn")]
     ResourceName m_ObjectPrefab;
 
-    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна", "et", category: "Spawn")]
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна (2)", "et", category: "Spawn")]
     ResourceName m_ObjectPrefab2;
     
-    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна", "et", category: "Spawn")]
+    [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Тип объекта для спавна (3)", "et", category: "Spawn")]
     ResourceName m_ObjectPrefab3;
-    ResourceName groupPrefab;
     
-    [Attribute("5", UIWidgets.Slider, "Количество объектов для спавна", "0 100 1", category: "Spawn")]
+    ResourceName groupPrefab; // Выбранный префаб для спавна
+    
+    // Параметры спавна
+    [Attribute("5", UIWidgets.Slider, desc: "Количество объектов для спавна", "0 20 1", category: "Spawn")]
     int m_SpawnCount;
 
-    [Attribute("1", desc: "Плотность объектов (количество объектов на квадратный метр)", category: "Spawn")]
-    float m_SpawnDensity;
+    [Attribute("5", UIWidgets.Slider, desc: "Минимальная дистанция между аномалиями (м)", "2 20 1", category: "Spawn")]
+    float m_MinDistanceBetweenAnomalies;
 
-    [Attribute("2", UIWidgets.Slider, "Дистанция между аномалиями", "0 50 1", category: "Spawn")]
-    float m_Min_distance_objs;
+    [Attribute("0.0", UIWidgets.Slider, desc: "Смещение спавна к центру (0 - равномерно, 1 - только центр)", "0 1 0.1", category: "Spawn")]
+    float m_CenterBias;
 
-    [Attribute("2", UIWidgets.Slider, "Во сколько увеличивать радиус, чтобы он не удалялся", "1 5 1", category: "Spawn")]
-    float m_TriggerRadiusExtended;
-    
-    [Attribute("75", UIWidgets.Slider, "Шанс появления триггера (%)", "0 100 1", category: "Groups")]
+    [Attribute("10", UIWidgets.Slider, desc: "Минимальная дистанция от игрока для спавна (м)", "5 50 1", category: "Spawn")]
+    float m_MinDistanceToPlayer;
+
+    [Attribute("75", UIWidgets.Slider, desc: "Шанс появления триггера (%)", "0 100 1", category: "Groups")]
     float m_SpawnChance;
 
-    // Новая настройка: минимальная дистанция от края триггера для спавна аномалий
-    [Attribute("10", UIWidgets.Slider, "Минимальная дистанция от края триггера для спавна (м)", "0 50 1", category: "Spawn")]
-    float m_EdgeSafetyMargin;
-    
-    vector m_WorldTransform[4];
-	[Attribute("10", UIWidgets.Slider, "Минимальная дистанция от игрока для спавна (м)", "5 50 1", category: "Spawn")]
-	float m_MinDistanceToPlayer;
-	private vector m_PlayerPosition;
+    // Внутренние переменные
     private ref array<IEntity> m_SpawnedObjects; // Массив для сохраненных объектов
     private bool m_Initialized = false; // Флаг для проверки инициализации
-    float heightTerrain = 0;
-    protected float m_fHeightTerrain = -1;
-    protected float GetRadius = -1;
-    vector PosTrigger;
+    private vector m_PlayerPosition; // Позиция игрока при активации
+    private float m_Radius = -1; // Радиус триггера
+    private vector m_TriggerCenter; // Центр триггера
+    private vector m_WorldTransform[4]; // Трансформация для корректировки высоты
+    private float m_fHeightTerrain = -1; // Высота для корректировки
+    private float heightTerrain = 0; // Дополнительная высота
 
-    override void OnInit(IEntity owner) {
-        // Проверка, что код выполняется на сервере
-        if (!Replication.IsServer()) {
+    override void OnInit(IEntity owner)
+    {
+        if (!Replication.IsServer())
+        {
             Print("ARMST_TRIGGER_SPAWN: Инициализация триггера игнорируется на клиенте.");
             return;
         }
-        
-        GetRadius = GetSphereRadius();
-        PosTrigger = GetOrigin();
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
+
+        m_Radius = GetSphereRadius();
+        m_TriggerCenter = GetOrigin();
         m_SpawnedObjects = new array<IEntity>();
         GetWorldTransform(m_WorldTransform);
+
+        // Проверка шанса спавна триггера
         float rnd = Math.RandomFloat(1, 99);
         if (rnd > m_SpawnChance)
         {
-            SetUpdateRate(99999999);
-            //return;
+            SetUpdateRate(99999999); // Отключаем обновление, если шанс не прошел
+            Print("ARMST_TRIGGER_SPAWN: Триггер не активирован из-за шанса спавна.");
+            return;
         }
-        
+
+        // Выбираем случайный префаб из доступных
         array<ResourceName> groupPrefabs = {};
         if (m_ObjectPrefab != ResourceName.Empty) groupPrefabs.Insert(m_ObjectPrefab);
         if (m_ObjectPrefab2 != ResourceName.Empty) groupPrefabs.Insert(m_ObjectPrefab2);
         if (m_ObjectPrefab3 != ResourceName.Empty) groupPrefabs.Insert(m_ObjectPrefab3);
         
-        int idx = Math.RandomInt(0, groupPrefabs.Count());
-        groupPrefab = groupPrefabs[idx];
-        
+        if (groupPrefabs.Count() > 0)
+        {
+            int idx = Math.RandomInt(0, groupPrefabs.Count());
+            groupPrefab = groupPrefabs[idx];
+            Print("ARMST_TRIGGER_SPAWN: Выбран префаб для спавна: " + groupPrefab);
+        }
+        else
+        {
+            Print("ARMST_TRIGGER_SPAWN: Ошибка: Не указаны префабы для спавна.", LogLevel.ERROR);
+        }
+
         super.OnInit(owner);
     }
 
-    // Метод для получения случайной позиции спавна с учетом дистанции между объектами и отступа от края триггера
-    protected vector GetRandomSpawnPositionValid() 
-	{
-	    // Проверка, что код выполняется на сервере
-	    if (!Replication.IsServer()) {
-	        Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
-	        return Vector(0, 0, 0);
-	    }
-	    
-	    vector triggerCenter = GetOrigin();
-	    float radius = GetSphereRadius();
-	    // Используем значение из настройки для отступа от края триггера
-	    float safetyMargin = m_EdgeSafetyMargin;
-	    // Убедимся, что safetyMargin не больше радиуса
-	    if (safetyMargin >= radius) {
-	        safetyMargin = radius * 0.5; // Если значение слишком большое, берем половину радиуса как запас
-	        Print("ARMST_TRIGGER_SPAWN: m_EdgeSafetyMargin больше или равен радиусу триггера, используется значение по умолчанию.");
-	    }
-	    vector pos;
-	    const int maxAttempts = 40;
-	    float minDistanceToPlayer = m_MinDistanceToPlayer; // Минимальная дистанция до игрока в метрах
-	
-	    for (int attempt = 0; attempt < maxAttempts; attempt++)
-	    {
-	        float angle = Math.RandomFloat(0, Math.PI * 2);
-	        // Спавн только в диапазоне от safetyMargin до (radius - safetyMargin)
-	        float dist = Math.RandomFloat(safetyMargin, radius - safetyMargin);
-	        float x = Math.Cos(angle) * dist;
-	        float z = Math.Sin(angle) * dist;
-	        pos = triggerCenter + Vector(x, 0, z);
-	
-	        // Проверяем дистанцию до игрока
-	        if (vector.Distance(m_PlayerPosition, pos) < minDistanceToPlayer) {
-	            continue; // Позиция слишком близко к игроку, пробуем снова
-	        }
-	    
-	        // Проверяем дистанцию до всех уже заспавненных объектов
-	        bool tooClose = false;
-	        foreach (IEntity spawnedObj : m_SpawnedObjects)
-	        {
-	            if (!spawnedObj) continue;
-	            vector objPos = spawnedObj.GetOrigin();
-	            if (vector.Distance(objPos, pos) < m_Min_distance_objs)
-	            {
-	                tooClose = true;
-	                break;
-	            }
-	        }
-	        if (!tooClose)
-	            return pos;
-	    }
-	
-	    // Если не нашли свободное место - возвращаем последнюю попытку
-	    return pos;
-	}
+    // Метод для получения случайной позиции спавна с учетом дистанции и смещения к центру
+    protected vector GetRandomSpawnPositionValid()
+    {
+        if (!Replication.IsServer())
+        {
+            Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
+            return Vector(0, 0, 0);
+        }
+
+        const int maxAttempts = 50; // Максимальное количество попыток найти позицию
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            // Генерируем случайную позицию с учетом смещения к центру (m_CenterBias)
+            float angle = Math.RandomFloat(0, Math.PI * 2);
+            float maxDist = m_Radius;
+            float dist = Math.RandomFloat(0, maxDist);
+            // Применяем смещение к центру: чем выше m_CenterBias, тем ближе к центру
+            dist = dist * (1.0 - m_CenterBias);
+            float x = Math.Cos(angle) * dist;
+            float z = Math.Sin(angle) * dist;
+            vector pos = m_TriggerCenter + Vector(x, 0, z);
+
+            // Проверяем дистанцию до игрока
+            if (vector.Distance(m_PlayerPosition, pos) < m_MinDistanceToPlayer)
+                continue;
+
+            // Проверяем дистанцию до других аномалий
+            bool tooClose = false;
+            foreach (IEntity spawnedObj : m_SpawnedObjects)
+            {
+                if (!spawnedObj) continue;
+                vector objPos = spawnedObj.GetOrigin();
+                if (vector.Distance(objPos, pos) < m_MinDistanceBetweenAnomalies)
+                {
+                    tooClose = true;
+                    break;
+                }
+            }
+            if (tooClose)
+                continue;
+
+            // Если все проверки пройдены, возвращаем позицию
+            return pos;
+        }
+
+        // Если не нашли подходящую позицию, возвращаем последнюю попытку
+        Print("ARMST_TRIGGER_SPAWN: Не удалось найти идеальную позицию для спавна после " + maxAttempts + " попыток.");
+        return m_TriggerCenter;
+    }
 
     // Метод для спавна артефакта рядом с аномалией
     protected void SpawnArtifactNearAnomaly(IEntity anomalyEntity)
     {
-        // Проверка, что код выполняется на сервере
-        if (!Replication.IsServer()) {
+        if (!Replication.IsServer())
+        {
             Print("ARMST_TRIGGER_SPAWN: Спавн артефакта игнорируется на клиенте.");
             return;
         }
         
-        // Получаем компонент аномалии для проверки шанса спавна артефакта
         ARMST_ARTEFACT_SPAWN_COMPONENTS artComponent = ARMST_ARTEFACT_SPAWN_COMPONENTS.Cast(anomalyEntity.FindComponent(ARMST_ARTEFACT_SPAWN_COMPONENTS));
         if (!artComponent)
             return;
 
-        // Проверка шанса спавна артефакта
         float spawnChance = artComponent.getArmstArtShance();
         if (Math.RandomFloat(0, 100) <= spawnChance)
         {
-            // Получаем префаб артефакта
             ResourceName artifactPrefab = artComponent.getArmstArtPrefab();
             if (artifactPrefab == ResourceName.Empty)
                 return;
@@ -156,135 +162,127 @@ class ARMST_TRIGGER_SPAWN: SCR_BaseTriggerEntity {
             if (!resource || !resource.IsValid())
                 return;
 
-            // Вычисляем позицию спавна артефакта (в нескольких метрах от аномалии)
             vector spawnPosition = anomalyEntity.GetOrigin();
-            // Создаем новую позицию с учетом смещения
-            float newX = spawnPosition[0] + Math.RandomFloatInclusive(-5, 5); // Случайное смещение по X
-            float newZ = spawnPosition[2] + Math.RandomFloatInclusive(-5, 5); // Случайное смещение по Z
-            float newY = spawnPosition[1] + Math.RandomFloatInclusive(0.0, 0.2); // Небольшое смещение по Y
-            spawnPosition = Vector(newX, newY, newZ); // Перезаписываем позицию
+            float newX = spawnPosition[0] + Math.RandomFloatInclusive(-5, 5);
+            float newZ = spawnPosition[2] + Math.RandomFloatInclusive(-5, 5);
+            float newY = spawnPosition[1] + Math.RandomFloatInclusive(0.0, 0.2);
+            spawnPosition = Vector(newX, newY, newZ);
 
             EntitySpawnParams params = new EntitySpawnParams();
             params.Transform[3] = spawnPosition;
             params.TransformMode = ETransformMode.WORLD;
 
-            // Спавним артефакт
             IEntity newArtifact = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
             if (newArtifact)
             {
-                SCR_EntityHelper.SnapToGround(newArtifact); // Привязываем к поверхности
-
-                // Активируем свет, если есть компонент
+                SCR_EntityHelper.SnapToGround(newArtifact);
                 ARMST_ARTEFACT_COMPONENTS art = ARMST_ARTEFACT_COMPONENTS.Cast(newArtifact.FindComponent(ARMST_ARTEFACT_COMPONENTS));
                 if (art)
                     art.EnableLight();
 				
-                	m_SpawnedObjects.Insert(newArtifact);
-                Print("Артефакт успешно спавнен рядом с аномалией!");
+				
+                
+                m_SpawnedObjects.Insert(newArtifact);
+                Print("ARMST_TRIGGER_SPAWN: Артефакт успешно спавнен рядом с аномалией!");
             }
             else
             {
-                Print("Не удалось спавнить артефакт.");
+                Print("ARMST_TRIGGER_SPAWN: Не удалось спавнить артефакт.");
             }
         }
         else
         {
-            Print("Шанс спавна артефакта не прошел.");
+            Print("ARMST_TRIGGER_SPAWN: Шанс спавна артефакта не прошел.");
         }
     }
 
-    override void OnActivate(IEntity ent) {
-        // Проверка, что код выполняется на сервере
-        if (!Replication.IsServer()) {
+    override void OnActivate(IEntity ent)
+    {
+        if (!Replication.IsServer())
+        {
             Print("ARMST_TRIGGER_SPAWN: Активация триггера игнорируется на клиенте.");
             return;
         }
-        
+
         // Проверяем, есть ли уже заспавненные объекты
-        if (m_SpawnedObjects.Count() > 0) {
-            Print("Объекты уже спавнены, триггер не может быть активирован.");
+        if (m_SpawnedObjects.Count() > 0)
+        {
+            Print("ARMST_TRIGGER_SPAWN: Объекты уже спавнены, триггер не может быть активирован.");
             return;
         }
-        
+
         // Проверяем, что объект живой и является игроком
-        if (!IsAlive(ent))
+        if (!IsAlive(ent) || !EntityUtils.IsPlayer(ent))
             return;
-        
+
         SCR_ChimeraCharacter owner2 = SCR_ChimeraCharacter.Cast(ent);
-        if (!owner2)
+        if (!owner2 || owner2.GetCharacterController().GetLifeState() == ECharacterLifeState.DEAD)
             return;
-        CharacterControllerComponent contr = owner2.GetCharacterController();
-        if (!contr)
-            return;
-        
-        if (contr.GetLifeState() == ECharacterLifeState.DEAD)
-            return;
-        
-        if (!EntityUtils.IsPlayer(ent))
-            return;
-        
-	    // Сохраняем позицию игрока
-	    m_PlayerPosition = ent.GetOrigin();
-		
+
+        // Сохраняем позицию игрока
+        m_PlayerPosition = ent.GetOrigin();
+
         // Спавним аномалии
-        for (int i = 0; i < m_SpawnCount; ++i) 
+        for (int i = 0; i < m_SpawnCount; ++i)
         {
             vector spawnPosition = GetRandomSpawnPositionValid();
-
             vector surfaceBasis[4];
             if (m_fHeightTerrain == -1)
                 m_fHeightTerrain = heightTerrain;
             heightTerrain -= m_fHeightTerrain;
 
             Resource resource = Resource.Load(groupPrefab);
-            EntitySpawnParams params = new EntitySpawnParams();
+            if (!resource || !resource.IsValid())
+            {
+                Print("ARMST_TRIGGER_SPAWN: Ошибка загрузки префаба: " + groupPrefab, LogLevel.ERROR);
+                continue;
+            }
 
+            EntitySpawnParams params = new EntitySpawnParams();
             m_WorldTransform[3] = spawnPosition;
             SCR_TerrainHelper.GetTerrainBasis(m_WorldTransform[3], surfaceBasis, GetWorld(), false, null); // Корректируем высоту
             m_WorldTransform[3][1] = surfaceBasis[3][1] + m_fHeightTerrain + heightTerrain;
             params.Transform = m_WorldTransform;
             params.TransformMode = ETransformMode.WORLD;
-            
+
             IEntity newEntity = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
-            if (newEntity) {
+            if (newEntity)
+            {
                 SCR_EntityHelper.SnapToGround(newEntity);
                 m_SpawnedObjects.Insert(newEntity);
 
                 AIControlComponent control = AIControlComponent.Cast(newEntity.FindComponent(AIControlComponent));
                 if (control) control.ActivateAI();
 
-                // Проверяем возможность спавна артефакта рядом с аномалией
                 SpawnArtifactNearAnomaly(newEntity);
+                Print("ARMST_TRIGGER_SPAWN: Аномалия спавнена в позиции: " + spawnPosition);
             }
         }
 
         SetUpdateRate(60);
-        //SetSphereRadius(GetSphereRadius() * 2);
-        Print(GetUpdateRate());
         m_Initialized = true;
+        Print("ARMST_TRIGGER_SPAWN: Триггер активирован.");
     }
 
-    // Удаление объектов и артефактов при деактивации
-    override void OnDeactivate(IEntity ent) {
-        // Проверка, что код выполняется на сервере
-        if (!Replication.IsServer()) {
+    override void OnDeactivate(IEntity ent)
+    {
+        if (!Replication.IsServer())
+        {
             Print("ARMST_TRIGGER_SPAWN: Деактивация триггера игнорируется на клиенте.");
             return;
         }
-        
-        Print("Игрок в радиусе действия триггера. Удаление объектов и артефактов.");
-        // Удаляем аномалии
-        for (int i = 0; i < m_SpawnedObjects.Count(); i++) {
+
+        Print("ARMST_TRIGGER_SPAWN: Игрок покинул радиус действия триггера. Удаление объектов.");
+        for (int i = 0; i < m_SpawnedObjects.Count(); i++)
+        {
             IEntity entity = m_SpawnedObjects[i];
-            if (entity) {
+            if (entity)
                 SCR_EntityHelper.DeleteEntityAndChildren(entity);
-            }
         }
         m_SpawnedObjects.Clear();
 
         SetUpdateRate(15);
-        //SetSphereRadius(GetSphereRadius() / 2);
-        Print(GetUpdateRate());
+        Print("ARMST_TRIGGER_SPAWN: Объекты удалены, триггер деактивирован.");
         super.OnDeactivate(ent);
     }
 };

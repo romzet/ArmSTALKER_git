@@ -1,0 +1,13 @@
+$grp GenericEntity {
+ m_sPositionEnd {
+  coords 3573.4 599.979 3181.582
+ }
+ m_sPositionStart {
+  coords 2991.563 434.11 -711.288
+ }
+}
+ARMST_TRIGGER_HELICOPTER : "{8A1ACDE99D78DE83}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_HELICOPTER.et" {
+ coords 3700.463 308.069 1056.382
+ UpdatePeriod 10
+ m_HelicopterSpawnTimer 1918
+}

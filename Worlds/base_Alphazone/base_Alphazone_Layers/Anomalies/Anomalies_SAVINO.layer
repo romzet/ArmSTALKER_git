@@ -1,0 +1,987 @@
+ParticleEffectEntity : "{281132BC3D25B959}Prefabs/Anomals/puzir_rock/ARMST_PUZIR_ROCK.et" {
+ coords 3849.573 298.067 926.281
+ {
+  ARMST_DamagingTriggerEntity {
+   ID "658F7796D9FB857B"
+   coords 0.931 8.045 0.637
+   SphereRadius 5.6
+   UpdatePeriod 10
+  }
+  ParticleEffectEntity {
+   ID "658F7796D9FB857A"
+   EffectPath "{826AB003BF9FA737}Prefabs/Anomals/puzir_rock/data/rock_idle.ptc"
+  }
+  ParticleEffectEntity {
+   ID "658F7795F57CA19C"
+   coords 0 7.597 0
+   EffectPath "{826AB003BF9FA737}Prefabs/Anomals/puzir_rock/data/rock_idle.ptc"
+  }
+  $grp ParticleEffectEntity {
+   {
+    coords 1.834 7.597 -4.745
+    EffectPath "{B87A4B291BBB681D}Prefabs/Anomals/puzir_rock/data/puzir_rock.ptc"
+   }
+   {
+    coords -0.188 7.597 5.561
+    EffectPath "{B87A4B291BBB681D}Prefabs/Anomals/puzir_rock/data/puzir_rock.ptc"
+   }
+  }
+ }
+}
+ParticleEffectEntity : "{466085B5B3C3DF03}Prefabs/Anomals/puzir/ARMST_PUZIR.et" {
+ coords 3419.161 305.358 1253.843
+ {
+  ARMST_DamagingTriggerEntity {
+   ID "633081B3AF2B7919"
+   UpdatePeriod 10
+  }
+ }
+}
+$grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_ANOMAL.et" {
+ {
+  coords 3932.715 311.716 584.972
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3691.815 312.706 556.789
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3831.223 309.57 806.268
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 4022.973 315.256 749.416
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnCount 15
+  m_SpawnChance 60
+ }
+ {
+  coords 4027.787 317.18 1001.44
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3914.009 318.893 1151.208
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3737.796 299.098 1053.873
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3414.656 297.525 1021.618
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3611.703 314.235 717.08
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3635.654 311.163 1232.501
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3786.299 302.097 1241.625
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ JARKA_ANOMALY {
+  coords 4069.403 309.38 871.918
+  SphereRadius 93.2
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_ObjectPrefab3 "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_SpawnCount 8
+  m_CenterBias 0.7
+ }
+ JARKA_ANOMALY_1 {
+  coords 3555.66 303.925 1039.475
+  SphereRadius 71.6
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_ObjectPrefab3 "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_SpawnCount 8
+  m_CenterBias 0.8
+ }
+ {
+  coords 3517.759 328.538 898.6
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_SpawnChance 60
+ }
+ {
+  coords 3358.082 324.362 880.376
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3308.096 312.121 1237.917
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_SpawnChance 60
+ }
+ ELECTRO_ANOMALY {
+  coords 3294.183 308.577 1363.56
+  SphereRadius 70
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ TELEPORT_ANOMALY {
+  coords 3716.645 306.779 775.153
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{A89DB47399095335}Prefabs/Anomals/Teleport/ARMST_TELEPORT.et"
+  m_ObjectPrefab3 "{A89DB47399095335}Prefabs/Anomals/Teleport/ARMST_TELEPORT.et"
+  m_SpawnCount 8
+  m_CenterBias 0.3
+ }
+ {
+  coords 4044.325 306.981 1306.61
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3760.408 300.417 1472.195
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3493.467 310.832 1402.944
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 4225.939 316.398 877.777
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3393.188 302.924 541.443
+  scale 0.342
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 3524.739 302.924 521.496
+  scale 0.342
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_SpawnChance 60
+ }
+ TOXIC_ANOMALY {
+  coords 3581.155 302.399 1534.371
+  SphereRadius 87.4
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{A7BCEA2AE366E4AF}Prefabs/Anomals/Toxic/ARMST_TOXIC.et"
+  m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab3 "{A7BCEA2AE366E4AF}Prefabs/Anomals/Toxic/ARMST_TOXIC.et"
+  m_SpawnCount 4
+  m_CenterBias 0.6
+ }
+ TOXIC_ANOMALY2 {
+  coords 4208.818 303.348 1327.952
+  SphereRadius 98.2
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab3 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_SpawnCount 5
+  m_CenterBias 0.7
+ }
+ TOXIC_ANOMALY3 {
+  coords 3216.951 304.286 1005.682
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab3 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_SpawnCount 4
+  m_CenterBias 0.7
+ }
+ TOXIC_ANOMALY4 {
+  coords 3385.785 308.714 1331.589
+  SphereRadius 82.4
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_ObjectPrefab3 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
+  m_SpawnCount 4
+  m_CenterBias 0.8
+ }
+ JARKA_ANOMALY_2 {
+  coords 3766.078 301.216 1417.517
+  SphereRadius 78.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_ObjectPrefab3 "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_SpawnCount 8
+  m_CenterBias 0.8
+ }
+ JARKA_ANOMALY_3 {
+  coords 4026.608 312.568 1073.784
+  SphereRadius 87.9
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_ObjectPrefab3 "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
+  m_SpawnCount 8
+  m_CenterBias 0.6
+ }
+ JARKA_ANOMALY_4 {
+  coords 4021.483 314.261 1241.042
+  SphereRadius 52.7
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_ObjectPrefab3 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
+  m_SpawnCount 15
+  m_CenterBias 0
+ }
+ {
+  coords 4307.084 310.496 1084.081
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 4286.555 310.496 953.295
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ EYE_ANOMALY {
+  coords 3825.514 319.372 1134.861
+  SphereRadius 74.2
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
+  m_ObjectPrefab2 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
+  m_ObjectPrefab3 "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
+  m_SpawnCount 5
+  m_CenterBias 0.5
+ }
+ {
+  coords 4222.636 321.612 1509.111
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 4232.789 339.913 1616.382
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 4088.124 316.393 1572.594
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ {
+  coords 4081.652 306.004 1727.34
+  SphereRadius 118.8
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_SpawnChance 60
+ }
+ ELECTRO_ANOMALY4 {
+  coords 3682.667 304.367 1176.7
+  SphereRadius 70
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+ }
+ ELECTRO_ANOMALY5 {
+  coords 3890.665 315.031 684.919
+  SphereRadius 50
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 5
+  m_CenterBias 0.8
+ }
+ EYE_ANOMALY4 {
+  coords 4134.177 322.296 1629.073
+  SphereRadius 74.2
+  DrawShape 0
+  UpdatePeriod 10
+  m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
+  m_ObjectPrefab2 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
+  m_ObjectPrefab3 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
+  m_SpawnCount 5
+  m_CenterBias 0.6
+ }
+}
+$grp GenericEntity : "{A6C183C3ACAAF08D}Prefabs/Anomals/Roots_anom.et" {
+ {
+  coords 3928.208 309.523 856.591
+  angleX -3.47
+  angleY 7.472
+  angleZ 29.342
+  scale 2.189
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 3932.803 307.482 863.295
+  angleX 24.156
+  angleY -51.028
+  angleZ 131.158
+  scale 2.189
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 3905.98 306.23 879.15
+  angleX 60.169
+  angleY 111.466
+  angleZ 130.562
+  scale 2.189
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 3967.542 307.622 898.404
+  angleX 25.957
+  angleY 145.388
+  angleZ -175.214
+  scale 1.576
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 3964.951 307.627 895.479
+  angleX 9.762
+  angleY -76.035
+  angleZ 164.737
+  scale 1.576
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 4105.942 313.096 866.754
+  angleX 40.972
+  angleY -70.035
+  angleZ -38.009
+  scale 1.576
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 4103.289 309.79 874.281
+  angleX -1.912
+  angleY 143.146
+  angleZ -160.936
+  scale 1.576
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 4024.405 310.052 614.374
+  angleX -29.262
+  angleY -141.587
+  angleZ -159.488
+  scale 1.576
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 4015.54 310.418 617.966
+  angleX -1.912
+  angleY 143.146
+  angleZ 135.072
+  scale 1.576
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 3987.01 307.62 901.19
+  angleX 36.896
+  angleY 158.833
+  angleZ -155.909
+  scale 2.222
+  {
+   StaticModelEntity {
+    ID "65F7099B9679DE03"
+   }
+  }
+ }
+ {
+  coords 3929.993 309.6 857.414
+  angleZ 0
+ }
+ {
+  coords 3914.972 310.956 911.301
+  angleZ 0
+  scale 3.54
+ }
+ {
+  coords 3974.111 322.272 1183.805
+  angleZ 0
+  scale 3.54
+ }
+ {
+  coords 3956.378 323.064 1175.769
+  angleZ 0
+ }
+ {
+  coords 3950.323 322.991 1175.332
+  angleX 7.813
+  angleY -7.468
+  angleZ -43.959
+ }
+ {
+  coords 3956.472 320.362 1173.495
+  angleZ 157.686
+  scale 1.34
+ }
+ {
+  coords 3832.391 317.806 1154.643
+  angleX -28.796
+  angleZ 0
+  scale 1.88
+ }
+ {
+  coords 3831.962 318.501 1140.354
+  angleZ 0
+  scale 1.54
+ }
+ {
+  coords 3609.191 309.107 985.217
+  angleZ 0
+  scale 1.499
+ }
+ {
+  coords 3610.678 309.027 991.658
+  angleZ 0
+  scale 1.361
+ }
+ {
+  coords 3607.636 308.984 989.951
+  angleZ 0
+  scale 1.575
+ }
+ {
+  coords 3619.256 309.626 987.946
+  angleZ 0
+  scale 2.76
+ }
+ {
+  coords 3623.471 309.626 977.449
+  angleZ 0
+  scale 2.58
+ }
+ {
+  coords 3611.366 309.626 968.826
+  angleZ 0
+  scale 2.58
+ }
+ {
+  coords 3617.249 309.623 962.737
+  angleZ 0
+  scale 2.58
+ }
+ {
+  coords 3626.397 310.126 989.643
+  angleZ 0
+  scale 2.84
+ }
+ {
+  coords 3550.353 308.447 1010.658
+  angleZ 0
+  scale 1.499
+ }
+ {
+  coords 3552.685 308.546 1018.005
+  angleZ 0
+  scale 1.499
+ }
+ {
+  coords 3555.354 308.546 1014.478
+  angleZ 0
+  scale 1.499
+ }
+ {
+  coords 3720.14 309.985 761.628
+  angleZ 0
+ }
+ {
+  coords 3440.964 305.642 783.686
+  angleZ 0
+ }
+ {
+  coords 3439.349 303.03 787.414
+  angleX -21.736
+  angleY -180
+  angleZ -180
+ }
+ {
+  coords 3435.853 304.683 796.828
+  angleZ 0
+ }
+ {
+  coords 3421.288 305.886 785.57
+  angleZ 0
+  scale 2.367
+ }
+ {
+  coords 3440.702 305.456 814.535
+  angleZ 0
+ }
+ {
+  coords 3436.373 305.359 815.694
+  angleZ 0
+ }
+ {
+  coords 3439.36 305.379 812.445
+  angleZ 0
+  scale 1.5
+ }
+ {
+  coords 3446.211 302.869 819.984
+  angleZ -139.513
+ }
+ {
+  coords 3443.225 307.04 818.679
+  angleZ 0
+ }
+ {
+  coords 3435.867 306.736 812.929
+  angleZ 0
+ }
+ {
+  coords 3414.428 302.38 776.857
+  angleX -48.075
+  angleY -140.363
+  angleZ -176.132
+ }
+ {
+  coords 3414.428 305.642 771.982
+  angleZ 0
+ }
+ {
+  coords 3409.13 302.38 779.977
+  angleX -19.87
+  angleY 121.433
+  angleZ -168.64
+ }
+ {
+  coords 3252.697 311.433 1020.66
+  angleZ 0
+  scale 1.24
+ }
+ {
+  coords 3254.208 308.946 1010.734
+  angleX -10.095
+  angleY 52.225
+  angleZ -136.089
+ }
+ {
+  coords 3288.182 311.337 1334.57
+  angleZ 0
+ }
+ {
+  coords 3287.029 311.337 1327.052
+  angleZ 0
+ }
+ {
+  coords 3290.811 311.337 1330.593
+  angleZ 0
+ }
+ {
+  coords 3290.71 314.043 1333.666
+  angleZ 0
+ }
+ {
+  coords 3290.1 314.043 1341.154
+  angleZ 0
+ }
+ {
+  coords 3286.157 314.043 1337.657
+  angleZ 0
+ }
+ {
+  coords 3290.315 314.043 1327.479
+  angleZ 0
+ }
+ {
+  coords 3287.764 314.043 1329.809
+  angleZ 0
+ }
+ {
+  coords 3285.791 314.043 1327.134
+  angleZ 0
+ }
+ {
+  coords 3303.808 311.377 1300.822
+  angleZ 0
+ }
+ {
+  coords 3292.931 311.377 1302
+  angleZ 0
+ }
+ {
+  coords 3327.863 311.539 1313.604
+  angleZ 0
+ }
+ {
+  coords 3324.989 311.35 1311.518
+  angleZ 0
+ }
+ {
+  coords 3327.255 311.539 1306.164
+  angleZ 0
+ }
+ {
+  coords 3325.693 311.539 1321.025
+  angleZ 0
+ }
+ {
+  coords 3325.681 311.539 1325.759
+  angleZ 0
+ }
+ {
+  coords 3836.822 301.133 1369.194
+  angleZ 0
+ }
+ {
+  coords 3834.828 300.984 1366.738
+  angleZ 0
+ }
+ {
+  coords 3848.793 301.971 1370.071
+  angleZ 0
+ }
+ {
+  coords 3841.425 301.971 1366.129
+  angleZ 0
+ }
+ {
+  coords 3843.306 301.971 1368.604
+  angleZ 0
+ }
+ {
+  coords 3849.746 301.971 1365.82
+  angleZ 0
+ }
+ {
+  coords 3843.46 301.971 1365.219
+  angleZ 0
+ }
+ {
+  coords 3845.49 301.34 1375.683
+  angleZ 0
+ }
+ {
+  coords 3841.199 301.34 1381.847
+  angleZ 0
+ }
+ {
+  coords 3841.729 301.34 1385.372
+  angleZ 0
+  scale 1.38
+ }
+ {
+  coords 3831.636 301.023 1387.499
+  angleZ 0
+ }
+ {
+  coords 4066.969 311.114 1372.534
+  angleZ 0
+ }
+ {
+  coords 4099.063 318.45 1112.071
+  angleZ 0
+ }
+ {
+  coords 4106.613 318.45 1114.126
+  angleZ 0
+ }
+ {
+  coords 4113.899 318.742 1112.78
+  angleZ 0
+ }
+ {
+  coords 4101.554 318.476 1076.481
+  angleZ 0
+ }
+ {
+  coords 4093.268 318.476 1080.523
+  angleZ 0
+ }
+ {
+  coords 4377.06 305.59 551.832
+  angleZ 0
+ }
+ {
+  coords 4369.683 305.664 548.278
+  angleZ 0
+ }
+ {
+  coords 4367.303 306.184 565.046
+  angleZ 0
+  scale 2.56
+ }
+ {
+  coords 4380.632 306.108 558.853
+  angleZ 0
+  scale 2.56
+ }
+ {
+  coords 4387.776 306.184 568.222
+  angleZ 0
+  scale 2.56
+ }
+ {
+  coords 4657.591 310.599 999.137
+  angleZ 0
+ }
+ {
+  coords 4659.924 310.599 993.277
+  angleZ 0
+ }
+ {
+  coords 4635.168 308.425 980.245
+  angleX 49.811
+  angleY -180
+  angleZ 156.393
+ }
+ {
+  coords 4629.333 312.408 975.982
+  angleZ 0
+ }
+ {
+  coords 4462.599 314.804 1299.992
+  angleZ 0
+ }
+ {
+  coords 4473.814 316.91 1319.841
+  angleZ 0
+ }
+ {
+  coords 4478.045 317.06 1317.095
+  angleZ 0
+ }
+ {
+  coords 4479.661 317.06 1321.266
+  angleZ 0
+ }
+ {
+  coords 4474.012 316.918 1316.188
+  angleZ 0
+ }
+ {
+  coords 4474.551 317.355 1333.474
+  angleZ 0
+ }
+ {
+  coords 5168.936 308.967 563.152
+  angleZ 0
+ }
+ {
+  coords 5171.574 308.509 550.809
+  angleZ 0
+ }
+ {
+  coords 3905.372 317.194 696.115
+  angleZ 0
+ }
+ {
+  coords 3259.595 303.394 527.665
+  angleZ 0
+  scale 1.44
+ }
+ {
+  coords 3859.699 297.352 1393.993
+  angleZ 0
+ }
+ {
+  coords 3859.66 297.168 1389.988
+  angleZ 0
+ }
+ {
+  coords 3857.692 297.477 1396.421
+  angleZ 0
+ }
+ {
+  coords 3361.929 301.568 820.742
+  angleZ 0
+ }
+ {
+  coords 3359.727 301.439 817.505
+  angleZ 0
+ }
+ {
+  coords 3362.768 301.493 814.132
+  angleZ 0
+ }
+ {
+  coords 3353.631 301.468 819.111
+  angleZ 0
+ }
+ {
+  coords 4749.235 319.602 391.919
+  angleZ 0
+ }
+ {
+  coords 4744.798 319.632 393.229
+  angleZ 0
+ }
+ {
+  coords 4739.706 319.344 395.838
+  angleZ 0
+ }
+ {
+  coords 4656.864 311.295 723.051
+  angleZ 0
+ }
+ {
+  coords 4648.897 311.433 722.991
+  angleZ 0
+ }
+ {
+  coords 4654.695 311.403 724.875
+  angleZ 0
+ }
+}

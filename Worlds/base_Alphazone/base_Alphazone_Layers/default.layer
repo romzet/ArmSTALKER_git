@@ -1,0 +1,86 @@
+$grp GenericEntity {
+ MainPodval {
+  coords 7483.965 300.452 453.472
+ }
+ Shelter_exit {
+  coords 5075.122 301.794 56.939
+  angleY -1.413
+ }
+}
+GenericEntity ZEL_ClaimableStorage_Base_65FEABF76C989D48 : "{20AB7C195DBCD6C5}Prefabs/Props/ZEL_ClaimableStorage_Base.et" {
+ components {
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{1925216F1AA24DEF}armst/items/money/rubles.xob"
+  }
+  SCR_UniversalInventoryStorageComponent "{646266F98B551369}" {
+   Attributes SCR_ItemAttributeCollection "{646266F8682BBB53}" {
+    m_bDraggable 0
+    m_bVisible 0
+    m_bRefundable 0
+   }
+   MaxCumulativeVolume 1
+   MaxItemSize 1 1 1
+  }
+  ZEL_ClaimableItemComponent "{64626AA1F86A28D2}" {
+   m_ClaimType BUSINESS
+  }
+  ActionsManagerComponent "{646266F9B4C5A21D}" {
+   ActionContexts {
+    UserActionContext "{64626AA154484B2A}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 -99 0.3909
+     }
+    }
+    UserActionContext "{65FEABF705F1ED95}" {
+     ContextName "det"
+     Position PointInfo "{65FEABF70F89155F}" {
+     }
+    }
+   }
+   additionalActions {
+    ARMST_ClaimFisrtEnterAction "{65FEABF71EF122B7}" {
+     ParentContextList {
+      "det"
+     }
+    }
+   }
+  }
+ }
+ coords 5075.96 302.626 58.706
+}
+GenericEntity : "{3244854FF3798E1C}Prefabs/SHELTER/ARMST_ACTION_SHELTER.et" {
+ coords 5083.576 302.573 62.825
+ angleY 179.283
+}
+MusicManager : "{359452CCDBDD03F5}Prefabs/Sounds/Music/MusicManager_Campaign.et" {
+ coords 4096.856 299.816 471.843
+ Music {
+  SCR_RespawnMusic "{59CEAEC5D2396983}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_SpawnMusic "{59CEAEC320ED39A0}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_LocationMusic "{59CEAEC21FCCBABC}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_BaseCaptureMusic "{59CEAED0DAEA8FBE}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_GameEndMusic "{59D0B7E1CD02D367}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_EnterEnemyMilitaryBaseMusic "{59D0C204F4B7AE3B}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+ }
+}
+ParticleEffectEntity : "{3BF7E024BC97C136}Prefabs/STATIC_SOUNDS/RLS/STATIC_SOUND_RLS.et" {
+ coords 3783.259 458.268 2572.673
+}
+GenericEntity : "{56DA7A01AE88C7D6}Prefabs/Sounds/Environment/Arland/AmbientSounds_Arland.et" {
+ coords 5063.754 301.107 60.898
+}
+RadioBroadcastManager : "{66B93BC296E2F977}Prefabs/Radio/RadioBroadcastManager.et" {
+ coords 7313.846 301.234 204.564
+}

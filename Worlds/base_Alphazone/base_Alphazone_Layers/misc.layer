@@ -1,0 +1,331 @@
+$grp ParticleEffectEntity {
+ {
+  coords 4038.911 306.475 567.76
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4163.17 309.424 708.911
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3917.593 306.251 857.312
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3615.729 306.123 979.576
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3623.426 306.169 967.605
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3623.469 306.123 988.5
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3424.189 302.121 811.01
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3832.678 298.171 1365.446
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4126.081 316.336 1085.473
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4632.877 311.248 1057.201
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4682.365 312.108 792.783
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 5291.768 312.983 756.335
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 5404.7 313.152 629.229
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4385.26 302.706 567.952
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4371.936 302.673 556.302
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 4223.824 309.254 1441.764
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+}
+GameEntity : "{1B1B80B11EA3FBA0}Prefabs/Method/Structures_int/Camps/Fireplace_Loiters_03.et" {
+ coords 3478.35 306.305 1308.134
+ angleX -1.322
+ angleY 0.165
+ angleZ -7.127
+}
+$grp GameEntity : "{24089D4BB9AA8913}Prefabs/Method/Props/Camps/Fireplace_Loiters_ground_1.et" {
+ {
+  coords 3577.761 302.327 1551.534
+ }
+ {
+  coords 3413.229 302.488 814.236
+  angleZ 2.684
+  {
+   GenericEntity {
+    ID "62DEB6B66ABF5D56"
+    coords 1.616 -0.055 0.335
+    angleX 2.792
+    angleY -70.093
+    angleZ 1.486
+   }
+   GenericEntity {
+    ID "62DEB6B66ABE5947"
+    components {
+     SCR_AISmartActionSentinelComponent "{5CB0DBCC796A6F1C}" {
+      m_eLoiterAnimation SIT
+     }
+    }
+   }
+  }
+ }
+}
+$grp GameEntity : "{820839184AE86AC8}Prefabs/Method/Props/Camps/Fireplace_Loiters_01.et" {
+ {
+  coords 3466.838 300.115 1105.748
+  angleX -3.531
+  angleY -115.365
+  angleZ -3.268
+ }
+ {
+  coords 3886.303 315.116 688.702
+  angleX -2.177
+  angleY -137.154
+  angleZ 1.031
+ }
+}
+$grp GameEntity : "{A0F4189518336A25}Prefabs/Method/Props/Camps/Fireplace_Loiters_base.et" {
+ {
+  coords 3255.715 308.577 1018.755
+  angleY -90.81
+ }
+ {
+  coords 3553.24 305.147 1006.328
+  angleY -65.008
+ }
+ {
+  coords 3690.688 303.957 1174.305
+  angleX -3.896
+  angleY 152.644
+  angleZ -1.751
+ }
+ {
+  coords 3401.956 308.577 1339.961
+  angleY 92.53
+ }
+ {
+  coords 3814.895 314.046 1140.953
+  angleY 67.49
+ }
+ {
+  coords 3832.079 298.171 1379.736
+  angleY 128.312
+ }
+ {
+  coords 3920.137 305.806 869.681
+  angleY -176.588
+  {
+   GenericEntity {
+    ID "629A9CBAFC7F6B03"
+   }
+  }
+ }
+ {
+  coords 4223.374 308.835 1434.328
+  angleY -46.351
+ }
+}
+$grp GameEntity : "{EE5C0DF8F62CE5E6}Prefabs/Method/Props/Camps/Fireplace_Loiters_02.et" {
+ {
+  coords 3556.338 307.937 882.307
+  angleX -0.348
+  angleY 11.698
+  angleZ -0.529
+ }
+ {
+  coords 4031.358 309.325 608.296
+  angleX 2.483
+  angleY 55.334
+  angleZ 0.624
+  {
+   GenericEntity {
+    ID "646CC3C7AD42008F"
+    coords -2.379 -0.166 -1.69
+    angleX 4.446
+   }
+   GenericEntity {
+    ID "646CC3C4AAB2E8E4"
+    coords 1.04 -0.118 -2.794
+    angleX 13.536
+    angleY -28.419
+    angleZ -9.575
+   }
+   GenericEntity {
+    ID "646CC3C4B860959C"
+    coords 0.473 -0.206 -3.025
+    angleX -16.032
+    angleY 172.896
+    angleZ 4.075
+   }
+   GenericEntity {
+    ID "646CC3C2F9381470"
+    coords -3.951 -0.416 0.036
+    angleX -1.723
+    angleY 177.745
+    angleZ 0.886
+   }
+   GenericEntity {
+    ID "646B09B17645923B"
+    coords -0.103 -0.115 -2.395
+    angleX 1.088
+    angleY 1.952
+    angleZ -5.1
+   }
+   GenericEntity {
+    ID "646CC3C2BA880127"
+    coords 2.359 -0.176 -3.166
+    angleX -3.833
+    angleY 110.409
+    angleZ 16.09
+   }
+   GenericEntity {
+    ID "646CC3C4D3C90649"
+    coords 0.413 -0.319 -3.402
+    angleX 16.501
+    angleY 10.742
+    angleZ 0.961
+   }
+   GenericEntity {
+    ID "646CC3C4F6D33641"
+    coords -0.086 -0.383 -3.553
+    angleX 16.492
+    angleY 11.252
+    angleZ 1.106
+   }
+   GenericEntity {
+    ID "646CC3C527669DEC"
+    coords -2.951 -0.088 -0.684
+    angleX 4.446
+   }
+   GenericEntity {
+    ID "646CC3C55695A0E2"
+    coords -0.094 -0.114 -2.388
+    angleX -5.075
+    angleY -86.738
+    angleZ -1.2
+   }
+   GenericEntity {
+    ID "646CC3C7F315BBCD"
+    coords -4.315 0.345 -4.997
+    angleX 1.226
+    angleY -0.111
+    angleZ -5.19
+   }
+   GenericEntity {
+    ID "646CC3C6008C7BB1"
+    coords -4.453 0.311 -6.195
+    angleX -2.535
+    angleY 0.365
+    angleZ -8.195
+   }
+   GenericEntity {
+    ID "646CC3C7A7481163"
+    coords -4.197 0.562 1.359
+    angleX 1.851
+    angleY -0.038
+    angleZ -1.164
+   }
+   GenericEntity {
+    ID "646CC3C33E6467C4"
+    coords 4.203 0.234 -0.126
+    angleX -8.781
+    angleY -94.48
+    angleZ -4.928
+   }
+   GenericEntity {
+    ID "646CC3C63EE14C75"
+    coords -4.519 0.31 -5.776
+    angleX -3.023
+    angleY -158.913
+    angleZ 4.395
+   }
+   GenericEntity {
+    ID "646CC3C7BD1E6E2E"
+    coords -4.21 0.565 1.046
+    angleX 7.427
+    angleY -163.721
+    angleZ -0.729
+   }
+   GenericEntity {
+    ID "646CC3C7C5FF36DD"
+    coords -4.093 0.528 0.196
+    angleX -1.2
+    angleY -96.643
+    angleZ -1.637
+   }
+   GenericEntity {
+    ID "646CC3C7E1C44A0C"
+    coords -3.91 0.435 -2.888
+    angleX 0.732
+    angleY 92.823
+    angleZ 1.794
+   }
+   GenericEntity {
+    ID "646CC3C78FBD14E8"
+    coords -0.532 -0.289 -3.173
+    angleX 15.318
+    angleY 29.989
+    angleZ 6.284
+   }
+   GenericEntity {
+    ID "646CC3C3FDC8217A"
+    coords 2.004 0.133 -0.309
+    angleX 7.072
+    angleY 10.436
+    angleZ -7.173
+   }
+   GenericEntity {
+    ID "646CC3C62DB22D06"
+    coords -3.608 0.336 -5.139
+    angleX 1.776
+    angleY -29.121
+    angleZ -0.207
+   }
+   GenericEntity {
+    ID "646CC3C6403222D4"
+    coords -3.555 0.316 -6.057
+    angleX -1.345
+    angleY 34.102
+    angleZ 1.426
+   }
+  }
+ }
+ {
+  coords 4143.632 322.737 1609.177
+  angleX -3.129
+  angleY -0.049
+  angleZ 0.896
+  {
+   StaticModelEntity {
+    ID "646CC3C430595B24"
+    coords -2.737 -1.794 5.003
+   }
+  }
+ }
+}

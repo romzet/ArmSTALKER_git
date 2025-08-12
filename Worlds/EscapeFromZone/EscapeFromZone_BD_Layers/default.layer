@@ -1,0 +1,94 @@
+$grp EPF_SpawnPoint {
+ {
+  coords 5074.589 301.796 56.701
+  angleY 72.762
+ }
+ {
+  coords 5072.77 301.794 55.194
+  angleY -99.243
+  m_FactionKey FACTION_ARMY
+ }
+ {
+  coords 5080.205 301.8 55.157
+  angleY -99.243
+  m_FactionKey FACTION_BANDIT
+ }
+ {
+  coords 5074.066 301.796 59.011
+  angleY -99.243
+  m_FactionKey FACTION_SCIENCES
+ }
+}
+SCR_MapLocator {
+ coords 3813.624 300.772 1000.863
+ m_WorldDirections SCR_MapLocationQuadHint "{5AAA92CDBEAC91B2}" : "{C1534F222D0F74D2}Configs/Map/MapLocatorHints/LocationHintsArland.conf" {
+ }
+}
+SCR_SpawnPoint : "{2D88EAB83A52AE0E}Prefabs/MP/Spawning/SpawnPoint_STALKER.et" {
+ coords 5073.559 301.794 54.307
+}
+MusicManager : "{359452CCDBDD03F5}Prefabs/Sounds/Music/MusicManager_Campaign.et" {
+ coords 4096.856 299.816 471.843
+ Music {
+  SCR_RespawnMusic "{59CEAEC5D2396983}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_SpawnMusic "{59CEAEC320ED39A0}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_LocationMusic "{59CEAEC21FCCBABC}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_BaseCaptureMusic "{59CEAED0DAEA8FBE}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_GameEndMusic "{59D0B7E1CD02D367}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+  SCR_EnterEnemyMilitaryBaseMusic "{59D0C204F4B7AE3B}" {
+   Acp "{5384886296D17BDB}Sounds/Music/Music_Ingame.acp"
+  }
+ }
+}
+$grp GenericEntity : "{7720B78DED8FAB50}Prefabs/Perimetr/wall_perimetr.et" {
+ {
+  coords 4348.127 305.57 423.76
+  angleY -97.262
+  scale 2
+ }
+ {
+  coords 4179.541 304.666 490.612
+  angleY -40.666
+  scale 2
+ }
+ {
+  coords 3802.713 306.687 418.616
+  angleY -2.851
+  scale 2
+ }
+ {
+  coords 3607.868 289.438 1615.687
+  angleY -5.568
+  scale 2
+ }
+}
+$grp GenericEntity : "{96B03F180CEA8ED2}Prefabs/Industrial/undeground/und_tonel.et" {
+ {
+  coords 4062.739 305.537 1811.39
+  angleX 1.259
+  angleY -41.96
+  angleZ 2.767
+ }
+ {
+  coords 3485.365 302.674 1571.373
+  angleX 1.658
+  angleY -50.553
+  angleZ 2.548
+ }
+ {
+  coords 4039.335 306.515 1866.656
+  angleX -1.208
+  angleY 139.084
+  angleZ -2.789
+ }
+}

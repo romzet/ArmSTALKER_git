@@ -1,0 +1,16 @@
+GenericEntity PositionAlarm {
+ coords 3873.771 315.582 394.577
+}
+ARMST_TRIGGER_SAVEZONE : "{43A441658DE7E3FA}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_SAVEZONE.et" {
+ coords 5090.169 305.191 65.206
+ TriggerShapeType Sphere
+ SphereRadius 43.4
+ DrawShape 0
+ UpdatePeriod 1
+ m_fDisable_damage 1
+}
+ARMST_TRIGGER_SURGE : "{53BE1E4E3FA34D7B}Prefabs/Anomals/Surge/ARMST_TRIGGER_SURGE.et" {
+ coords 3845.192 306.042 1650.184
+ SphereRadius 1952.9
+ m_ObjectSurgeAlarm "{4B38D349E339F6D9}Prefabs/STATIC_SOUNDS/ALARM/STATIC_SOUND_SIREN.et"
+}

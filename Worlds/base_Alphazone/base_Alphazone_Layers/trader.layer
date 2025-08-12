@@ -1,0 +1,317 @@
+GenericEntity {
+ components {
+  MeshObject "{632CADFC4C8FCE8B}" {
+   Object "{1CD46F971F775BA0}Assets/Sing_books_posters/SM_book_OBJ_2.xob"
+  }
+ }
+ coords 7102.086 302.3 324.33
+ angleY 53.88
+}
+$grp LightEntity {
+ LIGHT_FLUO_SPOT_19 {
+  coords 4158.131 308.644 716.369
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 6
+  ClipEV -10
+  Type Spot
+  Radius 5
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_POINT_19 {
+  coords 4158.089 308.601 716.301
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 4
+  CastShadow 0
+  ClipEV -10
+  Radius 3
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_SPOT_20 {
+  coords 4164.856 308.544 719.569
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 6
+  ClipEV -10
+  Type Spot
+  Radius 5
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_POINT_20 {
+  coords 4164.814 308.501 719.5
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 4
+  CastShadow 0
+  ClipEV -10
+  Radius 3
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_SPOT_21 {
+  coords 4159.912 308.654 721.365
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 6
+  ClipEV -10
+  Type Spot
+  Radius 5
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_POINT_21 {
+  coords 4159.87 308.72 721.296
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 4
+  CastShadow 0
+  ClipEV -10
+  Radius 3
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_SPOT_22 {
+  coords 4162.003 308.719 714.973
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 6
+  ClipEV -10
+  Type Spot
+  Radius 5
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+ LIGHT_FLUO_POINT_22 {
+  coords 4161.961 308.676 714.904
+  angleX -90
+  angleY -41.184
+  Color 0.834 1 0.745 1
+  LV 4
+  CastShadow 0
+  ClipEV -10
+  Radius 3
+  NearPlane 0.7
+  SpotAngle 155
+  DistanceAttenuation 0.1
+  Visualization Disabled
+  LensFlareType Disabled
+ }
+}
+$grp ParticleEffectEntity {
+ {
+  coords 4159.908 308.473 721.034
+  EffectPath "{CE1413353479571B}Prefabs/Particles/animals/Flies_point.ptc"
+ }
+ {
+  coords 4164.845 308.329 719.525
+  EffectPath "{CE1413353479571B}Prefabs/Particles/animals/Flies_point.ptc"
+ }
+ {
+  coords 4162.618 307.541 712.976
+  EffectPath "{CE1413353479571B}Prefabs/Particles/animals/Flies_point.ptc"
+ }
+ {
+  coords 5074.729 305.089 56.522
+  EffectPath "{CE1413353479571B}Prefabs/Particles/animals/Flies_point.ptc"
+ }
+ {
+  coords 5083.042 303.962 49.462
+  EffectPath "{CE1413353479571B}Prefabs/Particles/animals/Flies_point.ptc"
+ }
+ {
+  coords 4163.974 305.624 716.498
+  EffectPath "{164AA51DF8F2C97A}Prefabs/Particles/animals/roach.ptc"
+ }
+ {
+  coords 4160.086 305.624 720.139
+  EffectPath "{164AA51DF8F2C97A}Prefabs/Particles/animals/roach.ptc"
+ }
+ {
+  coords 3264.758 300.744 518.869
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3258.385 300.744 524.295
+  EffectPath "{938C36411ACCC6B4}Prefabs/Particles/animals/rats.ptc"
+ }
+ {
+  coords 3255.736 300.743 519.02
+  EffectPath "{164AA51DF8F2C97A}Prefabs/Particles/animals/roach.ptc"
+ }
+ {
+  coords 3259.807 303.277 525.923
+  EffectPath "{CE1413353479571B}Prefabs/Particles/animals/Flies_point.ptc"
+ }
+ {
+  coords 3265.551 300.743 527.897
+  EffectPath "{164AA51DF8F2C97A}Prefabs/Particles/animals/roach.ptc"
+ }
+}
+$grp GenericEntity : "{15351F20511409FB}Prefabs/shelves/shelves_1.et" {
+ {
+  coords 3454.925 302.748 810.461
+  angleY 78.683
+ }
+ {
+  coords 3454.302 302.748 811.385
+  angleY -99.818
+ }
+}
+GenericEntity : "{167DC2EACF77E817}Prefabs/Posuda/posuda_4.et" {
+ coords 3455.769 303.443 811.569
+ angleY 0
+}
+GenericEntity : "{20BA5FA24090CCCC}Prefabs/Electric/small_telek_ON.et" {
+ coords 4162.676 307.427 712.856
+ angleY 116.631
+}
+GameEntity : "{24089D4BB9AA8913}Prefabs/Method/Props/Camps/Fireplace_Loiters_ground_1.et" {
+ coords 4191.265 310.736 682.83
+}
+GenericEntity : "{326E60F7A7358EDA}Prefabs/Props/Crates/CrateWooden_01_blue.et" {
+ components {
+  Hierarchy "{54C2B2BF9664B83D}" {
+   Enabled 1
+  }
+ }
+ coords 4157.901 305.584 716.43
+ angleY 40.312
+}
+$grp StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMilitary_US_01.et" {
+ {
+  coords 4160.279 305.624 721.572
+  angleY -138.85
+ }
+ {
+  coords 4161.243 305.624 720.719
+  angleY -138.85
+ }
+}
+GameEntity : "{820839184AE86AC8}Prefabs/Method/Props/Camps/Fireplace_Loiters_01.et" {
+ coords 4139.391 309.452 691.578
+ angleY 87.413
+}
+GameEntity : "{862432FB57C1C1B3}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_green.et" {
+ components {
+  SCR_LampComponent "{5D2AB5C8865F22C4}" {
+   m_eInitialLightState LIT
+  }
+ }
+ coords 3455.713 303.443 811.166
+}
+$grp GenericEntity : "{91B8D41BE2DF1DB5}Prefabs/Props/TRADE/ARMST_TRADER.et" {
+ {
+  coords 5078.47 302.693 53.986
+ }
+ {
+  components {
+   ARMST_TRADER_CAT_COMPONENT "{65E06D1FFD7232FF}" {
+    m_sTraderCategoryWeapons +{
+    }
+    m_sTraderCategoryClothes +{
+    }
+    m_fSellPercent 70
+    m_fBuyPercent 50
+   }
+   MeshObject "{5872F0EB7FA40561}" {
+    Materials {
+     MaterialAssignClass "{65E06D1FF49FE613}" {
+      SourceMaterial "MLOD"
+      AssignedMaterial "{564BF5C68F409414}Assets/Props/Civilian/RadioSmall_01/Data/RadioSmall_01_Black_MLOD.emat"
+     }
+     MaterialAssignClass "{65E06D1FF49FE604}" {
+      SourceMaterial "main"
+      AssignedMaterial "{C7EA82CC7F146C1E}Assets/Props/Civilian/RadioSmall_01/Data/RadioSmall_01_Black.emat"
+     }
+     MaterialAssignClass "{65E0C6933C17BCF7}" {
+      SourceMaterial "lambert1"
+      AssignedMaterial "{D7B43961BD89AD43}armst/new_clothes/vest/Plash/Data/Plash_cup_hidden.emat"
+     }
+    }
+   }
+   RigidBody "{5872F0EB7DFB5A9D}" {
+    ResponseIndex "SmallDestructible"
+    ModelGeometry 1
+    Static 1
+   }
+   ActionsManagerComponent "{65E06D1FF49FE603}" {
+    ActionContexts {
+     UserActionContext "{65E06D1FF49FE601}" {
+      UIInfo UIInfo "{65E06D1FF49FE60F}" {
+       Name "default"
+      }
+      ContextName "default"
+      Position PointInfo "{65E06D1FF49FE60D}" {
+       Offset 0 0.0818 0
+      }
+      Radius 1.27
+     }
+    }
+    additionalActions {
+     ARMST_TRADER_OPEN "{65E06D1FF49FE60B}" {
+      ParentContextList +{
+      }
+      Duration 0
+     }
+    }
+   }
+  }
+  coords 4157.818 306.388 716.449
+  angleY 127.862
+ }
+}
+GenericEntity : "{9F9FEC91BA446486}Prefabs/tables/kuhon_stol.et" {
+ coords 3456.346 302.724 811.478
+ angleY -102.702
+}
+GenericEntity : "{A9BE46C83920B44A}Prefabs/chairs/stul_4.et" {
+ coords 3456.493 302.73 812.407
+ angleY 38.962
+}
+GenericEntity : "{AC5F2CF291918199}Prefabs/Props/TRADE/ARMST_PLACE_BUY.et" {
+ components {
+  ActionsManagerComponent "{631496DF79F3D17B}" {
+   additionalActions {
+    ARMST_TRADE_BUY_ACTIONS "{6328B0497BD8CE57}" {
+     Duration 0
+     m_PrefabToSpawn "{8B853CDD11BA916E}Prefabs/Weapons/Magazines/Magazine_9x18_PM_8rnd_Ball.et"
+    }
+   }
+  }
+ }
+ coords 7126.558 300.599 296.995
+ angleY -143.113
+ angleZ 87.992
+}

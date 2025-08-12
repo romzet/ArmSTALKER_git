@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{989870F6A0FCA8C9}Worlds/EscapeFromZone/EscapeFromZone_BD.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass PS5 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}

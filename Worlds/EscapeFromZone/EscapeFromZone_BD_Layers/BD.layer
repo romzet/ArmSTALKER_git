@@ -1,0 +1,179 @@
+PerceptionManager PerceptionManager1 : "{028DAEAD63E056BE}Prefabs/World/Game/PerceptionManager.et" {
+ coords 8740.325 335.051 11718.207
+}
+SCR_GameModeEditor SCR_ArmstGameMode1 : "{B563F305A997ACAE}Prefabs/MP/Modes/Editor/SCR_ArmstGameMode.et" {
+ components {
+  ARMST_EDITOR_GLOBAL_SETTINGS "{65D8F3E971C4C21E}" {
+  }
+  ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
+   m_EnableAutoMessages 1
+  }
+  EPF_PersistenceManagerComponent "{658301C3AC02188D}" {
+   components {
+    EPF_BasicRespawnSystemComponent "{658301C36354B154}" {
+     m_StartingLootConfigs {
+      "{EE697D7413777D3A}Configs/STARTING/stalker_starting.conf"
+     }
+     m_CreateCharacter 1
+     m_rDefaultPrefab "{BBCD96EFBDB923E4}Prefabs/Factions/PLAYER/data/Character_STALKER_Player_Save.et"
+    }
+   }
+   m_fAutosaveInterval 120
+   m_pConnectionInfo EDF_JsonFileDbConnectionInfo "{658301C3451DE3D2}" {
+    m_sDatabaseName "ArmSTALKER_EFZ_DataBaseNew1"
+   }
+  }
+  SCR_GroupsManagerComponent "{5706EC99934496F5}" {
+   m_sDefaultGroupPrefab "{8B4D49A9F324E7D6}Prefabs/Groups/PlayableGroup.et"
+  }
+  SCR_IdentityManagerComponent "{5AEEA80681EA61AF}" {
+   m_eIdentityItemGenerationType 0
+  }
+  SCR_InitWeatherComponent "{58DCAB6D83A0CB17}" {
+   m_iSetWeatherConstant 0
+  }
+  SCR_PlayerSpawnPointManagerComponent "{56C2DDA69EF94C6D}" {
+   Enabled 0
+  }
+  SCR_ReconnectComponent "{5A02809D5E8ABE42}" {
+   Enabled 0
+  }
+  SCR_RespawnSystemComponent "{56B2B4793051E7C9}" {
+   Enabled 0
+   components {
+    SCR_FreeSpawnHandlerComponent "{5CD2860C681CE021}" {
+     Enabled 0
+    }
+    SCR_PossessSpawnHandlerComponent "{5CD2D12697D089D4}" {
+     Enabled 0
+     m_bIgnoreConditions 0
+    }
+    SCR_SpawnPointSpawnHandlerComponent "{5CD2D126957998DF}" {
+     Enabled 0
+    }
+   }
+   m_SpawnLogic SCR_MenuSpawnLogic "{5D44B78DAD98E7F9}" {
+    m_sForcedFaction "STALKER_FACTION"
+    m_sLoadingLayout "{A1CE9D1EC16DA9BF}UI/layouts/Menus/MainMenu/SplashScreen.layout"
+    m_bUseFadeEffect 1
+   }
+  }
+  SCR_RespawnTimerComponent "{56C2DDA6EE0E4071}" {
+   Enabled 0
+  }
+  SCR_SaveLoadComponent "{58FA739CBE3E9FC5}" {
+   m_Struct SCR_MissionStruct "{590C7884C526BCDD}" {
+   }
+  }
+  SCR_ScoringSystemComponent "{56C2DDA6F5A5E41B}" {
+   Enabled 0
+  }
+  SCR_SpawnerAIGroupManagerComponent "{5D24928789534FCF}" {
+   Enabled 0
+  }
+  SCR_SupportStationManagerComponent "{5B0AB3A852FCBF7E}" {
+   Enabled 0
+  }
+  SCR_VotingManagerComponent "{5650BB6B6089393A}" {
+   Enabled 0
+   m_aVotingTemplates {
+    SCR_VotingKick "{58EA836E8F9304A4}" {
+     m_iMinVotes 10
+    }
+    SCR_VotingAutoKick "{5DD8B7C5C3CE2A74}" {
+     m_iMinVotes 10
+    }
+    SCR_VotingAutoKick "{5DE290A5CDDEDB4E}" {
+     m_iMinVotes 10
+    }
+    SCR_VotingAutoKick "{5DE290A5C03149A9}" {
+     m_iMinVotes 10
+    }
+    SCR_VotingEditorIn "{58D06C7270F3CE2C}" {
+     m_iJoinServerVoteCooldown 38000
+    }
+    SCR_VotingEditorWithdraw "{5A8A8738B1A4AC19}" {
+     m_iMinVotes 30000
+    }
+   }
+  }
+  SCR_WelcomeScreenComponent "{5D7290AC8A3E657E}" {
+   m_sHeaderTitle "ArmSTALKER 2 - Demo "
+   m_BaseLayout SCR_WelcomeScreenThreeHorizontalColumns "{5D7290AC92D25160}" {
+    m_LeftColumn SCR_WelcomeScreenIntroductionContent "{5D7290ABF7423AA2}" {
+     m_aIntroduction {
+      SCR_WelcomeScreenIntroduction "{5D7290ABCBFE3176}" {
+       m_sContentImage "{7B042430D44D8A8F}UI/WelcomeScreen/Gha2i174miE.edds"
+       m_sContentTitleText "#Armst_Welcome_Screen"
+       m_sContentDescriptionText "#Armst_Welcome_Screen_desc"
+      }
+     }
+    }
+    m_MiddleColumn SCR_WelcomeScreenIntroductionContent "{5D7290ABF8B7756B}" {
+     m_aIntroduction {
+      SCR_WelcomeScreenIntroduction "{5D729EC0A67A9D46}" {
+       m_sContentImage "{93ECA342D1E74C0A}UI/WelcomeScreen/PMQYW-KA3DM.edds"
+       m_sContentTitleText "#Armst_Demo_mission_escape"
+       m_sContentDescriptionText "#Armst_Demo_mission_escape_desc"
+      }
+     }
+    }
+    m_RightColumn SCR_WelcomeScreenIntroductionContent "{5D7290ABFF9DBADC}" {
+     m_aIntroduction {
+      SCR_WelcomeScreenIntroduction "{5D729EC0BC408CC1}" {
+       m_sContentImage "{508380855EC3C8B2}UI/WelcomeScreen/zp5qmJcVBqo.edds"
+       m_sContentTitleText "#Armst_Demo_start"
+       m_sContentDescriptionText "#Armst_Demo_start_desc"
+      }
+     }
+    }
+   }
+  }
+ }
+ coords 5091.914 301.794 57.63
+ m_bAutoPlayerRespawn 0
+ m_bAllowFactionChange 0
+ m_bAutoInitEditor 0
+ m_GameMasterTarget NOBODY
+ {
+  ScriptedChatEntity {
+   ID "657A845BEA979E42"
+   "Default channel" "Local"
+  }
+  SCR_FactionManager "657ED887CFD7F3BC" {
+   ID "657A845BEA97811E"
+   Factions {
+    SCR_Faction "{56F0B239B04E3E34}" {
+    }
+    SCR_Faction "{616AFAF5BBCF187E}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+    SCR_Faction "{63029BDDD854782D}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+   }
+   m_bCanChangeFactionsPlayable 0
+  }
+ }
+}
+ZEL_ClaimsManagerEntity ZEL_ClaimsManagerEntity_6493795765BF453D : "{5F5D2E02EB17308A}Prefabs/MP/Managers/ZEL_ClaimsManagerEntity.et" {
+ coords 5068.79 300.926 36.035
+ m_StorageLimitation 1
+ m_VehicleLimitation 1
+ m_BusinessLimitation 1
+}
+GenericEntity ZEL_Storage_Base_658F19F381AC7DD4 : "{64D4F1BCB3403343}Prefabs/Props/ZEL_Storage_Base.et" {
+ components {
+  SCR_UniversalInventoryStorageComponent "{646266F98B551369}" {
+   Attributes SCR_ItemAttributeCollection "{646266F8682BBB53}" {
+    ItemDisplayName UIInfo "{611F6DC5589ACE84}" {
+     Name "Locker"
+    }
+   }
+  }
+ }
+ coords 5077.21 301.859 54.103
+ angleY 3.331
+}

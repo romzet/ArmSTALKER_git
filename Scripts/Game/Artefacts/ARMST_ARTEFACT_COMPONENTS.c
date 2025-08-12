@@ -41,33 +41,42 @@ class ARMST_ARTEFACT_COMPONENTS : SCR_GadgetComponent
 			if (m_bLastLightState)
 				return;
 		
+       		 arts.SetFlags(EntityFlags.VISIBLE, false);
 			if (m_EmissiveMaterial)
 			m_EmissiveMaterial.SetUserAlphaTestParam(255);
-			m_EmissiveMaterial.SetEmissiveMultiplier(0);
+			//m_EmissiveMaterial.SetEmissiveMultiplier(0);
  	};
 
 	void DisableLight()
 	{
-		m_Time_Hidden = m_Time_Hidden * 1000;
+       	arts.SetFlags(EntityFlags.VISIBLE, false);
+		float m_Time_Hidden2 = m_Time_Hidden * 1000;
 		if (m_EmissiveMaterial)
 			m_EmissiveMaterial.SetUserAlphaTestParam(0);
-			m_EmissiveMaterial.SetEmissiveMultiplier(m_Emmisive);
+		//	m_EmissiveMaterial.SetEmissiveMultiplier(m_Emmisive);
 		
-		//GetGame().GetCallqueue().CallLater(EnableLight, m_Time_Hidden, false);
+		GetGame().GetCallqueue().CallLater(EnableLight, m_Time_Hidden2, false);
 	};
 	
 	float getArmstArtFreq()
 	{
 			return m_fFreq_Level_Select;
 	};
+	IEntity arts;
 	override void EOnInit(IEntity owner)
 	{
 		
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
+	 	arts = owner;
 		m_bLastLightState = false;
 		m_EmissiveMaterial = ParametricMaterialInstanceComponent.Cast(owner.FindComponent(ParametricMaterialInstanceComponent));
 		if (m_EmissiveMaterial)
 			m_EmissiveMaterial.SetUserAlphaTestParam(0);
-			m_EmissiveMaterial.SetEmissiveMultiplier(m_Emmisive);
+		//	m_EmissiveMaterial.SetEmissiveMultiplier(m_Emmisive);
 	};
 		
 };

@@ -44,6 +44,8 @@ class ARMST_HUD_Update
 [BaseContainerProps(category: "HUDUpdate")]
 class ARMST_TestHudUpdate: ARMST_HUD_Update
 {
+	
+	
 	ref array<ref CanvasWidgetCommand> canvasCommands = {};
 	override void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
 	{
@@ -142,9 +144,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			Stat_Health.SetOpacity(1);
 			Stat_Stamina.SetOpacity(1);
 		
-		
-		statsComponent2.ArmstPlayerStatSetWater(-0.004);
-		statsComponent2.ArmstPlayerStatSetEat(-0.002);
 		
 		float WaterStats = statsComponent2.ArmstPlayerStatGetWater();
 		float EatStats = statsComponent2.ArmstPlayerStatGetEat();
@@ -350,22 +349,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		
 	        GetGame().GetCallqueue().CallLater(Update, 500, false, HUDWidget, owner, PlayerStats, ItemStats);
 		
-		        if (Replication.IsServer())
-		        {
-		        }
-				else 
-				{
-						if(SCR_Global.IsAdmin())
-						{
-						Print("Админка включена");
-						statsComponent2.m_armst_player_stat_toxic = 0;
-						statsComponent2.m_armst_player_stat_radiactive = 0;
-						statsComponent2.m_armst_player_stat_psy = 100;
-						statsComponent2.m_armst_player_stat_water = 100;
-						statsComponent2.m_armst_player_stat_eat = 100;
-						return;
-						}
-				}
 		
 	        if (statsComponent2.m_armst_player_stat_toxic < 0)
 	            { statsComponent2.m_armst_player_stat_toxic = 0; }

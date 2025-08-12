@@ -1,0 +1,56 @@
+PerceptionManager PerceptionManager1 : "{028DAEAD63E056BE}Prefabs/World/Game/PerceptionManager.et" {
+ coords 8740.325 335.051 11718.207
+}
+SCR_GameModeEditor Armst_GameMaster : "{DA3986AF1B5032B7}Prefabs/MP/Modes/Editor/GameMode_Editor_Full.et" {
+ components {
+  SCR_EditorCameraDefaultsComponent "{531111508B1D17BA}" {
+   m_aPositions {
+    SCR_CameraCoordinates "{531111517085ECC9}" {
+     m_vCameraPosition 5685.25 43.212 3699.71
+     m_vCameraAngles -8.063 -60.184 0
+    }
+    SCR_CameraCoordinates "{5311115151E897B9}" {
+     m_vCameraPosition 7358.6 263.942 2964.86
+     m_vCameraAngles -20.063 -160.984 0
+    }
+    SCR_CameraCoordinates "{53111151386575E9}" {
+     m_vCameraPosition 2273.53 205.825 5441.35
+     m_vCameraAngles -19.763 98.215 0
+    }
+    SCR_CameraCoordinates "{53111151C0325084}" {
+     m_vCameraPosition 4905.48 302.602 7298.14
+     m_vCameraAngles -23.963 -163.985 0
+    }
+    SCR_CameraCoordinates "{53111151B5458A47}" {
+     m_vCameraPosition 4572.2 253.523 6222.47
+     m_vCameraAngles -17.663 123.415 0
+    }
+    SCR_CameraCoordinates "{531111519F5DB1E1}" {
+     m_vCameraPosition 7885.38 289.554 5221.63
+     m_vCameraAngles -15.563 -154.985 0
+    }
+    SCR_CameraCoordinates "{53111151922A6F53}" {
+     m_vCameraPosition 8595.2 234.153 3069.61
+     m_vCameraAngles -11.963 145.015 0
+    }
+    SCR_CameraCoordinates "{531111526E255709}" {
+     m_vCameraPosition 9242.95 307.722 1130.41
+     m_vCameraAngles -33.263 39.415 0
+    }
+   }
+  }
+  SCR_RespawnSystemComponent "{56B2B4793051E7C9}" {
+   m_SpawnLogic SCR_MenuSpawnLogic "{5D28B7AC71C108B2}" {
+   }
+  }
+ }
+ coords 4087.468 323.156 4103.12
+}
+SCR_MapLocator {
+ coords 3813.624 300.772 1000.863
+ m_WorldDirections SCR_MapLocationQuadHint "{5AAA92CDBEAC91B2}" : "{C1534F222D0F74D2}Configs/Map/MapLocatorHints/LocationHintsArland.conf" {
+ }
+}
+SCR_SpawnPoint : "{2D88EAB83A52AE0E}Prefabs/MP/Spawning/SpawnPoint_STALKER.et" {
+ coords 5076.001 301.794 56.565
+}

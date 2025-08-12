@@ -134,9 +134,11 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
 		        if (!statsComponent) 
 		            return;
 				
-		        if(statsComponent.m_surge_safe_check)
-						return;
-			
+				bool isIndoors = statsComponent.IsPlayerIndoors(ent);
+			    if (isIndoors)
+			    {
+		            return;
+			    }
 			
         		//statsComponent.ArmstPlayerStatSetPsy(-m_SurgeDamage);
 			

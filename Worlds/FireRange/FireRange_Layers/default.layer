@@ -1,0 +1,226 @@
+$grp GenericEntity : "{07805AE177F52646}Prefabs/Weapons/Magazines/Magazine_762x39_AKM_10rnd_Ball.et" {
+ Magazine_762x39_AKM_10rnd_Ball_65AE4CB1B70F68BB {
+  coords 3848.719 307.887 333.64
+ }
+ Magazine_762x39_AKM_10rnd_Ball_65AE4CB1B67CF956 {
+  coords 3848.623 307.889 333.656
+ }
+ Magazine_762x39_AKM_10rnd_Ball_65AE4CB1B6D4C5B4 {
+  coords 3848.537 307.888 333.673
+ }
+}
+GenericEntity armst_TT_65F2620C20275D06 : "{0D469F42B65E350E}Prefabs/Weapons/Handguns/armst_TT.et" {
+ coords 3848.427 307.83 328.988
+ angleY 91.928
+}
+$grp SCR_FiringRangeTarget : "{379D34B0D41DA810}Prefabs/Props/Military/Training/TargetInfantry_01.et" {
+ {
+  coords 3861.667 306.702 340.161
+  angleY -95.395
+ }
+ {
+  coords 3869.071 306.702 338.064
+  angleY -95.395
+ }
+ {
+  coords 3882.239 306.702 335.239
+  angleY -95.395
+ }
+ {
+  coords 3899.288 306.702 329.021
+  angleY -95.395
+ }
+}
+$grp GenericEntity : "{389EB226473CD590}Prefabs/Weapons/Magazines/Magazine_9x18_APB_20rnd_Ball.et" {
+ Magazine_9x18_APB_20rnd_Ball_65F26205BC07DFFF {
+  coords 3848.499 307.797 329.112
+ }
+ Magazine_9x18_APB_20rnd_Ball_65F262054331E44F {
+  coords 3848.407 307.799 329.158
+ }
+ Magazine_9x18_APB_20rnd_Ball_65F262054269D9D2 {
+  coords 3848.473 307.797 329.203
+ }
+}
+GenericEntity armst_PP91_65F2621A6B04DA49 : "{3968B2A856852CBD}Prefabs/Weapons/Handguns/armst_PP91.et" {
+ coords 3848.519 307.794 329.802
+ angleY 90.619
+}
+$grp GenericEntity : "{4488C415F3CA1890}Prefabs/Weapons/Magazines/Magazine_9x18_PP91_30rnd_Ball.et" {
+ Magazine_9x18_PP91_30rnd_Ball_65F2621A6E5FB238 {
+  coords 3848.46 307.796 329.673
+ }
+ Magazine_9x18_PP91_30rnd_Ball_65F2621A6D67B9A8 {
+  coords 3848.394 307.797 329.661
+ }
+ Magazine_9x18_PP91_30rnd_Ball_65F2621A6D92DBD2 {
+  coords 3848.389 307.797 329.739
+ }
+}
+$grp GenericEntity : "{48720FC416263FC1}Prefabs/Weapons/Magazines/Magazine_762x39_AKM_30rnd_Ball.et" {
+ Magazine_762x39_Vz58_30rnd_Ball_65AE4CB51C23EE6A {
+  coords 3848.822 307.956 334.889
+ }
+ Magazine_762x39_Vz58_30rnd_Ball_65AE4CB5223A26EE {
+  coords 3848.53 307.955 334.876
+ }
+ Magazine_762x39_Vz58_30rnd_Ball_65AE4CB5223A26EE2 {
+  coords 3848.663 307.955 334.875
+ }
+}
+GenericEntity Rifle_AKMS_65B527CEAE2964AF : "{5712F6F88A014F0B}Prefabs/Weapons/Rifles/AKM/Rifle_AKMS.et" {
+ coords 3848.713 307.88 334.288
+ angleY 94.606
+}
+GenericEntity armst_AK74M_65B6583512C5C300 : "{5B8E766C0E3C13EE}Prefabs/Weapons/Rifles/armst_AK74M.et" {
+ coords 3848.588 307.948 331.552
+ angleY 93.478
+}
+GenericEntity Rifle_AKM_65AE4CB514D47EBE : "{5BFF97EFD0BF6D9F}Prefabs/Weapons/Rifles/AKM/Rifle_AKM.et" {
+ coords 3848.716 307.969 334.577
+ angleY 90.498
+}
+GenericEntity armst_APB_65F26205454001B1 : "{5D3DA7E84135B278}Prefabs/Weapons/Handguns/armst_APB.et" {
+ coords 3848.433 307.796 329.289
+ angleY 91.53
+}
+$grp GenericEntity : "{6C22F58BBF5D6AED}Prefabs/Weapons/Magazines/Magazine_9x39_30rnd_val.et" {
+ Magazine_9x39_30rnd_val_65AD2CB83264E736 {
+  coords 3848.647 307.915 336.087
+ }
+ Magazine_9x39_30rnd_val_65AD2CB82CAD8737 {
+  coords 3848.754 307.919 336.09
+ }
+ Magazine_9x39_30rnd_val_65AD2CB8330D0C16 {
+  coords 3848.554 307.916 336.082
+ }
+}
+GenericEntity Rifle_VAL_65AD2CB8260C3986 : "{70394D8A205527F6}Prefabs/Weapons/Rifles/VAL/Rifle_VAL.et" {
+ coords 3848.532 307.916 335.932
+ angleY 90.316
+}
+$grp GenericEntity : "{70D023F899C9C226}Prefabs/Weapons/Magazines/Magazine_9x39_20rnd_vss.et" {
+ Magazine_9x39_20rnd_vss_65AD1CF4507040F7 {
+  coords 3848.8 307.863 336.903
+ }
+ Magazine_9x39_20rnd_vss_65AD1CF45097F565 {
+  coords 3848.689 307.862 336.904
+ }
+ Magazine_9x39_20rnd_vss_65AD1CF457D0E342 {
+  coords 3848.593 307.862 336.911
+ }
+}
+GenericEntity Rifle_VSK94_65AE7EB2F941F0D8 : "{71D8E1655668CB36}Prefabs/Weapons/Rifles/VSK94/Rifle_VSK94.et" {
+ coords 3848.783 307.895 337.245
+ angleY 92.895
+}
+GenericEntity Rifle_VPO136_65AE4CB4A2D8DCF3 : "{90EADC5DD9AD35D5}Prefabs/Weapons/Rifles/AKM/Rifle_VPO136.et" {
+ coords 3848.693 307.874 334.096
+ angleY 92.364
+}
+GenericEntity Shotgun_MP_153_65AE8D92B6D7B04D : "{92DB80A098AABF1C}Prefabs/Weapons/Rifles/Shotgun_MP_153.et" {
+ coords 3848.544 307.836 330.282
+ angleY 96.924
+}
+GenericEntity armst_AK74N_65ACF62BA7963373 : "{96DFD2E7E63B3386}Prefabs/Weapons/Rifles/armst_AK74N.et" {
+ coords 3848.616 307.927 332.068
+ angleY 91.763
+}
+$grp GenericEntity : "{AA99F5E678010DB3}Prefabs/Weapons/Magazines/Magazine_763x25_TT_8rnd_Ball.et" {
+ Magazine_763x25_TT_8rnd_Ball_65F26201AE4CA7FB {
+  coords 3848.513 307.798 328.787
+ }
+ Magazine_763x25_TT_8rnd_Ball_65F26201AD532166 {
+  coords 3848.43 307.799 328.764
+ }
+ Magazine_763x25_TT_8rnd_Ball_65F26201AD8E872F {
+  coords 3848.454 307.799 328.667
+ }
+}
+$grp GenericEntity : "{B0DFDF7AAA9C5D39}Prefabs/Weapons/Magazines/BC_Shell_12ga_Buckshot.et" {
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC7 {
+  coords 3848.578 307.8 330.802
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC4 {
+  coords 3848.531 307.8 330.768
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC5 {
+  coords 3848.558 307.8 330.807
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC3 {
+  coords 3848.615 307.8 330.76
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC6 {
+  coords 3848.616 307.8 330.854
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC8 {
+  coords 3848.51 307.8 330.83
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC9 {
+  coords 3848.62 307.8 330.82
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC10 {
+  coords 3848.539 307.8 330.81
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC11 {
+  coords 3848.553 307.8 330.832
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC12 {
+  coords 3848.581 307.8 330.83
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC75 {
+  coords 3848.569 307.8 330.801
+ }
+ BC_Shell_12ga_Buckshot_65AE8D92B8AEDC2 {
+  coords 3848.628 307.8 330.803
+ }
+}
+$grp GenericEntity : "{B7EC6D4222AE12BE}Prefabs/Weapons/Magazines/Magazine_9x39_20rnd_9a91.et" {
+ Magazine_9x39_20rnd_Base_65ACF62A24885A50 {
+  coords 3848.596 307.903 337.848
+ }
+ Magazine_9x39_20rnd_Base_65ACF62A2BB3AC5A {
+  coords 3848.685 307.902 337.842
+ }
+ Magazine_9x39_20rnd_Base_65ACF62A2AD8DF81 {
+  coords 3848.771 307.902 337.842
+ }
+}
+$grp GenericEntity : "{BBB50A815A2F916B}Prefabs/Weapons/Magazines/Magazine_545x39_AK_30rnd_Ball.et" {
+ Magazine_545x39_AK_30rnd_Ball_65AD1CF4593FF23D {
+  coords 3848.61 307.908 332.341
+  angleY -3.501
+ }
+ Magazine_545x39_AK_30rnd_Ball_65AD1CF45871A18E {
+  coords 3848.506 307.902 332.346
+  angleY -3.501
+ }
+ Magazine_545x39_AK_30rnd_Ball_65AD1CF458A6AFBF {
+  coords 3848.708 307.905 332.348
+  angleY -3.501
+ }
+}
+StaticModelEntity : "{C289F5D866F0E46E}Prefabs/Structures/Walls/BarbedWire/BarbedTape_01/BarbedTape_01_base.et" {
+ coords 3819.594 0 294.527
+ angleX -0.314
+}
+GameEntity Optic_PSO1_65ACF62BC1E71840 : "{C850A33226B8F9C1}Prefabs/Weapons/Attachments/Optics/Optic_PSO1/Optic_PSO1.et" {
+ coords 3848.638 307.835 338.343
+ angleY -89.96
+}
+GenericEntity Rifle_9a91_65ACF6379CF4C960 : "{D9E3D87A149B4453}Prefabs/Weapons/Rifles/9a91/Rifle_9a91.et" {
+ coords 3848.734 307.903 337.573
+ angleY 100.381
+}
+GameEntity Suppressor_9a91_65ACF6379AF13464 : "{E10F09941AF1E123}Prefabs/Weapons/Attachments/Muzzle/Suppressor_9a91.et" {
+ coords 3848.702 307.82 338.095
+ angleY -89.52
+}
+GenericEntity Rifle_SOC94_65AE4CB1B815289A : "{E394112ABBC198D8}Prefabs/Weapons/Rifles/AKM/Rifle_SOC94.et" {
+ coords 3848.678 307.86 333.365
+ angleY 97.14
+}
+GenericEntity Rifle_VSS_65AD2CB829D6B163 : "{F82DF06C1E34128E}Prefabs/Weapons/Rifles/VSS/Rifle_VSS.et" {
+ coords 3848.643 307.883 336.557
+ angleY 86.174
+}

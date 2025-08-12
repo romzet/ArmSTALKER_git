@@ -11,6 +11,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	
     protected TextWidget            Text_User;
     protected TextWidget            Text_User_Name;
+    protected TextWidget            Text_BiographySet;
     protected TextWidget            Text_Time;
     protected TextWidget            Text_Balance_Count;
     protected TextWidget            Text_Reputation_Count;
@@ -143,6 +144,9 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Text_sell_items_count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_sell_items_count"));
         Text_artefact_found_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_artefact_found_counts"));
         Text_surge_alive_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_surge_alive_counts"));
+		
+		
+        Text_BiographySet = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_BiographySet"));
 		
 		
 		
@@ -278,7 +282,15 @@ class ARMST_PDA_UI : ChimeraMenuBase
         int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
         if (playerId2 && Text_User_Name)
         {
-            Text_User_Name.SetText(SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2));
+			if(m_StatsComponent.m_statistik_player_name == "")
+				{
+					Text_User_Name.SetText(SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2));
+				}
+				else
+				{
+            		Text_User_Name.SetText(m_StatsComponent.m_statistik_player_name);
+				}
+            //
         }
         
 				protected int m_iSeconds;
@@ -325,6 +337,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         if (Text_Life_Water_Count) Text_Life_Water_Count.SetText(Math.Round(water).ToString() + "%");
         if (Text_Life_Eat_Count) Text_Life_Eat_Count.SetText(Math.Round(eat).ToString() + "%");
         if (Text_Kill_Monster_count) Text_Kill_Monster_count.SetText(Math.Round(monstr).ToString());
+        if (Text_BiographySet) Text_BiographySet.SetText(m_StatsComponent.m_statistik_player_biography);
         if (Text_Kill_Bandit_count) Text_Kill_Bandit_count.SetText(Math.Round(band).ToString());
         if (Text_taynik_count) Text_taynik_count.SetText(Math.Round(stash).ToString());
         if (Text_quest_count) Text_quest_count.SetText(Math.Round(quests).ToString());
@@ -367,7 +380,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
                 if (characterFaction == "FACTION_ARMY")
                     Text_Fraction_Name.SetText("#Armst_army_light");
 				
-                if (characterFaction == "FACTION_RENEGADE")
+                if (characterFaction == "FACTION_RENEGADES")
                     Text_Fraction_Name.SetText("#Armst_renegades_character");
 				
                 if (characterFaction == "FACTION_SCIENCES")
@@ -637,6 +650,14 @@ class ARMST_PDA_UI : ChimeraMenuBase
             {
                 int playerId = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
                 senderName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId);
+				if(m_StatsComponent.m_statistik_player_name == "")
+					{
+                		senderName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId);
+					}
+					else
+					{
+                		senderName = m_StatsComponent.m_statistik_player_name;
+					}
             }
 
             // Устанавливаем тайм-аут для предотвращения спама

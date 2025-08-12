@@ -1,0 +1,254 @@
+PerceptionManager PerceptionManager1 : "{028DAEAD63E056BE}Prefabs/World/Game/PerceptionManager.et" {
+ coords 8740.325 335.051 11718.207
+}
+SCR_GameModeEditor Armst_GameMaster : "{DA3986AF1B5032B7}Prefabs/MP/Modes/Editor/GameMode_Editor_Full.et" {
+ components {
+  ARMST_EDITOR_GLOBAL_SETTINGS "{65D48429738D662B}" {
+  }
+  ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
+   m_EnableAutoMessages 1
+  }
+  SCR_CampaignBuildingManagerComponent "{5D7CEE59B8954EBB}" {
+   m_sFreeRoamBuildingClientTrigger "{5E191CEAF4B95816}Prefabs/MP/FreeRoamBuildingClientTrigger.et"
+   m_BudgetType CAMPAIGN
+   m_iCompositionRefundPercentage 100
+   m_OutlineManager SCR_CampaignBuildingCompositionOutlineManager "{5DF6FBB5913F3245}" : "{96A8B496A076F1C0}scripts/Game/Building/CampaignBuildingCompositionOutline.conf" {
+   }
+   m_sPrefabsToBuildResource "{D2527D9AA5B4A33E}Configs/Editor/PlaceableEntities/Compositions/Compositions_FreeRoamBuilding.conf"
+   m_sPrefabToHoldSupplyOnRefund "{4BBE0A784C01900E}Prefabs/Props/Military/SupplyBox/SupplyCrate/SupplyCrate_01/SupplyCrate_01_FreeRoamBuilding.et"
+  }
+  SCR_EditorCameraDefaultsComponent "{531111508B1D17BA}" {
+   m_aPositions {
+    SCR_CameraCoordinates "{531111517085ECC9}" {
+     m_vCameraPosition 5685.25 43.212 3699.71
+     m_vCameraAngles -8.063 -60.184 0
+    }
+    SCR_CameraCoordinates "{5311115151E897B9}" {
+     m_vCameraPosition 7358.6 263.942 2964.86
+     m_vCameraAngles -20.063 -160.984 0
+    }
+    SCR_CameraCoordinates "{53111151386575E9}" {
+     m_vCameraPosition 2273.53 205.825 5441.35
+     m_vCameraAngles -19.763 98.215 0
+    }
+    SCR_CameraCoordinates "{53111151C0325084}" {
+     m_vCameraPosition 4905.48 302.602 7298.14
+     m_vCameraAngles -23.963 -163.985 0
+    }
+    SCR_CameraCoordinates "{53111151B5458A47}" {
+     m_vCameraPosition 4572.2 253.523 6222.47
+     m_vCameraAngles -17.663 123.415 0
+    }
+    SCR_CameraCoordinates "{531111519F5DB1E1}" {
+     m_vCameraPosition 7885.38 289.554 5221.63
+     m_vCameraAngles -15.563 -154.985 0
+    }
+    SCR_CameraCoordinates "{53111151922A6F53}" {
+     m_vCameraPosition 8595.2 234.153 3069.61
+     m_vCameraAngles -11.963 145.015 0
+    }
+    SCR_CameraCoordinates "{531111526E255709}" {
+     m_vCameraPosition 9242.95 307.722 1130.41
+     m_vCameraAngles -33.263 39.415 0
+    }
+   }
+  }
+  SCR_EditorRespawnBriefingComponent "{570245454BF91285}" {
+   m_Info SCR_FormatUIInfo "{57024551E01725D4}" {
+    Icon "{1CD65C97061661F6}UI/Textures/Editor/Logos/Editor-Logo.imageset"
+    IconSetName "Logo_Editor"
+    m_aDescriptionBlocks {
+     SCR_SubBlockUIName "{57024551DA8DA4E7}" {
+      Name "#AR-EditorRespawnBriefing_Description_1"
+     }
+     SCR_SubBlockUIName "{570245502546615D}" {
+      Name "<br/>"
+     }
+     SCR_SubBlockUIName "{57024551D989EDAF}" {
+      Name "#AR-EditorRespawnBriefing_Description_2"
+     }
+     SCR_SubBlockUIName "{589EE51D327B1C2E}" {
+      Name "<br/>"
+     }
+     SCR_ActionBlockUIName "{57024551BA969346}" {
+      Name "#AR-EditorRespawnBriefing_Description_4"
+      m_iDevice "Mouse & Keyboard"
+      m_sActionName "ShowScoreboard"
+     }
+     SCR_ActionBlockUIName "{5868C2E91D4E5713}" {
+      Name "#AR-EditorRespawnBriefing_Description_5"
+      m_iDevice Gamepad
+      m_sActionName "MenuOpen"
+     }
+    }
+   }
+   m_SimpleBriefingBackground "{3C50D67D082BA322}UI/Textures/DeployMenu/Briefing/conflict_HintBanner_2_UI.edds"
+   m_InfoGameMaster SCR_FormatUIInfo "{59188E6A004A529C}" {
+    Icon "{1CD65C97061661F6}UI/Textures/Editor/Logos/Editor-Logo.imageset"
+    IconSetName "Logo_Editor"
+    m_aDescriptionBlocks {
+     SCR_SubBlockUIName "{59188E6BCF638E93}" {
+      Name "#AR-EditorRespawnBriefing_Description_GameMaster_1"
+     }
+     SCR_SubBlockUIName "{59188E6BF7C70F61}" : "{D7B219D54165E4B4}Configs/Hints/Blocks/LineBreak.conf" {
+     }
+     SCR_SubBlockUIName "{59188E6BFCFADAEC}" {
+      Name "#AR-EditorRespawnBriefing_Description_GameMaster_2"
+     }
+    }
+   }
+   m_InfoHost SCR_FormatUIInfo "{57027889747C45E0}" {
+    Icon "{1CD65C97061661F6}UI/Textures/Editor/Logos/Editor-Logo.imageset"
+    IconSetName "Logo_Editor"
+    m_aDescriptionBlocks {
+     SCR_SubBlockUIName "{57027889747C4414}" {
+      Name "#AR-EditorRespawnBriefing_Description_1"
+     }
+     SCR_SubBlockUIName "{5916F8D9F21BC382}" : "{D7B219D54165E4B4}Configs/Hints/Blocks/LineBreak.conf" {
+     }
+     SCR_SubBlockUIName "{589E84D2B18F57ED}" {
+      Name "#AR-EditorRespawnBriefing_Description_3"
+     }
+    }
+   }
+  }
+  SCR_GameModeHealthSettings "{5A22E11F9ACBB1DF}" {
+   m_bPermitUnconsciousVON 1
+  }
+  SCR_HintManagerComponent "{5702B54C6CBC9D7F}" {
+   m_aConditionLists {
+    SCR_HintConditionList "{5702B60460CC2467}" : "{AABAFA01D7DCE9D0}Configs/Hints/GameMode_Editor.conf" {
+    }
+   }
+  }
+  SCR_IdentityManagerComponent "{5AEEA80681EA61AF}" {
+   m_bEnableIdentityItemSlot 0
+  }
+  SCR_InitWeatherComponent "{58DCAB6D83A0CB17}" {
+   m_sInitialStartingWeatherId "Cloudy"
+   m_iSetWeatherConstant 1
+  }
+  SCR_NametagConfigComponent "{571AA9E54FC9210D}" {
+   m_sConfigPath "{09F7AAA14A642683}Configs/NameTags/NametagFriendlies.conf"
+  }
+  SCR_NightModeGameModeComponent "{5D50E84688D5A408}" {
+   m_bAllowGlobalNightMode 1
+  }
+  SCR_PerceivedFactionManagerComponent "{61AA7E6E0C6A76F9}" {
+   m_eCharacterPerceivedFactionOutfitType HIGHEST_VALUE
+  }
+  SCR_PlayerSpawnPointManagerComponent "{56C2DDA69EF94C6D}" {
+   m_SpawnPointPrefab "{456EFDDA59DD6EB2}Prefabs/MP/PlayerRadioSpawnPoint.et"
+   m_bEnablePlayerSpawnPoints 0
+  }
+  SCR_RespawnSystemComponent "{56B2B4793051E7C9}" {
+   m_SpawnLogic SCR_MenuSpawnLogic "{5D28B7AC71C108B2}" {
+   }
+  }
+  SCR_SaveLoadComponent "{58FA739CBE3E9FC5}" {
+   m_Struct SCR_MissionStruct "{590C7884C526BCDD}" {
+    m_Struct0 SCR_EditorStruct "{590C7881BB954DA4}" {
+     m_AttributeList SCR_EditorAttributeList "{590C7881C296FA7D}" : "{F3D6C6D25642352C}Configs/Editor/AttributeLists/Edit.conf" {
+     }
+    }
+    m_Struct1 SCR_EditorStruct "{604AE589F11FF7FC}" {
+     m_AttributeList SCR_EditorAttributeList "{604AFD8724AAC49C}" {
+     }
+     m_bSaveFactions 0
+     m_bSaveMissionAttributes 0
+     m_eRequiredEntityFlags FREE_ROAM_BUILDING_AI
+    }
+   }
+   m_iAutosavePeriod 600
+  }
+  SCR_VotingManagerComponent "{5650BB6B6089393A}" {
+   m_aVotingTemplates {
+    SCR_VotingEditorIn "{58D06C7270F3CE2C}" : "{9DE543906BEAB993}Configs/Voting/EditorIn.conf" {
+    }
+    SCR_VotingEditorOut "{58D06C7271BA2FDE}" : "{FF27A5C582C16A88}Configs/Voting/EditorOut.conf" {
+    }
+    SCR_VotingEditorWithdraw "{5A8A8738B1A4AC19}" : "{D20DE4A96BAFE376}Configs/Voting/EditorWithdraw.conf" {
+    }
+   }
+  }
+  SCR_WelcomeScreenComponent "{5D7290AC8A3E657E}" {
+   m_BaseLayout SCR_WelcomeScreenThreeHorizontalColumns "{5D7290AC92D25160}" {
+    m_LeftColumn SCR_WelcomeScreenIntroductionContent "{5D7290ABF7423AA2}" {
+     m_aIntroduction {
+      SCR_WelcomeScreenIntroduction "{5D7290ABCBFE3176}" {
+       m_sContentImage "{7B042430D44D8A8F}UI/WelcomeScreen/Gha2i174miE.edds"
+       m_sContentTitleText "#Armst_Welcome_Screen"
+       m_sContentDescriptionText "#Armst_Welcome_Screen_desc"
+      }
+     }
+    }
+    m_MiddleColumn SCR_WelcomeScreenIntroductionContent "{5D7290ABF8B7756B}" {
+     m_aIntroduction {
+      SCR_WelcomeScreenIntroduction "{5D729EC0A67A9D46}" {
+       m_sContentImage "{93ECA342D1E74C0A}UI/WelcomeScreen/PMQYW-KA3DM.edds"
+       m_sContentTitleText "#Armst_Demo_mission_escape"
+       m_sContentDescriptionText "#Armst_Demo_mission_escape_desc"
+      }
+     }
+    }
+    m_RightColumn SCR_WelcomeScreenIntroductionContent "{5D7290ABFF9DBADC}" {
+     m_aIntroduction {
+      SCR_WelcomeScreenIntroduction "{5D729EC0BC408CC1}" {
+       m_sContentImage "{508380855EC3C8B2}UI/WelcomeScreen/zp5qmJcVBqo.edds"
+       m_sContentTitleText "#Armst_Demo_start"
+       m_sContentDescriptionText "#Armst_Demo_start_desc"
+      }
+     }
+    }
+   }
+  }
+ }
+ coords 4087.468 323.156 4103.12
+ PlayerControllerPrefab "{DBA37DA41EF5EDA4}Prefabs/Characters/Core/DefaultPlayerControllerMP_Factions2.et"
+ {
+  SCR_FactionManager "65A4F0B0DAAA6EFF" {
+   ID "56E685E92F1B7E7A"
+   Factions {
+    SCR_Faction "{56F0B239B04E3E34}" {
+    }
+    SCR_Faction "{616AFAF5BBCF187E}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+    SCR_Faction "{63029BDDD854782D}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+    SCR_Faction "{6592C1054A3284FA}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+    SCR_Faction "{65B12C1FBA667A8E}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+    SCR_Faction "{6592C1055289779F}" {
+     m_bIsPlayable 0
+     m_bShowInWelcomeScreenIfNonPlayable 0
+    }
+   }
+  }
+ }
+}
+SCR_MapLocator {
+ coords 3813.624 300.772 1000.863
+ m_WorldDirections SCR_MapLocationQuadHint "{5AAA92CDBEAC91B2}" : "{C1534F222D0F74D2}Configs/Map/MapLocatorHints/LocationHintsArland.conf" {
+ }
+}
+ChimeraCharacter : "{22CAE0A2F3DFF713}Prefabs/Props/Deads/armst_dead_map.et" {
+ coords 5079.645 301.794 55.311
+}
+SCR_SpawnPoint : "{2D88EAB83A52AE0E}Prefabs/MP/Spawning/SpawnPoint_STALKER.et" {
+ coords 5076.001 301.794 56.565
+}
+GenericEntity : "{511C041EFC7BAE60}Prefabs/Props/Arsenal/ArsenalBox_STALKEr.et" {
+ coords 3873.49 306.702 289.601
+}
+GenericEntity armst_vest_stalker_66184948436E1363 : "{CCE494A883B013F3}Prefabs/New_Equipment/Vests/armst_vest_stalker.et" {
+ coords 3467.508 302.319 1018.484
+}

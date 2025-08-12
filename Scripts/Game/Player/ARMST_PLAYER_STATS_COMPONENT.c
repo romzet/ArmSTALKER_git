@@ -56,6 +56,41 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     [RplProp()]
     vector m_player_shelter;                // Репутация игрока
 
+    [RplProp()]
+    string m_statistik_player_name = "";     // Возраст игрока
+	
+    [RplProp()]
+    string m_statistik_player_biography = "";     // Возраст игрока
+	
+    [RplProp()]
+    string m_statistik_player_head = "";     // Возраст игрока
+	
+    void ArmstPlayerSetName(string value)
+    {
+        m_statistik_player_name = value;
+    }
+    string ArmstArmstPlayerGetName()
+    {
+        return m_statistik_player_name;
+    }
+
+    void ArmstPlayerSetBiography(string value)
+    {
+        m_statistik_player_biography = value;
+    }
+    string ArmstPlayerGetBiography()
+    {
+        return m_statistik_player_biography;
+    }
+    void ArmstPlayerSetHead(string value)
+    {
+        m_statistik_player_head = value;
+    }
+    string ArmstPlayerGetHead()
+    {
+        return m_statistik_player_head;
+    }
+	
     //------------------------------------------------------------------------------------------------
     // Секция: Флаги состояния
     //------------------------------------------------------------------------------------------------
@@ -99,6 +134,17 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	ARMST_FACTION_LABEL GetFactionKey()
 	{
 	    return m_FactionKey;
+	}
+	
+	void SetHead()
+	{
+	IEntity owner = GetOwner();
+		            SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
+		            if (controller)
+		            {
+						Print("Выдача головы");
+		                controller.RequestCreateCharacterHead(owner, m_statistik_player_head);
+		            }
 	}
 	void SetFactionKey(ARMST_FACTION_LABEL factionKey)
 	{
@@ -612,5 +658,107 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
                 m_stat_check = false;
             }
         }
+    }
+	
+	
+    float m_fMaxRoofCheckDistance = 6;
+
+    float m_fMaxWallCheckDistance = 6;
+
+    int m_iMinWallHits = 4;
+
+    // Проверяет, находится ли игрок в закрытом помещении
+    bool IsPlayerIndoors(IEntity playerEntity)
+    {
+        if (!playerEntity)
+        {
+            return false;
+        }
+
+        // Получаем позицию глаз игрока (или центр, если глаз нет)
+        vector playerPos = playerEntity.GetOrigin();
+        ChimeraCharacter character = ChimeraCharacter.Cast(playerEntity);
+        if (character)
+        {
+            playerPos = character.EyePosition();
+        }
+
+        BaseWorld world = playerEntity.GetWorld();
+        if (!world)
+        {
+            return false;
+        }
+
+        // Проверяем наличие крыши над игроком (трассировка вверх)
+        bool hasRoof = CheckRoof(world, playerPos);
+        if (!hasRoof)
+        {
+            Print("[ARMST_IndoorChecker] Игрок не в помещении: нет крыши над головой.", LogLevel.NORMAL);
+            return false;
+        }
+
+        // Проверяем наличие стен вокруг игрока (трассировка по сторонам)
+        bool hasWalls = CheckWalls(world, playerPos);
+        if (!hasWalls)
+        {
+            Print("[ARMST_IndoorChecker] Игрок не в помещении: недостаточно стен вокруг.", LogLevel.NORMAL);
+            return false;
+        }
+
+        return true;
+    }
+
+    // Проверка наличия крыши над игроком
+    private bool CheckRoof(BaseWorld world, vector startPos)
+    {
+        TraceParam param = new TraceParam();
+        param.Start = startPos;
+        param.End = startPos + vector.Up * m_fMaxRoofCheckDistance;
+        param.Flags = TraceFlags.WORLD | TraceFlags.ENTS;
+        param.Exclude = null; // Не исключаем ничего, чтобы учитывать все объекты
+        param.LayerMask = EPhysicsLayerPresets.Projectile;
+
+        float traceDistance = world.TraceMove(param, null);
+        if (traceDistance < 1.0)
+        {
+            // Если луч попал в препятствие (traceDistance < 1), значит есть крыша
+            return true;
+        }
+
+        return false;
+    }
+
+    // Проверка наличия стен вокруг игрока
+    private bool CheckWalls(BaseWorld world, vector startPos)
+    {
+        // Проверяем 4 направления (север, юг, восток, запад)
+        array<vector> directions = {
+            vector.Forward,      // Север
+            vector.Forward * -1,     // Юг
+            vector.Right,        // Восток
+            vector.Right * -1    // Запад (влево, как отрицание вектора вправо)
+        };
+
+        int hitCount = 0;
+
+        foreach (vector dir : directions)
+        {
+            TraceParam param = new TraceParam();
+            param.Start = startPos;
+            param.End = startPos + dir * m_fMaxWallCheckDistance;
+            param.Flags = TraceFlags.WORLD | TraceFlags.ENTS;
+            param.Exclude = null;
+            param.LayerMask = EPhysicsLayerPresets.Projectile;
+
+            float traceDistance = world.TraceMove(param, null);
+            if (traceDistance < 1.0)
+            {
+                // Если луч попал в препятствие, увеличиваем счетчик попаданий
+                hitCount++;
+            }
+        }
+
+        // Если количество попаданий больше или равно минимальному значению, считаем, что игрок окружен стенами
+        return hitCount >= m_iMinWallHits;
     }
 }

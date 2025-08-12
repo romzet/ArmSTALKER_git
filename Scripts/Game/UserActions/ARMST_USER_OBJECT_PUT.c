@@ -17,6 +17,12 @@ class ARMST_USER_OBJECT_PUT : ScriptedUserAction
 	}
     override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
     {
+		/*
+		pOwnerEntity.SetEventMask( EntityEvent.VISIBLE );
+       	pOwnerEntity.SetFlags(EntityFlags.VISIBLE, false);
+		
+		*/
+		
 		vector transform[4];
 		SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
 
@@ -25,7 +31,6 @@ class ARMST_USER_OBJECT_PUT : ScriptedUserAction
 		EntitySpawnParams params = new EntitySpawnParams();
 		params.Transform = m_aOriginalTransform;
 		params.TransformMode = ETransformMode.WORLD;
-		
 		
         // Загружаем ресурс и спавним объект
         Resource resource = Resource.Load(m_PrefabToSpawn);

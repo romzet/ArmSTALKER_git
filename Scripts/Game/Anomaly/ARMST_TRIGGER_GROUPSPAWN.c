@@ -52,6 +52,11 @@ class ARMST_TRIGGER_GROUPSPAWN : SCR_BaseTriggerEntity
             Print("ARMST_TRIGGER_GROUPSPAWN: Инициализация триггера игнорируется на клиенте.");
             return;
         }
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         
         m_SpawnedGroups = new array<IEntity>();
         GetWorldTransform(m_WorldTransform);

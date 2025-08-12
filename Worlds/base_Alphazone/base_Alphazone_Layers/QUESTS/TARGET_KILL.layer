@@ -1,0 +1,62 @@
+$grp GenericEntity {
+ SAVINO_target_kill_1 {
+  coords 3592.428 309.467 492.591
+ }
+ SAVINO_target_kill_2 {
+  coords 3363.217 307.638 762.44
+ }
+ SAVINO_target_kill_3 {
+  coords 3552.153 305.848 1014.786
+ }
+ SAVINO_target_kill_4 {
+  coords 3252.369 308.643 1020.803
+ }
+ SAVINO_target_kill_5 {
+  coords 3309.591 301.542 1202.606
+ }
+ SAVINO_target_kill_6 {
+  coords 3481.947 306.773 1307.717
+ }
+ SAVINO_target_kill_7 {
+  coords 3833.645 298.171 1379.897
+ }
+ SAVINO_target_kill_8 {
+  coords 4096.192 315.176 1083.208
+ }
+ SAVINO_target_kill_9 {
+  coords 3920.137 305.861 867.902
+ }
+ SAVINO_target_kill_10 {
+  coords 3814.599 300.836 1006.574
+ }
+ FOREST_target_kill_1 {
+  coords 4577.031 304.341 546.854
+ }
+ FOREST_target_kill_2 {
+  coords 4522.825 305.127 729.482
+ }
+ FOREST_target_kill_3 {
+  coords 4683.23 312.094 802.589
+ }
+ FOREST_target_kill_4 {
+  coords 4939.77 311.446 731.451
+ }
+ FOREST_target_kill_5 {
+  coords 5421.368 304.668 953.529
+ }
+ FOREST_target_kill_6 {
+  coords 5170.169 305.863 546.621
+ }
+ FOREST_target_kill_7 {
+  coords 5139.852 306.318 860.744
+ }
+ FOREST_target_kill_8 {
+  coords 4636.263 311.233 1062.578
+ }
+ FOREST_target_kill_9 {
+  coords 4472.335 314.803 1337.336
+ }
+ FOREST_target_kill_10 {
+  coords 4421.955 309.905 234.783
+ }
+}

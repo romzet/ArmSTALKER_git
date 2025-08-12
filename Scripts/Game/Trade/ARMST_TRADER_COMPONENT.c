@@ -132,9 +132,6 @@ class ARMST_TRADER_UI : ChimeraMenuBase
         if (Button_Sell)
             Button_Sell.AddHandler(this);
 		
-        TextListboxItems = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxItems"));
-		if (TextListboxItems)
-    	TextListboxItems.AddHandler(this);
 		
 		
         Button_cat_med = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_med"));
@@ -297,7 +294,14 @@ class ARMST_TRADER_UI : ChimeraMenuBase
         int playerId2 = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(m_User);
         if (playerId2 && Text_User_Name)
         {
-            Text_User_Name.SetText(SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2));
+			if(m_StatsComponent.m_statistik_player_name == "")
+				{
+            		Text_User_Name.SetText(SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2));
+				}
+				else
+				{
+            		Text_User_Name.SetText(m_StatsComponent.m_statistik_player_name);
+				}
         }
         
 				protected int m_iSeconds;

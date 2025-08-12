@@ -112,7 +112,19 @@ class ARMST_DeathHandlerComponent : ScriptComponent
         if (playerId2)
         {
             characterName = SCR_PlayerNamesFilterCache.GetInstance().GetPlayerDisplayName(playerId2);
+			
         }
+                ARMST_PLAYER_STATS_COMPONENT playerStats2 = ARMST_PLAYER_STATS_COMPONENT.Cast(owner.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+                if (playerStats2)
+                {
+					if(playerStats2.m_statistik_player_name == "")
+						{
+						}
+						else
+						{
+		            		characterName = playerStats2.m_statistik_player_name;
+						}
+				}
         // Получаем фракцию персонажа
         FactionAffiliationComponent factionComponent = FactionAffiliationComponent.Cast(owner.FindComponent(FactionAffiliationComponent));
         
@@ -145,6 +157,13 @@ class ARMST_DeathHandlerComponent : ScriptComponent
                 ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(m_LastInstigatorEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
                 if (playerStats)
                 {
+					if(playerStats.m_statistik_player_name == "")
+						{
+						}
+						else
+						{
+		            		characterName = playerStats.m_statistik_player_name;
+						}
                     // Проверяем, является ли убийца игроком
                     PlayerController playerController = GetGame().GetPlayerController();
                     if (playerController && playerController.GetControlledEntity() == m_LastInstigatorEntity)

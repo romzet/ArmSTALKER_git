@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{CE99E4DA3937ABA0}Worlds/GM_Alphazone/test/test.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass PS5 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}

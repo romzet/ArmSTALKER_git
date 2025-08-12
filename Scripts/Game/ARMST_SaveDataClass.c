@@ -3,6 +3,7 @@ class EPF_ArmstPlayerStatsComponentSaveDataClass : EPF_ComponentSaveDataClass
 {
     // Можно добавить фильтры для сохранения, если необходимо
 }
+
 [EDF_DbName.Automatic()]
 class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
 {
@@ -12,20 +13,26 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
     float m_fWater;
     float m_fEat;
     float m_fRep;
-    float m_fKillMonsters;  // Статистика убийств монстров
-    float m_fKillBandits;   // Статистика убийств бандитов
-    float m_fStashFounds;   // Статистика найденных тайников
-    float m_fQuestsDone;    // Статистика выполненных квестов
-    float m_fSellsItems;    // Статистика проданных предметов
-    vector m_fPosShelter;    // Статистика проданных предметов
-    ARMST_FACTION_LABEL m_FactionKey;  // Сохранение фракции игрока
+    int m_fKillMonsters;    // Статистика убийств монстров (изменен тип на int)
+    int m_fKillBandits;     // Статистика убийств бандитов (изменен тип на int)
+    int m_fStashFounds;     // Статистика найденных тайников (изменен тип на int)
+    int m_fQuestsDone;      // Статистика выполненных квестов (изменен тип на int)
+    int m_fSellsItems;      // Статистика проданных предметов (изменен тип на int)
+    vector m_vPosShelter;   // Позиция убежища
+    string m_sPlayerName;   // Имя игрока
+    string m_sPlayerBiography; // Биография игрока
+    string m_sPlayerHead;   // Голова персонажа
+    ARMST_FACTION_LABEL m_FactionKey; // Фракция игрока
     
     //------------------------------------------------------------------------------------------------
     override EPF_EReadResult ReadFrom(IEntity owner, GenericComponent component, EPF_ComponentSaveDataClass attributes)
     {
         ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(component);
         if (!statsComponent)
+        {
+            Print("[EPF_ArmstPlayerStatsComponentSaveData] Ошибка: Компонент ARMST_PLAYER_STATS_COMPONENT не найден.", LogLevel.ERROR);
             return EPF_EReadResult.ERROR;
+        }
             
         m_fToxic = statsComponent.ArmstPlayerStatGetToxic();
         m_fRadiactive = statsComponent.ArmstPlayerStatGetRadio();
@@ -38,9 +45,11 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         m_fStashFounds = statsComponent.ARMST_GET_STAT_STASH();
         m_fQuestsDone = statsComponent.ARMST_GET_STAT_QUESTS();
         m_fSellsItems = statsComponent.ARMST_GET_STAT_SELLS();
-        m_FactionKey = statsComponent.GetFactionKey(); // Сохраняем фракцию
-        m_fPosShelter = statsComponent.ARMST_GET_SHELTER(); // Сохраняем фракцию
-        
+        m_FactionKey = statsComponent.GetFactionKey();
+        m_vPosShelter = statsComponent.ARMST_GET_SHELTER();
+        m_sPlayerName = statsComponent.ArmstArmstPlayerGetName();
+        m_sPlayerBiography = statsComponent.ArmstPlayerGetBiography();
+        m_sPlayerHead = statsComponent.ArmstPlayerGetHead();
         
         return EPF_EReadResult.OK;
     }
@@ -50,11 +59,12 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
     {
         ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(component);
         if (!statsComponent)
+        {
+            Print("[EPF_ArmstPlayerStatsComponentSaveData] Ошибка: Компонент ARMST_PLAYER_STATS_COMPONENT не найден.", LogLevel.ERROR);
             return EPF_EApplyResult.ERROR;
+        }
         
-        // Устанавливаем сохраненные значения
-        // Для токсика, радиации, еды и воды нужно вычислить разницу, так как у нас есть только сеттеры,
-        // которые прибавляют значение, а не устанавливают напрямую
+        // Устанавливаем значения с учетом разницы для характеристик
         float currentToxic = statsComponent.ArmstPlayerStatGetToxic();
         float diffToxic = m_fToxic - currentToxic;
         statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerStatSetToxic, diffToxic);
@@ -79,14 +89,16 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
         float diffRep = m_fRep - currentRep;
         statsComponent.Rpc(statsComponent.Rpc_ArmstPlayerSetReputation, diffRep);
         
-        // Устанавливаем фракцию
+        // Устанавливаем остальные данные
         statsComponent.SetFactionKey(m_FactionKey);
-        statsComponent.ARMST_SET_SHELTER(m_fPosShelter);
+        statsComponent.ARMST_SET_SHELTER(m_vPosShelter);
+        statsComponent.ArmstPlayerSetName(m_sPlayerName);
+        statsComponent.ArmstPlayerSetBiography(m_sPlayerBiography);
+        statsComponent.ArmstPlayerSetHead(m_sPlayerHead);
+                statsComponent.SetHead();
         
-         // statsComponent.Rpc(statsComponent.ARMST_SET_SHELTER,m_fPosShelter);
-        // Устанавливаем значения статистики напрямую, так как нет прямых сеттеров с RPC для этих значений
-        // Поскольку нет RPC для прямой установки, мы вызываем локальные методы
-        // Однако, если это нужно делать через сеть, потребуется добавить RPC методы
+        // Устанавливаем статистику с учетом разницы (предполагается наличие метода для установки значения напрямую)
+        // Если таких методов нет, можно оставить вызовы RPC, но минимизировать их количество
         if (m_fKillMonsters > statsComponent.ARMST_GET_STAT_MONSTER())
         {
             for (float i = statsComponent.ARMST_GET_STAT_MONSTER(); i < m_fKillMonsters; i++)
@@ -134,7 +146,8 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
     override bool Equals(notnull EPF_ComponentSaveData other)
     {
         EPF_ArmstPlayerStatsComponentSaveData otherData = EPF_ArmstPlayerStatsComponentSaveData.Cast(other);
-        if (!otherData) return false;
+        if (!otherData)
+            return false;
         
         return float.AlmostEqual(m_fToxic, otherData.m_fToxic) &&
                float.AlmostEqual(m_fRadiactive, otherData.m_fRadiactive) &&
@@ -142,27 +155,27 @@ class EPF_ArmstPlayerStatsComponentSaveData : EPF_ComponentSaveData
                float.AlmostEqual(m_fWater, otherData.m_fWater) &&
                float.AlmostEqual(m_fEat, otherData.m_fEat) &&
                float.AlmostEqual(m_fRep, otherData.m_fRep) &&
-               float.AlmostEqual(m_fKillMonsters, otherData.m_fKillMonsters) &&
-               float.AlmostEqual(m_fKillBandits, otherData.m_fKillBandits) &&
-               float.AlmostEqual(m_fStashFounds, otherData.m_fStashFounds) &&
-               float.AlmostEqual(m_fQuestsDone, otherData.m_fQuestsDone) &&
-               float.AlmostEqual(m_fSellsItems, otherData.m_fSellsItems) &&
-               m_fPosShelter == otherData.m_fPosShelter &&
-               m_FactionKey == otherData.m_FactionKey; // Сравнение фракции
+               m_fKillMonsters == otherData.m_fKillMonsters &&
+               m_fKillBandits == otherData.m_fKillBandits &&
+               m_fStashFounds == otherData.m_fStashFounds &&
+               m_fQuestsDone == otherData.m_fQuestsDone &&
+               m_fSellsItems == otherData.m_fSellsItems &&
+               m_vPosShelter == otherData.m_vPosShelter &&
+               m_sPlayerName == otherData.m_sPlayerName &&
+               m_sPlayerBiography == otherData.m_sPlayerBiography &&
+               m_sPlayerHead == otherData.m_sPlayerHead &&
+               m_FactionKey == otherData.m_FactionKey;
     }
 }
 
 modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
 {
-    [Attribute(defvalue: "{8641D9A55FF7D049}Prefabs/New_Equipment/Jackets/armst_jacket_army_sviter.et")]
-    ResourceName m_rPrefabJacket;
-    [Attribute(defvalue: "{E1EA4FAEDD70A1C1}Prefabs/New_Equipment/Pants/armst_pants_jeans.et")]
-    ResourceName m_rPrefabPants;
-    [Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
-    ResourceName m_rPrefabBoots;
-    [Attribute(defvalue: "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et")]
-    ResourceName m_rPrefab;
 
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Starting Loot Config", "conf", category: "Starting")]
+    ref array<ref ResourceName> m_StartingLootConfigs;
+	
+	[Attribute("false", UIWidgets.CheckBox, "Удалять или нет предмет для перемещения", category: "Starting")];
+	bool m_CreateCharacter;
     // Хранилище для денег игрока, которые будут перенесены на нового персонажа
     protected ref map<int, int> m_mPlayerMoneyToTransfer = new map<int, int>();
 
@@ -182,6 +195,11 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
         ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
         if (statsComponent)
         {
+			if(statsComponent.m_statistik_player_name == "")
+			{
+					if(m_CreateCharacter)
+            			GetGame().GetCallqueue().CallLater(CreateCharacterUI, 2000, false, character);
+			}	
         }
 
         // Перенос денег на нового персонажа, если они есть в хранилище
@@ -207,7 +225,30 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
        ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, moneyToTransfer);
 	
 	}
-    vector m_WorldTransform[4];
+	void CreateCharacterUI(IEntity character)
+	{
+        ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        if (statsComponent)
+        {
+			if(statsComponent.m_statistik_player_name == "")
+			{
+					if(m_CreateCharacter)
+            			//GetGame().GetCallqueue().CallLater(CreateCharacterMenu, 2000, false, character);
+			}	
+        }
+		
+	}
+  
+	void CreateCharacterMenu(IEntity character)
+	{
+		MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
+		MenuBase myMenu = menuManager.OpenMenu(ChimeraMenuPreset.CreateCharacterMenus); //получаем конкретное меню -- надо указать в chimeraMenus.conf
+		GetGame().GetInputManager().ActivateContext("TraderContext"); //активируем управление кнопками -- указываем в ChimeraInputCommon
+		ARMST_PLAYER_CREATE_UI armst_trader = ARMST_PLAYER_CREATE_UI.Cast(myMenu); //вызываем скрипт отображения 
+		if(armst_trader)
+			armst_trader.Init(character); //вызываем на предмет и на пользователя
+	}
+	  vector m_WorldTransform[4];
     override protected void CreateCharacter(int playerId, string characterPersistenceId)
     {
         ResourceName prefab = GetCreationPrefab(playerId, characterPersistenceId);
@@ -229,36 +270,34 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
         EPF_PersistenceComponent persistenceComponent = EPF_Component<EPF_PersistenceComponent>.Find(character);
         if (persistenceComponent)
         {
-            persistenceComponent.SetPersistentId(characterPersistenceId);
-            OnCharacterCreated(playerId, characterPersistenceId, character);
-            HandoverToPlayer(playerId, character);
-            
-            Resource m_Resource = Resource.Load(m_rPrefabJacket);
-            Resource m_Resource2 = Resource.Load(m_rPrefabPants);
-            Resource m_Resource3 = Resource.Load(m_rPrefabBoots);
-            Resource m_Resource4 = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
-            EntitySpawnParams params();
-            m_WorldTransform[3][1] = m_WorldTransform[3][1] + 0.800;
-            params.Parent = character;
-        
+            // Настройка компонента статистики игрока
             ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
             if (statsComponent)
             {
                 statsComponent.SetFactionKey(playerFaction);
+                statsComponent.SetHead();
                 statsComponent.ARMST_SET_SHELTER(m_player_shelter);
+				if(m_player_head == "")
+                {
+				}
+				else
+				{
+				statsComponent.ArmstPlayerSetName(m_player_name);
+                statsComponent.ArmstPlayerSetBiography(m_player_biography);
+                statsComponent.ArmstPlayerSetHead(m_player_head);
+				}
             }
-            IEntity newEnt = GetGame().SpawnEntityPrefab(m_Resource, GetGame().GetWorld(), params);
-            IEntity newEnt2 = GetGame().SpawnEntityPrefab(m_Resource2, GetGame().GetWorld(), params);
-            IEntity newEnt3 = GetGame().SpawnEntityPrefab(m_Resource3, GetGame().GetWorld(), params);
-            IEntity newEnt4 = GetGame().SpawnEntityPrefab(m_Resource4, GetGame().GetWorld(), params);
+            persistenceComponent.SetPersistentId(characterPersistenceId);
+            OnCharacterCreated(playerId, characterPersistenceId, character);
+            HandoverToPlayer(playerId, character);
             
+
+            // Получаем компонент инвентаря игрока
             SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(character.FindComponent(SCR_InventoryStorageManagerComponent));
             if (inventoryManager)
             {
-                inventoryManager.TryInsertItem(newEnt);
-                inventoryManager.TryInsertItem(newEnt2);
-                inventoryManager.TryInsertItem(newEnt3);
-                inventoryManager.TryInsertItem(newEnt4);
+                // Загружаем стартовый лут из конфигурации
+                LoadStartingLoot(inventoryManager, character, playerId);
             }
         }
         else
@@ -268,7 +307,168 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
             return;
         }
     }
+
+    // Метод для загрузки стартового лута из конфигурации
+    void LoadStartingLoot(SCR_InventoryStorageManagerComponent inventoryManager, IEntity character, int playerId)
+    {
+        if (!m_StartingLootConfigs || m_StartingLootConfigs.IsEmpty())
+        {
+            Print("[ARMST_LOOT] Ошибка: Конфигурация стартового лута не задана или пуста.", LogLevel.ERROR);
+            return;
+        }
+
+        int addedItemsCount = 0;
+
+        // Перебираем все конфигурационные файлы
+        foreach (ResourceName configResource : m_StartingLootConfigs)
+        {
+            if (configResource.IsEmpty())
+            {
+                Print("[ARMST_LOOT] Предупреждение: Пустой ResourceName в конфигурации стартового лута.", LogLevel.WARNING);
+                continue;
+            }
+
+            // Загружаем ресурс как контейнер
+            Resource resource = BaseContainerTools.LoadContainer(configResource);
+            if (!resource.IsValid())
+            {
+                Print(string.Format("[ARMST_LOOT] Ошибка: Не удалось загрузить ресурс: %1.", configResource), LogLevel.ERROR);
+                continue;
+            }
+
+            BaseContainer container = resource.GetResource().ToBaseContainer();
+            if (!container)
+            {
+                Print(string.Format("[ARMST_LOOT] Ошибка: Не удалось получить BaseContainer из ресурса: %1.", configResource), LogLevel.ERROR);
+                continue;
+            }
+
+            // Пробуем создать экземпляр ARMST_PLAYER_START_CONF из контейнера
+            ARMST_PLAYER_START_CONF lootCategory = ARMST_PLAYER_START_CONF.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+            if (lootCategory)
+            {
+                Print(string.Format("[ARMST_LOOT] Загружена категория стартового лута: %1.", lootCategory.m_sName), LogLevel.NORMAL);
+
+                // Добавляем предметы из m_WikiData (в данном случае это ARMST_PLAYER_START_CONF_DATA)
+                if (lootCategory.m_WikiData && lootCategory.m_WikiData.Count() > 0)
+                {
+                    foreach (ARMST_PLAYER_START_CONF_DATA lootItem : lootCategory.m_WikiData)
+                    {
+                        if (!lootItem.m_PrefabTrader.IsEmpty())
+                        {
+                            // Загружаем ресурс префаба
+                            Resource lootResource = Resource.Load(lootItem.m_PrefabTrader);
+                            if (lootResource.IsValid())
+                            {
+                                // Спавним предмет указанное количество раз (m_iCounts)
+                                for (int i = 0; i < lootItem.m_iCounts; i++)
+                                {
+                                    EntitySpawnParams params();
+                                    params.Parent = character;
+
+                                    IEntity newLootItem = GetGame().SpawnEntityPrefab(lootResource, GetGame().GetWorld(), params);
+                                    if (newLootItem)
+                                    {
+                                        // Пробуем добавить предмет в инвентарь
+                                        if (inventoryManager.TryInsertItem(newLootItem))
+                                        {
+                                            addedItemsCount++;
+                                            Print(string.Format("[ARMST_LOOT] Добавлен предмет %1 (кол-во: %2) для игрока %3.", lootItem.m_PrefabTrader, i + 1, playerId), LogLevel.NORMAL);
+                                        }
+                                        else
+                                        {
+                                            Print(string.Format("[ARMST_LOOT] Не удалось добавить предмет %1 в инвентарь игрока %2. Инвентарь переполнен?", lootItem.m_PrefabTrader, playerId), LogLevel.WARNING);
+                                            SCR_EntityHelper.DeleteEntityAndChildren(newLootItem);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Print(string.Format("[ARMST_LOOT] Не удалось заспавнить предмет %1 для игрока %2.", lootItem.m_PrefabTrader, playerId), LogLevel.ERROR);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Print(string.Format("[ARMST_LOOT] Неверный ресурс префаба %1 для игрока %2.", lootItem.m_PrefabTrader, playerId), LogLevel.ERROR);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Print(string.Format("[ARMST_LOOT] Предупреждение: m_WikiData пусто или отсутствует для категории: %1.", lootCategory.m_sName), LogLevel.WARNING);
+                }
+            }
+            else
+            {
+                // Если это не ARMST_PLAYER_START_CONF, пробуем ARMST_PLAYER_START_CONF_Config
+                ARMST_PLAYER_START_CONF_Config lootConfig = ARMST_PLAYER_START_CONF_Config.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+                if (lootConfig)
+                {
+                    if (lootConfig.m_WikiData && lootConfig.m_WikiData.Count() > 0)
+                    {
+                        foreach (ARMST_PLAYER_START_CONF_DATA lootItem : lootConfig.m_WikiData)
+                        {
+                            if (!lootItem.m_PrefabTrader.IsEmpty())
+                            {
+                                // Загружаем ресурс префаба
+                                Resource lootResource = Resource.Load(lootItem.m_PrefabTrader);
+                                if (lootResource.IsValid())
+                                {
+                                    // Спавним предмет указанное количество раз (m_iCounts)
+                                    for (int i = 0; i < lootItem.m_iCounts; i++)
+                                    {
+                                        EntitySpawnParams params();
+                                        params.Parent = character;
+
+                                        IEntity newLootItem = GetGame().SpawnEntityPrefab(lootResource, GetGame().GetWorld(), params);
+                                        if (newLootItem)
+                                        {
+                                            // Пробуем добавить предмет в инвентарь
+                                            if (inventoryManager.TryInsertItem(newLootItem))
+                                            {
+                                                addedItemsCount++;
+                                                Print(string.Format("[ARMST_LOOT] Добавлен предмет из Config %1 (кол-во: %2) для игрока %3.", lootItem.m_PrefabTrader, i + 1, playerId), LogLevel.NORMAL);
+                                            }
+                                            else
+                                            {
+                                                Print(string.Format("[ARMST_LOOT] Не удалось добавить предмет из Config %1 в инвентарь игрока %2. Инвентарь переполнен?", lootItem.m_PrefabTrader, playerId), LogLevel.WARNING);
+                                                SCR_EntityHelper.DeleteEntityAndChildren(newLootItem);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Print(string.Format("[ARMST_LOOT] Не удалось заспавнить предмет из Config %1 для игрока %2.", lootItem.m_PrefabTrader, playerId), LogLevel.ERROR);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Print(string.Format("[ARMST_LOOT] Неверный ресурс префаба из Config %1 для игрока %2.", lootItem.m_PrefabTrader, playerId), LogLevel.ERROR);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Print(string.Format("[ARMST_LOOT] Предупреждение: m_WikiData пусто или отсутствует в конфигурации: %1.", configResource), LogLevel.WARNING);
+                    }
+                }
+                else
+                {
+                    Print(string.Format("[ARMST_LOOT] Ошибка: Не удалось преобразовать контейнер ни в ARMST_PLAYER_START_CONF, ни в ARMST_PLAYER_START_CONF_Config: %1.", configResource), LogLevel.ERROR);
+                }
+            }
+        }
+
+        Print(string.Format("[ARMST_LOOT] Завершена загрузка стартового лута для игрока %1. Добавлено: %2 предметов.", playerId, addedItemsCount), LogLevel.NORMAL);
+    }
+	
+	
 	vector m_player_shelter;
+	string m_player_name;
+	string m_player_biography;
+	string m_player_head;
     ARMST_FACTION_LABEL playerFaction = ARMST_FACTION_LABEL.FACTION_STALKER; // Значение по умолчанию
     //------------------------------------------------------------------------------------------------
     override void OnPlayerKilled_S(int playerId, IEntity playerEntity, IEntity killerEntity, notnull Instigator killer)
@@ -279,7 +479,10 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
             if (statsComponent)
             {
    				m_player_shelter = statsComponent.ARMST_GET_SHELTER();              
-                playerFaction = statsComponent.GetFactionKey();
+                playerFaction = statsComponent.GetFactionKey();  
+                m_player_name = statsComponent.ArmstArmstPlayerGetName();  
+                m_player_biography = statsComponent.ArmstPlayerGetBiography();  
+                m_player_head = statsComponent.ArmstPlayerGetHead();
             }
         // Сохраняем деньги игрока перед удалением предметов
         SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(playerEntity.FindComponent(SCR_InventoryStorageManagerComponent));

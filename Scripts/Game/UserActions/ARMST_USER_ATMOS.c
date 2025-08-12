@@ -1,7 +1,4 @@
-modded enum ELoiteringType
-{
-	CUSTOM2
-}
+
 class ARMST_USER_ATMOS : ScriptedUserAction
 {    
     protected static ref ScriptInvokerInt s_onToiletFlushed;
@@ -10,6 +7,7 @@ class ARMST_USER_ATMOS : ScriptedUserAction
 	    //------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity) 
 	{
+		
 		 // Переключаем состояние детектора, если он есть
 	    ARMST_DETECTOR_COMPONENTS DetectorComponents = ARMST_DETECTOR_COMPONENTS.Cast(pOwnerEntity.FindComponent(ARMST_DETECTOR_COMPONENTS));
 	    if (DetectorComponents)
