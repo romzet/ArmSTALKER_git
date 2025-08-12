@@ -1,4 +1,4 @@
-Code from the modification Armstalker 2.
+Code from the modification ArmSTALKER 2.
 
 You can use it at your own discretion, anywhere, any way and as much as you like.
 
