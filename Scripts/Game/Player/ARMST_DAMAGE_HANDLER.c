@@ -398,3 +398,76 @@ modded class SCR_CharacterDamageManagerComponent : SCR_ExtendedDamageManagerComp
         }
     }
 }
+
+modded class SCR_MeleeComponent : ScriptComponent
+{
+    //------------------------------------------------------------------------------------------------
+    override protected void HandleDamageDelayed()
+    {
+        if (m_MeleeHitData.m_Bayonet && m_MeleeHitData.m_Entity)
+        {
+            SCR_BayonetComponent bayonet = SCR_BayonetComponent.Cast(m_MeleeHitData.m_Bayonet.FindComponent(SCR_BayonetComponent));
+            if (bayonet && SCR_ChimeraCharacter.Cast(m_MeleeHitData.m_Entity))
+                bayonet.AddBloodToBayonet();
+            
+            SCR_BayonetEffectComponent effectComponent = SCR_BayonetEffectComponent.Cast(m_MeleeHitData.m_Bayonet.FindComponent(SCR_BayonetEffectComponent));
+            if (effectComponent)
+                effectComponent.OnImpact(
+                    m_MeleeHitData.m_Entity,
+                    m_MeleeHitData.m_fDamage,
+                    m_MeleeHitData.m_vHitPosition,
+                    m_MeleeHitData.m_vHitNormal,
+                    m_MeleeHitData.m_SurfaceProps);
+        }
+        
+        vector hitPosDirNorm[3];
+        hitPosDirNorm[0] = m_MeleeHitData.m_vHitPosition;
+        hitPosDirNorm[1] = m_MeleeHitData.m_vHitDirection;
+        hitPosDirNorm[2] = m_MeleeHitData.m_vHitNormal;
+        
+        // Проверка, является ли сущность разрушаемой
+        SCR_DestructibleEntity destructibleEntity = SCR_DestructibleEntity.Cast(m_MeleeHitData.m_Entity);
+        if (destructibleEntity)
+        {
+            destructibleEntity.HandleDamage(EDamageType.MELEE, m_MeleeHitData.m_fDamage, hitPosDirNorm);
+            return;
+        }
+        
+        // Проверка наличия компонента управления уроном
+        HitZone hitZone;
+        SCR_DamageManagerComponent damageManager = SearchHierarchyForDamageManager(m_MeleeHitData.m_Entity, hitZone);
+        if (!hitZone || !damageManager)
+            return;
+
+        // Создание контекста урона
+        SCR_DamageContext context = new SCR_DamageContext(EDamageType.MELEE, m_MeleeHitData.m_fDamage, hitPosDirNorm, 
+            damageManager.GetOwner(), hitZone, Instigator.CreateInstigator(GetOwner()), 
+            m_MeleeHitData.m_SurfaceProps, m_MeleeHitData.m_iColliderIndex, m_MeleeHitData.m_iNodeIndex);
+
+        if (m_MeleeHitData.m_Bayonet)
+            context.damageSource = m_MeleeHitData.m_Bayonet;
+        else
+            context.damageSource = m_MeleeHitData.m_Weapon;
+        
+        //Print(string.Format("Первоначальный урон: %1", context.damageValue));
+        // Проверка компонента статистики предметов для защиты
+        ARMST_ITEMS_STATS_COMPONENTS m_ItemsStatsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(m_MeleeHitData.m_Entity.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
+        float modifiedDamage = m_MeleeHitData.m_fDamage; // Начальное значение урона
+        
+        if (m_ItemsStatsComponent)
+        {
+            float physProt = m_ItemsStatsComponent.GetAllPhysicals(m_MeleeHitData.m_Entity) / 100.0;; // Получаем защиту (в процентах, предположительно 0.0 - 1.0)
+            // Если защита 0.25 (25%), то урон уменьшается на 25%, т.е. остается 75% урона
+            modifiedDamage = m_MeleeHitData.m_fDamage * (1.0 - physProt);
+           // Print(string.Format("Урон уменьшен с %1 до %2 благодаря защите %3 %", m_MeleeHitData.m_fDamage, modifiedDamage, physProt));
+        }
+        
+        // Применяем модифицированный урон к контексту
+        context.damageValue = modifiedDamage;
+        context.damageEffect = new SCR_MeleeDamageEffect();
+        
+        
+        // Применяем урон через DamageManager
+        damageManager.HandleDamage(context);
+    }
+}

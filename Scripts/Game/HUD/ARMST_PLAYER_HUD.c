@@ -122,6 +122,8 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			FrameHUD.SetOpacity(0);
 				return;	
 		}
+		ForceSyncPlayerStats(owner);
+		
 		if (!statsComponent2.m_hud_check)
 			{
 			FrameHUD.SetOpacity(0);
@@ -152,6 +154,9 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		float ToxicStats = statsComponent2.ArmstPlayerStatGetToxic();
 		float HealthStats = statsComponent2.ArmstPlayerStatGetHealth();
 		float StaminaStats = statsComponent2.ArmstPlayerStatGetStamina();
+		
+        statsComponent2.ArmstPlayerStatSetWater(-statsComponent2.m_ModifierValueWater);
+        statsComponent2.ArmstPlayerStatSetEat(-statsComponent2.m_ModifierValueEat);
 		
 		TextWidget Text_money = TextWidget.Cast(HUDWidget.FindAnyWidget("Text_money"));
 		if (Text_money)
@@ -301,9 +306,9 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 				Toxin_HUD.SetOpacity(0);
 			}
 		
-		if (PsyStats < 40)
+		if (PsyStats < 35)
 			{
-				Psy_HUD.SetOpacity(PsyStats/100 - 0.2);
+				Psy_HUD.SetOpacity(0.1);
 			}
 			else
 			{
@@ -399,7 +404,25 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		
 		
 	}
+	// Пример вызова синхронизации с сервера
+	void ForceSyncPlayerStats(IEntity playerEntity)
+	{
+	    if (!playerEntity)
+	        return;
 	
+	    ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(playerEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+	    if (!statsComponent)
+	        return;
+	
+	    // Вызываем RPC для синхронизации всех данных
+	    statsComponent.Rpc(statsComponent.Rpc_SyncPlayerStatsDirect,
+	        statsComponent.ArmstPlayerStatGetToxic(),
+	        statsComponent.ArmstPlayerStatGetRadio(),
+	        statsComponent.ArmstPlayerStatGetPsy(),
+	        statsComponent.ArmstPlayerStatGetWater(),
+	        statsComponent.ArmstPlayerStatGetEat(),
+	        statsComponent.ArmstPlayerGetReputation());
+	}
 				
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
 	void RpcDo_SpawnZombiePlayer(RplId objectID)

@@ -15,6 +15,7 @@ class ARMST_Consumable : SCR_ConsumableEffectBase
 	protected vector m_aOriginalTransform[4];
 	[Attribute("False", UIWidgets.CheckBox, "Вкл выкл активацию предмета по кнопке R", category: "Stats")];
 	bool m_ActionItemOnPress;
+	
 	//какой урон наносить
 	[Attribute("0", UIWidgets.ComboBox, "Damage type", "", ParamEnumArray.FromEnum(EDamageType), category: "Stats" )]
 	EDamageType m_damageTypeVanilla;

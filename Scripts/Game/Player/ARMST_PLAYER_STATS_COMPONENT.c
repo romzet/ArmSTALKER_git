@@ -116,6 +116,88 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     float m_DamageRadiactiveLevel;                // Порог радиации для урона
 
 	
+	
+	
+	
+	// Прямые методы установки значений (без добавления разницы)
+	void ArmstPlayerStatSetToxicDirect(float value)
+	{
+	    m_armst_player_stat_toxic = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ArmstPlayerStatSetToxicDirect(float value)
+	{
+	    ArmstPlayerStatSetToxicDirect(value);
+	}
+	
+	void ArmstPlayerStatSetRadioDirect(float value)
+	{
+	    m_armst_player_stat_radiactive = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ArmstPlayerStatSetRadioDirect(float value)
+	{
+	    ArmstPlayerStatSetRadioDirect(value);
+	}
+	
+	void ArmstPlayerStatSetPsyDirect(float value)
+	{
+	    m_armst_player_stat_psy = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ArmstPlayerStatSetPsyDirect(float value)
+	{
+	    ArmstPlayerStatSetPsyDirect(value);
+	}
+	
+	void ArmstPlayerStatSetWaterDirect(float value)
+	{
+	    m_armst_player_stat_water = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ArmstPlayerStatSetWaterDirect(float value)
+	{
+	    ArmstPlayerStatSetWaterDirect(value);
+	}
+	
+	void ArmstPlayerStatSetEatDirect(float value)
+	{
+	    m_armst_player_stat_eat = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ArmstPlayerStatSetEatDirect(float value)
+	{
+	    ArmstPlayerStatSetEatDirect(value);
+	}
+	
+	void ArmstPlayerSetReputationDirect(float value)
+	{
+	    m_player_reputation = value;
+	}
+	
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_ArmstPlayerSetReputationDirect(float value)
+	{
+	    ArmstPlayerSetReputationDirect(value);
+	}
+		
+		// Метод для полной синхронизации данных игрока с сервера на клиент
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void Rpc_SyncPlayerStatsDirect(float toxic, float radioactive, float psy, float water, float eat, float reputation)
+	{
+	    ArmstPlayerStatSetToxicDirect(toxic);
+	    ArmstPlayerStatSetRadioDirect(radioactive);
+	    ArmstPlayerStatSetPsyDirect(psy);
+	    ArmstPlayerStatSetWaterDirect(water);
+	    ArmstPlayerStatSetEatDirect(eat);
+	    ArmstPlayerSetReputationDirect(reputation);
+	}
+	
     //------------------------------------------------------------------------------------------------
     // Секция: Ссылки и вспомогательные переменные
     //------------------------------------------------------------------------------------------------

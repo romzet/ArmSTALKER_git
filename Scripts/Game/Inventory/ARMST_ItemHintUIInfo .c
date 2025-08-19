@@ -20,6 +20,20 @@ modded class SCR_InventoryUIInfo : UIInfo
     	 string Psi = "#armst_uiunfoitem_Psi";
     	 string MoneyOnAccount = "#armst_uiunfo_money_account"; 
 	
+	
+    	 string PropertiesToxicLevel = "Токсичность";
+    	 string PropertiesRadiactiveLevel = "Радиоактивность";
+    	 string PropertiesPsyLevel = "Психика";
+    	 string PropertiesPhysicalsLevel = "Физ";
+    	 string PropertiesThermoLevel = "Термо";
+    	 string PropertiesElectroLevel = "Электро";
+    	 string PropertiesHealthLevel = "Здоровье";
+    	 string PropertiesBloodLevel = "Кровь"; 
+    	 string PropertiesStaminaLevel = "Выносливость"; 
+    	 string PropertiesWaterLevel = "Жажда"; 
+    	 string PropertiesEatLevel = "Голод"; 
+	
+	
 	//! Function to override to get custom inventory description
 	override string GetInventoryItemDescription(InventoryItemComponent item)
 	{
@@ -35,6 +49,50 @@ modded class SCR_InventoryUIInfo : UIInfo
                 formattedText += string.Format("\n%2 %1", moneyValue, MoneyOnAccount);
 				return formattedText;
             }
+		
+               // Проверяем наличие компонента ARMST_ARTEFACT_PROPERTIES и добавляем информацию о свойствах артефакта
+        ARMST_ARTEFACT_PROPERTIES artStats = ARMST_ARTEFACT_PROPERTIES.Cast(item.GetOwner().FindComponent(ARMST_ARTEFACT_PROPERTIES));
+        if (artStats)
+        {
+            // Добавляем заголовок для свойств артефакта
+            formattedText += string.Format("\n%1: ", Effects);
+
+            // Проверяем каждое свойство и добавляем в описание, если оно больше 0
+            if (artStats.m_fPropertiesToxicLevel != 0)
+                formattedText += string.Format("\n  %2: %1", artStats.m_fPropertiesToxicLevel, PropertiesToxicLevel);
+                
+            if (artStats.m_fPropertiesRadiactiveLevel != 0)
+                formattedText += string.Format("\n  %2: %1", artStats.m_fPropertiesRadiactiveLevel, PropertiesRadiactiveLevel);
+                
+            if (artStats.m_fPropertiesPsyLevel != 0)
+                formattedText += string.Format("\n  %2: %1", artStats.m_fPropertiesPsyLevel, PropertiesPsyLevel);
+                
+            if (artStats.m_fPropertiesPhysicalsLevel != 0)
+                formattedText += string.Format("\n  %2: %1", artStats.m_fPropertiesPhysicalsLevel, PropertiesPhysicalsLevel);
+                
+            if (artStats.m_fPropertiesThermoLevel != 0)
+                formattedText += string.Format("\n  %2: %1", artStats.m_fPropertiesThermoLevel, PropertiesThermoLevel);
+                
+            if (artStats.m_fPropertiesElectroLevel != 0)
+                formattedText += string.Format("\n  %2: %1",  artStats.m_fPropertiesElectroLevel, PropertiesElectroLevel);
+                
+            if (artStats.m_fPropertiesHealthLevel != 0)
+                formattedText += string.Format("\n  %2: %1",  artStats.m_fPropertiesHealthLevel, PropertiesHealthLevel);
+                
+            if (artStats.m_fPropertiesBloodLevel != 0)
+                formattedText += string.Format("\n  %2: %1",  artStats.m_fPropertiesBloodLevel, PropertiesBloodLevel);
+                
+            if (artStats.m_fPropertiesStaminaLevel != 0)
+                formattedText += string.Format("\n  %2: %1",  artStats.m_fPropertiesStaminaLevel, PropertiesStaminaLevel);
+			
+            if (artStats.m_fPropertiesWaterLevel != 0)
+                formattedText += string.Format("\n  %2: %1",  artStats.m_fPropertiesWaterLevel, PropertiesWaterLevel);
+			
+            if (artStats.m_fPropertiesEatLevel != 0)
+                formattedText += string.Format("\n  %2: %1",  artStats.m_fPropertiesEatLevel, PropertiesEatLevel);
+        }
+		
+		
         ARMST_ITEMS_STATS_COMPONENTS playerStats = ARMST_ITEMS_STATS_COMPONENTS.Cast(item.GetOwner().FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
         if (playerStats)
 		{	
@@ -48,7 +106,7 @@ modded class SCR_InventoryUIInfo : UIInfo
 		    float electroLevel = playerStats.GetProtectionElectroLevel();
 		    
 		    // Начинаем с цены, которая всегда отображается
-		    formattedText += string.Format("%2: %1", (int)buyPrice, Price);
+		    formattedText += string.Format("\n%2: %1", (int)buyPrice, Price);
 		    
 		    if (physicalsLevel > 0 || radiactiveLevel > 0 || toxicLevel > 0 || psyLevel > 0 || thermoLevel > 0 || electroLevel > 0 )
 			{

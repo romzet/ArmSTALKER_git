@@ -1,13 +1,4 @@
 
-
-modded class ZEL_RelinquishClaimedStorageUserAction : ZEL_ClaimedStorageUserActionBase
-{
-	override bool CanBeShownScript(IEntity user)
-	{
-		return false;
-	}	
-}
-
 class ARMST_ClaimFisrtEnterAction : ZEL_ClaimedStorageUserActionBase
 {
 	

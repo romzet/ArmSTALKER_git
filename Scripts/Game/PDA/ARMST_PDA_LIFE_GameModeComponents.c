@@ -1,4 +1,3 @@
-[ComponentEditorProps(category: "GameScripted/Misc", description: "")]
 class ARMST_PDA_LIFE_GamemodeComponentClass: SCR_BaseGameModeComponentClass
 {
 };
@@ -12,12 +11,27 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
 
     [Attribute("10", UIWidgets.Slider, "Время отображения сообщений (в секундах)", "5 30 1", category: "PDA")]
     float m_MessageDisplayTime;
-    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о повседневной жизни", category: "Типы сообщений")]
+    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о повседневной жизни", category: "Messages")]
     bool m_SendLifeMessages;
 
-    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о найденных трупах", category: "Типы сообщений")]
+    [Attribute(defvalue: "true", uiwidget: UIWidgets.CheckBox, desc: "Отправлять сообщения о найденных трупах", category: "Messages")]
     bool m_SendFoundDeathMessages;
 
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Messages")]
+    ref array<ref ResourceName> m_sPdaLifeMessages;
+    
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Messages")]
+    ref array<ref ResourceName> m_sPdaDeathMessages;
+    
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Messages")]
+    ref array<ref ResourceName> m_sPdaHeliMessages;
+    
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Messages")]
+    ref array<ref ResourceName> m_sPdaSurgeStartMessages;
+    
+    [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Messages")]
+    ref array<ref ResourceName> m_sPdaSurgeEndMessages;
+    
     ref array<string> m_NameSender = {};
     ref array<string> m_TextHelicopter = {};
     ref array<string> m_TextSurgeStart = {};
@@ -51,6 +65,11 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
     
     override void OnPostInit(IEntity owner)
     {
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         // Инициализация массивов с сообщениями только на сервере
         if (Replication.IsServer())
         {
@@ -76,7 +95,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
             }
         }
     }
- // Метод для проверки, разрешена ли отправка сообщений
+
+    // Метод для проверки, разрешена ли отправка сообщений
     protected bool IsPdaMessageEnabled()
     {
         // Получаем текущий игровой режим
@@ -103,24 +123,21 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         }
         return messageEnabled;
     }
+
     // Инициализация массивов с сообщениями
     protected void InitializeMessageArrays()
     {
         // Заполнение массива имен отправителей
         InitializeNameSenderArray();
-        // Заполнение массива сообщений о вертолете
+        // Заполнение массивов сообщений из конфигов
         InitializeHelicopterTextArray();
-        // Заполнение массива сообщений о выбросе
         InitializeSurgeStartTextArray();
-        // Заполнение массива сообщений о выбросе
         InitializeSurgeTextArray();
-        // Заполнение массива сообщений о жизни
         InitializeLifeTextArray();
-        // Заполнение массива сообщений о найденных трупах
         InitializeFoundDeathTextArray();
     }
 
-    // Заполнение массивов (оставляем без изменений)
+    // Заполнение массива имен отправителей
     protected void InitializeNameSenderArray()
     {
         for (int i = 1; i <= 300; i++)
@@ -128,248 +145,147 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
             m_NameSender.Insert("#armst_stalker_new_name_" + i);
         }
     }
-	
-	// Заполнение массива сообщений о выбросе
-	protected void InitializeHelicopterTextArray() {
-	    m_TextHelicopter = {
-	        "Ныкаемся, вертушка вояк!",
-	        "Опять военные куда-то летят... Дураки.",
-	        "Долетается ведь однажды!",
-	        "Пацаны, всем аккуратнее, Мишка летит.",
-	        "А как они тут летают? Разве там не аномалии в небе? А если Выброс?",
-	        "Мишка. Внимание.",
-	        "Вертолет снова свой облёт совершает. Не высовывайтесь.",
-	        "Внимание! Вертухаи!",
-	        "Птичка вылетела из клетки.",
-	        "Красиво летит... Никогда не надоест за вертолетами наблюдать.",
-	    };
-	}
-	// Заполнение массива сообщений о выбросе
-	protected void InitializeSurgeStartTextArray() {
-	    m_TextSurgeStart = {
-	        "Кажется, началось...",
-	        "Земля дрожит, Выброс что ли начинается?",
-	        "Бля, я только в рейд вышел!",
-	        "Бегите! ВЫБРОС!!!",
-	        "Ох щас тряханёт...",
-	        "Время еще есть! Все в укрытие!",
-	        "Все назад, в укрытие! Выброс начинается!",
-	        "Млять, а мне говорили про Выброс...",
-	        "ВЫБРОС!!!",
-	        "Сейчас бахнет по полной, всем в убежище!",
-	    };
-	}
-	protected void InitializeSurgeTextArray() {
-	    m_TextSurge = {
-	        "Вот теперь я видел всё...",
-	        "Ну что, отметим ещё разок? Я угощаю.",
-	        "Закончилось... все в порядке, парни?",
-	        "Все живы?",
-	        "Всё, закончилось. Теперь можно и артефакты половить.",
-	        "Ух, как зарядило-то! Я, пожалуй, ещё часик-два лучше отсижусь...",
-	        "Успокоилось наконец-то.",
-	        "У-ух, аж с-су... субы... тьфу, зубы аж до сих пор сводит! Офигеть шарахнуло!",
-	        "...чёрт... моя голова...",
-	        "Фу-ух, пронесло!",
-	        "Блядь, все никак к такому не привыкну!",
-	        "Ебана, а Саня то успел спрятаться? Кто-нибудь знает, где он?",
-	        "Замечательно, теперь весь день голова будет болеть.",
-	        "Я уж думал, он никогда не кончится...",
-	        "Мне одному кажется, что эта хрень стала дольше длиться, чем раньше?",
-	        "Все, пора обратно за работу приниматься...",
-	        "Ох как я это всё ненавижу, вы бы знали",
-	        "Похоже кто-то не успел спрятаться... Земля тебе пухом, мужик.",
-	        "Ну наконец-то всё кончилось. Кто хочет выпить по маленькой?",
-	        "Этот что-то больно сильный был.",
-	        "Не так уж это и страшно, а?",
-	        "А правда, что монолитовцам пофиг на выбросы? Что если они уже снаружи нас дожидаются?",
-	        "Странные явления эти выбросы, после них воздух какой-то… Не такой.",
-	        "И… Всё, слава Богу! Пошли, парни.",
-	        "Когда-нибудь укрытия нам уже не помогут.",
-	        "Все, перерыв окончен! Собирайтесь быстрее, нам еще дела делать.",
-	        "А мне выбросы нравятся.",
-	        "Ничего себе, вы только на небо посмотрите.",
-	        "А вот и новые зомбаки появились...",
-	        "Нет ничего лучше, чем валяться на грязном полу, пока тебя плющит от аномально-паранормальной хрени за окном! Отлично прочищает желудок."
-	    };
-	}
-// Заполнение массива сообщений о жизни
-    protected void InitializeLifeTextArray() {
-        m_TextLife = {
-            "Что-то недоброе здесь творится, сердцем чую...",
-            "Никто не задумывался, а на кой черт мы сюда постоянно лезем? Убьет ведь однажды!",
-            "Димка, я не стал тебя ждать, за мной хвост. Встретимся на контрольной точке.",
-            "Вы видели этих Ночных сталкеров? Вот и я не видел. А они есть!",
-            "Опа, нашел артефакт. От него челюсть зудит, но выглядит он потрясающе!",
-            "Боже... Мама, прости меня...",
-            "Дерьмо, дерьмо! Эти эмки постоянно заклинивают! Не покупайте их, они все из бракованной партии!",
-            "Что-то давно Гравета не видел, кто с ним пересечется, передайте чтобы КПК включил.",
-            "У меня стойкое ощущение, что ученые и военные здесь проводят свои эксперименты.",
-            "Осторожно! Патруль недалеко от Периметра.",
-            "Суки, бандюги опять заправку облюбовали. Обходите стороной.",
-            "У контрабасов, как говорят, новые поставки? ",
-            "Видел как кабаны разорвали на куски какого-то бедолагу. В лес я больше ни ногой.",
-            "А что если тут гуляет какой-то вирус? Я готов покляться, что зомби, которого я только что убил, это Банка! Как он обратился!?",
-            "Дюбель, пошел нахрен! Будешь придираться к качеству товара, клянусь Богом, контрабасы перестанут тебе что либо продавать.",
-            "Мужики, а не находил ли кто мою фотографию? Там на обороте подписано -Татьяна А-, просьба вернуть...",
-            "А никто не знает, что там дальше за тоннелем? Кажется, я видел с вышки многоэтажки.",
-            "Был здесь в 1974-ом по коммандировке, охренеть как Зона тут всё изменила.",
-            "Что-то тут не так... Чую беду на подходе.",
-            "Почему мы не можем просто свалить отсюда? Каждый раз как в последний.",
-            "Сигнал от КПК пропал, кто-то из нашей группы потерян.",
-            "Когда я вижу этих Ночных сталкеров, у меня волосы дыбом. Они реально существуют?",
-            "В руке артефакт, а сердце колотится - чувствую, это последний шанс.",
-            "Внимание! Патруль на горизонте, давайте уходим!",
-            "SOS! Манета, ждем тебя у наших, снова нужна твоя помощь. Мы всё сломали.",
-            "Бандиты снова облюбовали наш уголок, держитесь подальше от их лагеря.",
-            "Слышал, у контрабандистов свежий товар! Кто готов проверить?",
-            "Только что видел, как кабаны разорвали человека. Спасайся, кто может!",
-            "Что дальше за тоннелем? Кажется, там столько артефактов, но страшно.",
-            "Неприятный холодок по спине. Это не просто страх, это инстинкт.",
-            "Водка не помогает - радиация стала сильнее, чем раньше.",
-            "Слушайте, я нашел карту, но она какая-то странная. Все перевернуто.",
-            "Какая-то аномалия возникла прямо передо мной, я чуть не погиб! Она реально возникла прямо на глазах!",
-            "В Савино пропал отряд сталкеров. Кто сходит проверит?",
-            "Пробираюсь по заброшенной ферме, тут мрак и только тени.",
-            "Я встретил мертвого сталкера с артефактом в руке. Ужас.",
-            "Нашел я Метода. Мертвого. Кажется, кто-то раскроил ему череп топором? Неужто Намальский его всё же достал?",
-            "Собираю отряд для рейда в Зону. Пишите в ЛС.",
-            "Стало слишком тихо. Боюсь, это к Выбросу!",
-            "Я слышал, как кто-то смеется в тени. Клянусь богом, когда я навел туда фонариком, там никого не было.",
-            "Ходят слухи, что где-то в Зоне есть лаборатория, в которой ученые ставят эксперименты. Брешут или правда?",
-            "Не понимаю, где я нахожусь? Я зашел в сарай, а вышел в каком-то поле.",
-            "Клянусь своим калашом, если я переживу эту вылазку - я вернусь домой.",
-            "Не могу отвести глаз от огромного светящегося артефакта. Это того стоит?",
-            "Слышал, что тут обитают духи. Может, это не слухи?",
-            "Меня не покидает ошушение, что за мной следят. У кого так же?",
-            "Отряд! Отступаем, у нас потери.",
-            "Так много скелетов. Это же все местные?",
-            "Цепануло меня. Кажется всё.",
-            "Помянем Ромзета, жадность таки погубила его. Я говорил ему не лезть в тот подвал.",
-            "У кого нибудь работает КПК? У меня не отправляются сообщения.",
-            "!A&AF)^AS)F AS*(FA^GG%AD",
-            "Мерзкие пауки. Пацаны, не трогайте коконы, их там кишмя кишит!",
-            "Я тут охотников встретил, когда те из Зоны возвращались. У них рюкзаки мясом и трофеями просто под завязку, так ведь ещё сказали, мол, зверья там гораздо больше бегало. Во дела...",
-            "Какая-то скотина постоянно обносит мои нычки... Я тот набор инструментов два месяца собирал. Два чёртовых месяца! Тьфу, ну только попадись мне, самоделкин хренов! Болт твой откручу!",
-            "Братишки, знали бы вы, как по ночам в Зоне стрёмно. Просто жуть! От каждого шороха к стенке жмёшься!",
-            "Знаете, а ведь правду говорят, что век живи - век учись. Нашёл тут в старых цехах руководства какие-то... Ну, я пока выброс пережидал, то и полистал их, а там что-то запомнил, а что-то переписал себе. А недавно ночью вот идея приснилась - для броньки пару модификаций сообразить по информации из тех руководств, не без помощи старых инструментов, которые у технаря одолжил. И знаете что? Собрал! И ведь действительно крепче снаряга стала!",
-            "Не потерять бы в серебре её одну... Заве-е-етну-у-ую...",
-            "Эй, а кто у меня журналы спёр?! Я ж их столько времени выменивал-то... Что за нелюди...",
-            "Бляха, фотографию жёнушки где-то в лагере посеял... Мужики, никто не видел? За находку готов вознаградить или проставиться. Дорога она мне.",
-            "...Фух, чёрт. Живой! Еле удрал от собак, пришлось даже рюкзак бросить... Надеюсь, что никто не найдёт.",
-            "Эх, я своих уже четыре года не видел...",
-            "Вот зараза! Кто такой рукожопый свой чай на столе оставил открытым?! Все сигареты промочил, ёкарный-бабай!",
-            "А я вот пока ещё не застал зиму в Зоне. Аж от интереса распирает, каково оно тут в белых красках!",
-            "Узнаю, кто шпик сала моего спёр у костра - сам того на сало пущу! Ворьё проклятое!",
-            "Ёлки, вчера ночью плач детский слышал в лесу! Аж до костей пробрало... Это вообще что такое?!",
-            "Опять с центра вернулся ни с чем... Надо менять точку, ну его - шкурой ни за что рисковать.",
-            "Говорят, в долине по ночам иногда видят Ночных сталкеров. Не знаю как вы, а я вот точно не рискну проверять.",
-            "Да-а... Неплохо на охоту сходили. Трофеев Мяснику на круглую сумму сдали!",
-            "Видел как зомбированный пытался в КПК что-то написать. На меня не реагировал. Добил бедолагу."
-        };
+    
+    // Заполнение массива сообщений о вертолете из конфига
+    protected void InitializeHelicopterTextArray()
+    {
+        m_TextHelicopter.Clear();
+        LoadMessagesFromConfig(m_sPdaHeliMessages, m_TextHelicopter);
+        if (m_TextHelicopter.Count() == 0)
+        {
+            Print("[ARMST PDA] Не удалось загрузить сообщения о вертолетах из конфига, используется стандартное значение.", LogLevel.WARNING);
+            m_TextHelicopter.Insert("Ныкаемся, вертушка вояк!");
+        }
     }
 
-// Заполнение массива сообщений о найденных трупах
-    protected void InitializeFoundDeathTextArray() {
-        m_TextFoundDeath = {
-            "Убило мужика!",
-            "Завалили такого человека!",
-            "Вот уроды...",
-            "Грустно видеть такое...",
-            "Жалость-то какая...",
-            "Э-э, что там произошло?!",
-            "В лучшем мире теперь.",
-            "Хм, а тело ещё не остыло. Похоже, убийца где-то рядом!",
-            "Ох уж эта Зона...",
-            "Хороший небось был мужик...",
-            "Вчера только ещё у контрабасов сидели и анекдоты травили, а тут - вот...",
-            "Вот пуля просвистела - и ага.",
-            "Ничего не понял.",
-            "Был мужик - и нет мужика.",
-            "Зона тебе пухом, чувак.",
-            "Самая приятная смерть в Зоне - от пули. Всяко лучше, чем в когтях мутантов, поверьте.",
-            "Отмучился паря...",
-            "Хоть не монстр сожрал, и то хорошо!",
-            "Мародёрствовать, конечно, плохо... Но ему-то снаряга уже точно ни к чему.",
-            "Жил без страха и умер без страха!",
-            "Вот гады...",
-            "Ну что, выпьем за упокой души погибшего?",
-            "Ну офигеть просто...",
-            "Самое время собирать трофеи!",
-            "Ну, понеслась!",
-            "И так каждый день...",
-            "Слышал я, у него врагов было достаточно.",
-            "Не, ну я вообще не понял...",
-            "Опаньки. Ну-ка, ну-ка, это где это там было...",
-            "Финита ля комедия, хлопцы.",
-            "Как там говорят, чики-брики и в жмурки?",
-            "Бывает. Это Зона.",
-            "Опять двадцать пять...",
-            "Свистят они, как пули у виска... Мгновения, мгновения, мгновения...",
-            "Горький урок - пуля в висок.",
-            "М-да уж, ещё одного сожрали, свистните нашим, что в этом месте мутанты осели.",
-            "Во мутантов расплодилось - ни пройти, ни проехать!",
-            "Мужики, я херею с этих мутантов...",
-            "Ну, говорил же я ему, что там твари эти шляются! Не послушал - и вот результат...",
-            "Неудачник.",
-            "Я фигею... Говорил, что безопасно там, безопасно... Хорошо, что я отказался в последний момент с ним идти, а то бы, глядишь, рядом с ним полёг...",
-            "Нда... Прогулялся за хабаром... Судьба...",
-            "Что сказать... Зона - не место для прогулки.",
-            "Страшная смерть! Надеюсь, не мучился бродяга...",
-            "Вчера только там зачистку делали, тропку сделать надо было...  Мля...",
-            "Да говорил я всем уже - не ходить в то место, тварей немерено!.. Почему никто в сеть не скинул?",
-            "Хороший мужик был, рисковый... Да и хабаром делился, когда туго было... Земля тебе пухом, брат сталкер!",
-            "Ещё один в зону попёрся, когда уже разуму наберутся? Все же знают - не меньше чем по по двое ходить надо!...",
-            "Разорвали бродягу!.. Ну уж нет, я раньше пулю в голову себе пущу!",
-            "Та-а-ак... Где это он напоролся..?  Надо срисовать координаты...",
-            "Бьют тварей, бьют, а их всё больше становится...",
-            "Во живность плодится - сталкеру шагнуть негде!",
-            "Животное, говорите, убило?",
-            "Во туристов понаехало... Уже и зверьё кокнуть не могут...",
-            "Стучите в личку! Пойдём сафари организовывать.",
-            "Я нашёл труп! Никому бы не пожелал такой смерти.",
-            "Монстр его на куски разорвал.",
-            "Так ему и надо!",
-            "Эх, Зона, сколько жизней загубила...",
-            "Я тут по этому поводу анекдот вспомнил...",
-            "Ну и дела...",
-            "Кстати, интересно, чё это за тварь была?",
-            "Яйца бы оторвал этим монстрам, чтобы не плодились больше!",
-            "Всегда жалко, когда сталкера отродье мутировавшее съедает... пусть даже если враг.",
-            "Грустно-то как...",
-            "Ну сдох мужик, бывает. Все мы рано или поздно на корм мутантам пойдём...",
-            "Ну и фиг с ним, выживает сильнейший!",
-            "Рваная рана на груди. Точных обстоятельств смерти не знаю.",
-            "Рядом с телом нашел КПК. Не знаю, почему включился диктофон... но на записи ничего, кроме получаса криков. На парне ни царапины. Чертовщина...",
-            "Нашел изрезанное тело. Рядом лежит нож, и мелко подрагивает. Что тут вообще творилось, не представляю...",
-            "До блеска отполированный скелет в нетронутой экипировке. Крысы, похоже.",
-            "Обглодали до костей. Крысы.",
-            "Переломаны обе руки, свернута шея. М-мать, кто ж его так...",
-            "Пробили череп.",
-            "Прошили очередью плечо. Бинтов не было, умер от потери крови.",
-            "Проломленный череп, практически, на ровном месте. То ли ему кто-то помог, то ли он всё-таки тормоз. Говорил же ему: будь осторожней.",
-            "Нашли в яме около ржавого Белоруса. Весь похудевший, а кровосос с ножом в спине.",
-            "Внутри одно месиво, похоже на пули со смещенным центром тяжести.",
-            "Ногу нашли в пяти метрах от останков, похоже на трамплин.",
-            "По ранам думаю, погиб от когтей химеры, пойду-ка я отсюда, скоро ночь. Да и вам советую не приближаться.",
-            "Не ясно, в чем дело, парня попросту порвало.",
-            "Похоже на радиационный ожог.",
-            "Зона та еще сука.",
-            "Блин, я его знал ведь...",
-            "Даже думать не хочу что с ними случилось.",
-            "Вот интересно, они прям умерли, или просто… Ну, изменились?",
-            "Хреновый способ умереть.",
-            "Даже представить не могу, что им пришлось пережить.",
-            "Да как так, это нечестно! Ёбаная Зона!",
-            "Да тут уже все поняли…",
-            "Уж лучше чтоб тебя на части собаки разорвали, чем это.",
-            "Пойти бы их похоронить... Ну если они не бродят где-нибудь поблизости.",
-            "Хуже не придумаешь.",
-            "Надеюсь это было быстро, правда что-то я сомневаюсь.",
-            "Как же это все неправильно.",
-            "Зачем я вообще в чат смотрю? Тут никогда ничего хорошего.",
-            "Я ж ему сказал не идти никуда! Ну и что теперь с ним случилось, посмотрите!"
-        };
+    // Заполнение массива сообщений о начале выброса из конфига
+    protected void InitializeSurgeStartTextArray()
+    {
+        m_TextSurgeStart.Clear();
+        LoadMessagesFromConfig(m_sPdaSurgeStartMessages, m_TextSurgeStart);
+        if (m_TextSurgeStart.Count() == 0)
+        {
+            Print("[ARMST PDA] Не удалось загрузить сообщения о начале выброса из конфига, используется стандартное значение.", LogLevel.WARNING);
+            m_TextSurgeStart.Insert("Кажется, началось...");
+        }
+    }
+
+    // Заполнение массива сообщений о выбросе из конфига
+    protected void InitializeSurgeTextArray()
+    {
+        m_TextSurge.Clear();
+        LoadMessagesFromConfig(m_sPdaSurgeEndMessages, m_TextSurge);
+        if (m_TextSurge.Count() == 0)
+        {
+            Print("[ARMST PDA] Не удалось загрузить сообщения о выбросе из конфига, используется стандартное значение.", LogLevel.WARNING);
+            m_TextSurge.Insert("Вот теперь я видел всё...");
+        }
+    }
+
+    // Заполнение массива сообщений о жизни из конфига
+    protected void InitializeLifeTextArray()
+    {
+        m_TextLife.Clear();
+        LoadMessagesFromConfig(m_sPdaLifeMessages, m_TextLife);
+        if (m_TextLife.Count() == 0)
+        {
+            Print("[ARMST PDA] Не удалось загрузить сообщения о жизни из конфига, используется стандартное значение.", LogLevel.WARNING);
+            m_TextLife.Insert("Что-то недоброе здесь творится, сердцем чую...");
+        }
+    }
+
+    // Заполнение массива сообщений о найденных трупах из конфига
+    protected void InitializeFoundDeathTextArray()
+    {
+        m_TextFoundDeath.Clear();
+        LoadMessagesFromConfig(m_sPdaDeathMessages, m_TextFoundDeath);
+        if (m_TextFoundDeath.Count() == 0)
+        {
+            Print("[ARMST PDA] Не удалось загрузить сообщения о найденных трупах из конфига, используется стандартное значение.", LogLevel.WARNING);
+            m_TextFoundDeath.Insert("Убило мужика!");
+        }
+    }
+
+    // Универсальный метод для загрузки сообщений из конфига
+    protected void LoadMessagesFromConfig(array<ref ResourceName> configResources, array<string> targetArray)
+    {
+        if (!configResources || configResources.IsEmpty())
+        {
+            Print("[ARMST PDA] Конфигурация для сообщений не задана или пуста.", LogLevel.WARNING);
+            return;
+        }
+
+        foreach (ResourceName configResource : configResources)
+        {
+            if (configResource.IsEmpty())
+            {
+                Print("[ARMST PDA] Пустой ResourceName в конфигурации.", LogLevel.WARNING);
+                continue;
+            }
+
+            // Загружаем ресурс как контейнер с помощью BaseContainerTools
+            Resource resource = BaseContainerTools.LoadContainer(configResource);
+            if (!resource.IsValid())
+            {
+                Print("[ARMST PDA] Не удалось загрузить ресурс: " + configResource, LogLevel.ERROR);
+                continue;
+            }
+
+            BaseContainer container = resource.GetResource().ToBaseContainer();
+            if (!container)
+            {
+                Print("[ARMST PDA] Не удалось получить BaseContainer из ресурса: " + configResource, LogLevel.ERROR);
+                continue;
+            }
+
+            // Пробуем преобразовать контейнер в ARMST_PDA_WIKIConfig
+            ARMST_PDA_WIKIConfig config = ARMST_PDA_WIKIConfig.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+            if (config)
+            {
+                if (config.m_WikiData && config.m_WikiData.Count() > 0)
+                {
+                    foreach (ARMST_PDA_WIKI_DATA data : config.m_WikiData)
+                    {
+                        if (data && !data.m_sName.IsEmpty())
+                        {
+                            targetArray.Insert(data.m_sName);
+                            Print("[ARMST PDA] Загружено сообщение: " + data.m_sName, LogLevel.NORMAL);
+                        }
+                    }
+                }
+                else
+                {
+                    Print("[ARMST PDA] m_WikiData пусто или отсутствует в конфигурации: " + configResource, LogLevel.WARNING);
+                }
+            }
+            else
+            {
+                // Если не удалось преобразовать в ARMST_PDA_WIKIConfig, пробуем ARMST_PDA_WIKI
+                ARMST_PDA_WIKI wikiCategory = ARMST_PDA_WIKI.Cast(BaseContainerTools.CreateInstanceFromContainer(container));
+                if (wikiCategory)
+                {
+                    if (wikiCategory.m_WikiData && wikiCategory.m_WikiData.Count() > 0)
+                    {
+                        foreach (ARMST_PDA_WIKI_DATA data : wikiCategory.m_WikiData)
+                        {
+                            if (data && !data.m_sName.IsEmpty())
+                            {
+                                targetArray.Insert(data.m_sName);
+                                Print("[ARMST PDA] Загружено сообщение из категории: " + data.m_sName, LogLevel.NORMAL);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Print("[ARMST PDA] m_WikiData пусто или отсутствует в категории: " + wikiCategory.m_sName, LogLevel.WARNING);
+                    }
+                }
+                else
+                {
+                    Print("[ARMST PDA] Не удалось преобразовать контейнер ни в ARMST_PDA_WIKIConfig, ни в ARMST_PDA_WIKI: " + configResource, LogLevel.ERROR);
+                }
+            }
+        }
     }
 
     // Запуск таймера автоматических сообщений только на сервере
@@ -384,10 +300,9 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
     // Автоматическая отправка случайного сообщения только на сервере
     void SendRandomMessage()
     {
-		
         if (!Replication.IsServer())
             return;
-		
+        
         // Список доступных типов сообщений
         array<string> availableMessageTypes = {};
         
@@ -410,41 +325,41 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         PDA_SEND_ALL(randomMessageType);
     }
     
-	// Метод для выбора фракции на основе весов
-	string SelectFactionByWeight(array<string> factions, array<int> weights)
-	{
-	    // Проверяем, что массивы имеют одинаковую длину
-	    if (factions.Count() != weights.Count() || factions.Count() == 0)
-	    {
-	        Print("[ARMST PDA] Ошибка: Неверное количество фракций или весов.", LogLevel.ERROR);
-	        return factions[0]; // Возвращаем первую фракцию по умолчанию в случае ошибки
-	    }
-	
-	    // Вычисляем сумму всех весов
-	    int totalWeight = 0;
-	    for (int i = 0; i < weights.Count(); i++)
-	    {
-	        totalWeight += weights[i];
-	    }
-	
-	    // Генерируем случайное число в диапазоне от 0 до суммы весов
-	    int randomValue = Math.RandomInt(0, totalWeight);
-	    int cumulativeWeight = 0;
-	
-	    // Выбираем фракцию на основе весов
-	    for (int i = 0; i < factions.Count(); i++)
-	    {
-	        cumulativeWeight += weights[i];
-	        if (randomValue <= cumulativeWeight)
-	        {
-	            return factions[i];
-	        }
-	    }
-	
-	    // Если что-то пошло не так, возвращаем последнюю фракцию
-	    return factions[factions.Count() - 1];
-	}
-	
+    // Метод для выбора фракции на основе весов
+    string SelectFactionByWeight(array<string> factions, array<int> weights)
+    {
+        // Проверяем, что массивы имеют одинаковую длину
+        if (factions.Count() != weights.Count() || factions.Count() == 0)
+        {
+            Print("[ARMST PDA] Ошибка: Неверное количество фракций или весов.", LogLevel.ERROR);
+            return factions[0]; // Возвращаем первую фракцию по умолчанию в случае ошибки
+        }
+    
+        // Вычисляем сумму всех весов
+        int totalWeight = 0;
+        for (int i = 0; i < weights.Count(); i++)
+        {
+            totalWeight += weights[i];
+        }
+    
+        // Генерируем случайное число в диапазоне от 0 до суммы весов
+        int randomValue = Math.RandomInt(0, totalWeight);
+        int cumulativeWeight = 0;
+    
+        // Выбираем фракцию на основе весов
+        for (int i = 0; i < factions.Count(); i++)
+        {
+            cumulativeWeight += weights[i];
+            if (randomValue <= cumulativeWeight)
+            {
+                return factions[i];
+            }
+        }
+    
+        // Если что-то пошло не так, возвращаем последнюю фракцию
+        return factions[factions.Count() - 1];
+    }
+    
     // Метод для отправки сообщения определенного типа только на сервере
     void PDA_SEND_ALL(string selectText)
     {
@@ -468,22 +383,19 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         // Выбираем случайное имя отправителя
         string senderName = GetRandomSenderName();
         string message = "";
-		
-	 // Список доступных группировок и их весов
-	    array<string> factions = {
-	        "#Armst_neutral_character",
-	        "#Armst_smuggler_character",
-	        "#Armst_bandit_character",
-	    //    "#Armst_science_character",
-	    //    "#Armst_army_light"
-	    };
-   		array<int> weights = {80, 10, 5}; // Вес для каждой фракции (в процентах или относительных единицах)
-		
-		 // Выбираем случайную группировку на основе весов
-    	string selectedFaction = SelectFactionByWeight(factions, weights);
-		
-		
-		senderName = senderName + " [" + selectedFaction + "]";
+        
+        // Список доступных группировок и их весов
+        array<string> factions = {
+            "#Armst_neutral_character",
+            "#Armst_smuggler_character",
+            "#Armst_bandit_character"
+        };
+        array<int> weights = {80, 10, 5}; // Вес для каждой фракции (в процентах или относительных единицах)
+        
+        // Выбираем случайную группировку на основе весов
+        string selectedFaction = SelectFactionByWeight(factions, weights);
+        
+        senderName = senderName + " [" + selectedFaction + "]";
         // Формируем сообщение в зависимости от типа
         if (selectText == "HELI")
         {
@@ -505,24 +417,20 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         {
             message = GetRandomFoundDeathMessage();
         }
-		
-		
-		
-			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	        if (gameMode.IsHosted())
-	        {
-        		Print("[ARMST PDA] Сервер: Отправка сообщения типа " + selectText + " от " + senderName);
-	            SCR_PlayerController.ShowNotificationPDA(null, senderName, message, m_MessageDisplayTime);
-				return;
-	        }
+        
+        SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+        if (gameMode.IsHosted())
+        {
+            Print("[ARMST PDA] Сервер: Отправка сообщения типа " + selectText + " от " + senderName);
+            SCR_PlayerController.ShowNotificationPDA(null, senderName, message, m_MessageDisplayTime);
+            return;
+        }
         // Отправляем сообщение всем клиентам через RPC
         Print("[ARMST PDA] Сервер: Отправка сообщения типа " + selectText + " от " + senderName);
         Rpc(RPC_BroadcastMessageToClients, senderName, message, m_MessageDisplayTime);
-
     }
 
-
-    // Получение случайного имени отправителя и других сообщений (оставляем без изменений)
+    // Получение случайного имени отправителя и других сообщений
     string GetRandomSenderName()
     {
         if (m_NameSender.Count() == 0)
@@ -612,17 +520,18 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
 
         PDA_SEND_ALL(messageType);
     }
-	 // Метод для обработки сообщения от клиента на сервере
+
+    // Метод для обработки сообщения от клиента на сервере
     void HandleMessageFromClient(string senderName, string message, float duration)
     {
-			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	        if (gameMode.IsHosted())
-	        {
-				Print("HandleMessageFromClient");
-        		Print("[ARMST PDA] Сервер: Обработка сообщения от клиента: " + senderName + ": " + message, LogLevel.NORMAL);
-       			 SCR_PlayerController.ShowNotificationPDA(null, senderName, message, duration);
-				return;
-	        }
+        SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+        if (gameMode.IsHosted())
+        {
+            Print("HandleMessageFromClient");
+            Print("[ARMST PDA] Сервер: Обработка сообщения от клиента: " + senderName + ": " + message, LogLevel.NORMAL);
+            SCR_PlayerController.ShowNotificationPDA(null, senderName, message, duration);
+            return;
+        }
         if (!Replication.IsServer())
             return;
 
@@ -631,16 +540,16 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         // Рассылаем сообщение всем клиентам
         Rpc(RPC_BroadcastMessageToClients, senderName, message, duration);
     }
-	 // Метод для обработки сообщения от клиента на сервере
+
+    // Метод для обработки сообщения от бота на сервере
     void HandleMessageFromBot(string randomMessageType)
     {
-			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	        if (gameMode.IsHosted())
-	        {
-				
-        		PDA_SEND_ALL(randomMessageType);
-				return;
-	        }
+        SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+        if (gameMode.IsHosted())
+        {
+            PDA_SEND_ALL(randomMessageType);
+            return;
+        }
         if (!Replication.IsServer())
             return;
         
@@ -656,7 +565,8 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         // Вызываем метод ShowNotificationPDA из SCR_PlayerController для отображения уведомления
         SCR_PlayerController.ShowNotificationPDA(null, senderName, message, duration);
     }
-	  // RPC-метод для получения сообщения от клиента
+
+    // RPC-метод для получения сообщения от клиента
     [RplRpc(RplChannel.Reliable, RplRcver.Server)]
     void RPC_ReceiveMessageFromClient(string senderName, string message, float duration)
     {
@@ -668,5 +578,4 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         // Рассылаем сообщение всем клиентам
         Rpc(RPC_BroadcastMessageToClients, senderName, message, duration);
     }
-
 };

@@ -31,7 +31,6 @@ modded class SCR_CharacterDamageManagerComponent : SCR_ExtendedDamageManagerComp
 		{
 				return;	
 		}
-		Print("Игрок вылечен");
 		statsComponent2.ArmstPlayerStatSetToxic(-100);
 		statsComponent2.ArmstPlayerStatSetRadio(-100);
 		statsComponent2.ArmstPlayerStatSetPsy(100);

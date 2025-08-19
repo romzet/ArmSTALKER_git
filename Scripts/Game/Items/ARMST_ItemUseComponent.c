@@ -9,6 +9,9 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 	[Attribute("true", UIWidgets.CheckBox, "Вкл выкл активацию предмета по кнопке R", category: "Gadget")];
 	bool m_ActionItemNow;
 	
+	[Attribute("False", UIWidgets.CheckBox, "Вкл выкл активацию предмета по кнопке R", category: "Gadget")];
+	bool m_ActionPlayGuitar;
+	
 	[Attribute("0", UIWidgets.Slider, "В минус лечить, в плюс урон", "-100 100 5", category: "Stats")]
 	int m_ArmstChangeHP;
 	
@@ -75,6 +78,37 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 		
 		if(m_ActionItemNow)
 			ActivateAction();
+		
+	    // Отправляем уведомление через RPC на клиент
+	    if (Replication.IsServer())
+	    {
+	        SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+				if(m_ActionPlayGuitar)
+					{
+						MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
+						MenuBase myMenu = menuManager.OpenMenu(ChimeraMenuPreset.GuitarMenus); //получаем конкретное меню -- надо указать в chimeraMenus.conf
+						GetGame().GetInputManager().ActivateContext("BookContext"); //активируем управление кнопками -- указываем в ChimeraInputCommon
+						ARMST_GUITAR_UI armstpda = ARMST_GUITAR_UI.Cast(myMenu); //вызываем скрипт отображения 
+						if(armstpda)
+							armstpda.Init(charOwner,GetOwner());
+					}
+	        }
+	        return;
+	    }
+	    else
+	    {
+				if(m_ActionPlayGuitar)
+					{
+						MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
+						MenuBase myMenu = menuManager.OpenMenu(ChimeraMenuPreset.GuitarMenus); //получаем конкретное меню -- надо указать в chimeraMenus.conf
+						GetGame().GetInputManager().ActivateContext("BookContext"); //активируем управление кнопками -- указываем в ChimeraInputCommon
+						ARMST_GUITAR_UI armstpda = ARMST_GUITAR_UI.Cast(myMenu); //вызываем скрипт отображения 
+						if(armstpda)
+							armstpda.Init(charOwner,GetOwner());
+					}
+	    }
 	}
 	
 	//------------------------------------------------------------------------------------------------
