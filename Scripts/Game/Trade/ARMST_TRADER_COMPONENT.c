@@ -15,18 +15,29 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	
 	
 	
-    protected ButtonWidget          Button_cat_med;	// категория медицины
-    protected ButtonWidget          Button_cat_tools;	// категория инструментов
-    protected ButtonWidget          Button_cat_ammo;	// категория  боеприпасов
-    protected ButtonWidget          Button_cat_weapon;	// категория оружия
-    protected ButtonWidget          Button_cat_clothes;	// категория одежды
-    protected ButtonWidget          Button_cat_equip;	// категория экипировки
-    protected ButtonWidget          Button_cat_others;	// категория прочего
-    protected ButtonWidget          Button_cat_foods;	// категория прочего
-    protected ButtonWidget          Button_cat_arts;	// категория прочего
-    protected ButtonWidget          Button_cat_money;	// категория прочего
-    protected ButtonWidget          Button_cat_mut;	// категория прочего
+    protected ButtonWidget          Button_cat_1;	
+    protected ButtonWidget          Button_cat_2;
+    protected ButtonWidget          Button_cat_3;
+    protected ButtonWidget          Button_cat_4;
+    protected ButtonWidget          Button_cat_5;	
+    protected ButtonWidget          Button_cat_6;	
+    protected ButtonWidget          Button_cat_7;	
+    protected ButtonWidget          Button_cat_8;	
+    protected ButtonWidget          Button_cat_9;
+    protected ButtonWidget          Button_cat_10;	
+    protected ButtonWidget          Button_cat_11;	
 	
+    protected TextWidget            Text_Button1;
+    protected TextWidget            Text_Button2;
+    protected TextWidget            Text_Button3;
+    protected TextWidget            Text_Button4;
+    protected TextWidget            Text_Button5;
+    protected TextWidget            Text_Button6;
+    protected TextWidget            Text_Button7;
+    protected TextWidget            Text_Button8;
+    protected TextWidget            Text_Button9;
+    protected TextWidget            Text_Button10;
+    protected TextWidget            Text_Button11;
 	
     protected ButtonWidget          Button_Buy; //кнопка покупки
     protected ButtonWidget          Button_Sell; //кнопка продажи
@@ -80,108 +91,234 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	}
     //------------------------------------------------------------------------------------------------
     void Init(IEntity User, IEntity TRADER)
-    {
-        // Получаем виджеты из лейаута
-        m_wRoot = GetRootWidget();
-        
-        if (!m_wRoot)
-            return;
-        
-        
-        m_User = User;
-        m_TRADER = TRADER;
-        
-        Text_User_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_User_Name"));
-        Text_Balance_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Balance_Count"));
-        Text_Reputation_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Reputation_Count"));
-        Text_Fraction_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Fraction_Name"));
-        Text_Time = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Time"));
+	{
+	    // Получаем виджеты из лейаута
+	    m_wRoot = GetRootWidget();
+	    
+	    if (!m_wRoot)
+	        return;
+	    
+	    m_User = User;
+	    m_TRADER = TRADER;
+	    
+	    Text_User_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_User_Name"));
+	    Text_Balance_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Balance_Count"));
+	    Text_Reputation_Count = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Reputation_Count"));
+	    Text_Fraction_Name = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Fraction_Name"));
+	    Text_Time = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Time"));
+	    
+	    TextNameItem = TextWidget.Cast(m_wRoot.FindAnyWidget("TextNameItem"));
+	    TextDescItem = TextWidget.Cast(m_wRoot.FindAnyWidget("TextDescItem"));
+	    TextInv0 = TextWidget.Cast(m_wRoot.FindAnyWidget("TextInv0"));
+	    TextMessage = TextWidget.Cast(m_wRoot.FindAnyWidget("TextMessage"));
+	    TextPriceSell = TextWidget.Cast(m_wRoot.FindAnyWidget("TextPriceSell"));
+	    TextPriceBuy = TextWidget.Cast(m_wRoot.FindAnyWidget("TextPriceBuy"));
+	    
+	    RenderTarget = ItemPreviewWidget.Cast(m_wRoot.FindAnyWidget("RenderTarget"));
+	    
+	    Button_Exit = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Exit"));
+	    ScriptInvoker onPressedClose = ButtonActionComponent.GetOnAction(Button_Exit);
+	    if (onPressedClose) 
+	        onPressedClose.Insert(Close);
+	    GetGame().GetInputManager().AddActionListener("Escape", EActionTrigger.DOWN, CloseNotebook);
+	    
+	    // Получаем компоненты
+	    m_StatsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+	    m_ItemsStatsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(m_User.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
+	    
+	    ARMST_TRADER_CAT_COMPONENT traderComponent = ARMST_TRADER_CAT_COMPONENT.Cast(m_TRADER.FindComponent(ARMST_TRADER_CAT_COMPONENT));
+	    // Настройка обработчиков событий
+	    if (Button_Exit)
+	        Button_Exit.AddHandler(this);
+	    
+	    EditCountBuy = EditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditCountBuy"));
+	    EditCountSell = EditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditCountSell"));
+	    
+	    Button_Buy = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Buy"));
+	    if (Button_Buy)
+	        Button_Buy.AddHandler(this);
+	    
+	    Button_Sell = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Sell"));
+	    if (Button_Sell)
+	        Button_Sell.AddHandler(this);
+	    
+	    Button_BuyListbox = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_BuyListbox"));
+	    if (Button_BuyListbox)
+	        Button_BuyListbox.AddHandler(this);
+	    
+	    Button_SellListbox = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SellListbox"));
+	    if (Button_SellListbox)
+	        Button_SellListbox.AddHandler(this);
+	    // Проверяем настройки трейдера для видимости кнопок BuyListbox и SellListbox
+	    if (traderComponent)
+	    {
+	            if (!traderComponent.m_EnableBuy)
+	            {
+	                Button_BuyListbox.SetOpacity(0);
+					Button_BuyListbox.SetEnabled(false);
+	                Print("[ARMST TRADER] Кнопка Button_BuyListbox скрыта (m_EnableBuy = false).", LogLevel.NORMAL);
+	            }
+	            else
+	            {
+	                Button_BuyListbox.SetOpacity(1);
+					Button_BuyListbox.SetEnabled(true);
+	                Print("[ARMST TRADER] Кнопка Button_BuyListbox видима (m_EnableBuy = true).", LogLevel.NORMAL);
+	            }
+	        
+	            if (!traderComponent.m_EnableSell)
+	            {
+	                Button_SellListbox.SetOpacity(0);
+					Button_SellListbox.SetEnabled(false);
+	                Print("[ARMST TRADER] Кнопка Button_SellListbox скрыта (m_EnableSell = false).", LogLevel.NORMAL);
+	            }
+	            else
+	            {
+	                Button_SellListbox.SetOpacity(1);
+					Button_SellListbox.SetEnabled(true);
+	                Print("[ARMST TRADER] Кнопка Button_SellListbox видима (m_EnableSell = true).", LogLevel.NORMAL);
+	            }
+	    }
+	    
+	    Button_cat_1 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_1"));
+	    Button_cat_2 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_2"));
+	    Button_cat_3 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_3"));
+	    Button_cat_4 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_4"));
+	    Button_cat_5 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_5"));
+	    Button_cat_6 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_6"));
+	    Button_cat_7 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_7"));
+	    Button_cat_8 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_8"));
+	    Button_cat_9 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_9"));
+	    Button_cat_10 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_10"));
+	    Button_cat_11 = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_11"));
+	    
+	    // Проверяем названия категорий и скрываем кнопки, если названия не указаны
+	    if (traderComponent)
+	    {
+	        if (traderComponent.m_sTraderCategoryName1 == "")
+	        {
+	            Button_cat_1.SetOpacity(0);
+				Button_cat_1.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_1 скрыта (m_sTraderCategoryName1 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName2 == "")
+	        {
+	            Button_cat_2.SetOpacity(0);
+				Button_cat_2.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_2 скрыта (m_sTraderCategoryName2 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName3 == "")
+	        {
+	            Button_cat_3.SetOpacity(0);
+				Button_cat_3.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_3 скрыта (m_sTraderCategoryName3 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName4 == "")
+	        {
+	            Button_cat_4.SetOpacity(0);
+				Button_cat_4.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_4 скрыта (m_sTraderCategoryName4 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName5 == "")
+	        {
+	            Button_cat_5.SetOpacity(0);
+				Button_cat_5.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_5 скрыта (m_sTraderCategoryName5 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName6 == "")
+	        {
+	            Button_cat_6.SetOpacity(0);
+				Button_cat_6.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_6 скрыта (m_sTraderCategoryName6 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName7 == "")
+	        {
+	            Button_cat_7.SetOpacity(0);
+				Button_cat_7.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_7 скрыта (m_sTraderCategoryName7 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName8 == "")
+	        {
+	            Button_cat_8.SetOpacity(0);
+				Button_cat_8.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_8 скрыта (m_sTraderCategoryName8 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName9 == "")
+	        {
+	            Button_cat_9.SetOpacity(0);
+				Button_cat_9.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_9 скрыта (m_sTraderCategoryName9 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName10 == "")
+	        {
+	            Button_cat_10.SetOpacity(0);
+				Button_cat_10.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_10 скрыта (m_sTraderCategoryName10 пусто).", LogLevel.NORMAL);
+	        }
+	        
+	        if (traderComponent.m_sTraderCategoryName11 == "")
+	        {
+	            Button_cat_11.SetOpacity(0);
+				Button_cat_11.SetEnabled(false);
+	            Print("[ARMST TRADER] Кнопка Button_cat_11 скрыта (m_sTraderCategoryName11 пусто).", LogLevel.NORMAL);
+	        }
+	    }
+	    
+	    Text_Button1 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button1"));
+		Text_Button1.SetText(traderComponent.m_sTraderCategoryName1);
+	    Text_Button2 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button2"));
+		Text_Button2.SetText(traderComponent.m_sTraderCategoryName2);
+	    Text_Button3 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button3"));
+		Text_Button3.SetText(traderComponent.m_sTraderCategoryName3);
+	    Text_Button4 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button4"));
+		Text_Button4.SetText(traderComponent.m_sTraderCategoryName4);
+	    Text_Button5 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button5"));
+		Text_Button5.SetText(traderComponent.m_sTraderCategoryName5);
+	    Text_Button6 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button6"));
+		Text_Button6.SetText(traderComponent.m_sTraderCategoryName6);
+	    Text_Button7 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button7"));
+		Text_Button7.SetText(traderComponent.m_sTraderCategoryName7);
+	    Text_Button8 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button8"));
+		Text_Button8.SetText(traderComponent.m_sTraderCategoryName8);
+	    Text_Button9 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button9"));
+		Text_Button9.SetText(traderComponent.m_sTraderCategoryName9);
+	    Text_Button10 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button10"));
+		Text_Button10.SetText(traderComponent.m_sTraderCategoryName10);
+	    Text_Button11 = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_Button11"));
+		Text_Button11.SetText(traderComponent.m_sTraderCategoryName11);
 		
-        TextNameItem = TextWidget.Cast(m_wRoot.FindAnyWidget("TextNameItem"));
-        TextDescItem = TextWidget.Cast(m_wRoot.FindAnyWidget("TextDescItem"));
-        TextInv0 = TextWidget.Cast(m_wRoot.FindAnyWidget("TextInv0"));
-        TextMessage = TextWidget.Cast(m_wRoot.FindAnyWidget("TextMessage"));
-        TextPriceSell = TextWidget.Cast(m_wRoot.FindAnyWidget("TextPriceSell"));
-        TextPriceBuy = TextWidget.Cast(m_wRoot.FindAnyWidget("TextPriceBuy"));
-		
-        RenderTarget = ItemPreviewWidget.Cast(m_wRoot.FindAnyWidget("RenderTarget"));
-		
-        Button_Exit = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Exit"));
-		ScriptInvoker onPressedClose = ButtonActionComponent.GetOnAction(Button_Exit);
-		if (onPressedClose) 
-			onPressedClose.Insert(Close);
-		GetGame().GetInputManager().AddActionListener("Escape", EActionTrigger.DOWN, CloseNotebook);
-		
-        // Получаем компоненты
-        m_StatsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-        m_ItemsStatsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(m_User.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
-        
-		ARMST_TRADER_CAT_COMPONENT traderComponent = ARMST_TRADER_CAT_COMPONENT.Cast(m_TRADER.FindComponent(ARMST_TRADER_CAT_COMPONENT));
-        // Настройка обработчиков событий
-        if (Button_Exit)
-            Button_Exit.AddHandler(this);
-		
-        EditCountBuy = EditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditCountBuy"));
-        EditCountSell = EditBoxWidget.Cast(m_wRoot.FindAnyWidget("EditCountSell"));
-		
-        Button_Buy = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Buy"));
-        if (Button_Buy)
-            Button_Buy.AddHandler(this);
-		
-        Button_Sell = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Sell"));
-        if (Button_Sell)
-            Button_Sell.AddHandler(this);
-		
-		
-		
-        Button_cat_med = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_med"));
-    	Button_cat_med.AddHandler(this);
-        Button_cat_tools = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_tools"));
-    	Button_cat_tools.AddHandler(this);
-        Button_cat_ammo = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_ammo"));
-    	Button_cat_ammo.AddHandler(this);
-        Button_cat_weapon = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_weapon"));
-    	Button_cat_weapon.AddHandler(this);
-        Button_cat_clothes = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_clothes"));
-    	Button_cat_clothes.AddHandler(this);
-        Button_cat_equip = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_equip"));
-    	Button_cat_equip.AddHandler(this);
-        Button_cat_others = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_others"));
-    	Button_cat_others.AddHandler(this);
-        Button_cat_foods = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_foods"));
-    	Button_cat_foods.AddHandler(this);
-        Button_cat_arts = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_arts"));
-    	Button_cat_arts.AddHandler(this);
-        Button_cat_money = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_money"));
-    	Button_cat_money.AddHandler(this);
-        Button_cat_mut = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_cat_mut"));
-    	Button_cat_mut.AddHandler(this);
-        // Обновляем данные интерфейса
-		
-		
-        TextListboxItems = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxItems"));
-        if (TextListboxItems)
-            TextListboxItems.AddHandler(this);
-        
-        TextListboxItemsPlayers = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxItemsPlayers"));
-        if (TextListboxItemsPlayers)
-            TextListboxItemsPlayers.AddHandler(this);
-
-        // Инициализация кнопок для переключения списков
-        Button_BuyListbox = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_BuyListbox"));
-        if (Button_BuyListbox)
-            Button_BuyListbox.AddHandler(this);
-
-        // Инициализация кнопок для переключения списков
-        Button_SellListbox = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SellListbox"));
-        if (Button_SellListbox)
-            Button_SellListbox.AddHandler(this);
-		
-        UpdatePdaUI();
-        
-        // По умолчанию показываем список товаров трейдера
-        ShowTraderList();
-    }
+	    // Обновляем данные интерфейса
+	    TextListboxItems = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxItems"));
+	    if (TextListboxItems)
+	        TextListboxItems.AddHandler(this);
+	    
+	    TextListboxItemsPlayers = TextListboxWidget.Cast(m_wRoot.FindAnyWidget("TextListboxItemsPlayers"));
+	    if (TextListboxItemsPlayers)
+	        TextListboxItemsPlayers.AddHandler(this);
+	
+	    // Инициализация кнопок для переключения списков
+	    Button_BuyListbox = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_BuyListbox"));
+	    if (Button_BuyListbox)
+	        Button_BuyListbox.AddHandler(this);
+	
+	    // Инициализация кнопок для переключения списков
+	    Button_SellListbox = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_SellListbox"));
+	    if (Button_SellListbox)
+	        Button_SellListbox.AddHandler(this);
+	    
+	    UpdatePdaUI();
+	    
+	    // По умолчанию показываем список товаров трейдера
+	    ShowTraderList();
+	}
 	
     void ShowTraderList()
     {
@@ -251,7 +388,7 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	            displayName = "#armst_trader_ui_unknown_item";
 	
 	        // Форматируем название с количеством
-	        string displayText = displayName + " (" + count + ")";
+	        string displayText = displayName;
 	
 	        // Добавляем предмет в список без userData
 	        int itemRowIndex = TextListboxItemsPlayers.AddItem(displayText, null, 0, -1);
@@ -409,59 +546,59 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	        return true;
 	    }
 	
-	    if (w == Button_cat_med)
+	    if (w == Button_cat_1)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryMedicine, "Medicine");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory1, "1");
 	        return true;
 	    }
-	    if (w == Button_cat_tools)
+	    if (w == Button_cat_2)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryTools, "Tools");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory2, "2");
 	        return true;
 	    }
-	    if (w == Button_cat_ammo)
+	    if (w == Button_cat_3)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryAmmo, "Ammo");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory3, "3");
 	        return true;
 	    }
-	    if (w == Button_cat_weapon)
+	    if (w == Button_cat_4)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryWeapons, "Weapons");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory4, "4");
 	        return true;
 	    }
-	    if (w == Button_cat_clothes)
+	    if (w == Button_cat_5)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryClothes, "Clothes");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory5, "5");
 	        return true;
 	    }
-	    if (w == Button_cat_equip)
+	    if (w == Button_cat_6)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryEquips, "Equipment");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory6, "6");
 	        return true;
 	    }
-	    if (w == Button_cat_others)
+	    if (w == Button_cat_7)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryOthers, "Others");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory7, "7");
 	        return true;
 	    }
-	    if (w == Button_cat_foods)
+	    if (w == Button_cat_8)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryFoods, "Foods");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory8, "8");
 	        return true;
 	    }
-	    if (w == Button_cat_arts)
+	    if (w == Button_cat_9)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryArts, "Arts");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory9, "9");
 	        return true;
 	    }
-	    if (w == Button_cat_money)
+	    if (w == Button_cat_10)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryMoneys, "Moneys");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory10, "10");
 	        return true;
 	    }
-	    if (w == Button_cat_mut)
+	    if (w == Button_cat_11)
 	    {
-	        LoadTraderCategory(traderComponent.m_sTraderCategoryMuts, "Arts");
+	        LoadTraderCategory(traderComponent.m_sTraderCategory11, "11");
 	        return true;
 	    }
 	    return false;
@@ -682,7 +819,7 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	        return;
 	    }
 	
-	    // Проверяем количество предметов в инвентаре
+	    // Проверяем количество предметов в инвентаре с учетом вложенности
 	    int inventoryCount = GetInventoryCount(selectedPrefabName);
 	    if (inventoryCount <= 0)
 	    {
@@ -691,6 +828,10 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	            TextMessage.SetText("#armst_trader_12");
 	        return;
 	    }
+	
+	    // Обновляем количество в TextInv0 перед продажей для отладки
+	    if (TextInv0)
+	        TextInv0.SetText(inventoryCount.ToString());
 	
 	    // Получаем введенное количество из EditCountSell
 	    string sellCountText = EditCountSell.GetText();
@@ -959,17 +1100,17 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 
         // Проверяем все категории трейдера
         array<ref array<ref ResourceName>> categories = {
-            traderComponent.m_sTraderCategoryWeapons,
-            traderComponent.m_sTraderCategoryAmmo,
-            traderComponent.m_sTraderCategoryMedicine,
-            traderComponent.m_sTraderCategoryTools,
-            traderComponent.m_sTraderCategoryEquips,
-            traderComponent.m_sTraderCategoryClothes,
-            traderComponent.m_sTraderCategoryOthers,
-            traderComponent.m_sTraderCategoryFoods,
-            traderComponent.m_sTraderCategoryArts,
-            traderComponent.m_sTraderCategoryMoneys,
-            traderComponent.m_sTraderCategoryMuts
+            traderComponent.m_sTraderCategory1,
+            traderComponent.m_sTraderCategory2,
+            traderComponent.m_sTraderCategory3,
+            traderComponent.m_sTraderCategory4,
+            traderComponent.m_sTraderCategory5,
+            traderComponent.m_sTraderCategory6,
+            traderComponent.m_sTraderCategory7,
+            traderComponent.m_sTraderCategory8,
+            traderComponent.m_sTraderCategory9,
+            traderComponent.m_sTraderCategory10,
+            traderComponent.m_sTraderCategory11
         };
 
         foreach (array<ref ResourceName> category : categories)
@@ -1374,22 +1515,6 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	    return "#armst_trader_ui_unknown_item";
 	}
 	
-	int GetInventoryCount(ResourceName prefab)
-	{
-	    SCR_InventoryStorageManagerComponent storageMan = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
-	    if (!storageMan)
-	        return 0;
-	
-	    array<IEntity> items = new array<IEntity>();
-	    B_PrefabNamePredicate pred = new B_PrefabNamePredicate();
-	    pred.prefabName.Insert(prefab);
-	    
-	    if (storageMan.FindItems(items, pred))
-	    {   
-	        return items.Count();
-	    }
-	    return 0;
-	}
 	// Получает информацию UI для предмета
 	static UIInfo GetItemUIInfo(ResourceName prefab)
 	{
@@ -1556,6 +1681,57 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	    m_ItemsStatsComponent = null;
 	    m_PlayerInventoryItemsMap.Clear();
 	}
+	
+	// Рекурсивная функция для подсчета предметов в инвентаре, включая вложенные контейнеры
+	int CountItemsInInventory(ResourceName prefabName, array<IEntity> items)
+	{
+	    int count = 0;
+	    foreach (IEntity item : items)
+	    {
+	        if (!item)
+	            continue;
+	
+	        // Проверяем, соответствует ли предмет искомому префабу
+	        if (item.GetPrefabData().GetPrefabName() == prefabName)
+	        {
+	            count++;
+	        }
+	
+	        // Проверяем, является ли предмет контейнером, и рекурсивно обходим его содержимое
+	        SCR_InventoryStorageManagerComponent itemStorage = SCR_InventoryStorageManagerComponent.Cast(item.FindComponent(SCR_InventoryStorageManagerComponent));
+	        if (itemStorage)
+	        {
+	            array<IEntity> nestedItems = new array<IEntity>();
+	            if (itemStorage.GetItems(nestedItems))
+	            {
+	                count += CountItemsInInventory(prefabName, nestedItems);
+	            }
+	        }
+	    }
+	    return count;
+	}
+	
+	// Обновленный метод для получения количества предметов в инвентаре
+	int GetInventoryCount(ResourceName prefab)
+	{
+	    SCR_InventoryStorageManagerComponent storageMan = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
+	    if (!storageMan)
+	    {
+	        Print("[ARMST TRADER] Ошибка: Не удалось получить инвентарь игрока для подсчета предметов.", LogLevel.ERROR);
+	        return 0;
+	    }
+	
+	    array<IEntity> items = new array<IEntity>();
+	    if (!storageMan.GetItems(items))
+	    {
+	        Print("[ARMST TRADER] Ошибка: Не удалось получить предметы из инвентаря игрока.", LogLevel.ERROR);
+	        return 0;
+	    }
+	
+	    int count = CountItemsInInventory(prefab, items);
+	    Print("[ARMST TRADER] Подсчет предметов для " + prefab + ": найдено " + count + " единиц.", LogLevel.NORMAL);
+	    return count;
+	}
 }
 
 modded enum ChimeraMenuPreset
@@ -1570,28 +1746,56 @@ class ARMST_TRADER_CAT_COMPONENTClass : ScriptComponentClass
 [BaseContainerProps()]
 class ARMST_TRADER_CAT_COMPONENT : ScriptComponent
 {
+	
+	[Attribute("true", UIWidgets.CheckBox, "Удалять или нет предмет для перемещения", category: "Trades")];
+	bool m_EnableBuy;
+	[Attribute("true", UIWidgets.CheckBox, "Удалять или нет предмет для перемещения", category: "Trades")];
+	bool m_EnableSell;
+	
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName1;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryWeapons;
+    ref array<ref ResourceName> m_sTraderCategory1;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName2;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryAmmo;
+    ref array<ref ResourceName> m_sTraderCategory2;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName3;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryMedicine;
+    ref array<ref ResourceName> m_sTraderCategory3;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName4;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryTools;
+    ref array<ref ResourceName> m_sTraderCategory4;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName5;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryEquips;
+    ref array<ref ResourceName> m_sTraderCategory5;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName6;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryClothes;
+    ref array<ref ResourceName> m_sTraderCategory6;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName7;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryOthers;
+    ref array<ref ResourceName> m_sTraderCategory7;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName8;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryFoods;
+    ref array<ref ResourceName> m_sTraderCategory8;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName9;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryArts;
+    ref array<ref ResourceName> m_sTraderCategory9;
+    [Attribute("", UIWidgets.EditBox, "", category: "Category")]
+     string m_sTraderCategoryName10;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryMoneys;
+    ref array<ref ResourceName> m_sTraderCategory10;
+    [Attribute("", UIWidgets.EditBox, "",category:  "Category")]
+     string m_sTraderCategoryName11;
     [Attribute(ResourceName.Empty, UIWidgets.Object, "Config to be used", "conf", category: "Category")]
-    ref array<ref ResourceName> m_sTraderCategoryMuts;
+    ref array<ref ResourceName> m_sTraderCategory11;
 
 
     [Attribute("0", UIWidgets.Slider, "Какой процент от цены вычитать при продаже", "0 100 1", category: "Price")];

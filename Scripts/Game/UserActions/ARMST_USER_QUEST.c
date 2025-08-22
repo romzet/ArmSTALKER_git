@@ -60,6 +60,8 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     [Attribute("50", UIWidgets.EditBox, desc: "Дистанция спавна от игрока", params: "0 100", category: "Quest")]
     protected float m_fPrefabQuestFinishSpawnDistance;
 	
+    [Attribute("", UIWidgets.EditBox, "", category: "Quest")]
+    protected string m_sMapMarkerPosition;
 	
     protected bool m_bQuestStart = false;
     
@@ -488,6 +490,7 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 			
 	    }
 	    
+		
 	    m_bQuestStart = true;
 		if(m_bOnlyStartMission)
 			{
@@ -501,12 +504,25 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        if (gameMode.IsHosted())
 	        {
 	            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
+				if (m_sMapMarkerPosition == "")
+				{} else
+				{
+
+		        	IEntity targetEntity = GetGame().FindEntity(m_sMapMarkerPosition);
+					Helpers.CreateMarker(targetEntity, 2, 1, "",  true, false);
+				}
 	        }
 	        return;
 	    }
 	    else
 	    {
 	        ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
+				if (m_sMapMarkerPosition == "")
+				{} else
+				{
+		        	IEntity targetEntity = GetGame().FindEntity(m_sMapMarkerPosition);
+					Helpers.CreateMarker(targetEntity, 2, 1, "",  true, false);
+				}
 	    }
 	}
     

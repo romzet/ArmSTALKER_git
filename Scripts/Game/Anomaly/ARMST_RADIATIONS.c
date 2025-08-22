@@ -25,9 +25,17 @@ class ARMST_RADIATIONSEntity: SCR_BaseTriggerEntity {
     };
     
     override void OnInit(IEntity owner) {
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         GetWorldTransform(m_WorldTransform);
         m_WorldTransform[3][1] = m_WorldTransform[3][1] - 0.7;
         super.OnInit(owner);
+		
+
+		
     }
     
     private float armst_distance_level(IEntity ent) {
@@ -94,15 +102,3 @@ class ARMST_RADIATIONSEntity: SCR_BaseTriggerEntity {
         
     };
 };
-
-class B_PrefabNamePredicate : InventorySearchPredicate
-{
-	ref TStringArray prefabName = { };
-	
-	//------------------------------------------------------------------------------------------------
-	override protected bool IsMatch(BaseInventoryStorageComponent storage, IEntity item, array<GenericComponent> queriedComponents, array<BaseItemAttributeData> queriedAttributes)
-	{
-		EntityPrefabData pd = item.GetPrefabData();
-		return this.prefabName.Contains(pd.GetPrefabName());
-	}
-}

@@ -607,95 +607,112 @@ modded class SCR_PlayerController : PlayerController
         }
     }
 
-    // Метод продажи (выполняется на сервере)
-    void ArmstTraderSell(IEntity m_User, ResourceName m_PrefabTrader, int sellCount, float totalRevenue)
-    {
-        if (!Replication.IsServer())
-        {
-            Print("[ARMST_TRADE] Ошибка: ArmstTraderSell должен вызываться только на сервере", LogLevel.ERROR);
-            return;
-        }
-
-        SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
-        if (!inventory)
-        {
-            Print("[ARMST_TRADE] Ошибка: Не удалось найти компонент инвентаря", LogLevel.ERROR);
-            return;
-        }
-
-        // Удаляем предметы из инвентаря
-        array<IEntity> items = new array<IEntity>();
-        B_PrefabNamePredicate pred = new B_PrefabNamePredicate();
-        pred.prefabName.Insert(m_PrefabTrader);
-
-        if (inventory.FindItems(items, pred))
-        {
-            int itemsRemoved = 0;
-            for (int i = 0; i < items.Count() && itemsRemoved < sellCount; i++)
-            {
-                IEntity item = items[i];
-                SCR_EntityHelper.DeleteEntityAndChildren(item);
-                itemsRemoved++;
-            }
-
-            if (itemsRemoved == sellCount)
-            {
-                // Добавляем валюту игроку
-                if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
-                {
-                    Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
-                }
-                else
-                {
-                    Print("[ARMST_TRADE] Не удалось начислить деньги напрямую, создаем PDA для хранения валюты", LogLevel.WARNING);
-
-                    // Создаем новый предмет PDA
-                    Resource pdaResource = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
-                    if (!pdaResource.IsValid())
-                    {
-                        Print("[ARMST_TRADE] Ошибка: Не удалось загрузить ресурс PDA", LogLevel.ERROR);
-                        return;
-                    }
-
-                    EntitySpawnParams params = new EntitySpawnParams();
-                    params.Parent = m_User; // Привязываем к игроку как родительскому объекту
-
-                    // Спавним PDA
-                    IEntity pdaEntity = GetGame().SpawnEntityPrefab(pdaResource, GetGame().GetWorld(), params);
-                    if (!pdaEntity)
-                    {
-                        Print("[ARMST_TRADE] Ошибка: Не удалось создать PDA", LogLevel.ERROR);
-                        return;
-                    }
-
-                    // Пробуем добавить PDA в инвентарь игрока
-                    if (!inventory.TryInsertItem(pdaEntity))
-                    {
-                        Print("[ARMST_TRADE] Ошибка: Не удалось добавить PDA в инвентарь игрока", LogLevel.ERROR);
-                        SCR_EntityHelper.DeleteEntityAndChildren(pdaEntity); // Удаляем, если не удалось добавить
-                        return;
-                    }
-
-                    if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
-                    {
-                        Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
-                    }
-                    else
-                    {
-                        Print("[ARMST_TRADE] Ошибка: Не удалось начислить деньги даже после создания PDA", LogLevel.ERROR);
-                    }
-                }
-            }
-            else
-            {
-                Print("[ARMST_TRADE] Ошибка: Не удалось удалить достаточное количество предметов для продажи", LogLevel.ERROR);
-            }
-        }
-        else
-        {
-            Print("[ARMST_TRADE] Ошибка: Не удалось найти предметы для продажи", LogLevel.ERROR);
-        }
-    }
+   // Рекурсивная функция для поиска и удаления предметов в инвентаре, включая вложенные контейнеры
+	int FindAndRemoveItemsInInventory(ResourceName prefabName, array<IEntity> items, int targetCount)
+	{
+	    int itemsRemoved = 0;
+	    
+	    for (int i = 0; i < items.Count() && itemsRemoved < targetCount; i++)
+	    {
+	        IEntity item = items[i];
+	        if (!item)
+	            continue;
+	
+	        // Проверяем, соответствует ли предмет искомому префабу
+	        if (item.GetPrefabData().GetPrefabName() == prefabName)
+	        {
+	            SCR_EntityHelper.DeleteEntityAndChildren(item);
+	            itemsRemoved++;
+	            Print("[ARMST_TRADE] Удален предмет: " + prefabName + " (Удалено: " + itemsRemoved + " из " + targetCount + ")", LogLevel.NORMAL);
+	            
+	            if (itemsRemoved >= targetCount)
+	                break;
+	        }
+	    }
+	    
+	    return itemsRemoved;
+	}
+	
+	// Обновленный метод продажи на сервере
+	void ArmstTraderSell(IEntity m_User, ResourceName m_PrefabTrader, int sellCount, float totalRevenue)
+	{
+	    if (!Replication.IsServer())
+	    {
+	        Print("[ARMST_TRADE] Ошибка: ArmstTraderSell должен вызываться только на сервере", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
+	    if (!inventory)
+	    {
+	        Print("[ARMST_TRADE] Ошибка: Не удалось найти компонент инвентаря", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    // Получаем все предметы из инвентаря
+	    array<IEntity> items = new array<IEntity>();
+	    if (!inventory.GetItems(items))
+	    {
+	        Print("[ARMST_TRADE] Ошибка: Не удалось получить предметы из инвентаря игрока", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    // Рекурсивно ищем и удаляем предметы
+	    int itemsRemoved = FindAndRemoveItemsInInventory(m_PrefabTrader, items, sellCount);
+	
+	    if (itemsRemoved == sellCount)
+	    {
+	        // Добавляем валюту игроку
+	        if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
+	        {
+	            Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
+	        }
+	        else
+	        {
+	            Print("[ARMST_TRADE] Не удалось начислить деньги напрямую, создаем PDA для хранения валюты", LogLevel.WARNING);
+	
+	            // Создаем новый предмет PDA
+	            Resource pdaResource = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
+	            if (!pdaResource.IsValid())
+	            {
+	                Print("[ARMST_TRADE] Ошибка: Не удалось загрузить ресурс PDA", LogLevel.ERROR);
+	                return;
+	            }
+	
+	            EntitySpawnParams params = new EntitySpawnParams();
+	            params.Parent = m_User; // Привязываем к игроку как родительскому объекту
+	
+	            // Спавним PDA
+	            IEntity pdaEntity = GetGame().SpawnEntityPrefab(pdaResource, GetGame().GetWorld(), params);
+	            if (!pdaEntity)
+	            {
+	                Print("[ARMST_TRADE] Ошибка: Не удалось создать PDA", LogLevel.ERROR);
+	                return;
+	            }
+	
+	            // Пробуем добавить PDA в инвентарь игрока
+	            if (!inventory.TryInsertItem(pdaEntity))
+	            {
+	                Print("[ARMST_TRADE] Ошибка: Не удалось добавить PDA в инвентарь игрока", LogLevel.ERROR);
+	                SCR_EntityHelper.DeleteEntityAndChildren(pdaEntity); // Удаляем, если не удалось добавить
+	                return;
+	            }
+	
+	            if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
+	            {
+	                Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
+	            }
+	            else
+	            {
+	                Print("[ARMST_TRADE] Ошибка: Не удалось начислить деньги даже после создания PDA", LogLevel.ERROR);
+	            }
+	        }
+	    }
+	    else
+	    {
+	        Print("[ARMST_TRADE] Ошибка: Не удалось удалить достаточное количество предметов для продажи. Удалено: " + itemsRemoved + " из " + sellCount, LogLevel.ERROR);
+	    }
+	}
 	
     // Публичный метод для вызова продажи с клиента
     void RequestCreateCharacter(IEntity user, string messageName,  string messageBiography, string head)
@@ -1005,6 +1022,40 @@ modded class SCR_PlayerController : PlayerController
 	    GetGame().GetCallqueue().CallLater(RequestCheckArtEffects, 1000, false, characterEntity);
 	    // TODO: Здесь можно применить суммарные эффекты к игроку
 	    // Например, использовать totalProperties для изменения здоровья, выносливости и т.д.
+	}
+	
+	
+	//------------------------------------------------------------------------------------------------
+	void ArmstCameraShake()
+	{
+		Rpc(RpcDo_ArmstCameraShake);
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
+	void RpcDo_ArmstCameraShake()
+	{
+		Print("Shake");
+		//static void AddCameraShake(float linearMagnitude = 1.0, float angularMagnitude = 1.0, float inTime = 0.01, float sustainTime = 0.1, float outTime = 0.24)
+		SCR_CameraShakeManagerComponent.AddCameraShake(0.85, 0.85, 5, 0.075);
+		GetGame().GetInputManager().SetGamepadRumble(0, 0.5, 0.5, 0, 0, 500);
+	}
+	
+	
+	
+	
+}
+
+
+class B_PrefabNamePredicate : InventorySearchPredicate
+{
+	ref TStringArray prefabName = { };
+	
+	//------------------------------------------------------------------------------------------------
+	override protected bool IsMatch(BaseInventoryStorageComponent storage, IEntity item, array<GenericComponent> queriedComponents, array<BaseItemAttributeData> queriedAttributes)
+	{
+		EntityPrefabData pd = item.GetPrefabData();
+		return this.prefabName.Contains(pd.GetPrefabName());
 	}
 }
 	

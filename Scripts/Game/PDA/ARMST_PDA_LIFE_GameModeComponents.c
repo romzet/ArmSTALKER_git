@@ -211,7 +211,6 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
     {
         if (!configResources || configResources.IsEmpty())
         {
-            Print("[ARMST PDA] Конфигурация для сообщений не задана или пуста.", LogLevel.WARNING);
             return;
         }
 
@@ -219,7 +218,6 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
         {
             if (configResource.IsEmpty())
             {
-                Print("[ARMST PDA] Пустой ResourceName в конфигурации.", LogLevel.WARNING);
                 continue;
             }
 
@@ -227,14 +225,12 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
             Resource resource = BaseContainerTools.LoadContainer(configResource);
             if (!resource.IsValid())
             {
-                Print("[ARMST PDA] Не удалось загрузить ресурс: " + configResource, LogLevel.ERROR);
                 continue;
             }
 
             BaseContainer container = resource.GetResource().ToBaseContainer();
             if (!container)
             {
-                Print("[ARMST PDA] Не удалось получить BaseContainer из ресурса: " + configResource, LogLevel.ERROR);
                 continue;
             }
 
@@ -249,13 +245,11 @@ class ARMST_PDA_LIFE_GamemodeComponent: SCR_BaseGameModeComponent
                         if (data && !data.m_sName.IsEmpty())
                         {
                             targetArray.Insert(data.m_sName);
-                            Print("[ARMST PDA] Загружено сообщение: " + data.m_sName, LogLevel.NORMAL);
                         }
                     }
                 }
                 else
                 {
-                    Print("[ARMST PDA] m_WikiData пусто или отсутствует в конфигурации: " + configResource, LogLevel.WARNING);
                 }
             }
             else

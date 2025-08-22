@@ -398,55 +398,6 @@ class ARMST_PDA_UI : ChimeraMenuBase
         m_BlockMessage = false;
     }
 	
-	protected bool m_bIsMapOpen;
-	protected bool m_bIsFirstTimeOpened = true;		// whether the map has bene opened since put into a lot
-	protected SCR_MapEntity m_MapEntity;			// map instance
-	protected SCR_FadeInOutEffect m_FadeInOutEffect;
-	protected void ToggleMapGadget(bool state)
-	{			
-		if (state)
-		{
-			SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
-			SCR_MapEntity.GetOnMapClose().Insert(OnMapClose);
-			
-			MenuManager menuManager = g_Game.GetMenuManager();
-			menuManager.OpenMenu(ChimeraMenuPreset.MapMenu);
-			m_bIsMapOpen = true;
-		}
-		else
-		{			
-			MenuManager menuManager = g_Game.GetMenuManager();
-			menuManager.CloseMenuByPreset(ChimeraMenuPreset.MapMenu);
-			m_bIsMapOpen = false;
-		}		
-	}
-				
-	//------------------------------------------------------------------------------------------------
-	//! SCR_MapEntity event
-	//! \param[in] config
-	protected void OnMapOpen(MapConfiguration config)
-	{
-		if (m_FadeInOutEffect)
-			m_FadeInOutEffect.FadeOutEffect(false, 10); // fade in after map open
-		
-		// first open
-		if (!m_bIsFirstTimeOpened)
-			return;
-		
-		m_bIsFirstTimeOpened = false;
-	}
-	
-	//------------------------------------------------------------------------------------------------
-	//! SCR_MapEntity event
-	//! \param[in] config
-	protected void OnMapClose(MapConfiguration config)
-	{
-		if (m_FadeInOutEffect)
-			m_FadeInOutEffect.FadeOutEffect(false, 10); // fade in after map close 
-		
-		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
-		SCR_MapEntity.GetOnMapClose().Remove(OnMapClose);
-	}
     
     //------------------------------------------------------------------------------------------------
     override bool OnClick(Widget w, int x, int y, int button)
@@ -516,7 +467,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	    }
         if (w == Button_Map)
         {
-			//GetGame().GetCallqueue().CallLater(ToggleMapGadget, 1, false, true);
+			//SetMapMode(enable);	
             return true;
         }
        if (w == Button_Quests)
@@ -1069,6 +1020,92 @@ class ARMST_PDA_UI : ChimeraMenuBase
         m_StatsComponent = null;
         m_ItemsStatsComponent = null;
     }
+	
+	protected bool m_bIsMapOpen;
+	protected bool m_bIsFirstTimeOpened = true;		// whether the map has bene opened since put into a lot
+	protected SCR_MapEntity m_MapEntity;			// map instance
+	protected SCR_FadeInOutEffect m_FadeInOutEffect;
+	void SetMapMode(bool state)
+	{		
+		if ( !m_User || !GetGame().GetGameMode())
+			return;
+				
+		// no delay/fade for forced cancel
+		SCR_CharacterControllerComponent controller = SCR_CharacterControllerComponent.Cast(m_User.FindComponent(SCR_CharacterControllerComponent));
+		ECharacterLifeState lifeState = controller.GetLifeState();
+		float delay; 
+		if (lifeState != ECharacterLifeState.DEAD) 
+			delay = 1000 * 1000;
+
+		GetGame().GetCallqueue().Remove(ToggleMapGadget);
+		
+		if (state)
+		{
+			GetGame().GetCallqueue().CallLater(ToggleMapGadget, delay, false, true);
+			
+			if (m_FadeInOutEffect)
+				m_FadeInOutEffect.FadeOutEffect(true, 1000); // fade out after map open
+		}
+		else		
+		{
+			GetGame().GetCallqueue().CallLater(ToggleMapGadget, delay, false, false);
+			
+			if (lifeState != ECharacterLifeState.DEAD && m_FadeInOutEffect) 
+			{
+					m_FadeInOutEffect.FadeOutEffect(false, 1000); // in case map is closed fast before it opens, fade in from close map wont trigger, so it has to happen here
+			}
+		}
+	}
+//---- REFACTOR NOTE END ----
+
+	//------------------------------------------------------------------------------------------------
+	//! Open/close map
+	//! \param[in] state is desired state: true = open, false = close
+	protected void ToggleMapGadget(bool state)
+	{			
+		if (state)
+		{
+			SCR_MapEntity.GetOnMapOpen().Insert(OnMapOpen);
+			SCR_MapEntity.GetOnMapClose().Insert(OnMapClose);
+			
+			MenuManager menuManager = g_Game.GetMenuManager();
+			menuManager.OpenMenu(ChimeraMenuPreset.MapMenu);
+			m_bIsMapOpen = true;
+		}
+		else
+		{			
+			MenuManager menuManager = g_Game.GetMenuManager();
+			menuManager.CloseMenuByPreset(ChimeraMenuPreset.MapMenu);
+			m_bIsMapOpen = false;
+		}		
+	}
+				
+	//------------------------------------------------------------------------------------------------
+	//! SCR_MapEntity event
+	//! \param[in] config
+	protected void OnMapOpen(MapConfiguration config)
+	{
+		if (m_FadeInOutEffect)
+			m_FadeInOutEffect.FadeOutEffect(false, 1000); // fade in after map open
+		
+		// first open
+		if (!m_bIsFirstTimeOpened)
+			return;
+		
+		m_bIsFirstTimeOpened = false;
+	}
+	
+	//------------------------------------------------------------------------------------------------
+	//! SCR_MapEntity event
+	//! \param[in] config
+	protected void OnMapClose(MapConfiguration config)
+	{
+		if (m_FadeInOutEffect)
+			m_FadeInOutEffect.FadeOutEffect(false, 1000); // fade in after map close 
+		
+		SCR_MapEntity.GetOnMapOpen().Remove(OnMapOpen);
+		SCR_MapEntity.GetOnMapClose().Remove(OnMapClose);
+	}
 }
 
 modded enum ChimeraMenuPreset

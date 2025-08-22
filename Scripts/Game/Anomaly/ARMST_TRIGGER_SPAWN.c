@@ -43,9 +43,13 @@ class ARMST_TRIGGER_SPAWN : SCR_BaseTriggerEntity
 
     override void OnInit(IEntity owner)
     {
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         if (!Replication.IsServer())
         {
-            Print("ARMST_TRIGGER_SPAWN: Инициализация триггера игнорируется на клиенте.");
             return;
         }
         // Проверяем, запущена ли игра (не в редакторе)
@@ -64,7 +68,7 @@ class ARMST_TRIGGER_SPAWN : SCR_BaseTriggerEntity
         if (rnd > m_SpawnChance)
         {
             SetUpdateRate(99999999); // Отключаем обновление, если шанс не прошел
-            Print("ARMST_TRIGGER_SPAWN: Триггер не активирован из-за шанса спавна.");
+           // Print("ARMST_TRIGGER_SPAWN: Триггер не активирован из-за шанса спавна.");
             return;
         }
 
@@ -78,7 +82,6 @@ class ARMST_TRIGGER_SPAWN : SCR_BaseTriggerEntity
         {
             int idx = Math.RandomInt(0, groupPrefabs.Count());
             groupPrefab = groupPrefabs[idx];
-            Print("ARMST_TRIGGER_SPAWN: Выбран префаб для спавна: " + groupPrefab);
         }
         else
         {
@@ -93,7 +96,7 @@ class ARMST_TRIGGER_SPAWN : SCR_BaseTriggerEntity
     {
         if (!Replication.IsServer())
         {
-            Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
+            //Print("ARMST_TRIGGER_SPAWN: Получение позиции для спавна игнорируется на клиенте.");
             return Vector(0, 0, 0);
         }
 

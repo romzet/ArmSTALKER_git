@@ -25,6 +25,11 @@ class ARMST_TRIGGER_TOXIC: SCR_BaseTriggerEntity {
     };
     
     override void OnInit(IEntity owner) {
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         GetWorldTransform(m_WorldTransform);
         m_WorldTransform[3][1] = m_WorldTransform[3][1] - 0.7;
         super.OnInit(owner);

@@ -79,12 +79,8 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 		if(m_ActionItemNow)
 			ActivateAction();
 		
-	    // Отправляем уведомление через RPC на клиент
-	    if (Replication.IsServer())
-	    {
-	        SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	        if (gameMode.IsHosted())
-	        {
+	    if (!Replication.IsServer())
+		{
 				if(m_ActionPlayGuitar)
 					{
 						MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
@@ -94,21 +90,7 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 						if(armstpda)
 							armstpda.Init(charOwner,GetOwner());
 					}
-	        }
-	        return;
-	    }
-	    else
-	    {
-				if(m_ActionPlayGuitar)
-					{
-						MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
-						MenuBase myMenu = menuManager.OpenMenu(ChimeraMenuPreset.GuitarMenus); //получаем конкретное меню -- надо указать в chimeraMenus.conf
-						GetGame().GetInputManager().ActivateContext("BookContext"); //активируем управление кнопками -- указываем в ChimeraInputCommon
-						ARMST_GUITAR_UI armstpda = ARMST_GUITAR_UI.Cast(myMenu); //вызываем скрипт отображения 
-						if(armstpda)
-							armstpda.Init(charOwner,GetOwner());
-					}
-	    }
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------

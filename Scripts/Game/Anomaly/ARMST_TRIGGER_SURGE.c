@@ -75,6 +75,11 @@ class ARMST_TRIGGER_SURGE: SCR_BaseTriggerEntity {
     };
     
     override void OnInit(IEntity owner) {
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         GetWorldTransform(m_WorldTransform);
         m_SpawnedObjects = new array<IEntity>();
 			ChimeraWorld world = ChimeraWorld.CastFrom(GetGame().GetWorld());

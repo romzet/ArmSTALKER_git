@@ -31,6 +31,8 @@ class ARMST_RANDOM_LOOTS_POINT : ScriptComponent
         {
             return;
         }
+		
+		
         if (!owner)
         {
             return;
@@ -79,7 +81,7 @@ class ARMST_RANDOM_LOOTS_POINT : ScriptComponent
             SCR_EntityHelper.DeleteEntityAndChildren(owner);
             return;
         }
-
+		
         // Удаляем владельца компонента
         SCR_EntityHelper.DeleteEntityAndChildren(owner);
     }

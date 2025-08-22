@@ -25,6 +25,11 @@ class ARMST_TRIGGER_PSY: SCR_BaseTriggerEntity {
     };
     
     override void OnInit(IEntity owner) {
+        // Проверяем, запущена ли игра (не в редакторе)
+        if (!GetGame().InPlayMode())
+        {
+            return;
+        }
         GetWorldTransform(m_WorldTransform);
         m_WorldTransform[3][1] = m_WorldTransform[3][1] - 0.7;
         super.OnInit(owner);
@@ -77,7 +82,15 @@ class ARMST_TRIGGER_PSY: SCR_BaseTriggerEntity {
             statsComponent.ArmstPlayerStatSetPsy(-levelrad);
 		
 		
-		
+	            SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(GetGame().GetPlayerController().GetPlayerId()));
+		if (scrPlayerController)
+			{
+			scrPlayerController.ArmstCameraShake();
+			}
+			else
+			{
+				Print("Не найдено");
+			}
     };
     override void OnDeactivate(IEntity ent) {
         if (!ent)

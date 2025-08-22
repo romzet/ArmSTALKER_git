@@ -505,7 +505,6 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
                                             if (inventoryManager.TryInsertItem(newLootItem))
                                             {
                                                 addedItemsCount++;
-                                                Print(string.Format("[ARMST_LOOT] Добавлен предмет из Config %1 (кол-во: %2) для игрока %3.", lootItem.m_PrefabTrader, i + 1, playerId), LogLevel.NORMAL);
                                             }
                                             else
                                             {
