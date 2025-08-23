@@ -1,0 +1,366 @@
+$grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_GROUPS.et" {
+ {
+  coords 2881.971 299.327 859.842
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2709.623 292.357 726.468
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2551.523 290.958 490.896
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2514.923 290.376 718.089
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2624.125 290.672 1002.98
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2430.424 294.262 937.667
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2223.91 292.151 869.22
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2295.884 291.124 704.031
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2225.21 306.59 564.394
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1759.009 297.43 823.156
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1480.601 299.831 846.272
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1452.696 300.562 678.168
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab3 "{C4072D88D49FC3F2}Prefabs/Monsters/Groups/Group_spiders.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ electro_spawn5 {
+  coords 2565.012 290.894 548.737
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_GroupPrefab2 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_GroupPrefab3 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 100
+ }
+ electro_spawn6 {
+  coords 2078.148 290.366 817.552
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_GroupPrefab2 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_GroupPrefab3 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 100
+ }
+ electro_spawn7 {
+  coords 2863.465 298.896 979.282
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_GroupPrefab2 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_GroupPrefab3 "{076E7B2EFCD2D9E2}Prefabs/Monsters/Groups/Group_electro_elemetals.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 100
+ }
+ {
+  coords 2537.706 290.656 672.392
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2664.816 291.341 480.741
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2624.381 290.682 1004.488
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2130.185 291.032 833.813
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2206.52 295.419 585.487
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2009.469 291.825 576.125
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 2043.614 291.518 682.507
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1996.097 295.564 803.792
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1778.935 293.053 872.333
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1494.357 299.521 707.689
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+ {
+  coords 1406.659 293.382 853.161
+  SphereRadius 140.5
+  ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
+  UpdatePeriod 3
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
+  m_DeleteDelaySec 100
+  m_ActiveUpdateRate 600
+  m_DefaultUpdateRate 5
+  m_SpawnChance 35
+ }
+}

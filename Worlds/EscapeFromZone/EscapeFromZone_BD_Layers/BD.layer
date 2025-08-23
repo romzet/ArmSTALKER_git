@@ -6,7 +6,23 @@ SCR_GameModeEditor SCR_ArmstGameMode1 : "{B563F305A997ACAE}Prefabs/MP/Modes/Edit
   ARMST_EDITOR_GLOBAL_SETTINGS "{65D8F3E971C4C21E}" {
   }
   ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
+   m_AutoMessageInterval 810
    m_EnableAutoMessages 1
+   m_sPdaLifeMessages {
+    "{EA3FED0C68C339CF}UI/PDA/pda_life/PDA_LIFE_Messages.conf"
+   }
+   m_sPdaDeathMessages {
+    "{B6AFC1A2384E6A51}UI/PDA/pda_life/PDA_DEATH_Messages.conf"
+   }
+   m_sPdaHeliMessages {
+    "{51D30E85AFC577F5}UI/PDA/pda_life/PDA_HELI_Messages.conf"
+   }
+   m_sPdaSurgeStartMessages {
+    "{1AB91387DF077D4A}UI/PDA/pda_life/PDA_SURGE_START_Messages.conf"
+   }
+   m_sPdaSurgeEndMessages {
+    "{A83A686100F32862}UI/PDA/pda_life/PDA_SURGE_END_Messages.conf"
+   }
   }
   EPF_PersistenceManagerComponent "{658301C3AC02188D}" {
    components {
@@ -31,6 +47,9 @@ SCR_GameModeEditor SCR_ArmstGameMode1 : "{B563F305A997ACAE}Prefabs/MP/Modes/Edit
   }
   SCR_InitWeatherComponent "{58DCAB6D83A0CB17}" {
    m_iSetWeatherConstant 0
+  }
+  SCR_MapMarkerManagerComponent "{5D32E876D3886A72}" {
+   m_sMarkerCfgPath "{720E8E61D7692173}Configs/Map/MapMarkerConfig.conf"
   }
   SCR_PlayerSpawnPointManagerComponent "{56C2DDA69EF94C6D}" {
    Enabled 0

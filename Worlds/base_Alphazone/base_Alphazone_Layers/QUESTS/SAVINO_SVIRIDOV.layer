@@ -1,35 +1,22 @@
-GenericEntity : "{2134D24452815537}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_1.et" {
+GenericEntity sviridov_stage_1 : "{2134D24452815537}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_1.et" {
  coords 3434.414 303.622 814.134
  angleY -151.719
 }
-GenericEntity : "{26C718172F3EBB18}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_2.et" {
- components {
-  ActionsManagerComponent "{65DC67C07C9CEC16}" {
-   ActionContexts {
-    UserActionContext "{65DC67C07C9CEC10}" {
-     Position PointInfo "{65DC67C07C9CEDEC}" {
-      Offset 0 0 0
-     }
-    }
-   }
-  }
- }
+GenericEntity sviridov_stage_2 : "{26C718172F3EBB18}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_2.et" {
  coords 3967.027 308.394 893.218
  angleX 3.277
  angleY 133.856
  angleZ -3.126
- scale 1.91
 }
 SCR_ChimeraCharacter : "{662961940DEB939C}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_JURNOLIST.et" {
  coords 5091.975 301.796 54.588
  angleY -73.062
 }
-GenericEntity : "{C35B54EE23DB2C73}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_3.et" {
+GenericEntity sviridov_stage_3 : "{C35B54EE23DB2C73}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_3.et" {
  coords 3906 306.93 884.972
  angleY -68.389
- scale 1.79
 }
-GenericEntity : "{FE6F71D656B7A544}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_4.et" {
+GenericEntity sviridov_stage_4 : "{FE6F71D656B7A544}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_4.et" {
  coords 3229.295 306.63 1009.504
  angleY -50.071
 }

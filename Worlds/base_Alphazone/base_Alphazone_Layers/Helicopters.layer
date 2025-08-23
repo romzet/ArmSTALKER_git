@@ -8,6 +8,4 @@ $grp GenericEntity {
 }
 ARMST_TRIGGER_HELICOPTER : "{8A1ACDE99D78DE83}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_HELICOPTER.et" {
  coords 3700.463 308.069 1056.382
- UpdatePeriod 10
- m_HelicopterSpawnTimer 1918
 }

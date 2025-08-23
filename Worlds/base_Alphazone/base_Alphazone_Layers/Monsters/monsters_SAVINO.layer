@@ -3,10 +3,11 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3887.168 310.438 695.913
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
-  m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
+  m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
-  m_GroupPrefab3 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
+  m_GroupPrefab3 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_DeleteDelaySec 100
   m_ActiveUpdateRate 600
   m_DefaultUpdateRate 5
@@ -16,6 +17,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3579.693 309.014 838.711
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -29,6 +31,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3401.425 309.155 1132.184
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -42,6 +45,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3835.69 326.892 1139.977
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"
   m_GroupPrefab2 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"
@@ -55,6 +59,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4116.888 315.581 1101.673
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -68,6 +73,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3592.926 309.058 549.815
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{F09C59F268784702}Prefabs/Monsters/Groups/Group_Nighstalkers.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -81,6 +87,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3362.792 303.017 559.265
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -94,6 +101,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3708.405 315.477 665.091
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -107,6 +115,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4026.526 306.926 1325.73
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
   m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
@@ -119,6 +128,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
  {
   coords 3636.905 308.39 1225.612
   SphereRadius 140.5
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
@@ -131,6 +141,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3559.074 302.397 1525.892
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
@@ -143,6 +154,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3494.656 302.279 710.884
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -156,6 +168,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3395.885 309.265 1327.602
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
   m_GroupPrefab2 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
@@ -169,6 +182,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3391.029 309.265 1377.265
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
   m_GroupPrefab2 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
@@ -182,6 +196,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3297.666 309.265 1321.535
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
   m_GroupPrefab2 "{15BAE5C75BF46A78}Prefabs/Monsters/Groups/Group_Zombie_Toxic.et"
@@ -195,6 +210,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3589.572 304.925 1031.513
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -208,6 +224,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3907.663 304.424 500.401
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -221,6 +238,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3831.693 305.342 931.837
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -234,6 +252,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3225.884 305.25 1006.914
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{BF840B65A3B443DA}Prefabs/Monsters/Groups/Group_Psy_destroyer.et"
@@ -247,6 +266,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3232.17 307.572 1183.315
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -260,6 +280,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3319.89 302.623 854.998
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{F09C59F268784702}Prefabs/Monsters/Groups/Group_Nighstalkers.et"
   m_GroupPrefab2 "{F09C59F268784702}Prefabs/Monsters/Groups/Group_Nighstalkers.et"
@@ -273,6 +294,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4267.9 311.108 851.604
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -286,6 +308,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3836.742 298.114 1455.143
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -299,6 +322,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3978.566 309.994 1058.663
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{96985C4430551982}Prefabs/Monsters/Groups/Group_Boar_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -312,6 +336,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 3445.878 302.623 803.817
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{F09C59F268784702}Prefabs/Monsters/Groups/Group_Nighstalkers.et"
   m_GroupPrefab2 "{67E76BA71804B966}Prefabs/Monsters/Groups/Group_Rats.et"
@@ -325,6 +350,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4338.704 310.918 1111.552
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"
   m_GroupPrefab2 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"
@@ -338,6 +364,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4365.019 310.918 1120.724
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"
   m_GroupPrefab2 "{BF840B65A3B443DA}Prefabs/Monsters/Groups/Group_Psy_destroyer.et"
@@ -351,6 +378,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4185.617 317.749 1651.152
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -364,6 +392,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4046.93 324.349 1683.746
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -377,6 +406,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4137.982 328.029 1564.322
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
   m_GroupPrefab2 "{5B6D682693694C56}Prefabs/Monsters/Groups/Group_Nighstalkers_RANDOM.et"
@@ -390,6 +420,7 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   coords 4222.964 309.104 1440.256
   SphereRadius 140.5
   ShapeColor 0.1591 0.0009 0.2204 1
+  TriggerActivationType "First and last change"
   UpdatePeriod 3
   m_GroupPrefab1 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"
   m_GroupPrefab2 "{FBC6409B6650A30A}Prefabs/Monsters/Groups/Group_Zombie_RANDOM.et"

@@ -237,27 +237,27 @@ $grp ARMST_TRIGGER_GROUPSPAWN : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMS
   m_SpawnChance 100
   m_GroupOrderType PATROL
  }
- {
+ KB_SPAWN_1 {
   coords 4191.178 311.131 682.713
   SphereRadius 143
   ShapeColor 0 0.507 1 1
   UpdatePeriod 3
-  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
-  m_GroupPrefab2 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
-  m_GroupPrefab3 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab1 "{6C6727400651A481}Prefabs/Groups/KB/Group_KB_RANDOM.et"
+  m_GroupPrefab2 "{6C6727400651A481}Prefabs/Groups/KB/Group_KB_RANDOM.et"
+  m_GroupPrefab3 "{6C6727400651A481}Prefabs/Groups/KB/Group_KB_RANDOM.et"
   m_DeleteDelaySec 460
   m_ActiveUpdateRate 600
   m_DefaultUpdateRate 5
   m_SpawnChance 100
  }
- {
+ KB_SPAWN {
   coords 4140.211 309.452 689.38
   SphereRadius 143
   ShapeColor 0 0.507 1 1
   UpdatePeriod 3
-  m_GroupPrefab1 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
-  m_GroupPrefab2 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
-  m_GroupPrefab3 "{4F56DE77839CD123}Prefabs/Groups/STALKERS/Group_STALKER_RANDOM.et"
+  m_GroupPrefab1 "{6C6727400651A481}Prefabs/Groups/KB/Group_KB_RANDOM.et"
+  m_GroupPrefab2 "{6C6727400651A481}Prefabs/Groups/KB/Group_KB_RANDOM.et"
+  m_GroupPrefab3 "{6C6727400651A481}Prefabs/Groups/KB/Group_KB_RANDOM.et"
   m_DeleteDelaySec 460
   m_ActiveUpdateRate 600
   m_DefaultUpdateRate 5

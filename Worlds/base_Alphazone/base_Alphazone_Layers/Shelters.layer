@@ -730,11 +730,6 @@ GenericEntity : "{9FB5BAF37F56F052}Prefabs/Posuda/posuda_6.et" {
  angleY -89.52
  angleZ 0
 }
-GenericEntity : "{9FE31AB4BADF73F8}Prefabs/Graffity/Graffiti_VIS_2.et" {
- coords 5082.999 302.666 47.257
- angleZ 0
- scale 0.42
-}
 GenericEntity : "{A084E2908AA694CB}Prefabs/Structures/BuildingParts/Industrial/ToolRack_Filled_01.et" {
  coords 5083.883 304.059 68.572
  angleY -89.052
@@ -840,12 +835,6 @@ $grp GenericEntity : "{C7AE128490260EBD}Prefabs/Trash/Cardboard/Cardboard_Pile_0
  {
   coords 5078.031 301.794 54.886
  }
-}
-GenericEntity : "{CFDEEB7DEACA8DCE}Prefabs/Graffity/Graffiti_TEXT_9.et" {
- coords 5082.997 302.939 47.26
- angleY 0.037
- angleZ 0
- scale 0.61
 }
 GenericEntity : "{D3A5AAE7FC1B36BA}Prefabs/Trash/ground_plane/stroy_musor/plane_trash_6_musor.et" {
  coords 5082.815 302.814 64.555

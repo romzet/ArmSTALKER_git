@@ -223,6 +223,10 @@ GameEntity : "{820839184AE86AC8}Prefabs/Method/Props/Camps/Fireplace_Loiters_01.
  coords 4139.391 309.452 691.578
  angleY 87.413
 }
+GenericEntity : "{83A201E51CE826B7}Prefabs/tables/table_wooden.et" {
+ coords 5090.267 301.794 57.115
+ angleY -91.693
+}
 GameEntity : "{862432FB57C1C1B3}Prefabs/Props/Civilian/LampKerosene_01/LampKerosene_01_green.et" {
  components {
   SCR_LampComponent "{5D2AB5C8865F22C4}" {
@@ -238,10 +242,9 @@ $grp GenericEntity : "{91B8D41BE2DF1DB5}Prefabs/Props/TRADE/ARMST_TRADER.et" {
  {
   components {
    ARMST_TRADER_CAT_COMPONENT "{65E06D1FFD7232FF}" {
-    m_sTraderCategoryWeapons +{
-    }
-    m_sTraderCategoryClothes +{
-    }
+    m_sTraderCategoryName5 ""
+    m_sTraderCategoryName6 ""
+    m_sTraderCategoryName7 ""
     m_fSellPercent 70
     m_fBuyPercent 50
    }

@@ -41,6 +41,9 @@ $grp GenericEntity {
  enter_forest_gorkiy12 {
   coords 4454.349 308.887 1286.215
  }
+ enter_swamp {
+  coords 3095.594 299.327 856.168
+ }
 }
 $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.et" {
  {
@@ -48,15 +51,16 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
    ActionsManagerComponent "{657E8538A2BE1CCD}" {
     additionalActions {
      ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
+      "Sort Priority" 2
       m_sTeleportActionName "[SAVINO] Technical unit XZ-02"
       m_sTeleportTarget "enter_perimetr"
+      m_sRequiredItem "{0B425BB15A2AA451}Prefabs/Items/Keys/armst_itm_key_techincal.et"
      }
      ARMST_TELEPORT_ACTIONS "{658681197FEACBF5}" {
       ParentContextList {
        "Default"
       }
       Duration 5
-      "Sort Priority" 1
       m_sTeleportActionName "[SAVINO] Sewer pipe 1"
       m_sTeleportTarget "enter_perimetr2"
       m_PrefabToSpawn "{CFBE5282A6098D90}Prefabs/Teleport/Teleport_light.et"
@@ -68,7 +72,7 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
        "Default"
       }
       Duration 5
-      "Sort Priority" 2
+      "Sort Priority" 1
       m_sTeleportActionName "[SAVINO] Sewer pipe 2"
       m_sTeleportTarget "enter_perimetr3"
       m_PrefabToSpawn "{CFBE5282A6098D90}Prefabs/Teleport/Teleport_light.et"
@@ -114,6 +118,19 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
       m_fTeleportRadius 3
       m_sRequiredItem "{794EAC34A5E255A0}Prefabs/QUEST_ITEMS/armst_quest_map_FOREST.et"
      }
+     ARMST_TELEPORT_ACTIONS "{661E6ACA85C11566}" {
+      ParentContextList {
+       "Default"
+      }
+      Duration 5
+      "Sort Priority" 5
+      m_sTeleportActionName "[SWAMP] Enter"
+      m_sTeleportTarget "enter_swamp"
+      m_PrefabToSpawn "{CFBE5282A6098D90}Prefabs/Teleport/Teleport_light.et"
+      m_fTeleportDelay 2
+      m_fTeleportRadius 3
+      m_sRequiredItem "{788C8B12F9E1D51C}Prefabs/QUEST_ITEMS/armst_quest_map_SWAMP.et"
+     }
     }
    }
   }
@@ -146,29 +163,6 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
    ParticleEffectEntity {
     ID "6584A0E2D7807BBB"
     coords 0.545 0.146 0.262
-   }
-  }
- }
- {
-  components {
-   ActionsManagerComponent "{657E8538A2BE1CCD}" {
-    additionalActions {
-     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
-      m_sTeleportActionName "Shelter"
-      m_sTeleportTarget "enter_shelters"
-      m_fTeleportDelay 2
-      m_fTeleportRadius 3
-      m_iCost 15000
-     }
-    }
-   }
-  }
-  coords 3811.784 307.489 420.336
-  angleY -96.079
-  {
-   ParticleEffectEntity {
-    ID "6584A0E2D7807BBB"
-    coords 0.544 0.118 0.237
    }
   }
  }
@@ -298,48 +292,6 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
    ParticleEffectEntity {
     ID "6584A0E2D7807BBB"
     coords 0.457 1.802 -3.483
-   }
-  }
- }
- {
-  components {
-   MeshObject "{657E853AA73914A8}" {
-    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
-    Materials {
-     MaterialAssignClass "{657E85353B9D16E2}" {
-      SourceMaterial "Radio_ANPRC68_01"
-      AssignedMaterial "{97BC6D96B45850F5}textures/hidden.emat"
-     }
-    }
-   }
-   ActionsManagerComponent "{657E8538A2BE1CCD}" {
-    ActionContexts {
-     UserActionContext "{657E8538A2BE1CCA}" {
-      Position PointInfo "{657E8538A2BE1CC5}" {
-       Offset 0.027 0.0107 -0.0612
-      }
-     }
-    }
-    additionalActions {
-     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
-      m_sTeleportActionName "Gorkiy-12"
-      m_sTeleportTarget "enter_gorkiy12_forest"
-      m_fTeleportDelay 2
-      m_fTeleportRadius 3
-      m_sRequiredItem "{C312D834979EAF26}Prefabs/QUEST_ITEMS/armst_quest_map_GORKIY.et"
-      m_DeleteItem 0
-     }
-    }
-   }
-  }
-  coords 4485.48 316.215 1374.701
-  angleX 0.5
-  angleY -53.796
-  angleZ -4.448
-  {
-   ParticleEffectEntity {
-    ID "6584A0E2D7807BBB"
-    coords 0.111 -0.043 0.088
    }
   }
  }
@@ -566,6 +518,152 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
    }
   }
  }
+ {
+  components {
+   MeshObject "{657E853AA73914A8}" {
+    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
+    Materials {
+     MaterialAssignClass "{657E85353B9D16E2}" {
+      SourceMaterial "Radio_ANPRC68_01"
+      AssignedMaterial "{97BC6D96B45850F5}textures/hidden.emat"
+     }
+    }
+   }
+   ActionsManagerComponent "{657E8538A2BE1CCD}" {
+    ActionContexts {
+     UserActionContext "{657E8538A2BE1CCA}" {
+      Position PointInfo "{657E8538A2BE1CC5}" {
+       Offset 0.027 0.0107 -0.0612
+      }
+     }
+    }
+    additionalActions {
+     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
+      m_sTeleportActionName "Swamp"
+      m_sTeleportTarget "enter_swamp"
+      m_fTeleportDelay 2
+      m_fTeleportRadius 3
+      m_sRequiredItem "{788C8B12F9E1D51C}Prefabs/QUEST_ITEMS/armst_quest_map_SWAMP.et"
+     }
+    }
+   }
+  }
+  coords 3133.672 300.788 833.26
+  angleY -136.295
+  {
+   ParticleEffectEntity {
+    ID "6584A0E2D7807BBB"
+    coords 0.111 -0.043 0.088
+   }
+  }
+ }
+ {
+  components {
+   MeshObject "{657E853AA73914A8}" {
+    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
+    Materials {
+     MaterialAssignClass "{657E85353B9D16E2}" {
+      SourceMaterial "Radio_ANPRC68_01"
+      AssignedMaterial "{97BC6D96B45850F5}textures/hidden.emat"
+     }
+    }
+   }
+   ActionsManagerComponent "{657E8538A2BE1CCD}" {
+    ActionContexts {
+     UserActionContext "{657E8538A2BE1CCA}" {
+      Position PointInfo "{657E8538A2BE1CC5}" {
+       Offset 0.027 0.0107 -0.0612
+      }
+     }
+    }
+    additionalActions {
+     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
+      m_sTeleportActionName "Shelter"
+      m_sTeleportTarget "enter_shelters"
+      m_fTeleportDelay 2
+      m_fTeleportRadius 3
+      m_sRequiredItem "{BC8E60D6DF53A490}Prefabs/Items/Keys/armst_itm_key_uaz.et"
+     }
+    }
+   }
+  }
+  coords 3105.968 300.597 1000.852
+  angleX -3.17
+  angleY -105.226
+  angleZ -3.162
+  {
+   ParticleEffectEntity {
+    ID "6584A0E2D7807BBB"
+    coords 0.111 -0.043 0.088
+   }
+  }
+ }
+ {
+  components {
+   MeshObject "{657E853AA73914A8}" {
+    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
+   }
+   ActionsManagerComponent "{657E8538A2BE1CCD}" {
+    ActionContexts {
+     UserActionContext "{657E8538A2BE1CCA}" {
+      Position PointInfo "{657E8538A2BE1CC5}" {
+       Offset 0.027 0.0107 -0.0612
+      }
+     }
+    }
+    additionalActions {
+     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
+      m_sTeleportActionName "Shelter"
+      m_sTeleportTarget "enter_shelters"
+      m_fTeleportDelay 2
+      m_fTeleportRadius 3
+      m_sRequiredItem "{5EA844008DB50D00}Prefabs/Items/Tools/armst_itm_kerosine.et"
+     }
+    }
+   }
+  }
+  coords 2336.053 290.38 438.49
+  angleY -131.774
+  {
+   ParticleEffectEntity {
+    ID "6584A0E2D7807BBB"
+    coords 0.09 -0.017 -0.104
+   }
+  }
+ }
+ {
+  components {
+   MeshObject "{657E853AA73914A8}" {
+    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
+   }
+   ActionsManagerComponent "{657E8538A2BE1CCD}" {
+    ActionContexts {
+     UserActionContext "{657E8538A2BE1CCA}" {
+      Position PointInfo "{657E8538A2BE1CC5}" {
+       Offset 0.027 0.0107 -0.0612
+      }
+     }
+    }
+    additionalActions {
+     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
+      m_sTeleportActionName "Shelter"
+      m_sTeleportTarget "enter_shelters"
+      m_fTeleportDelay 2
+      m_fTeleportRadius 3
+      m_sRequiredItem "{5EA844008DB50D00}Prefabs/Items/Tools/armst_itm_kerosine.et"
+     }
+    }
+   }
+  }
+  coords 1388.536 291.859 636.979
+  angleY -78.23
+  {
+   ParticleEffectEntity {
+    ID "6584A0E2D7807BBB"
+    coords 0.09 -0.017 -0.104
+   }
+  }
+ }
 }
 $grp GenericEntity : "{4923E218F59644B9}Prefabs/Props/Wrecks/BoatWreck_01.et" {
  {
@@ -593,6 +691,16 @@ $grp GenericEntity : "{81AA8743455F68A5}Prefabs/Vehicles/uaz452/armst_uaz452_ope
   angleY 20.478
   angleZ -0.724
  }
+ {
+  coords 3135.339 299.518 833.691
+  angleY 127.216
+ }
+ {
+  coords 3107.588 299.483 1000.396
+  angleX -2.782
+  angleY 158.176
+  angleZ 3.507
+ }
 }
 $grp GenericEntity : "{E4A22C9C10769063}Prefabs/Vehicles/gaz71/BASE_gaz71.et" {
  {
@@ -603,5 +711,13 @@ $grp GenericEntity : "{E4A22C9C10769063}Prefabs/Vehicles/gaz71/BASE_gaz71.et" {
  {
   coords 3281.631 308.447 1392.201
   angleY 134.612
+ }
+ {
+  coords 2333.582 289.568 435.994
+  angleY 43.568
+ }
+ {
+  coords 1385.06 291.047 637.484
+  angleY 97.112
  }
 }

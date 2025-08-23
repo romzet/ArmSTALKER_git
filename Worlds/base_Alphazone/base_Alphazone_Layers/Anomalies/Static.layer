@@ -1,3 +1,34 @@
+$grp ParticleEffectEntity {
+ {
+  coords 2246.628 310.807 702.028
+  EffectPath "{A5055256B29FF837}Prefabs/Anomals/Zero_gravy/data/line_wrapper.ptc"
+ }
+ {
+  coords 2236.213 312.544 722.63
+  EffectPath "{DFD912CCE3537BC9}Prefabs/Anomals/Zero_gravy/data/line_wrapper_zil.ptc"
+ }
+ {
+  coords 2221.696 298.271 706.352
+  EffectPath "{486567042E8DFD09}Prefabs/Anomals/Zero_gravy/data/line_wrapper_mi8.ptc"
+ }
+ {
+  coords 2187.67 300.085 713.682
+  EffectPath "{01C2A4A1192CBCA0}Prefabs/Anomals/Zero_gravy/data/line_wrapper_gaz66.ptc"
+ }
+ {
+  coords 2201.38 299.135 699.455
+  EffectPath "{C9B4E6E04652F48F}Prefabs/Anomals/Zero_gravy/data/line_wrapper_uaz_469.ptc"
+ }
+}
+ParticleEffectEntity : "{466085B5B3C3DF03}Prefabs/Anomals/puzir/ARMST_PUZIR.et" {
+ coords 2220.506 276.253 706.733
+ {
+  ARMST_DamagingTriggerEntity {
+   ID "633081B3AF2B7919"
+   UpdatePeriod 10
+  }
+ }
+}
 ParticleEffectEntity : "{536D11B750570179}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_VOLGA.et" {
  coords 5101.674 312.872 607.405
 }
@@ -12,9 +43,14 @@ $grp ParticleEffectEntity : "{76B7DF585372AA23}Prefabs/Anomals/Zero_gravy/ARMST_
   coords 3751.902 299.799 1065.505
  }
 }
-ParticleEffectEntity : "{809740F0D40DA5CC}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_GAZ.et" {
- coords 5326.424 305.809 914.615
- angleY 20.126
+$grp ParticleEffectEntity : "{809740F0D40DA5CC}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_GAZ.et" {
+ {
+  coords 5326.424 305.809 914.615
+  angleY 20.126
+ }
+ {
+  coords 2436.632 290.995 558.401
+ }
 }
 $grp ParticleEffectEntity : "{9811EEE82112C280}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_TRAIN.et" {
  {
@@ -36,6 +72,11 @@ $grp ParticleEffectEntity : "{B1951BCC12C93A1D}Prefabs/Anomals/Zero_gravy/ARMST_
   coords 4232.212 323.31 1636.982
  }
 }
-ParticleEffectEntity : "{E1BE9FC3307E693F}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_MI8.et" {
- coords 3504.001 304.971 1401.033
+$grp ParticleEffectEntity : "{E1BE9FC3307E693F}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_MI8.et" {
+ {
+  coords 3504.001 304.971 1401.033
+ }
+ {
+  coords 1603.375 290.117 992.164
+ }
 }

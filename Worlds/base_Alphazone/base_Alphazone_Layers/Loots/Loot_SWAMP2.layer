@@ -1,0 +1,1260 @@
+$grp GenericEntity : "{0CA0F15A651DB0F7}Prefabs/Props/LOOT_BOX/army/Loot_army_box_weapons.et" {
+ {
+  coords 1547.201 306.541 725.343
+  angleY 11.84
+ }
+ {
+  coords 1628.711 297.202 847.973
+  angleY -159.514
+ }
+ {
+  coords 1618.022 297.217 865.108
+  angleY 43.434
+ }
+ {
+  coords 1648.382 298.576 850.41
+ }
+ {
+  coords 1602.417 297.254 855.485
+  angleY 86.442
+ }
+ {
+  coords 1680.025 290.895 850.169
+ }
+ {
+  coords 1812.77 291.454 691.543
+  angleX -90
+  angleY -131.235
+  angleZ -180
+ }
+ {
+  coords 2169.542 290.922 569.558
+  angleX 4.391
+  angleY 20.352
+  angleZ -0.277
+ }
+ {
+  coords 2488.439 300.435 454.303
+ }
+ {
+  coords 2584.861 301.978 604.793
+  angleX -0.035
+  angleY 42.502
+  angleZ 2.85
+ }
+ {
+  coords 2138.933 291.311 835.246
+  angleX -0.448
+  angleY 0.004
+  angleZ -0.444
+ }
+ {
+  coords 2519.207 289.656 810.492
+  angleX -12.67
+  angleY -1.241
+  angleZ 5.641
+ }
+ {
+  coords 2654.661 291.777 960.819
+  angleZ -9.856
+ }
+}
+$grp GenericEntity : "{13F428D2770E8D28}Prefabs/Props/LOOT_BOX/Loot_randomize_clothes.et" {
+ {
+  coords 2321.759 301.239 975.825
+  angleX 1.326
+  angleY -0.034
+  angleZ -1.487
+ }
+ {
+  coords 2019.731 292.175 657.853
+ }
+ {
+  coords 2709.447 291.587 574.275
+  angleX 4.854
+  angleY -0.532
+  angleZ -6.265
+ }
+ {
+  coords 2338.536 291.95 829.397
+  angleX 5.387
+  angleY -0.186
+  angleZ -1.982
+ }
+ {
+  coords 2565.6 305.267 523.857
+  angleX -1.229
+  angleY -0.122
+  angleZ 5.655
+ }
+ {
+  coords 2363.675 292.01 515.866
+ }
+ {
+  coords 2627.767 294.012 1027.075
+  angleY -91.476
+ }
+ {
+  coords 2362.833 291.667 520.349
+  angleY -111.232
+ }
+ {
+  coords 2627.775 294.024 1026.83
+  angleY -113.224
+ }
+ {
+  coords 2042.179 290.625 544.02
+ }
+}
+$grp GenericEntity : "{1CE252AD28BD0C6F}Prefabs/Props/LOOT_BOX/Loot_randomize_garbarages.et" {
+ {
+  coords 1842.153 290.81 688.889
+  angleX 0.438
+  angleY -0.065
+  angleZ -8.443
+ }
+ {
+  coords 1771.995 293.069 769.928
+  angleX -6.605
+  angleY 0.726
+  angleZ -6.284
+ }
+ {
+  coords 1731.633 290.452 978.356
+ }
+ {
+  coords 1854.46 292.355 758.285
+  angleX -1.342
+  angleY 0.01
+  angleZ -0.448
+ }
+ {
+  coords 1854.342 289.971 726.57
+ }
+ {
+  coords 1925.609 291.453 660.82
+  angleX -0.654
+  angleY -133.658
+  angleZ -2.848
+ }
+ {
+  coords 1909.396 290.586 738.363
+  angleX -7.987
+  angleY -0.377
+  angleZ 2.71
+ }
+ {
+  coords 2063.117 289.687 607.988
+  angleX -9.031
+  angleY -0.609
+  angleZ 3.871
+ }
+ {
+  coords 2127.029 292.247 612.415
+  angleX -2.673
+  angleY 0.167
+  angleZ -3.58
+ }
+ {
+  coords 2134.827 289.943 585.049
+ }
+ {
+  coords 2016.024 292.175 660.631
+ }
+ {
+  coords 2046.183 292.017 615.149
+  angleX 4.177
+  angleY 66.9
+  angleZ -1.781
+ }
+ {
+  coords 1989.436 291.461 599.725
+  angleX -0.097
+  angleY -53.806
+  angleZ -0.626
+ }
+ {
+  coords 1970.78 291.034 568.453
+  angleX -1.792
+  angleY -70.035
+  angleZ 13.83
+ }
+ {
+  coords 2039.812 290.703 503.381
+  angleX 9.297
+  angleY 0.44
+  angleZ 2.72
+ }
+ {
+  coords 2366.219 289.883 522.403
+ }
+ {
+  coords 2366.483 289.872 520.98
+  angleX -1.6
+ }
+ {
+  coords 2354.023 290.829 539.958
+  angleY -50.999
+ }
+ {
+  coords 2611.401 292.362 450.635
+  angleX -0.892
+  angleY 0.056
+  angleZ -3.577
+ }
+ {
+  coords 2634.429 289.933 557.808
+  angleX -1.789
+  angleY 0.028
+  angleZ -0.896
+ }
+ {
+  coords 2704.7 291.285 574.575
+  angleX 4.016
+  angleY -0.157
+  angleZ -2.243
+ }
+ {
+  coords 2553.085 296.977 803.436
+  angleY 172.937
+ }
+ {
+  coords 2675.627 292.45 918.032
+  angleX 3.127
+  angleY 0.098
+  angleZ 1.793
+ }
+ {
+  coords 2618.065 290.829 959.915
+  angleX 1.61
+  angleY 107.152
+  angleZ -2.781
+ }
+ {
+  coords 2597.001 291.002 968.825
+  angleX -0.894
+  angleY -0.028
+  angleZ 1.79
+ }
+ {
+  coords 2599.618 290.854 970.244
+  angleX -2.23
+  angleY -0.122
+  angleZ 3.133
+ }
+ {
+  coords 2611.449 290.694 999.773
+  angleX -0.664
+  angleY 64.962
+  angleZ 0.329
+ }
+ {
+  coords 2592.823 292.227 986.232
+  angleX 7.932
+  angleY -23.438
+  angleZ 11.399
+ }
+ {
+  coords 2651.823 291.673 1003.576
+  angleX 0.448
+  angleY -0.004
+  angleZ -0.448
+ }
+ {
+  coords 2648.308 291.083 997.406
+  angleY 17.884
+ }
+ {
+  coords 2660.785 291.861 998.304
+  angleX -2.186
+  angleY 0.159
+  angleZ -4.171
+ }
+ {
+  coords 1869.744 292.456 681.843
+  angleX -14.851
+  angleZ 3.697
+ }
+ {
+  coords 1780.304 290.259 737.185
+  angleX -0.533
+  angleY 20.757
+  angleZ 2.668
+ }
+ {
+  coords 1822.496 290.92 811.056
+  angleX 7.123
+  angleY 0.112
+  angleZ 0.902
+ }
+ {
+  coords 1773.937 293.188 868.131
+  angleX -2.214
+  angleY -0.225
+  angleZ 5.804
+ }
+ {
+  coords 1733.419 290.452 977.812
+ }
+ {
+  coords 1857.938 290.117 725.136
+ }
+ {
+  coords 2001.307 291.286 804.56
+  angleX -1.772
+  angleY 0.18
+  angleZ -5.802
+ }
+ {
+  coords 2042.966 292.362 670.09
+  angleX 0.867
+  angleY -0.156
+  angleZ -10.188
+ }
+ {
+  coords 2063.308 289.364 609.931
+  angleX -8.239
+  angleY 55.922
+  angleZ -5.36
+ }
+ {
+  coords 2176.545 291.252 595.433
+  angleX -2.228
+  angleY -0.139
+  angleZ 3.579
+ }
+ {
+  coords 2136.672 289.813 585.07
+  angleX -0.443
+  angleY -0.045
+  angleZ 5.799
+ }
+ {
+  coords 2173.81 289.426 533.674
+ }
+ {
+  coords 2091.793 290.623 664.657
+  angleX -1.342
+  angleY 0.01
+  angleZ -0.448
+ }
+ {
+  coords 2135.422 291.168 675.667
+  angleX -4.897
+  angleY -0.269
+  angleZ 3.142
+ }
+ {
+  coords 2120.023 289.723 528.505
+  angleX -1.336
+  angleY 0.094
+  angleZ -4.023
+ }
+ {
+  coords 2634.649 289.895 559.148
+  angleX -1.789
+  angleY 0.028
+  angleZ -0.896
+ }
+ {
+  coords 2705.287 291.052 560.038
+  angleX -6.682
+  angleY -0.105
+  angleZ 0.901
+ }
+ {
+  coords 2408.019 291.456 707.815
+  angleX -1.342
+  angleY -0.021
+  angleZ 0.895
+ }
+ {
+  coords 2185.497 289.508 873.513
+  angleX 10.623
+  angleY -2.812
+  angleZ -17.566
+ }
+ {
+  coords 2545.056 289.843 843.201
+  angleX -10.861
+  angleY -1.46
+  angleZ 7.704
+ }
+ {
+  coords 2758.41 292.011 872.304
+  angleX -0.608
+  angleY -98.895
+  angleZ 1.907
+ }
+ {
+  coords 2675.282 292.539 919.46
+  angleX 3.127
+  angleY 0.098
+  angleZ 1.793
+ }
+ {
+  coords 2599.31 290.814 971.685
+  angleX -2.23
+  angleY -0.122
+  angleZ 3.133
+ }
+ {
+  coords 2614.147 292.086 1027.064
+  angleX 1.343
+ }
+ {
+  coords 2608.525 290.987 1088.018
+  angleZ -0.448
+ }
+ {
+  coords 1860.244 291.296 698.484
+  angleX -5.957
+  angleY 1.308
+  angleZ -12.407
+ }
+ {
+  coords 1770.997 292.941 770.094
+  angleX -6.605
+  angleY 0.726
+  angleZ -6.284
+ }
+ {
+  coords 1820.429 291.006 811.47
+  angleX 6.236
+  angleY 0.196
+  angleZ 1.801
+ }
+ {
+  coords 1670.916 291.306 888.1
+  angleX 4.845
+  angleY 0.569
+  angleZ 6.708
+ }
+ {
+  coords 1671.604 291.346 889.411
+  angleX -7.351
+  angleY 104.179
+  angleZ 3.638
+ }
+ {
+  coords 1731.692 290.452 977.002
+  angleY -46.042
+ }
+ {
+  coords 1852.458 289.99 724.203
+  angleX -7.997
+  angleY -0.252
+  angleZ 1.808
+ }
+ {
+  coords 1928.199 291.785 673.084
+ }
+ {
+  coords 1928.326 291.77 674.732
+ }
+ {
+  coords 1963.568 290.468 764.473
+  angleX 3.128
+  angleY -0.073
+  angleZ -1.345
+ }
+ {
+  coords 2045.546 289.967 650.187
+ }
+ {
+  coords 2126.102 292.183 612.548
+  angleX -2.673
+  angleY 0.167
+  angleZ -3.58
+ }
+ {
+  coords 2026.913 290.374 626.831
+  angleX -5.202
+  angleY 0.897
+  angleZ -9.793
+ }
+ {
+  coords 2095.42 290.148 661.268
+  angleX 3.545
+  angleY 0.333
+  angleZ 5.366
+ }
+ {
+  coords 2089.119 289.744 646.179
+  angleX 3.641
+  angleY 99.642
+  angleZ 10.469
+ }
+ {
+  coords 2039.487 290.554 502.382
+  angleX 9.297
+  angleY 0.44
+  angleZ 2.72
+ }
+ {
+  coords 2595.42 291.096 561.861
+  angleX -0.88
+  angleY 0.117
+  angleZ -7.566
+ }
+ {
+  coords 2633.11 289.89 558.166
+  angleX -1.976
+  angleY -54.433
+  angleZ -0.313
+ }
+ {
+  coords 2715.335 290.974 571.17
+  angleX 4.745
+  angleY 0.892
+  angleZ 10.657
+ }
+ {
+  coords 2138.599 290.51 841.459
+  angleX -3.127
+  angleY -0.098
+  angleZ 1.793
+ }
+ {
+  coords 2769.477 290.9 792.709
+  angleX -2.676
+  angleY -0.146
+  angleZ 3.134
+ }
+ {
+  coords 2614.691 290.653 1002.273
+  angleX -0.248
+  angleY 161.798
+  angleZ -0.698
+ }
+}
+$grp GenericEntity : "{3A4C8E2F5B6EBAAC}Prefabs/Props/LOOT_BOX/Loot_randomize_army.et" {
+ {
+  coords 1546.177 311.335 726.727
+  angleY -159.986
+ }
+ {
+  coords 1630.109 297.202 859.98
+  angleY -126.78
+ }
+ {
+  coords 1616.448 297.225 867.727
+  angleY 143.964
+ }
+ {
+  coords 1629.883 297.294 839.769
+  angleY -24.599
+ }
+ {
+  coords 1641.897 298.631 847.493
+ }
+ {
+  coords 1633.772 298.073 870.687
+  angleX 7.315
+  angleY 45.833
+  angleZ -4.018
+ }
+ {
+  coords 1612.596 298.59 844.168
+  angleY 76.805
+ }
+ {
+  coords 1613.221 298.59 844.828
+  angleY -44.868
+ }
+ {
+  coords 1637.872 297.154 872.43
+  angleX -5.485
+  angleY -167.902
+  angleZ -2.084
+ }
+ {
+  coords 1692.928 290.708 859.68
+ }
+ {
+  coords 1767.597 306.63 808.392
+  angleX 1.441
+  angleY -21.091
+  angleZ 2.188
+ }
+ {
+  coords 1767.951 301.84 810.174
+  angleX -0.859
+  angleY 31.398
+  angleZ 2.475
+ }
+ {
+  coords 1813.742 290.469 694.167
+  angleX 0.349
+  angleY -38.736
+  angleZ -0.28
+ }
+ {
+  coords 2183.007 292.407 567
+  angleX -1.903
+  angleY 19.102
+  angleZ 0.211
+ }
+ {
+  coords 2188.728 291.116 565.532
+  angleX 2.121
+  angleY -161.53
+  angleZ 2.122
+ }
+ {
+  coords 2201.235 292.903 561.62
+  angleX 1.542
+  angleY -0.04
+  angleZ -1.469
+ }
+ {
+  coords 2201.146 292.86 560.449
+  angleX -1.19
+  angleY -80.447
+  angleZ -1.759
+ }
+ {
+  coords 2434.952 292.642 501.141
+ }
+ {
+  coords 2406.169 300.665 707.281
+  angleX 2.104
+  angleY 43.473
+  angleZ 0.053
+ }
+ {
+  coords 2410.022 300.769 707.611
+  angleX 2.103
+  angleY 44.172
+  angleZ 0.079
+ }
+ {
+  coords 2340.918 292.486 842.835
+  angleX -4.223
+  angleY -35.82
+  angleZ -17.636
+ }
+ {
+  coords 2137.026 291.296 835.196
+  angleX 0.474
+  angleY 176.577
+  angleZ 0.416
+ }
+ {
+  coords 2554.424 301.764 802.23
+  angleY 86.404
+ }
+ {
+  coords 2752.622 298.832 1010.332
+  angleX 3.125
+  angleY -0.122
+  angleZ -2.24
+ }
+ {
+  coords 2666.645 292.868 966.039
+  angleX 5.26
+  angleY 0.199
+  angleZ 2.176
+ }
+ {
+  coords 1623.047 297.202 862.669
+  angleY -22.111
+ }
+ {
+  coords 1648.22 298.631 848.803
+  angleY 47.099
+ }
+ {
+  coords 1694.575 290.704 883.416
+ }
+ {
+  coords 2564.396 305.8 523.45
+  angleY -12.833
+ }
+ {
+  coords 2586.922 298.116 604.867
+  angleX -0.371
+  angleY 49.267
+  angleZ 2.826
+ }
+ {
+  coords 2708.201 291.395 576.338
+ }
+ {
+  coords 2719.722 291.625 571.83
+  angleY 18.406
+ }
+ {
+  coords 2407.336 300.659 705.999
+  angleX 2.104
+  angleY 40.514
+  angleZ -0.056
+ }
+ {
+  coords 2531.604 290.532 806.104
+  angleX 29.109
+ }
+ {
+  coords 2747.969 300.509 1025.79
+  angleY 9.303
+ }
+ {
+  coords 2743.301 299.395 1023.822
+  angleY 38.441
+ }
+ {
+  coords 2655.736 291.441 961.396
+  angleY 64.427
+ }
+ {
+  coords 2654.917 291.557 962.16
+  angleY -19.528
+ }
+ {
+  coords 2753.263 298.886 1010.379
+  angleY 31.321
+ }
+ {
+  coords 2747.999 300.098 1028.974
+  angleY 146.214
+ }
+ {
+  coords 2760.395 299.865 1013.537
+ }
+ {
+  coords 2553.206 296.977 803.826
+ }
+ {
+  coords 2554.313 301.764 801.988
+  angleY 84.228
+ }
+ {
+  coords 2551.631 301.764 804.34
+  angleY 89.118
+ }
+ {
+  coords 2552.112 292.408 800.815
+  angleY -14.286
+ }
+ {
+  coords 2588.476 301.859 605.233
+  angleY 41.362
+ }
+ {
+  coords 2587.581 301.921 606.128
+  angleY 42.548
+ }
+ {
+  coords 2585.624 302.479 605.759
+  angleY -38.669
+ }
+ {
+  coords 2588.928 296.975 605.343
+  angleY 44.885
+ }
+}
+$grp GenericEntity : "{4430B9A494F2C7F0}Prefabs/Props/LOOT_BOX/garbarages/Loot_garbarages_trash.et" {
+ {
+  coords 3060.305 299.327 975.877
+ }
+ {
+  coords 2043.77 292.363 677.057
+  angleX -16.736
+ }
+}
+$grp GenericEntity : "{76C7564FF4C92FE5}Prefabs/Props/LOOT_BOX/garbarages/Loot_garbarages_trash_2.et" {
+ {
+  coords 3058.215 299.327 975.527
+ }
+ {
+  coords 3062.138 299.327 976.12
+  angleY 99.67
+ }
+ {
+  coords 2044.768 292.605 675.318
+ }
+}
+$grp GenericEntity : "{860A452E9D25FCB6}Prefabs/Props/LOOT_BOX/Loot_randomize_food.et" {
+ {
+  coords 2064.617 291.476 625.698
+  angleY 29.566
+ }
+ {
+  coords 2003.524 292.049 602.403
+ }
+ {
+  coords 2621.824 292.928 449.034
+  angleX 0.527
+  angleY -46.651
+  angleZ -0.433
+ }
+ {
+  coords 1941.22 291.718 712.21
+  angleX -0.917
+  angleY -0.07
+  angleZ 4.373
+ }
+ {
+  coords 2621.598 292.924 448.459
+  angleX 0.378
+  angleY -65.799
+  angleZ -1.035
+ }
+ {
+  coords 2039.936 293.625 548.55
+  angleY -23.243
+ }
+ {
+  coords 2367.212 290.879 517.327
+  angleY -11.595
+ }
+ {
+  coords 2658.414 292.08 988.093
+  angleX -4.06
+  angleY -31.751
+  angleZ -2.386
+ }
+ {
+  coords 1548.517 311.353 724.831
+  angleX 1.747
+  angleY 19.491
+  angleZ -0.958
+ }
+ {
+  coords 1640.165 297.475 862.178
+  angleY 48.234
+ }
+ {
+  coords 1641.019 297.386 864.912
+ }
+ {
+  coords 1922.754 292.354 679.668
+  angleX 2.51
+  angleY 0.065
+  angleZ 1.496
+ }
+ {
+  coords 2013.23 293.399 678.399
+  angleX -0.94
+  angleY -0.056
+  angleZ 3.387
+ }
+ {
+  coords 2367.398 291.592 517.523
+  angleY 77.878
+ }
+ {
+  coords 2487.923 296.65 452.659
+ }
+ {
+  coords 2564.103 305.44 522.72
+  angleX -1.229
+  angleY -0.122
+  angleZ 5.655
+ }
+ {
+  coords 2588.513 301.869 605.584
+  angleX 0.012
+  angleY 41.55
+  angleZ 2.85
+ }
+ {
+  coords 2323.103 301.334 978.471
+  angleX 1.326
+  angleY -0.034
+  angleZ -1.487
+ }
+ {
+  coords 2553.052 302.243 804.547
+  angleX 1.967
+  angleY 0.01
+  angleZ 0.292
+ }
+ {
+  coords 2608.577 291.262 978.518
+ }
+ {
+  coords 2608.594 291.208 981.142
+ }
+ {
+  coords 2608.25 292.407 977.136
+ }
+ {
+  coords 2753.779 301.743 1030.695
+  angleX 1.789
+  angleY -0.042
+  angleZ -1.344
+ }
+ {
+  coords 1767.344 306.653 809.546
+  angleX -2.151
+  angleY 67.415
+  angleZ 1.497
+ }
+}
+$grp GenericEntity : "{91D86FC384A72660}Prefabs/Props/LOOT_BOX/Loot_randomize_medicine.et" {
+ {
+  coords 1767.235 307.144 809.843
+  angleX -1.673
+  angleY -0.113
+  angleZ 3.857
+ }
+ {
+  coords 1640.5 297.215 871.582
+  angleX -2.934
+  angleY -52.506
+  angleZ -2.635
+ }
+ {
+  coords 2002.498 291.477 620.121
+  angleX -3.13
+ }
+ {
+  coords 1680.496 290.891 860.35
+ }
+ {
+  coords 2486.299 300.434 454.184
+  angleY -95.418
+ }
+ {
+  coords 2338.345 292.65 837.641
+  angleX 2.995
+  angleY -0.19
+  angleZ -3.639
+ }
+ {
+  coords 2047.37 292.516 676.718
+  angleX 15.999
+  angleY -91.825
+  angleZ 5.788
+ }
+ {
+  coords 2366.548 292.306 516.426
+  angleY -11.218
+ }
+ {
+  coords 2585.973 302.522 606.021
+  angleX 86.673
+  angleY 147.801
+  angleZ 147.845
+ }
+ {
+  coords 2337.626 292.997 834.358
+  angleX 89.684
+  angleY 180
+  angleZ -180
+ }
+ {
+  coords 2321.372 297.526 976.959
+  angleX 87.948
+  angleY -136.5
+  angleZ -136.518
+ }
+ {
+  coords 2003.204 292.539 571.749
+  angleY -100.926
+ }
+ {
+  coords 2655.851 291.514 962.24
+  angleY 58.949
+ }
+ {
+  coords 2656.941 291.369 961.249
+  angleY -59.502
+ }
+ {
+  coords 2586.492 302.475 606.575
+  angleY -52.199
+ }
+ {
+  coords 2584.198 297.138 604.928
+  angleY 51.115
+ }
+}
+$grp GenericEntity : "{ABFD4EAF0C6F303A}Prefabs/Props/LOOT_BOX/Loot_randomize_random.et" {
+ {
+  coords 1378.007 296.979 765.407
+ }
+ {
+  coords 1553.681 299.024 882.368
+  angleZ 1.79
+ }
+ {
+  coords 2065.381 292.531 562.339
+  angleX -2.682
+  angleY 0.063
+  angleZ -1.344
+ }
+ {
+  coords 2159.589 291.137 598.25
+  angleZ 4.022
+ }
+ {
+  coords 2047.067 292.087 620.308
+  angleX -0.001
+  angleZ -4.54
+ }
+ {
+  coords 1994.622 292.543 573.449
+ }
+ {
+  coords 1643.46 296.933 822.126
+  angleX 3.576
+  angleY 0.028
+  angleZ 0.449
+ }
+ {
+  coords 1552.274 299.168 885.598
+  angleX -3.241
+  angleY 117.562
+  angleZ 2.341
+ }
+ {
+  coords 1433.524 300.796 685.521
+  angleX -0.448
+  angleY 0.004
+  angleZ -0.448
+ }
+ {
+  coords 1562.128 299.29 717.808
+  angleX -23.887
+ }
+ {
+  coords 1665.102 296.471 942.651
+  angleX -16.501
+  angleY 6.645
+  angleZ -22.302
+ }
+ {
+  coords 1968.75 289.965 663.857
+  angleX -27.644
+ }
+ {
+  coords 2191.308 297.498 513.118
+ }
+ {
+  coords 2299.442 293.022 886.637
+  angleX -83.037
+  angleY -180
+  angleZ -180
+ }
+ {
+  coords 2061.476 291.352 630.757
+  angleY -47.083
+ }
+ {
+  coords 2041.549 293.625 543.595
+ }
+ {
+  coords 2010.779 292.049 602.285
+ }
+ {
+  coords 2608.458 291.112 975.512
+  angleX 2.237
+  angleY -0.018
+  angleZ -0.448
+ }
+ {
+  coords 2631.365 292.705 1026.159
+  angleX 2.514
+  angleY -16.08
+  angleZ -2.584
+ }
+ {
+  coords 1768.835 306.61 812.024
+  angleX 1.256
+  angleY -16.368
+  angleZ 2.299
+ }
+ {
+  coords 1922.74 291.99 671.914
+  angleY 90.611
+ }
+ {
+  coords 1984.459 292.329 697.465
+  angleY -64.425
+ }
+ {
+  coords 1989.414 291.788 694.998
+  angleY -66.543
+ }
+ {
+  coords 1995.705 291.068 682.23
+  angleX -1.422
+  angleY 8.277
+  angleZ 3.214
+ }
+ {
+  coords 2015.951 293.143 684.168
+  angleX 3.26
+  angleY -83.571
+  angleZ 1.315
+ }
+ {
+  coords 2039.728 290.625 549.28
+  angleY -20.304
+ }
+ {
+  coords 2044.17 293.625 550.86
+  angleY -18.177
+ }
+ {
+  coords 2017.898 292.175 653.054
+  angleY -5.792
+ }
+ {
+  coords 1976.782 291.811 569.883
+  angleX 9.73
+  angleY 45.305
+  angleZ -6.949
+ }
+ {
+  coords 2365.798 290.843 524.716
+  angleY 80.346
+ }
+ {
+  coords 2706.525 291.539 565.007
+ }
+ {
+  coords 2551.399 301.764 804.697
+  angleY -3.824
+ }
+ {
+  coords 2612.413 291.197 977.178
+  angleX -0.032
+  angleZ 0.002
+ }
+ {
+  coords 2627.882 293.016 1033.831
+  angleX 2.872
+  angleY -7.477
+  angleZ -2.179
+ }
+ {
+  coords 2655.006 291.624 993.526
+  angleX -4.072
+  angleY -32.05
+  angleZ -2.365
+ }
+ {
+  coords 1548.313 311.364 725.712
+  angleX -0.821
+  angleY -66.094
+  angleZ -1.815
+ }
+ {
+  coords 2487.709 291.702 451.585
+  angleX 34.161
+  angleY 55.773
+  angleZ 14.051
+ }
+ {
+  coords 2705.739 301.312 822.453
+ }
+ {
+  coords 2085.528 292.267 707.956
+  angleX -1.908
+  angleY -102.268
+  angleZ -1.52
+ }
+}
+GenericEntity : "{BC78C382910BABBF}Prefabs/Props/LOOT_BOX/backpacks/Loot_random_backpack.et" {
+ coords 2630.445 292.24 973.276
+ angleY 75
+}
+GenericEntity : "{EA0C171E40026467}Prefabs/Props/LOOT_BOX/medicine/Loot_medicals_backpack_2.et" {
+ coords 2489.409 291.239 449.282
+}
+$grp GenericEntity : "{FA7EB973926021A8}Prefabs/Props/LOOT_BOX/Loot_randomize_tools.et" {
+ {
+  coords 2084.163 292.285 706.179
+  angleX -0.52
+  angleY -32.125
+  angleZ 0.855
+ }
+ {
+  coords 2007.07 292.175 657.108
+  angleY -6.284
+ }
+ {
+  coords 2062.734 289.295 612.054
+  angleX 4.44
+  angleY -0.348
+  angleZ -4.481
+ }
+ {
+  coords 2000.639 292.159 571.055
+  angleX -3.295
+  angleY -57.473
+  angleZ 2.668
+ }
+ {
+  coords 2349.756 291.912 528.156
+  angleZ -90.768
+ }
+ {
+  coords 2620.878 292.102 453.424
+  angleX 0.818
+  angleY 23.865
+  angleZ 0.362
+ }
+ {
+  coords 2600.028 291.8 1003.094
+  angleX 8.61
+  angleY 0.801
+  angleZ 5.337
+ }
+ {
+  coords 1816.718 290.679 801.006
+  angleY -25.185
+ }
+ {
+  coords 1855.004 292.368 757.935
+  angleX -1.342
+  angleY 0.01
+  angleZ -0.448
+ }
+ {
+  coords 1946.169 291.335 712.513
+  angleX -3.286
+  angleY 120.82
+  angleZ -3.029
+ }
+ {
+  coords 2046.093 292.836 677.088
+  angleX -5.969
+  angleY -1.727
+  angleZ 16.164
+ }
+ {
+  coords 2064.448 290.109 604.791
+  angleX -0.292
+  angleY -65.605
+  angleZ 9.815
+ }
+ {
+  coords 2361.863 291.722 515.424
+ }
+ {
+  coords 2366.539 291.715 519.578
+  angleY 87.535
+ }
+ {
+  coords 2347.534 291.583 517.4
+  angleZ 70.786
+ }
+ {
+  coords 2619.617 292.365 451.959
+  angleY -70.049
+ }
+ {
+  coords 2566.7 305.495 522.631
+  angleY 76.904
+ }
+ {
+  coords 2407.817 296.936 707.905
+  angleX 1.563
+  angleY -0.038
+  angleZ -1.41
+ }
+}

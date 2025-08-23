@@ -4,6 +4,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   scale 0.55
   SphereRadius 85.2
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
@@ -15,6 +16,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   scale 0.55
   SphereRadius 85.2
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
@@ -25,6 +27,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 5162.016 305.708 560.741
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
   m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
@@ -36,6 +39,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4895.461 311.233 1265.564
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
   m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
@@ -47,6 +51,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4579.875 305.204 1336.423
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
@@ -56,6 +61,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4726.975 306.159 1166.95
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
@@ -65,6 +71,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4715.832 312.108 905.117
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -74,6 +81,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 5030.219 312.768 881.867
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -83,6 +91,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4526.486 309.699 662.839
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -92,6 +101,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 5432.997 304.649 947.636
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -101,6 +111,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 5199.932 321.434 787.631
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -110,6 +121,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4614.753 304.507 530.606
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -119,6 +131,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4897.021 320.223 681.528
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -128,6 +141,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4820.722 328.429 448.628
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -137,6 +151,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4413.07 308.108 490.686
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
@@ -147,6 +162,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   scale 1.56
   SphereRadius 79.4
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
   m_ObjectPrefab2 "{642A15101599EB63}Prefabs/Anomals/Puziriks/ARMST_JARKA_PUZIRIKS.et"
@@ -158,6 +174,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 5447.662 304.427 989.656
   SphereRadius 74.2
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
   m_ObjectPrefab2 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
@@ -169,6 +186,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4632.931 310.275 994.965
   SphereRadius 74.2
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
   m_ObjectPrefab2 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
@@ -180,6 +198,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4462.402 314.48 1329.411
   SphereRadius 40.6
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
   m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
@@ -191,6 +210,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   coords 4836.771 311.233 1268.726
   SphereRadius 118.8
   DrawShape 0
+  TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"
   m_ObjectPrefab2 "{E696A918826666EB}Prefabs/Anomals/Studen/ARMST_STUDEN.et"

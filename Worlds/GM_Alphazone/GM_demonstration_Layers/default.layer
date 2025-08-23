@@ -6,7 +6,23 @@ SCR_GameModeEditor Armst_GameMaster : "{DA3986AF1B5032B7}Prefabs/MP/Modes/Editor
   ARMST_EDITOR_GLOBAL_SETTINGS "{65D48429738D662B}" {
   }
   ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
+   m_AutoMessageInterval 920
    m_EnableAutoMessages 1
+   m_sPdaLifeMessages {
+    "{EA3FED0C68C339CF}UI/PDA/pda_life/PDA_LIFE_Messages.conf"
+   }
+   m_sPdaDeathMessages {
+    "{B6AFC1A2384E6A51}UI/PDA/pda_life/PDA_DEATH_Messages.conf"
+   }
+   m_sPdaHeliMessages {
+    "{51D30E85AFC577F5}UI/PDA/pda_life/PDA_HELI_Messages.conf"
+   }
+   m_sPdaSurgeStartMessages {
+    "{1AB91387DF077D4A}UI/PDA/pda_life/PDA_SURGE_START_Messages.conf"
+   }
+   m_sPdaSurgeEndMessages {
+    "{A83A686100F32862}UI/PDA/pda_life/PDA_SURGE_END_Messages.conf"
+   }
   }
   SCR_CampaignBuildingManagerComponent "{5D7CEE59B8954EBB}" {
    m_sFreeRoamBuildingClientTrigger "{5E191CEAF4B95816}Prefabs/MP/FreeRoamBuildingClientTrigger.et"
@@ -128,6 +144,9 @@ SCR_GameModeEditor Armst_GameMaster : "{DA3986AF1B5032B7}Prefabs/MP/Modes/Editor
    m_sInitialStartingWeatherId "Cloudy"
    m_iSetWeatherConstant 1
   }
+  SCR_MapMarkerManagerComponent "{5D32E876D3886A72}" {
+   m_sMarkerCfgPath "{720E8E61D7692173}Configs/Map/MapMarkerConfig.conf"
+  }
   SCR_NametagConfigComponent "{571AA9E54FC9210D}" {
    m_sConfigPath "{09F7AAA14A642683}Configs/NameTags/NametagFriendlies.conf"
   }
@@ -240,15 +259,9 @@ SCR_MapLocator {
  m_WorldDirections SCR_MapLocationQuadHint "{5AAA92CDBEAC91B2}" : "{C1534F222D0F74D2}Configs/Map/MapLocatorHints/LocationHintsArland.conf" {
  }
 }
-ChimeraCharacter : "{22CAE0A2F3DFF713}Prefabs/Props/Deads/armst_dead_map.et" {
- coords 5079.645 301.794 55.311
-}
 SCR_SpawnPoint : "{2D88EAB83A52AE0E}Prefabs/MP/Spawning/SpawnPoint_STALKER.et" {
  coords 5076.001 301.794 56.565
 }
 GenericEntity : "{511C041EFC7BAE60}Prefabs/Props/Arsenal/ArsenalBox_STALKEr.et" {
  coords 3873.49 306.702 289.601
-}
-GenericEntity armst_vest_stalker_66184948436E1363 : "{CCE494A883B013F3}Prefabs/New_Equipment/Vests/armst_vest_stalker.et" {
- coords 3467.508 302.319 1018.484
 }

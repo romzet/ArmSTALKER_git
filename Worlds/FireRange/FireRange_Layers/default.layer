@@ -77,7 +77,7 @@ GenericEntity armst_AK74M_65B6583512C5C300 : "{5B8E766C0E3C13EE}Prefabs/Weapons/
  angleY 93.478
 }
 GenericEntity Rifle_AKM_65AE4CB514D47EBE : "{5BFF97EFD0BF6D9F}Prefabs/Weapons/Rifles/AKM/Rifle_AKM.et" {
- coords 3848.716 307.969 334.577
+ coords 3848.581 307.969 334.418
  angleY 90.498
 }
 GenericEntity armst_APB_65F26205454001B1 : "{5D3DA7E84135B278}Prefabs/Weapons/Handguns/armst_APB.et" {
@@ -113,6 +113,10 @@ $grp GenericEntity : "{70D023F899C9C226}Prefabs/Weapons/Magazines/Magazine_9x39_
 GenericEntity Rifle_VSK94_65AE7EB2F941F0D8 : "{71D8E1655668CB36}Prefabs/Weapons/Rifles/VSK94/Rifle_VSK94.et" {
  coords 3848.783 307.895 337.245
  angleY 92.895
+}
+GenericEntity SampleWeapon_01_base_6619022859417498 : "{903C7920F00AB654}Prefabs/Weapons/Rifles/Groza/Groza_base.et" {
+ coords 3848.811 307.963 334.706
+ angleY 87.265
 }
 GenericEntity Rifle_VPO136_65AE4CB4A2D8DCF3 : "{90EADC5DD9AD35D5}Prefabs/Weapons/Rifles/AKM/Rifle_VPO136.et" {
  coords 3848.693 307.874 334.096
@@ -204,7 +208,7 @@ StaticModelEntity : "{C289F5D866F0E46E}Prefabs/Structures/Walls/BarbedWire/Barbe
  coords 3819.594 0 294.527
  angleX -0.314
 }
-GameEntity Optic_PSO1_65ACF62BC1E71840 : "{C850A33226B8F9C1}Prefabs/Weapons/Attachments/Optics/Optic_PSO1/Optic_PSO1.et" {
+GameEntity Optic_PSO1_65ACF62BC1E71840 : "{C850A33226B8F9C1}Prefabs/Weapons/Attachments/Optics/Optic_PSO1.et" {
  coords 3848.638 307.835 338.343
  angleY -89.96
 }
