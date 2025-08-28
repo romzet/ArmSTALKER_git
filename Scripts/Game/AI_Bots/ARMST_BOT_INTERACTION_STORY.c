@@ -42,7 +42,7 @@ class ARMST_BOT_INTERACTION_STORY : ScriptedUserAction {
 						if (PlayerComp.CanFire())
 							{
 								charComp.SetMeleeAttack(true);	
-								Bot.ArmstWeaponReaction(pOwnerEntity);	
+								//Bot.ArmstWeaponReaction(pOwnerEntity);	
 								//GetGame().GetCallqueue().CallLater(ArmstTalkTimerOff, 5000, false);
 								return;
 							}

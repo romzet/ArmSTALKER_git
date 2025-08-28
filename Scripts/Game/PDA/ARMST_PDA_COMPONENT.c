@@ -88,6 +88,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
     // Компоненты для доступа к статистике
     protected ARMST_PLAYER_STATS_COMPONENT m_StatsComponent;
     protected ARMST_ITEMS_STATS_COMPONENTS m_ItemsStatsComponent;
+    protected ARMST_MONEY_COMPONENTS currencyComp;
     
     //------------------------------------------------------------------------------------------------
     override void OnMenuInit()
@@ -260,7 +261,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         // Получаем компоненты
         m_StatsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
         m_ItemsStatsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(m_User.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
-        
+        currencyComp = ARMST_MONEY_COMPONENTS.Cast(m_User.FindComponent(ARMST_MONEY_COMPONENTS));
         // Обновляем данные интерфейса
         UpdatePdaUI();
         
@@ -352,7 +353,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 				SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
 				if (!inventory) 
 					return;
-				int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventory);
+				int totalCurrency = currencyComp.GetValue();
                 // Подсчитываем баланс через ARMST_MONEY_COMPONENTS
                 Text_Balance_Count.SetText(totalCurrency.ToString());
             }

@@ -5,6 +5,9 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 	
 	protected bool m_bTalkTimer = true;
 	
+	[Attribute("0 1.6 0")]
+	protected vector m_vOffset;
+    ResourceName m_PrefabToSpawnSound = "{5C25E967BF314013}Sounds/neutral_interaction/HELLO_STALKER_SOUND.et";
 	protected CharacterControllerComponent m_CharacterController;
 	protected SCR_AIUtilityComponent m_Utility;	
 	//------------------------------------------------------------------------------------------------
@@ -18,10 +21,25 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 		if (!PlayerComp)
 			{return;}
 		
-
+		EntitySpawnParams params = new EntitySpawnParams();
+		
+		params.TransformMode = ETransformMode.WORLD;
+		
+		pOwnerEntity.GetWorldTransform(params.Transform);
+		Math3D.MatrixNormalize(params.Transform);
+		
+		// params.Transform[3] = GetOwner().GetOrigin() + m_vOffset;
+		params.Transform[3] = params.Transform[3] + m_vOffset;
+		
+        Resource resource = Resource.Load(m_PrefabToSpawnSound);
+        IEntity spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+		
 		ARMST_BOT_INTERACTION_COMPONENT Bot = ARMST_BOT_INTERACTION_COMPONENT.Cast(GetOwner().FindComponent(ARMST_BOT_INTERACTION_COMPONENT));
 		if (Bot)
 			{
+				SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+				if (!soundManagerEntity)
+					return;
 				Bot.SetTalkCheck(false);
 			
 				AIControlComponent controlComp = AIControlComponent.Cast(pOwnerEntity.FindComponent(AIControlComponent));
@@ -43,14 +61,16 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 						if (PlayerComp.CanFire())
 							{
 								charComp.SetMeleeAttack(true);	
-								Bot.ArmstWeaponReaction(pOwnerEntity);	
+								//Bot.ArmstWeaponReaction(pOwnerEntity);	
+								soundManagerEntity.CreateAndPlayAudioSource(spawnedObject, SCR_SoundEvent.SOUND_WEAPON);
 								GetGame().GetCallqueue().CallLater(ArmstTalkTimerOff, 5000, false);
 								return;
 							}
 					}
 				
+				soundManagerEntity.CreateAndPlayAudioSource(spawnedObject, SCR_SoundEvent.SOUND_HELLO);
         		//Bot.Rpc(Bot.Rpc_ArmstHelloReaction);
-				ArmstHelloReaction(pOwnerEntity);
+				//ArmstHelloReaction(pOwnerEntity);
 				charComp.TryStartCharacterGesture(ECharacterGestures.POINT_WITH_FINGER, 1500);
 				
 			
@@ -59,26 +79,6 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 			}
 		
 	};
-	
-	void ArmstHelloReaction(IEntity pOwnerEntity)
-	{
-		ARMST_BOT_INTERACTION_COMPONENT Bot = ARMST_BOT_INTERACTION_COMPONENT.Cast(GetOwner().FindComponent(ARMST_BOT_INTERACTION_COMPONENT));
-		if (Bot)
-			{
-			vector mat[4];
-				SCR_SoundManagerEntity soundManagerEntity2 = GetGame().GetSoundManagerEntity();
-				if (!soundManagerEntity2)
-						return;
-			
-			if (!Bot.m_AudioReactionHello2 || !Bot.m_AudioReactionHello2.IsValid())
-				return;
-				SCR_AudioSource audioSource2 = soundManagerEntity2.CreateAudioSource(pOwnerEntity, Bot.m_AudioReactionHello2);
-				if (!audioSource2)
-						return;
-				pOwnerEntity.GetTransform(mat);
-				soundManagerEntity2.PlayAudioSource(audioSource2, mat);
-			}
-	}
 	
 	void ArmstTalkTimerOff()
 	{

@@ -40,7 +40,7 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 	protected bool m_Talker_Bool;	//может ли говорить
 	protected bool m_Recruit_Bool;	//он уже нанят
 	float m_schanse_govor = Math.RandomFloat(0, 99);
-	
+	IEntity spawnedObject;
 	//Настройки для действия
 	
 	
@@ -52,6 +52,12 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 	
 	[Attribute("", UIWidgets.Auto, category: "Reaction to weapons")]
 	ref SCR_AudioSourceConfiguration m_AudioReactionWeapons;
+	
+	
+	[Attribute("0 1.6 0")]
+	protected vector m_vOffset;
+	
+    ResourceName m_PrefabToSpawnSound = "{5C25E967BF314013}Sounds/neutral_interaction/HELLO_STALKER_SOUND.et";
 	
 	bool GetActionRecruitable()
 	{
@@ -137,36 +143,48 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 			if (m_Chance_Jokes > m_schanse_govor) 
 				{
 			
-				SCR_SoundManagerEntity JokesManagerEntity = GetGame().GetSoundManagerEntity();
-				if (!JokesManagerEntity)
+				
+				SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+				if (!soundManagerEntity)
 					return;
+				EntitySpawnParams params = new EntitySpawnParams();
+				
+				params.TransformMode = ETransformMode.WORLD;
+				
+				owner.GetWorldTransform(params.Transform);
+				Math3D.MatrixNormalize(params.Transform);
+				
+				// params.Transform[3] = GetOwner().GetOrigin() + m_vOffset;
+				params.Transform[3] = params.Transform[3] + m_vOffset;
+				
+		        Resource resource = Resource.Load(m_PrefabToSpawnSound);
+		        spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
 			
-			
-				SCR_AudioSource JokesSource = JokesManagerEntity.CreateAudioSource(owner, m_AudioAnecdote);
-				if (!JokesSource)
-						return;
-			
-				owner.GetTransform(mat);
-				JokesManagerEntity.PlayAudioSource(JokesSource, mat);
-			
-				m_AudioHandle = JokesSource.m_AudioHandle;
+				soundManagerEntity.CreateAndPlayAudioSource(spawnedObject, SCR_SoundEvent.SOUND_ANECDOTE);
 			
 				ArmstCheckAudio(owner);
 				return;
 				}
 			if (m_Chance_Story > m_schanse_govor) 
 				{
-				SCR_SoundManagerEntity StoryManagerEntity = GetGame().GetSoundManagerEntity();
-				if (!StoryManagerEntity)
+				SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+				if (!soundManagerEntity)
 					return;
-				SCR_AudioSource StorySource = StoryManagerEntity.CreateAudioSource(owner, m_AudioStory);
-				if (!StorySource)
-						return;
+				EntitySpawnParams params = new EntitySpawnParams();
+				
+				params.TransformMode = ETransformMode.WORLD;
+				
+				owner.GetWorldTransform(params.Transform);
+				Math3D.MatrixNormalize(params.Transform);
+				
+				// params.Transform[3] = GetOwner().GetOrigin() + m_vOffset;
+				params.Transform[3] = params.Transform[3] + m_vOffset;
+				
+		        Resource resource = Resource.Load(m_PrefabToSpawnSound);
+		        spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
 			
-				owner.GetTransform(mat);
-				StoryManagerEntity.PlayAudioSource(StorySource, mat);
+				soundManagerEntity.CreateAndPlayAudioSource(spawnedObject, SCR_SoundEvent.SOUND_ANECDOTE);
 			
-				m_AudioHandle = StorySource.m_AudioHandle;
 				ArmstCheckAudioStory(owner);
 				}
 	}
@@ -185,17 +203,24 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 			if (contr.GetLifeState() == ECharacterLifeState.DEAD)
 				return;
 		
-				SCR_SoundManagerEntity StoryManagerEntity = GetGame().GetSoundManagerEntity();
-				if (!StoryManagerEntity)
+				SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+				if (!soundManagerEntity)
 					return;
-				SCR_AudioSource StorySource = StoryManagerEntity.CreateAudioSource(owner, m_AudioStory);
-				if (!StorySource)
-						return;
+				EntitySpawnParams params = new EntitySpawnParams();
+				
+				params.TransformMode = ETransformMode.WORLD;
+				
+				owner.GetWorldTransform(params.Transform);
+				Math3D.MatrixNormalize(params.Transform);
+				
+				// params.Transform[3] = GetOwner().GetOrigin() + m_vOffset;
+				params.Transform[3] = params.Transform[3] + m_vOffset;
+				
+		        Resource resource = Resource.Load(m_PrefabToSpawnSound);
+		        spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
 			
-				owner.GetTransform(mat);
-				StoryManagerEntity.PlayAudioSource(StorySource, mat);
-			
-				m_AudioHandle = StorySource.m_AudioHandle;
+				soundManagerEntity.CreateAndPlayAudioSource(spawnedObject, SCR_SoundEvent.SOUND_STORY);
+		
 				ArmstCheckAudioStory(owner);
 	}
 	
@@ -207,31 +232,24 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 			
 			if (contr.GetMovementSpeed() > 0)
 				{
-				AudioSystem.TerminateSoundFadeOut(m_AudioHandle, false, 0);
-				return;
+            		SCR_EntityHelper.DeleteEntityAndChildren(spawnedObject);
+					return;
 				}
 			
 		
 			if (contr.GetLifeState() == ECharacterLifeState.DEAD)
 				{
-				AudioSystem.TerminateSoundFadeOut(m_AudioHandle, false, 0);
+            		SCR_EntityHelper.DeleteEntityAndChildren(spawnedObject);
 				return;
 				}
 		
-				//если все еще говорит, то запустить заново через некоторое время
-				if (!m_AudioHandle)
-					return;
-				
-				if (!AudioSystem.IsSoundPlayed(m_AudioHandle))
-				{
+				if(spawnedObject)
 				GetGame().GetCallqueue().CallLater(ArmstCheckAudio, 500, false, owner);
-				return;
-				}
 		
 		
 		
 		//запуск проверки объектов вокруг, на кого запускать голос
-		GetGame().GetWorld().QueryEntitiesBySphere(owner.GetOrigin(), 6, ArmstJokesReactionStart);
+		//GetGame().GetWorld().QueryEntitiesBySphere(owner.GetOrigin(), 6, ArmstJokesReactionStart);
 	}
 	
 	//проверка на то, договорил ли персонаж
@@ -242,26 +260,21 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 			
 			if (contr.GetMovementSpeed() > 0)
 				{
-				AudioSystem.TerminateSoundFadeOut(m_AudioHandle, false, 0);
+            	SCR_EntityHelper.DeleteEntityAndChildren(spawnedObject);
 				return;
 				}
 			
 		
 			if (contr.GetLifeState() == ECharacterLifeState.DEAD)
 				{
-				AudioSystem.TerminateSoundFadeOut(m_AudioHandle, false, 0);
+            	SCR_EntityHelper.DeleteEntityAndChildren(spawnedObject);
 				return;
 				}
 		
-				//если все еще говорит, то запустить заново через некоторое время
-				if (!m_AudioHandle)
-					return;
 				
-				if (!AudioSystem.IsSoundPlayed(m_AudioHandle))
-				{
-				GetGame().GetCallqueue().CallLater(ArmstCheckAudioStory, 500, false, owner);
-				return;
-				}
+				if(spawnedObject)
+				GetGame().GetCallqueue().CallLater(ArmstCheckAudio, 500, false, owner);
+		
 	}
 	
 	
@@ -305,15 +318,24 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 				}
 		
 			m_Talker_Bool = false;
-			vector mat[4];
-				SCR_SoundManagerEntity soundManagerEntity2 = GetGame().GetSoundManagerEntity();
-				if (!soundManagerEntity2)
-						return;
-				SCR_AudioSource audioSource2 = soundManagerEntity2.CreateAudioSource(owner, m_AudioAnecdoteReaction);
-				if (!audioSource2)
-						return;
-				owner.GetTransform(mat);
-				soundManagerEntity2.PlayAudioSource(audioSource2, mat);
+				SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+				if (!soundManagerEntity)
+					return;
+				EntitySpawnParams params = new EntitySpawnParams();
+				
+				params.TransformMode = ETransformMode.WORLD;
+				
+				owner.GetWorldTransform(params.Transform);
+				Math3D.MatrixNormalize(params.Transform);
+				
+				// params.Transform[3] = GetOwner().GetOrigin() + m_vOffset;
+				params.Transform[3] = params.Transform[3] + m_vOffset;
+				
+		        Resource resource = Resource.Load(m_PrefabToSpawnSound);
+		        spawnedObject = GetGame().SpawnEntityPrefab(resource, GetGame().GetWorld(), params);
+			
+				soundManagerEntity.CreateAndPlayAudioSource(spawnedObject, SCR_SoundEvent.SOUND_ANECDOTE_REACTION);
+		
 	}
 	
 	protected SCR_FireplaceComponent m_FireplaceComponent;
@@ -329,44 +351,6 @@ class ARMST_BOT_INTERACTION_COMPONENT: ScriptComponent
 			};
 		return true;
 	}
-	
-	protected RplId entity;
-	 [RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]
-	  void Rpc_ArmstHelloReaction()
-	  {
-	    ArmstHelloReaction();
-	  }
-	//Запуск приветствия 
-	void ArmstHelloReaction()
-	{
-			vector mat[4];
-				SCR_SoundManagerEntity soundManagerEntity2 = GetGame().GetSoundManagerEntity();
-				if (!soundManagerEntity2)
-						return;
-			
-			if (!m_AudioReactionHello2 || !m_AudioReactionHello2.IsValid())
-				return;
-				SCR_AudioSource audioSource2 = soundManagerEntity2.CreateAudioSource(GetOwner(), m_AudioReactionHello2);
-				if (!audioSource2)
-						return;
-				GetOwner().GetTransform(mat);
-				soundManagerEntity2.PlayAudioSource(audioSource2, mat);
-	}
-	
-	void ArmstWeaponReaction(IEntity owner)
-	{
-			vector mat[4];
-				SCR_SoundManagerEntity soundManagerEntity2 = GetGame().GetSoundManagerEntity();
-				if (!soundManagerEntity2)
-						return;
-				SCR_AudioSource audioSource2 = soundManagerEntity2.CreateAudioSource(owner, m_AudioReactionWeapons);
-				if (!audioSource2)
-						return;
-				owner.GetTransform(mat);
-				soundManagerEntity2.PlayAudioSource(audioSource2, mat);
-	}
-	
-	
 	
 	
 	

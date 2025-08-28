@@ -10,23 +10,39 @@ class ARMST_ClaimFisrtEnterAction : ZEL_ClaimedStorageUserActionBase
 		if(!Replication.IsServer())
 			return;
 		
-		int PlayerID = GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(pUserEntity);
-		string PlayerUID = ZEL_PlayerUtils.GetPlayerUID(PlayerID);	
-		m_ClaimableComponent.SetOwnerUID(PlayerUID);
-				
-		ZEL_ClaimsManagerEntity ClaimsManagerEntity = ZEL_ClaimsManagerEntity.GetInstance();
-		ClaimsManagerEntity.CreatePlayerClaim(PlayerUID,m_ClaimableComponent.GetClaimType());
-
-		if(ClaimsManagerEntity.CanPlayerCreateClaim(PlayerUID,m_ClaimableComponent.GetClaimType()))
-			return;
-
-		ZEL_PlayerClaimComponent PlayerClaimComponent = ZEL_PlayerClaimComponent.Cast(pUserEntity.FindComponent(ZEL_PlayerClaimComponent));
-		PlayerClaimComponent.InsertDeniedClaim(m_ClaimableComponent.GetClaimType());	
+			HandleQuestLogic(pUserEntity);
 		
-		        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-		        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-		        ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, 50000);
+		    SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+		        
+			ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
+			if (currencyComp) 
+			{
+				currencyComp.ModifyValue(50000, true);
+			}
+		
  	}
+	void HandleQuestLogic(IEntity playerEntity)
+	{
+	    ARMST_PLAYER_QUEST questComponent = ARMST_PLAYER_QUEST.Cast(playerEntity.FindComponent(ARMST_PLAYER_QUEST));
+	    if (!questComponent)
+	    {
+	        Print("ARMST_PLAYER_QUEST: Компонент квестов не найден на игроке!", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    string questName = "StartMoney";
+	
+	    if (questComponent.HasQuest(questName))
+	    {
+	        int stage = questComponent.GetQuestStage(questName);
+	        Print("Игрок имеет квест " + questName + " на стадии " + stage, LogLevel.NORMAL);
+	    }
+	    else if (Replication.IsServer())
+	    {
+	        questComponent.AddOrUpdateQuest(questName, 1);
+	        Print("Добавлен квест " + questName + " на стадию 1", LogLevel.NORMAL);
+	    }
+	}
 	//------------------------------------------------------------------------------------------------	
 	override bool CanBePerformedScript(IEntity user)
  	{
@@ -41,12 +57,18 @@ class ARMST_ClaimFisrtEnterAction : ZEL_ClaimedStorageUserActionBase
 	//------------------------------------------------------------------------------------------------
 	override bool CanBeShownScript(IEntity user)
 	{
-		if(!m_ClaimableComponent)
-			return false;
+	    ARMST_PLAYER_QUEST questComponent = ARMST_PLAYER_QUEST.Cast(user.FindComponent(ARMST_PLAYER_QUEST));
 		
-		ZEL_PlayerClaimComponent PlayerClaimComponent = ZEL_PlayerClaimComponent.Cast(user.FindComponent(ZEL_PlayerClaimComponent));
-
-		return PlayerClaimComponent.CanClaim(m_ClaimableComponent.GetClaimType()) == true;
+	    string questName = "StartMoney";
+	
+	    if (questComponent.HasQuest(questName))
+	    {
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	//------------------------------------------------------------------------------------------------
 };

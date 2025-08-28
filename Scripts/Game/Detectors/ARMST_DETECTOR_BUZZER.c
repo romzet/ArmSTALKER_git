@@ -1,10 +1,10 @@
 
 [EntityEditorProps(category: "GameScripted/Gadgets", description: "Detectors", color: "0 0 255 255")]
-class ARMST_DETECTOR_ARTS_COMPONENTSClass : SCR_GadgetComponentClass
+class ARMST_DETECTOR_BUZZER_COMPONENTSClass : SCR_GadgetComponentClass
 {
 }
 
-class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
+class ARMST_DETECTOR_BUZZER_COMPONENTS : SCR_GadgetComponent
 {
 	
 	
@@ -19,13 +19,13 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	[Attribute("true", UIWidgets.CheckBox, "Может ли искать в данном диапазоне", category: "Detector")];
 	bool m_fFreq_3_Level;
 	
-	[Attribute("0", UIWidgets.Slider, "Какой режим поиска по умолчанию", "0 3 1", category: "Detector")];
+	[Attribute("1", UIWidgets.Slider, "Какой режим поиска по умолчанию", "0 3 1", category: "Detector")];
 	float m_fFreq_Level_Select;
 	
 	[Attribute("5", UIWidgets.Slider, "Дистанция анализа аномалий", "0 40 1", category: "Detector")];
 	protected float m_fDistance_Analys;
 	
-	[Attribute("10", UIWidgets.Slider, "Дистанция поиска артефактов", "0 40 1", category: "Detector")];
+	[Attribute("5", UIWidgets.Slider, "Дистанция поиска артефактов", "0 40 1", category: "Detector")];
 	protected float m_fDistance_Find_Art;
 	protected ParametricMaterialInstanceComponent m_EmissiveMaterial;
 	
@@ -37,11 +37,8 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	vector m_WorldTransform[4];
 	
 	
-		ResourceName Controller1Off = "{E781F4FAF79EF96A}armst/items/detectors/Muha/Data/Controller_Signal_1.emat";
-		ResourceName Controller1On = "{560F639EAA9E8291}armst/items/detectors/Muha/Data/Controller_Signal_1_ON.emat";
-	
-		ResourceName Controller2Off = "{B969DDB948137765}armst/items/detectors/Muha/Data/Controller_Signal_2.emat";
-		ResourceName Controller2On = "{581127D697698D4B}armst/items/detectors/Muha/Data/Controller_Signal_2_ON.emat";
+		ResourceName Controller1Off = "{32EBC597851E87A5}armst/items/detectors/Detector_Buzzer/Data/led_Light.emat";
+		ResourceName Controller1On = "{5281869CD014965F}armst/items/detectors/Detector_Buzzer/Data/led_Light_On.emat";
 	
 	VObject mesh;
 	int numMats;
@@ -166,6 +163,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
                 m_iterationCount = 0;
 	        	return;
 			}
+	
 	    // Опционально: Вычисляем расстояние до артефакта
 	    float distanceToArtifact = vector.Distance(player.GetOrigin(), artifactPosition);
 		
@@ -178,7 +176,8 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	        	return;
 			}
 			
-	    float m_Timer = distanceToArtifact * 200; // Здесь уменьшен множитель для более частого сканирования
+			    
+	    float m_Timer = distanceToArtifact * 1000; // Здесь уменьшен множитель для более частого сканирования
 	    // Проверяем, смотрит ли игрок в сторону артефакта (и учитываем, что dotProduct == 1 означает, что направление совпадает)
 	    // Если угол между направлениями больше 90 градусов, значение dotProduct будет отрицательным
 	    if (distanceToArtifact <= m_fDistance_Find_Art)
@@ -186,12 +185,11 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 			
 	        SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
 	        soundManagerEntity.CreateAndPlayAudioSource(GetOwner(), SCR_SoundEvent.DETECTOR_ART_LEVEL_ANALIS_FOUNDED);
-			EnableLight2();
-	   		GetGame().GetCallqueue().CallLater(DisableLight2, 400, false, GetOwner());
-				if (distanceToArtifact < 2)
+				if (distanceToArtifact < 1)
 					{
 					m_Timer = 100;
 	       			 Artefacts.DisableLight();
+					 DisableLight();
 					}  
 			
 			m_iterationCount++;
@@ -201,7 +199,6 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         		m_bIsScanning = false;
                 m_iterationCount = 0;
 					 DisableLight();
-					 DisableLight2();
                 return; // Выходим из метода, прекращая дальнейшие вызовы
             }
 	    }
@@ -213,7 +210,6 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         		m_bIsScanning = false;
                 m_iterationCount = 0;
 					 DisableLight();
-					 DisableLight2();
 	        	return;
 			}
 	    GetGame().GetCallqueue().CallLater(ArmstArtFoundScanner, m_Timer, false, artifact, Artefacts);
@@ -221,24 +217,12 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	
 	void EnableLight()
 	{
-		remap += string.Format("$remap '%1' '%2';", materials[3], Controller1On);
+		remap += string.Format("$remap '%1' '%2';", materials[0], Controller1On);
 		m_Owner.SetObject(mesh, remap);
  	};
-
-	void EnableLight2()
-	{
-		remap += string.Format("$remap '%1' '%2';", materials[4], Controller2On);
-		m_Owner.SetObject(mesh, remap);
- 	};
-
 	void DisableLight()
 	{
-		remap += string.Format("$remap '%1' '%2';", materials[3], Controller1Off);
-		m_Owner.SetObject(mesh, remap);
-	};
-	void DisableLight2()
-	{
-		remap += string.Format("$remap '%1' '%2';", materials[4], Controller2Off);
+		remap += string.Format("$remap '%1' '%2';", materials[0], Controller1Off);
 		m_Owner.SetObject(mesh, remap);
 	};
 	override void EOnInit(IEntity owner)
@@ -253,8 +237,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 			numMats = mesh.GetMaterials(materials);
 			//3 Contr1
 			//4 Contr2
-			remap += string.Format("$remap '%1' '%2';", materials[3], Controller1Off);
-			remap += string.Format("$remap '%1' '%2';", materials[4], Controller2Off);
+			remap += string.Format("$remap '%1' '%2';", materials[0], Controller1Off);
 			owner.SetObject(mesh, remap);
 		}
 		
@@ -265,7 +248,6 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         super.OnDelete(owner);
         
         DisableLight();
-        DisableLight2();
     }
 	
 };

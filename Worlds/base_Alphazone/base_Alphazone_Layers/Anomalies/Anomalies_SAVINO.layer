@@ -44,6 +44,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_SpawnChance 60
@@ -54,6 +55,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
  }
@@ -63,6 +66,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -73,6 +77,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnCount 15
@@ -84,6 +89,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
  }
@@ -93,6 +100,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -103,6 +111,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -113,6 +122,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -123,6 +133,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
  }
@@ -132,6 +144,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -142,6 +155,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -176,6 +190,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_SpawnChance 60
  }
  {
@@ -184,7 +201,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
+  m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_SpawnChance 60
  }
  {
@@ -193,6 +212,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_SpawnChance 60
  }
@@ -224,6 +245,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_SpawnChance 60
@@ -234,6 +256,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_SpawnChance 60
@@ -244,6 +267,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_SpawnChance 60
@@ -254,6 +278,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_SpawnChance 60
@@ -265,6 +290,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_SpawnChance 60
@@ -276,6 +302,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_SpawnChance 60
@@ -370,6 +397,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -380,6 +408,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
@@ -402,6 +431,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_SpawnChance 60
@@ -412,6 +442,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
  }
@@ -421,6 +453,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
  }
@@ -430,6 +464,8 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab3 "{78F0DD9ECF457B08}Prefabs/Anomals/Trampoline/ARMST_TRAMPOLINE.et"
   m_SpawnChance 60
  }

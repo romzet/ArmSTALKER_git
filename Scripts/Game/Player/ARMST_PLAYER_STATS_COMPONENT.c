@@ -68,6 +68,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerSetName(string value)
     {
         m_statistik_player_name = value;
+		Replication.BumpMe();
     }
     string ArmstArmstPlayerGetName()
     {
@@ -77,6 +78,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerSetBiography(string value)
     {
         m_statistik_player_biography = value;
+		Replication.BumpMe();
     }
     string ArmstPlayerGetBiography()
     {
@@ -85,6 +87,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerSetHead(string value)
     {
         m_statistik_player_head = value;
+		Replication.BumpMe();
     }
     string ArmstPlayerGetHead()
     {
@@ -106,9 +109,9 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     float m_armst_radiactive_level;               // Уровень радиации вокруг игрока
     [Attribute("1", UIWidgets.Slider, "Множитель к урону", "0 50 1", desc: "Урон", category: "Stats")]
     float m_damageValue;                          // Множитель урона
-    [Attribute("0.005", "Минус к потреблению еды", desc: "Урон", category: "Stats")]
+    [Attribute("0.002", "Минус к потреблению еды", desc: "Урон", category: "Stats")]
     float m_ModifierValueEat;                     // Скорость уменьшения еды
-    [Attribute("0.010", "Минус к потреблению воды", desc: "Урон", category: "Stats")]
+    [Attribute("0.004", "Минус к потреблению воды", desc: "Урон", category: "Stats")]
     float m_ModifierValueWater;                   // Скорость уменьшения воды
     [Attribute("10", UIWidgets.Slider, "Уровень урона от 0 до 100", "0 100 1", category: "Stats")]
     float m_DamageToxicLevel;                     // Порог токсичности для урона
@@ -123,6 +126,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	void ArmstPlayerStatSetToxicDirect(float value)
 	{
 	    m_armst_player_stat_toxic = value;
+		Replication.BumpMe();
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -134,6 +138,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	void ArmstPlayerStatSetRadioDirect(float value)
 	{
 	    m_armst_player_stat_radiactive = value;
+		Replication.BumpMe();
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -145,6 +150,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	void ArmstPlayerStatSetPsyDirect(float value)
 	{
 	    m_armst_player_stat_psy = value;
+		Replication.BumpMe();
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -156,6 +162,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	void ArmstPlayerStatSetWaterDirect(float value)
 	{
 	    m_armst_player_stat_water = value;
+		Replication.BumpMe();
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -167,6 +174,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	void ArmstPlayerStatSetEatDirect(float value)
 	{
 	    m_armst_player_stat_eat = value;
+		Replication.BumpMe();
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -178,6 +186,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	void ArmstPlayerSetReputationDirect(float value)
 	{
 	    m_player_reputation = value;
+		Replication.BumpMe();
 	}
 	
 	[RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -275,6 +284,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	    // Устанавливаем фракцию через FactionAffiliationComponent
 	    factionComponent.SetAffiliatedFactionByKey(factionKeyStr);
 	    Print(string.Format("Фракция игрока изменена на: %1", factionKeyStr));
+		Replication.BumpMe();
 	}
 	
 	// 2. Добавим метод для определения фракции игрока
@@ -307,6 +317,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_SCIENCES;
 	    else if (characterFaction == "FACTION_MERCENARIES")
 	        m_FactionKey = ARMST_FACTION_LABEL.FACTION_MERCENARIES;
+		Replication.BumpMe();
 	}
 	
 	
@@ -340,13 +351,6 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
 	    UpdatePlayerFaction();
 	}
 	
-	void ArmstPlayerPsySound()
-	{
-        SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
-                if (soundManagerEntity)
-                    soundManagerEntity.CreateAndPlayAudioSource(GetOwner(), SCR_SoundEvent.PSY_SOUND);
-		
-	}
     //------------------------------------------------------------------------------------------------
     // Секция: Получение и установка жизненных показателей
     //------------------------------------------------------------------------------------------------
@@ -380,6 +384,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerStatSetToxic(float value)
     {
         m_armst_player_stat_toxic = m_armst_player_stat_toxic + value;
+		Replication.BumpMe();
     }
 
     float ArmstPlayerStatGetRadio()
@@ -396,6 +401,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerStatSetRadio(float value)
     {
         m_armst_player_stat_radiactive = m_armst_player_stat_radiactive + value;
+		Replication.BumpMe();
     }
 
     float ArmstPlayerStatGetPsy()
@@ -412,6 +418,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerStatSetPsy(float value)
     {
         m_armst_player_stat_psy = m_armst_player_stat_psy + value;
+		Replication.BumpMe();
     }
 
     float ArmstPlayerStatGetWater()
@@ -428,6 +435,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerStatSetWater(float value)
     {
         m_armst_player_stat_water = m_armst_player_stat_water + value;
+		Replication.BumpMe();
     }
 
     float ArmstPlayerStatGetEat()
@@ -444,6 +452,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerStatSetEat(float value)
     {
         m_armst_player_stat_eat = m_armst_player_stat_eat + value;
+		Replication.BumpMe();
     }
 
     //------------------------------------------------------------------------------------------------
@@ -457,6 +466,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstRadiactiveLevelSet(float value)
     {
         m_armst_radiactive_level = value;
+		Replication.BumpMe();
     }
 
     //------------------------------------------------------------------------------------------------
@@ -470,6 +480,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ArmstPlayerSetReputation(float value)
     {
         m_player_reputation = m_player_reputation + value;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -490,6 +501,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ARMST_SET_STAT_MONSTER()
     {
         m_statistik_player_kill_monsters = m_statistik_player_kill_monsters + 1;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -507,6 +519,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ARMST_SET_STAT_BAND()
     {
         m_statistik_player_kill_bandits = m_statistik_player_kill_bandits + 1;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -524,6 +537,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ARMST_SET_STAT_STASH()
     {
         m_statistik_player_stash_founds = m_statistik_player_stash_founds + 1;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -541,6 +555,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ARMST_SET_STAT_QUESTS()
     {
         m_statistik_player_quests_done = m_statistik_player_quests_done + 1;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -558,6 +573,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ARMST_SET_STAT_SELLS()
     {
         m_statistik_player_sells_items = m_statistik_player_sells_items + 1;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]
@@ -575,6 +591,7 @@ class ARMST_PLAYER_STATS_COMPONENT : ScriptComponent
     void ARMST_SET_SHELTER(vector m_player_shelter2)
     {
         m_player_shelter = m_player_shelter2;
+		Replication.BumpMe();
     }
 
     [RplRpc(RplChannel.Reliable, RplRcver.Owner)]

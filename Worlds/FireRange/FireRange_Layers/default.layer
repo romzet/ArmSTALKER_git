@@ -1,3 +1,21 @@
+TimeAndWeatherManagerEntity TimeAndWeatherManager_657ED887D1CE9B8C : "{A3BAF78F6F03315B}Prefabs/World/Game/TimeAndWeatherManager.et" {
+ coords 3852.975 306.702 336.893
+ WeatherStateMachine "{5BDC4BDAE66B7581}Terrains/Common/WeatherPresets/StateMachineNew/WeatherStates_testing.conf"
+ "Day Duration" 40000
+ "UTC TimeZone" -1
+ "Initial Day Time" 16.29
+ Year 2001
+ "Month of the Year" 9
+ "Day of the Month" 20
+ Latitude 9.908
+ Longitude -27.184
+ "Enable DST" 1
+ "Internal variant transition" 0
+ "Internal subvariant 0" 0
+ "Internal subvariant 1" 0
+ "Initial Wetness" 0
+ "Initial Water Accumulation Cracks" 0
+}
 $grp GenericEntity : "{07805AE177F52646}Prefabs/Weapons/Magazines/Magazine_762x39_AKM_10rnd_Ball.et" {
  Magazine_762x39_AKM_10rnd_Ball_65AE4CB1B70F68BB {
   coords 3848.719 307.887 333.64
@@ -19,7 +37,7 @@ $grp SCR_FiringRangeTarget : "{379D34B0D41DA810}Prefabs/Props/Military/Training/
   angleY -95.395
  }
  {
-  coords 3869.071 306.702 338.064
+  coords 3861.668 306.702 339.364
   angleY -95.395
  }
  {
@@ -28,6 +46,10 @@ $grp SCR_FiringRangeTarget : "{379D34B0D41DA810}Prefabs/Props/Military/Training/
  }
  {
   coords 3899.288 306.702 329.021
+  angleY -95.395
+ }
+ {
+  coords 3861.528 306.702 340.851
   angleY -95.395
  }
 }
@@ -45,6 +67,9 @@ $grp GenericEntity : "{389EB226473CD590}Prefabs/Weapons/Magazines/Magazine_9x18_
 GenericEntity armst_PP91_65F2621A6B04DA49 : "{3968B2A856852CBD}Prefabs/Weapons/Handguns/armst_PP91.et" {
  coords 3848.519 307.794 329.802
  angleY 90.619
+}
+Armst_Monster_Character : "{4334F5D29ADDCE55}Prefabs/Monsters/boar/armst_monster_boar.et" {
+ coords 3860.728 306.702 339.718
 }
 $grp GenericEntity : "{4488C415F3CA1890}Prefabs/Weapons/Magazines/Magazine_9x18_PP91_30rnd_Ball.et" {
  Magazine_9x18_PP91_30rnd_Ball_65F2621A6E5FB238 {

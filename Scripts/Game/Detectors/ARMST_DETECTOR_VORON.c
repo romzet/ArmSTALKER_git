@@ -1,10 +1,10 @@
 
 [EntityEditorProps(category: "GameScripted/Gadgets", description: "Detectors", color: "0 0 255 255")]
-class ARMST_DETECTOR_ARTS_COMPONENTSClass : SCR_GadgetComponentClass
+class ARMST_DETECTOR_VORON_COMPONENTSClass : SCR_GadgetComponentClass
 {
 }
 
-class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
+class ARMST_DETECTOR_VORON_COMPONENTS : SCR_GadgetComponent
 {
 	
 	
@@ -19,13 +19,13 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	[Attribute("true", UIWidgets.CheckBox, "Может ли искать в данном диапазоне", category: "Detector")];
 	bool m_fFreq_3_Level;
 	
-	[Attribute("0", UIWidgets.Slider, "Какой режим поиска по умолчанию", "0 3 1", category: "Detector")];
+	[Attribute("1", UIWidgets.Slider, "Какой режим поиска по умолчанию", "0 3 1", category: "Detector")];
 	float m_fFreq_Level_Select;
 	
 	[Attribute("5", UIWidgets.Slider, "Дистанция анализа аномалий", "0 40 1", category: "Detector")];
 	protected float m_fDistance_Analys;
 	
-	[Attribute("10", UIWidgets.Slider, "Дистанция поиска артефактов", "0 40 1", category: "Detector")];
+	[Attribute("30", UIWidgets.Slider, "Дистанция поиска артефактов", "0 40 1", category: "Detector")];
 	protected float m_fDistance_Find_Art;
 	protected ParametricMaterialInstanceComponent m_EmissiveMaterial;
 	
@@ -37,11 +37,15 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	vector m_WorldTransform[4];
 	
 	
-		ResourceName Controller1Off = "{E781F4FAF79EF96A}armst/items/detectors/Muha/Data/Controller_Signal_1.emat";
-		ResourceName Controller1On = "{560F639EAA9E8291}armst/items/detectors/Muha/Data/Controller_Signal_1_ON.emat";
+		ResourceName LedOff = "{6B141ABA4CC1A737}armst/items/detectors/Detector_Voron/Data/Light_led.emat";
+		ResourceName LedOn = "{8B90159A3498FA1C}armst/items/detectors/Detector_Voron/Data/Light_led_On.emat";
 	
-		ResourceName Controller2Off = "{B969DDB948137765}armst/items/detectors/Muha/Data/Controller_Signal_2.emat";
-		ResourceName Controller2On = "{581127D697698D4B}armst/items/detectors/Muha/Data/Controller_Signal_2_ON.emat";
+		ResourceName TrafaretOff = "{6549295B48C6A8FC}armst/items/detectors/Detector_Voron/Data/Trafaret_Voron_Off.emat";
+		ResourceName TrafaretOn = "{CE61E66082A85E59}armst/items/detectors/Detector_Voron/Data/Trafaret_Voron_ON.emat";
+	
+		ResourceName Sphere_3m_On = "{A38FDA20C4A2672D}armst/items/detectors/Detector_Voron/Data/Sphere_0_On.emat";
+		ResourceName Sphere_3m_Off = "{2C668C6F6E2F3280}armst/items/detectors/Detector_Voron/Data/Sphere_0_Off.emat";
+	
 	
 	VObject mesh;
 	int numMats;
@@ -104,6 +108,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         m_bIsScanning = false;
         m_bArtDetectorState = false;
         DisableLight();
+		DisableLightAll();
         
         SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
         if (soundManagerEntity)
@@ -117,6 +122,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 				if(!m_bIsScanning)
 				{
 				EnableLight();
+				DisableLightAll();
         		m_bIsScanning = true;
         		m_bArtDetectorState = true;
 				SCR_SoundManagerEntity soundManagerEntity3 = GetGame().GetSoundManagerEntity();
@@ -166,6 +172,8 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
                 m_iterationCount = 0;
 	        	return;
 			}
+	
+	
 	    // Опционально: Вычисляем расстояние до артефакта
 	    float distanceToArtifact = vector.Distance(player.GetOrigin(), artifactPosition);
 		
@@ -173,6 +181,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 			{
 		
 	   			GetGame().GetCallqueue().CallLater(DisableLight, 1000, false, GetOwner());
+				DisableLightAll();
         		m_bIsScanning = false;
                 m_iterationCount = 0;
 	        	return;
@@ -186,12 +195,27 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 			
 	        SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
 	        soundManagerEntity.CreateAndPlayAudioSource(GetOwner(), SCR_SoundEvent.DETECTOR_ART_LEVEL_ANALIS_FOUNDED);
-			EnableLight2();
-	   		GetGame().GetCallqueue().CallLater(DisableLight2, 400, false, GetOwner());
-				if (distanceToArtifact < 2)
+			
+			if (distanceToArtifact < 40)
+				EnableLight40m();
+			
+			if (distanceToArtifact < 30)
+				EnableLight30m();
+			
+			if (distanceToArtifact < 20)
+				EnableLight20m();
+			
+			if (distanceToArtifact < 10)
+				EnableLight10m();
+			
+			if (distanceToArtifact < 6)
+				EnableLight5m();
+			
+				if (distanceToArtifact < 5)
 					{
 					m_Timer = 100;
 	       			 Artefacts.DisableLight();
+					EnableLight3m();
 					}  
 			
 			m_iterationCount++;
@@ -201,7 +225,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         		m_bIsScanning = false;
                 m_iterationCount = 0;
 					 DisableLight();
-					 DisableLight2();
+					 DisableLightAll();
                 return; // Выходим из метода, прекращая дальнейшие вызовы
             }
 	    }
@@ -213,7 +237,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         		m_bIsScanning = false;
                 m_iterationCount = 0;
 					 DisableLight();
-					 DisableLight2();
+					 DisableLightAll();
 	        	return;
 			}
 	    GetGame().GetCallqueue().CallLater(ArmstArtFoundScanner, m_Timer, false, artifact, Artefacts);
@@ -221,24 +245,86 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 	
 	void EnableLight()
 	{
-		remap += string.Format("$remap '%1' '%2';", materials[3], Controller1On);
+		remap += string.Format("$remap '%1' '%2';", materials[8], LedOn);
+		remap += string.Format("$remap '%1' '%2';", materials[10], TrafaretOn);
 		m_Owner.SetObject(mesh, remap);
  	};
-
-	void EnableLight2()
+	
+	void EnableLight40m()
 	{
-		remap += string.Format("$remap '%1' '%2';", materials[4], Controller2On);
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_On);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
 		m_Owner.SetObject(mesh, remap);
  	};
 
+	void EnableLight30m()
+	{
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_On);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
+		m_Owner.SetObject(mesh, remap);
+ 	};
+	void EnableLight20m()
+	{
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_On);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
+		m_Owner.SetObject(mesh, remap);
+ 	};
+	void EnableLight10m()
+	{
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_On);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
+		m_Owner.SetObject(mesh, remap);
+ 	};
+	void EnableLight5m()
+	{
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_On);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
+		m_Owner.SetObject(mesh, remap);
+ 	};
+	void EnableLight3m()
+	{
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_On);
+		m_Owner.SetObject(mesh, remap);
+ 	};
+	void DisableLightAll()
+	{
+		remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+		remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
+		m_Owner.SetObject(mesh, remap);
+ 	};
 	void DisableLight()
 	{
-		remap += string.Format("$remap '%1' '%2';", materials[3], Controller1Off);
-		m_Owner.SetObject(mesh, remap);
-	};
-	void DisableLight2()
-	{
-		remap += string.Format("$remap '%1' '%2';", materials[4], Controller2Off);
+		remap += string.Format("$remap '%1' '%2';", materials[8], LedOff);
+		remap += string.Format("$remap '%1' '%2';", materials[10], TrafaretOff);
 		m_Owner.SetObject(mesh, remap);
 	};
 	override void EOnInit(IEntity owner)
@@ -251,10 +337,22 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
 		if (mesh)
 		{
 			numMats = mesh.GetMaterials(materials);
-			//3 Contr1
-			//4 Contr2
-			remap += string.Format("$remap '%1' '%2';", materials[3], Controller1Off);
-			remap += string.Format("$remap '%1' '%2';", materials[4], Controller2Off);
+			//1  Circle 5 метров
+			//2 Circle 10 метров
+			//3 Circle 20 метров
+			//4 Circle 30 метрров
+			//5 Circle 40 метров
+			//9 Sphere 3 метра
+			//8 LightLed
+			//10 Trafaret
+			remap += string.Format("$remap '%1' '%2';", materials[1], Sphere_3m_Off);
+			remap += string.Format("$remap '%1' '%2';", materials[2], Sphere_3m_Off);
+			remap += string.Format("$remap '%1' '%2';", materials[3], Sphere_3m_Off);
+			remap += string.Format("$remap '%1' '%2';", materials[4], Sphere_3m_Off);
+			remap += string.Format("$remap '%1' '%2';", materials[5], Sphere_3m_Off);
+			remap += string.Format("$remap '%1' '%2';", materials[9], Sphere_3m_Off);
+			remap += string.Format("$remap '%1' '%2';", materials[8], LedOff);
+			remap += string.Format("$remap '%1' '%2';", materials[10], TrafaretOff);
 			owner.SetObject(mesh, remap);
 		}
 		
@@ -265,7 +363,7 @@ class ARMST_DETECTOR_ARTS_COMPONENTS : SCR_GadgetComponent
         super.OnDelete(owner);
         
         DisableLight();
-        DisableLight2();
+        DisableLightAll();
     }
 	
 };

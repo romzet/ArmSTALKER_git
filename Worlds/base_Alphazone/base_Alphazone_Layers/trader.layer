@@ -1,12 +1,3 @@
-GenericEntity {
- components {
-  MeshObject "{632CADFC4C8FCE8B}" {
-   Object "{1CD46F971F775BA0}Assets/Sing_books_posters/SM_book_OBJ_2.xob"
-  }
- }
- coords 7102.086 302.3 324.33
- angleY 53.88
-}
 $grp LightEntity {
  LIGHT_FLUO_SPOT_19 {
   coords 4158.131 308.644 716.369
@@ -250,17 +241,9 @@ $grp GenericEntity : "{91B8D41BE2DF1DB5}Prefabs/Props/TRADE/ARMST_TRADER.et" {
    }
    MeshObject "{5872F0EB7FA40561}" {
     Materials {
-     MaterialAssignClass "{65E06D1FF49FE613}" {
-      SourceMaterial "MLOD"
-      AssignedMaterial "{564BF5C68F409414}Assets/Props/Civilian/RadioSmall_01/Data/RadioSmall_01_Black_MLOD.emat"
-     }
-     MaterialAssignClass "{65E06D1FF49FE604}" {
-      SourceMaterial "main"
-      AssignedMaterial "{C7EA82CC7F146C1E}Assets/Props/Civilian/RadioSmall_01/Data/RadioSmall_01_Black.emat"
-     }
-     MaterialAssignClass "{65E0C6933C17BCF7}" {
+     MaterialAssignClass "{663301FD5B3EFCED}" {
       SourceMaterial "lambert1"
-      AssignedMaterial "{D7B43961BD89AD43}armst/new_clothes/vest/Plash/Data/Plash_cup_hidden.emat"
+      AssignedMaterial "{62B5F22E4EED5B6C}textures/hidden.emat"
      }
     }
    }

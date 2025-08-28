@@ -267,53 +267,11 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
         // Если есть сумма для начисления, добавляем деньги игроку
         if (totalSellSum > 0)
         {
-            // Проверяем, есть ли у игрока объект с деньгами
-            if (!ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(playerInventory, totalSellSum))
-            {
-                Print("[ARMST_TRADE] Не удалось начислить деньги напрямую, создаем PDA для хранения валюты");
-                
-                // Создаем новый предмет PDA
-                Resource pdaResource = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
-                if (!pdaResource.IsValid())
-                {
-                    Print("[ARMST_TRADE] Ошибка: Не удалось загрузить ресурс PDA", LogLevel.ERROR);
-                    return;
-                }
-                
-                EntitySpawnParams params = new EntitySpawnParams();
-                params.Parent = player; // Привязываем к игроку как родительскому объекту
-                
-                // Спавним PDA
-                IEntity pdaEntity = GetGame().SpawnEntityPrefab(pdaResource, GetGame().GetWorld(), params);
-                if (!pdaEntity)
-                {
-                    Print("[ARMST_TRADE] Ошибка: Не удалось создать PDA", LogLevel.ERROR);
-                    return;
-                }
-                
-                // Пробуем добавить PDA в инвентарь игрока
-                if (!playerInventory.TryInsertItem(pdaEntity))
-                {
-                    Print("[ARMST_TRADE] Ошибка: Не удалось добавить PDA в инвентарь игрока", LogLevel.ERROR);
-                    SCR_EntityHelper.DeleteEntityAndChildren(pdaEntity); // Удаляем, если не удалось добавить
-                    return;
-                }
-                
-                // Повторно пытаемся начислить деньги, теперь на PDA
-                if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(playerInventory, totalSellSum))
-                {
-                    Print(string.Format("[ARMST_TRADE] Деньги успешно начислены на PDA: %1 RUB", totalSellSum));
-                }
-                else
-                {
-                    Print("[ARMST_TRADE] Ошибка: Не удалось начислить деньги даже после создания PDA", LogLevel.ERROR);
-                    SCR_EntityHelper.DeleteEntityAndChildren(pdaEntity); // Удаляем PDA, если деньги не начислены
-                }
-            }
-            else
-            {
-                Print(string.Format("[ARMST_TRADE] Деньги успешно начислены: %1 RUB", totalSellSum));
-            }
+			ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(player.FindComponent(ARMST_MONEY_COMPONENTS));
+			if (currencyComp) 
+			{
+				currencyComp.ModifyValue(totalSellSum, true);
+			}
         }
     
         // Формируем детальное сообщение о продаже
@@ -321,8 +279,9 @@ class ARMST_TRADE_SELL_ACTIONS : ScriptedUserAction
         string message2 = "";
         
         if (itemsSold > 0) {
+			ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(player.FindComponent(ARMST_MONEY_COMPONENTS));
             // Получаем текущий баланс игрока после продажи
-            int currentMoney = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(playerInventory);
+            int currentMoney = currencyComp.GetValue();
             string info1 = "#armst_trader_info_1";
             message = string.Format("%2: %1 RUB", currentMoney, info1);
             

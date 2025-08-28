@@ -82,15 +82,29 @@ class ARMST_TRIGGER_PSY: SCR_BaseTriggerEntity {
             statsComponent.ArmstPlayerStatSetPsy(-levelrad);
 		
 		
-	            SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(GetGame().GetPlayerController().GetPlayerId()));
-		if (scrPlayerController)
+        if (Replication.IsServer())
+        {
+			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+	        if (gameMode.IsHosted())
+	        {
+			    SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(GetGame().GetPlayerController().GetPlayerId()));
+				if (scrPlayerController)
+					{
+					scrPlayerController.ArmstCameraShake();
+					}
+	        }
+			else 
 			{
-			scrPlayerController.ArmstCameraShake();
 			}
-			else
-			{
-				Print("Не найдено");
+        }
+		else 
+		{
+			    SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(GetGame().GetPlayerController().GetPlayerId()));
+				if (scrPlayerController)
+					{
+					scrPlayerController.ArmstCameraShake();
 			}
+		}
     };
     override void OnDeactivate(IEntity ent) {
         if (!ent)

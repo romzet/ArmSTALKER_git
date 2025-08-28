@@ -271,14 +271,8 @@ class ARMST_USER_QUEST_KILL : ScriptedUserAction
         // Выдаем денежную награду
         if (m_fCountQuestItemsPrice > 0)
         {
-            if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, m_fCountQuestItemsPrice))
-            {
-                Print(string.Format("[ARMST_QUEST] Награда успешно выдана: %1 RUB", m_fCountQuestItemsPrice));
-            }
-            else
-            {
-                Print(string.Format("[ARMST_QUEST] Ошибка при выдаче денежной награды: %1 RUB", m_fCountQuestItemsPrice), LogLevel.ERROR);
-            }
+				ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
+				currencyComp.ModifyValue(m_fCountQuestItemsPrice, true);
         }
         
         // Выдаем репутацию

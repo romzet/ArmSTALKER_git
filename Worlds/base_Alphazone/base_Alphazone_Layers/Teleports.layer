@@ -522,86 +522,6 @@ $grp GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.e
   components {
    MeshObject "{657E853AA73914A8}" {
     Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
-    Materials {
-     MaterialAssignClass "{657E85353B9D16E2}" {
-      SourceMaterial "Radio_ANPRC68_01"
-      AssignedMaterial "{97BC6D96B45850F5}textures/hidden.emat"
-     }
-    }
-   }
-   ActionsManagerComponent "{657E8538A2BE1CCD}" {
-    ActionContexts {
-     UserActionContext "{657E8538A2BE1CCA}" {
-      Position PointInfo "{657E8538A2BE1CC5}" {
-       Offset 0.027 0.0107 -0.0612
-      }
-     }
-    }
-    additionalActions {
-     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
-      m_sTeleportActionName "Swamp"
-      m_sTeleportTarget "enter_swamp"
-      m_fTeleportDelay 2
-      m_fTeleportRadius 3
-      m_sRequiredItem "{788C8B12F9E1D51C}Prefabs/QUEST_ITEMS/armst_quest_map_SWAMP.et"
-     }
-    }
-   }
-  }
-  coords 3133.672 300.788 833.26
-  angleY -136.295
-  {
-   ParticleEffectEntity {
-    ID "6584A0E2D7807BBB"
-    coords 0.111 -0.043 0.088
-   }
-  }
- }
- {
-  components {
-   MeshObject "{657E853AA73914A8}" {
-    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
-    Materials {
-     MaterialAssignClass "{657E85353B9D16E2}" {
-      SourceMaterial "Radio_ANPRC68_01"
-      AssignedMaterial "{97BC6D96B45850F5}textures/hidden.emat"
-     }
-    }
-   }
-   ActionsManagerComponent "{657E8538A2BE1CCD}" {
-    ActionContexts {
-     UserActionContext "{657E8538A2BE1CCA}" {
-      Position PointInfo "{657E8538A2BE1CC5}" {
-       Offset 0.027 0.0107 -0.0612
-      }
-     }
-    }
-    additionalActions {
-     ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
-      m_sTeleportActionName "Shelter"
-      m_sTeleportTarget "enter_shelters"
-      m_fTeleportDelay 2
-      m_fTeleportRadius 3
-      m_sRequiredItem "{BC8E60D6DF53A490}Prefabs/Items/Keys/armst_itm_key_uaz.et"
-     }
-    }
-   }
-  }
-  coords 3105.968 300.597 1000.852
-  angleX -3.17
-  angleY -105.226
-  angleZ -3.162
-  {
-   ParticleEffectEntity {
-    ID "6584A0E2D7807BBB"
-    coords 0.111 -0.043 0.088
-   }
-  }
- }
- {
-  components {
-   MeshObject "{657E853AA73914A8}" {
-    Object "{1B8B5484D7F21A41}Assets/Items/Equipment/Radios/Radio_ANPRC68/Radio_ANPRC68_01.xob"
    }
    ActionsManagerComponent "{657E8538A2BE1CCD}" {
     ActionContexts {
@@ -690,16 +610,6 @@ $grp GenericEntity : "{81AA8743455F68A5}Prefabs/Vehicles/uaz452/armst_uaz452_ope
   angleX 2.938
   angleY 20.478
   angleZ -0.724
- }
- {
-  coords 3135.339 299.518 833.691
-  angleY 127.216
- }
- {
-  coords 3107.588 299.483 1000.396
-  angleX -2.782
-  angleY 158.176
-  angleZ 3.507
  }
 }
 $grp GenericEntity : "{E4A22C9C10769063}Prefabs/Vehicles/gaz71/BASE_gaz71.et" {

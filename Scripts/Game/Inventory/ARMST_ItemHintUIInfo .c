@@ -21,17 +21,17 @@ modded class SCR_InventoryUIInfo : UIInfo
     	 string MoneyOnAccount = "#armst_uiunfo_money_account"; 
 	
 	
-    	 string PropertiesToxicLevel = "Токсичность";
-    	 string PropertiesRadiactiveLevel = "Радиоактивность";
-    	 string PropertiesPsyLevel = "Психика";
-    	 string PropertiesPhysicalsLevel = "Физ";
-    	 string PropertiesThermoLevel = "Термо";
-    	 string PropertiesElectroLevel = "Электро";
-    	 string PropertiesHealthLevel = "Здоровье";
+    	 string PropertiesToxicLevel = "#armst_uiunfo_toxic";
+    	 string PropertiesRadiactiveLevel = "#armst_uiunfo_radiactive";
+    	 string PropertiesPsyLevel = "#armst_uiunfo_psy";
+    	 string PropertiesPhysicalsLevel = "#armst_uiunfo_physicals";
+    	 string PropertiesThermoLevel = "#armst_uiunfo_therm";
+    	 string PropertiesElectroLevel = "#armst_uiunfo_electro";
+    	 string PropertiesHealthLevel = "#armst_uiunfoitem_Health";
     	 string PropertiesBloodLevel = "Кровь"; 
     	 string PropertiesStaminaLevel = "Выносливость"; 
-    	 string PropertiesWaterLevel = "Жажда"; 
-    	 string PropertiesEatLevel = "Голод"; 
+    	 string PropertiesWaterLevel = "#armst_uiunfoitem_Water"; 
+    	 string PropertiesEatLevel = "#armst_uiunfoitem_Eat"; 
 	
 	
 	//! Function to override to get custom inventory description
@@ -40,15 +40,6 @@ modded class SCR_InventoryUIInfo : UIInfo
 		string formattedText = "                                                                                    ";
 		string format = GetDescription();
 		formattedText += string.Format("\n %1 \n", format);
-		
-			// Проверяем наличие компонента ARMST_MONEY_COMPONENTS и добавляем информацию о деньгах
-            ARMST_MONEY_COMPONENTS pdaComponent = ARMST_MONEY_COMPONENTS.Cast(item.GetOwner().FindComponent(ARMST_MONEY_COMPONENTS));
-            if (pdaComponent)
-            {
-                int moneyValue = pdaComponent.GetValue();
-                formattedText += string.Format("\n%2 %1", moneyValue, MoneyOnAccount);
-				return formattedText;
-            }
 		
                // Проверяем наличие компонента ARMST_ARTEFACT_PROPERTIES и добавляем информацию о свойствах артефакта
         ARMST_ARTEFACT_PROPERTIES artStats = ARMST_ARTEFACT_PROPERTIES.Cast(item.GetOwner().FindComponent(ARMST_ARTEFACT_PROPERTIES));

@@ -14,6 +14,18 @@ class ARMST_DETECTOR_COMPONENTS : SCR_GadgetComponent
     private IEntity m_Owner;
     private string m_sPrefabPath;
     
+		ResourceName YellowOff = "{B005603716194029}armst/items/detectors/AtmoS/Data/Yellow.emat";
+		ResourceName YellowOn = "{29C4AB9A2107579E}armst/items/detectors/AtmoS/Data/Yellow_On.emat";
+	
+		ResourceName RedOff = "{F2E23E6516DCD18E}armst/items/detectors/AtmoS/Data/Red.emat";
+		ResourceName RedOn = "{ADAA56F4788B98BE}armst/items/detectors/AtmoS/Data/Red_On.emat";
+	
+	VObject mesh;
+	int numMats;
+	string remap;
+	string materials[256];
+	IEntity ownerDet;
+	
     void ArmstDetectorToggles()
     {
         if (m_bLastLightState)
@@ -118,11 +130,31 @@ class ARMST_DETECTOR_COMPONENTS : SCR_GadgetComponent
             }
             
             float LevelRad = statsComponent.ArmstRadiactiveLevelGet();
+			
+	        float m_fProtectionSumm = 0;
+	        ARMST_ITEMS_STATS_COMPONENTS StatComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(player.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
+	        if (!StatComponent) 
+	            return;
+	        
+	        m_fProtectionSumm = StatComponent.GetAllRadiactive(player);
+			
+        	if (m_fProtectionSumm > LevelRad)
+			{
+				remap += string.Format("$remap '%1' '%2';", materials[0], RedOff);
+				m_Owner.SetObject(mesh, remap);
+			}
+			else
+			{
+			
+				remap += string.Format("$remap '%1' '%2';", materials[0], RedOn);
+				m_Owner.SetObject(mesh, remap);
+			}
             
             if (LevelRad > 1)
             {
                 // Включать лампочку
-                EnableLight();
+				remap += string.Format("$remap '%1' '%2';", materials[1], YellowOn);
+				m_Owner.SetObject(mesh, remap);
                 // Испускать звук
                 if (soundManagerEntity)
                     soundManagerEntity.CreateAndPlayAudioSource(GetOwner(), SCR_SoundEvent.DETECTOR_GEIGER_ACTIVE);
@@ -136,7 +168,8 @@ class ARMST_DETECTOR_COMPONENTS : SCR_GadgetComponent
             }
             else
             {
-                DisableLight();
+				remap += string.Format("$remap '%1' '%2';", materials[1], YellowOff);
+				m_Owner.SetObject(mesh, remap);
                 m_Timer = 2000;
                 // Повторный запуск проверки
                 GetGame().GetCallqueue().CallLater(ArmstDetectorCicle, m_Timer, false);
@@ -148,26 +181,18 @@ class ARMST_DETECTOR_COMPONENTS : SCR_GadgetComponent
         }
     }
     
-    protected void UpdateLightState()
-    {
-        if (m_bLastLightState)
-            EnableLight();
-        else
-            DisableLight();
-    }
-    
     protected void EnableLight()
     {
-        if (m_EmissiveMaterial)
-            m_EmissiveMaterial.SetEmissiveMultiplier(29);
+		remap += string.Format("$remap '%1' '%2';", materials[1], YellowOn);
+		m_Owner.SetObject(mesh, remap);
     }
 
     //------------------------------------------------------------------------------------------------
     //! Remove light
     protected void DisableLight()
     {
-        if (m_EmissiveMaterial)
-            m_EmissiveMaterial.SetEmissiveMultiplier(0);
+		remap += string.Format("$remap '%1' '%2';", materials[1], YellowOff);
+		m_Owner.SetObject(mesh, remap);
     }
     
     //------------------------------------------------------------------------------------------------
@@ -181,6 +206,17 @@ class ARMST_DETECTOR_COMPONENTS : SCR_GadgetComponent
         EntityPrefabData prefabData = owner.GetPrefabData();
         if (prefabData)
             m_sPrefabPath = prefabData.GetPrefabName();
+		
+		mesh = owner.GetVObject();
+		if (mesh)
+		{
+			numMats = mesh.GetMaterials(materials);
+			//1 RED
+			//2 YELLOW
+			remap += string.Format("$remap '%1' '%2';", materials[1], YellowOff);
+			remap += string.Format("$remap '%1' '%2';", materials[0], RedOff);
+			owner.SetObject(mesh, remap);
+		}
     }
     
     // Обработка отсоединения компонента (например, когда предмет уничтожается)

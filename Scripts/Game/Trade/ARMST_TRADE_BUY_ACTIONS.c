@@ -158,8 +158,9 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
         if (!inventoryManager)
             return;
             
+		ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
         // Проверяем, достаточно ли денег у игрока
-        int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventoryManager);
+        int totalCurrency = currencyComp.GetValue();
         float buyPrice = GetPrefabBuyPrice(m_PrefabToSpawn);
         if (totalCurrency < buyPrice)
         {
@@ -178,17 +179,14 @@ class ARMST_TRADE_BUY_ACTIONS : ScriptedUserAction
         if (inventoryManager)
         {
 			inventoryManager.TryInsertItem(newEnt);
-            // Вычитаем деньги из инвентаря
-            if (ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventoryManager, buyPrice))
-            {
-                Print("[ARMST_TRADE] Деньги успешно списаны");
+			
+			if (currencyComp) 
+			{
+				currencyComp.ModifyValue(buyPrice, false);
                 ShowPurchaseNotification(pUserEntity, buyPrice, totalCurrency - buyPrice);
-            }
-            else
-            {
-                Print("[ARMST_TRADE] Ошибка при списании денег", LogLevel.ERROR);
-            }
+			}
         }
+		
     }
     
     //------------------------------------------------------------------------------------------------

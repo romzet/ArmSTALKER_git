@@ -42,6 +42,9 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     [Attribute("", UIWidgets.EditBox, "Окончание миссии", category: "Quest")]
     protected string m_sFinishMission;
     
+    [Attribute("", UIWidgets.EditBox, "Окончание миссии", category: "Quest")]
+    protected string m_sFinishMissionQuestData;
+	
     [Attribute("false", UIWidgets.CheckBox, "Время кулдауна", category: "Quest")]
     protected bool m_bFinishMissionCooldown;
 	
@@ -54,6 +57,8 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Префаб подарка предмета", "et", category: "Quest")]
     ResourceName m_PrefabQuestFinish;
 	
+    [Attribute("false", UIWidgets.CheckBox, "Время кулдауна", category: "Quest")]
+    protected bool m_bStartSpawnMissionGroup;
     [Attribute(ResourceName.Empty, UIWidgets.ResourcePickerThumbnail, desc: "Спавнить группу рядом с игроком", "et", category: "Quest")]
     ResourceName m_PrefabQuestFinishSpawn;
 	
@@ -207,12 +212,24 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	}
     override bool CanBeShownScript(IEntity user)
 	{        
+	    ARMST_PLAYER_QUEST questComponent = ARMST_PLAYER_QUEST.Cast(user.FindComponent(ARMST_PLAYER_QUEST));
+		if(questComponent)
+		{
+		    string questName = m_sFinishMissionQuestData;
+		
+		    if (questComponent.HasQuest(questName))
+		    {
+				return false;
+			};
+		}
+		
 		
 	    if(m_bMissionCooldown)
 			return false;
 	    // Если флаг m_bStartMissionReq выключен, всегда возвращаем true
 		if (m_bOnlyStartMission && m_bQuestStart)
 			return false;
+		
 		
 	    if (!m_bStartMissionReq)
 	    {
@@ -239,14 +256,9 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        // Выдаем денежную награду через ARMST_MONEY_COMPONENTS
 	        if (m_fCountQuestItemsPrice > 0)
 	        {
-	            if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, m_fCountQuestItemsPrice))
-	            {
-	                Print(string.Format("[ARMST_QUEST] Награда успешно выдана: %1 RUB", m_fCountQuestItemsPrice));
-	            }
-	            else
-	            {
-	                Print(string.Format("[ARMST_QUEST] Ошибка при выдаче денежной награды: %1 RUB", m_fCountQuestItemsPrice), LogLevel.ERROR);
-	            }
+				
+				ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
+				currencyComp.ModifyValue(m_fCountQuestItemsPrice, true);
 	        }
 	        
 	        // Выдаем репутацию
@@ -265,6 +277,12 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        if (m_sFinishMission && m_sFinishMission != "")
 	        {
 	            notificationMessage = m_sFinishMission + "\n\n";
+	        }
+			
+	        // Добавляем квест в персонажа, если это указано
+	        if (m_sFinishMissionQuestData && m_sFinishMissionQuestData != "")
+	        {
+				HandleQuestLogic(pUserEntity);
 	        }
 	        
 			if(m_fCountQuestItemsPrice > 0)
@@ -376,6 +394,30 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        }
 	    }
 	}
+	
+	void HandleQuestLogic(IEntity playerEntity)
+	{
+	    ARMST_PLAYER_QUEST questComponent = ARMST_PLAYER_QUEST.Cast(playerEntity.FindComponent(ARMST_PLAYER_QUEST));
+	    if (!questComponent)
+	    {
+	        Print("ARMST_PLAYER_QUEST: Компонент квестов не найден на игроке!", LogLevel.ERROR);
+	        return;
+	    }
+	
+	    string questName = m_sFinishMissionQuestData;
+	
+	    if (questComponent.HasQuest(questName))
+	    {
+	        int stage = questComponent.GetQuestStage(questName);
+	        Print("Игрок имеет квест " + questName + " на стадии " + stage, LogLevel.NORMAL);
+	    }
+	    else if (Replication.IsServer())
+	    {
+	        questComponent.AddOrUpdateQuest(questName, 1);
+	        Print("Добавлен квест " + questName + " на стадию 1", LogLevel.NORMAL);
+	    }
+	}
+	
 	void CooldownTimer()
 	{
 	        m_bMissionCooldown = false;
@@ -491,6 +533,30 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	    }
 	    
 		
+	        // Спавним группу для атаки, если задан префаб
+	        if (m_bStartSpawnMissionGroup)
+	        {
+	            Resource groupResource = Resource.Load(m_PrefabQuestFinishSpawn);
+	            if (groupResource && groupResource.IsValid())
+	            {
+	                // Используем SpawnRandomInRadius из SpawnHelpers для спавна группы в радиусе
+	                IEntity spawnedGroup = SpawnHelpers.SpawnRandomInRadius(groupResource, pUserEntity.GetOrigin(), m_fPrefabQuestFinishSpawnDistance);
+	                if (spawnedGroup)
+	                {
+	                    Print(string.Format("[ARMST_QUEST] Группа для атаки успешно заспавнена: %1", m_PrefabQuestFinishSpawn));
+	                    // Выдаем приказ на атаку позиции игрока
+	                    SetOrderForGroup(spawnedGroup, pUserEntity.GetOrigin());
+	                }
+	                else
+	                {
+	                    Print(string.Format("[ARMST_QUEST] Ошибка при спавне группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
+	                }
+	            }
+	            else
+	            {
+	                Print(string.Format("[ARMST_QUEST] Неверный префаб группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
+	            }
+	        }
 	    m_bQuestStart = true;
 		if(m_bOnlyStartMission)
 			{

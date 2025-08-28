@@ -145,94 +145,144 @@ class ARMST_GUITAR_UI : ChimeraMenuBase
             return true;
         }
         
-        SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
-        if (!soundManagerEntity)
-            return false;
+		IEntity player = SCR_PlayerController.GetLocalControlledEntity();
+		SCR_PlayerController controller = SCR_PlayerController.Cast(GetGame().GetPlayerController());
 
         // Обработка всех кнопок для воспроизведения соответствующих звуков
         if (w == Button_A)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_A);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_A); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_Am)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_Am);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_Am); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_AmRoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_AmRoll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_AmRoll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_ARoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_ARoll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_ARoll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_C)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_C);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_C); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_CRoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_CRoll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_CRoll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_D)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_D);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_D); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_Dm)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_Dm);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_Dm); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_DmRoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_DmRoll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_DmRoll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_E)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_E);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_E); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_Em)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_Em);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_Em); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_Em7)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_Em7);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_Em7); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_EmRoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_EmRoll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_EmRoll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_F)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_F);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_F); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_FRoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_Froll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_Froll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_G)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_G);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_G); // Продажа 2 предметов за 100
+			}
             return true;
         }
         else if (w == Button_GRoll)
         {
-            soundManagerEntity.CreateAndPlayAudioSource(m_GUITAR, SCR_SoundEvent.ARMST_GUITAR_NOTE_Groll);
+			if (controller)
+			{
+			    controller.RequestGuitarPlay(EPF_NetworkUtils.GetRplId(m_GUITAR), SCR_SoundEvent.ARMST_GUITAR_NOTE_Groll); // Продажа 2 предметов за 100
+			}
             return true;
         }
         

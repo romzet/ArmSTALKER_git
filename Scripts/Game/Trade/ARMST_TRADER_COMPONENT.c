@@ -71,6 +71,7 @@ class ARMST_TRADER_UI : ChimeraMenuBase
     // Компоненты для доступа к статистике
     protected ARMST_PLAYER_STATS_COMPONENT m_StatsComponent;
     protected ARMST_ITEMS_STATS_COMPONENTS m_ItemsStatsComponent;
+    protected ARMST_MONEY_COMPONENTS currencyComp;
     
 	
 	protected static ref map<ResourceName, ref UIInfo> s_mItemUIInfo = new map<ResourceName, ref UIInfo>();
@@ -125,6 +126,7 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	    // Получаем компоненты
 	    m_StatsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
 	    m_ItemsStatsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(m_User.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
+        currencyComp = ARMST_MONEY_COMPONENTS.Cast(m_User.FindComponent(ARMST_MONEY_COMPONENTS));
 	    
 	    ARMST_TRADER_CAT_COMPONENT traderComponent = ARMST_TRADER_CAT_COMPONENT.Cast(m_TRADER.FindComponent(ARMST_TRADER_CAT_COMPONENT));
 	    // Настройка обработчиков событий
@@ -460,7 +462,7 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 				SCR_InventoryStorageManagerComponent inventory = SCR_InventoryStorageManagerComponent.Cast(m_User.FindComponent(SCR_InventoryStorageManagerComponent));
 				if (!inventory) 
 					return;
-				int totalCurrency = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventory);
+				int totalCurrency = currencyComp.GetValue();
                 // Подсчитываем баланс через ARMST_MONEY_COMPONENTS
                 Text_Balance_Count.SetText(totalCurrency.ToString());
             }
@@ -727,7 +729,7 @@ class ARMST_TRADER_UI : ChimeraMenuBase
 	        return;
 	    }
 	
-	    int playerBalance = ARMST_MONEY_COMPONENTS.FindTotalCurrencyInInventory(inventory);
+	    int playerBalance = currencyComp.GetValue();
 	    if (playerBalance < totalCost)
 	    {
 	        Print("[ARMST TRADER] Ошибка: Недостаточно средств для покупки. Требуется: " + totalCost + ", доступно: " + playerBalance, LogLevel.ERROR);

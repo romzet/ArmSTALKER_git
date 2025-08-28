@@ -101,14 +101,9 @@ class ARMST_USER_QUEST_RANDOM : ScriptedUserAction
 	        if (m_iCurrentReward > 0)
 	        {
 	            Print(string.Format("[ARMST_QUEST_RANDOM] Выдача награды: %1", m_iCurrentReward));
-	            if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventoryManager, m_iCurrentReward))
-	            {
-	                Print(string.Format("[ARMST_QUEST_RANDOM] Награда успешно выдана: %1", m_iCurrentReward));
-	            }
-	            else
-	            {
-	                Print(string.Format("[ARMST_QUEST_RANDOM] Ошибка при выдаче награды: %1", m_iCurrentReward), LogLevel.ERROR);
-	            }
+				
+				ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
+				currencyComp.ModifyValue(m_iCurrentReward, true);
 	        }
 	        else
 	        {

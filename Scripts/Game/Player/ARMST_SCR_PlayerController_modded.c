@@ -552,10 +552,10 @@ modded class SCR_PlayerController : PlayerController
             return;
         }
 
-        // Выполняем покупку: списываем деньги и добавляем предметы в инвентарь
-        if (ARMST_MONEY_COMPONENTS.RemoveCurrencyFromInventory(inventory, totalCost))
-        {
             bool allItemsAdded = true;
+			
+			ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(m_User.FindComponent(ARMST_MONEY_COMPONENTS));
+			currencyComp.ModifyValue(totalCost, false);
             // Добавляем предметы в инвентарь игрока
             for (int i = 0; i < buyCount; i++)
             {
@@ -591,20 +591,6 @@ modded class SCR_PlayerController : PlayerController
                     allItemsAdded = false;
                 }
             }
-
-            if (!allItemsAdded)
-            {
-                Print("[ARMST_TRADE] Предупреждение: Не все предметы были добавлены в инвентарь", LogLevel.WARNING);
-            }
-            else
-            {
-                Print("[ARMST_TRADE] Покупка успешна! Куплено: " + buyCount + " предметов за " + totalCost, LogLevel.NORMAL);
-            }
-        }
-        else
-        {
-            Print("[ARMST_TRADE] Ошибка: Недостаточно средств для покупки", LogLevel.ERROR);
-        }
     }
 
    // Рекурсивная функция для поиска и удаления предметов в инвентаре, включая вложенные контейнеры
@@ -662,51 +648,10 @@ modded class SCR_PlayerController : PlayerController
 	
 	    if (itemsRemoved == sellCount)
 	    {
+			
+			ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(m_User.FindComponent(ARMST_MONEY_COMPONENTS));
+			currencyComp.ModifyValue(totalRevenue, true);
 	        // Добавляем валюту игроку
-	        if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
-	        {
-	            Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
-	        }
-	        else
-	        {
-	            Print("[ARMST_TRADE] Не удалось начислить деньги напрямую, создаем PDA для хранения валюты", LogLevel.WARNING);
-	
-	            // Создаем новый предмет PDA
-	            Resource pdaResource = Resource.Load("{6E2790C4C516701B}Prefabs/Items/devices/armst_itm_pda.et");
-	            if (!pdaResource.IsValid())
-	            {
-	                Print("[ARMST_TRADE] Ошибка: Не удалось загрузить ресурс PDA", LogLevel.ERROR);
-	                return;
-	            }
-	
-	            EntitySpawnParams params = new EntitySpawnParams();
-	            params.Parent = m_User; // Привязываем к игроку как родительскому объекту
-	
-	            // Спавним PDA
-	            IEntity pdaEntity = GetGame().SpawnEntityPrefab(pdaResource, GetGame().GetWorld(), params);
-	            if (!pdaEntity)
-	            {
-	                Print("[ARMST_TRADE] Ошибка: Не удалось создать PDA", LogLevel.ERROR);
-	                return;
-	            }
-	
-	            // Пробуем добавить PDA в инвентарь игрока
-	            if (!inventory.TryInsertItem(pdaEntity))
-	            {
-	                Print("[ARMST_TRADE] Ошибка: Не удалось добавить PDA в инвентарь игрока", LogLevel.ERROR);
-	                SCR_EntityHelper.DeleteEntityAndChildren(pdaEntity); // Удаляем, если не удалось добавить
-	                return;
-	            }
-	
-	            if (ARMST_MONEY_COMPONENTS.AddCurrencyToInventory(inventory, totalRevenue))
-	            {
-	                Print("[ARMST_TRADE] Продажа успешна! Продано: " + sellCount + " предметов за " + totalRevenue, LogLevel.NORMAL);
-	            }
-	            else
-	            {
-	                Print("[ARMST_TRADE] Ошибка: Не удалось начислить деньги даже после создания PDA", LogLevel.ERROR);
-	            }
-	        }
 	    }
 	    else
 	    {
@@ -1043,7 +988,37 @@ modded class SCR_PlayerController : PlayerController
 	
 	
 	
-	
+    void RequestGuitarPlay(RplId m_User, string prefabTrader)
+    {
+        if (Replication.IsServer())
+        {
+			
+            ArmstGuitarPlay(EPF_NetworkUtils.FindEntityByRplId(m_User), prefabTrader);
+        }
+        else
+        {
+            // Если на клиенте, отправляем запрос на сервер
+            Rpc(RpcAsk_GuitarPlay, m_User, prefabTrader);
+        }
+    }
+
+    [RplRpc(RplChannel.Reliable, RplRcver.Server)]
+    protected void RpcAsk_GuitarPlay(RplId m_User, string prefabTrader)
+    {
+        ArmstGuitarPlay(EPF_NetworkUtils.FindEntityByRplId(m_User), prefabTrader);
+    }
+
+    void ArmstGuitarPlay(IEntity m_User, string m_PrefabTrader)
+    {
+        if (!Replication.IsServer())
+        {
+            Print("[ARMST_TRADE] Ошибка: ArmstGuitarPlay должен вызываться только на сервере", LogLevel.ERROR);
+            return;
+        }
+        SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
+        soundManagerEntity.CreateAndPlayAudioSource(m_User, m_PrefabTrader);
+
+	}
 }
 
 
@@ -1058,4 +1033,3 @@ class B_PrefabNamePredicate : InventorySearchPredicate
 		return this.prefabName.Contains(pd.GetPrefabName());
 	}
 }
-	

@@ -89,35 +89,4 @@ $grp GenericEntity : "{96B03F180CEA8ED2}Prefabs/Industrial/undeground/und_tonel.
   angleY 139.084
   angleZ -2.789
  }
- {
-  coords 3128.712 297.256 837.407
-  angleX 1.942
-  angleY -57.2
-  angleZ 2.339
-  scale 1.16
- }
- {
-  coords 3101.671 298.566 856.514
-  angleX -2.613
-  angleY 103.244
-  angleZ -1.554
-  scale 1.16
- }
- {
-  coords 3158.934 298.834 1007.68
-  angleX 3.029
-  angleY -102.775
-  angleZ 0.251
-  scale 1.404
- }
- {
-  coords 3114.536 297.719 1003.985
-  angleX -3.034
-  angleY 68.885
-  angleZ 0.191
-  scale 1.694
- }
-}
-GenericEntity PaperMap_01_folded_USSR_662722CB25A9CE0D : "{F849217AB3BA88BE}Prefabs/Items/Equipment/Maps/PaperMap_01_folded_USSR.et" {
- coords 5079.8 302.693 54.168
 }
