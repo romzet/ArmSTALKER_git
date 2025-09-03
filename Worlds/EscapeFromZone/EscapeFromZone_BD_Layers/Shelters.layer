@@ -1,0 +1,67 @@
+$grp GenericEntity : "{8B3C689CC50F4825}Prefabs/Structures/BuildingParts/Doors/Door_MetalGate_04_LEFT_EXT_ST_B.et" {
+ {
+  components {
+   DoorComponent "{221C667A9F7D4B69}" {
+    DoorAction SCR_DoorUserAction "{50888D3646A61640}" {
+     m_FactionKey FACTION_ARMY
+    }
+    AngleRange -80
+    OpenTime 8
+   }
+   SCR_DestructionMultiPhaseComponent "{5A6A8DFD1C32303C}" {
+    Enabled 0
+   }
+  }
+  coords 3799.891 306.785 418.55
+ }
+ {
+  components {
+   DoorComponent "{221C667A9F7D4B69}" {
+    DoorAction SCR_DoorUserAction "{50888D3646A61640}" {
+     m_FactionKey FACTION_ARMY
+    }
+    AngleRange -80
+    OpenTime 8
+   }
+   SCR_DestructionMultiPhaseComponent "{5A6A8DFD1C32303C}" {
+    Enabled 0
+   }
+  }
+  coords 1315.857 295.417 1372.639
+  angleY 93.195
+ }
+}
+$grp GenericEntity : "{BD160EAFE18E1D89}Prefabs/Structures/BuildingParts/Doors/Door_MetalGate_04_RIGHT_EXT_ST_B.et" {
+ {
+  components {
+   DoorComponent "{221C667A9F7D4B69}" {
+    DoorAction SCR_DoorUserAction "{50888D3646A61640}" {
+     m_FactionKey FACTION_ARMY
+    }
+    AngleRange 80
+    OpenTime 8
+   }
+   SCR_DestructionMultiPhaseComponent "{5A6A8DFD7543291D}" {
+    Enabled 0
+   }
+  }
+  coords 3807.702 306.785 418.55
+  angleY -180
+ }
+ {
+  components {
+   DoorComponent "{221C667A9F7D4B69}" {
+    DoorAction SCR_DoorUserAction "{50888D3646A61640}" {
+     m_FactionKey FACTION_ARMY
+    }
+    AngleRange 80
+    OpenTime 8
+   }
+   SCR_DestructionMultiPhaseComponent "{5A6A8DFD7543291D}" {
+    Enabled 0
+   }
+  }
+  coords 1315.422 295.417 1364.841
+  angleY -86.805
+ }
+}

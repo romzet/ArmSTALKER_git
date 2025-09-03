@@ -1,0 +1,18 @@
+SCR_AIGroup {
+ ID "658C219175995250"
+ components {
+  AIFormationComponent "{658C21917599522D}" {
+  }
+  SCR_CallsignGroupComponent "{658C219175995220}" {
+  }
+  RplComponent "{658C219175995222}" {
+   Streamable Disabled
+  }
+ }
+ coords 4161.128 309.424 711.739
+ m_bDeleteWhenEmpty 0
+ m_iGroupRadioFrequency 52000
+ m_iMaxMembers 1
+ m_bPlayable 1
+ m_bDeleteIfNoPlayer 0
+}

@@ -1,0 +1,672 @@
+$grp GenericEntity : "{142EBFC473EC0E30}Prefabs/monster_spawner.et" {
+ zombie_2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 3822.777 314.92 1137.829
+ }
+ zombie {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 4223.566 309.056 1439.159
+ }
+ toxic {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{DB596D48781B4C20}Configs/Alife/mutants/toxic.conf"
+    }
+   }
+  }
+  coords 3394.391 308.577 1327.393
+ }
+ toxic_2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{DB596D48781B4C20}Configs/Alife/mutants/toxic.conf"
+    }
+   }
+  }
+  coords 3389.496 308.577 1379.489
+ }
+ toxic_3 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{DB596D48781B4C20}Configs/Alife/mutants/toxic.conf"
+    }
+   }
+  }
+  coords 3298.45 308.577 1320.434
+ }
+ psy_destroyer {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf" "{7A2CF51B0D2A9807}Configs/Alife/mutants/psy_destroyer.conf"
+    }
+   }
+  }
+  coords 4137.501 320.624 1659.438
+ }
+ psy_destroyer2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf" "{7A2CF51B0D2A9807}Configs/Alife/mutants/psy_destroyer.conf"
+    }
+   }
+  }
+  coords 4399.038 311.177 1095.328
+ }
+ zombie2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 3504.437 303.173 1522.059
+ }
+ nighstalker {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{D77BDED419E75366}Configs/Alife/mutants/nighstalker.conf"
+    }
+   }
+  }
+  coords 3211.427 299.327 771.333
+ }
+ nighstalker2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{D77BDED419E75366}Configs/Alife/mutants/nighstalker.conf"
+    }
+   }
+  }
+  coords 4062.924 306.827 1365.577
+ }
+ boar {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3990.552 306.989 880.382
+ }
+ boar2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 4154.323 317.924 1165.267
+ }
+ boar3 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3932.365 302.7 1298.699
+ }
+ boar4 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3723.9 301.112 1488.135
+ }
+ boar5 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3609.354 309.515 1235.065
+ }
+ boar6 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3800.849 308.308 783.818
+ }
+ boar7 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3619.253 316.38 593.296
+ }
+ boar8 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3411.052 304.275 528.118
+ }
+ boar9 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3581.705 313.046 730.03
+ }
+ boar10 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3422.332 302.166 1065.747
+ }
+ boar11 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3302.107 301.057 1204.444
+ }
+ zombie3 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 3261.211 308.577 1014.159
+ }
+ zombie4 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 3363.187 303.639 690.801
+ }
+ zombie5 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 3710.777 306.381 778.065
+ }
+ zombie6 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 4109.119 314.951 1098.513
+ }
+ zombie7 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{AA31A2A6BD9679D4}Configs/Alife/mutants/zombie.conf"
+    }
+   }
+  }
+  coords 3585.692 302.538 1075.779
+ }
+ nighstalker3 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{D77BDED419E75366}Configs/Alife/mutants/nighstalker.conf"
+    }
+   }
+  }
+  coords 3629.12 305.74 959.054
+ }
+ boar12 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 3911.785 308.348 523.936
+ }
+ boar13 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_SpawnChance 50
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 250
+    m_SpawnGroups {
+     "{EC29BADC9F3880F2}Configs/Alife/mutants/boars.conf"
+    }
+   }
+  }
+  coords 4296.894 310.377 1033.586
+ }
+}
+$grp GenericEntity : "{529998114BE79AD6}Prefabs/Monsters/spider/spawner/egg2.et" {
+ {
+  coords 3944.732 307.828 838.2
+ }
+ {
+  coords 3942.155 308.48 840.005
+ }
+ {
+  coords 3342.055 301.465 1356.666
+  scale 3.01
+ }
+ {
+  coords 3339.349 301.431 1361.068
+  angleY -64.241
+  scale 3.01
+ }
+ {
+  coords 3344.685 301.431 1351.694
+  angleY -64.241
+  scale 3.01
+ }
+ {
+  coords 3336.206 301.465 1350.199
+  angleY 86.612
+  scale 3.01
+ }
+ {
+  coords 4002.846 310.946 618.441
+ }
+}
+$grp GenericEntity : "{8B5957823E815B98}Prefabs/Monsters/spider/spawner/egg.et" {
+ {
+  coords 3946.096 306.207 843.098
+  angleY 0
+ }
+ {
+  coords 3945.78 306.32 838.381
+  angleY 0
+ }
+ {
+  coords 3939.777 306.32 841.387
+  angleY 0
+ }
+ {
+  coords 3942.803 306.26 842.725
+  angleY 0
+ }
+ {
+  coords 3944.078 306.372 836.724
+  angleY 0
+ }
+ {
+  coords 3338.135 300.751 1354.971
+  angleY 0
+ }
+ {
+  coords 3338.938 300.944 1357.228
+  angleY -73.866
+  scale 2.381
+ }
+ {
+  coords 3346.005 300.944 1355.748
+  angleY -7.185
+  scale 2.381
+ }
+ {
+  coords 3342.538 300.944 1362.609
+  angleY 104.334
+  scale 2.381
+ }
+ {
+  coords 3344.854 300.493 1356.333
+  angleY -23.277
+ }
+ {
+  coords 3345.471 300.493 1354.272
+  angleY 164.359
+ }
+ {
+  coords 3345.374 300.493 1358.149
+  angleY -132.359
+ }
+ {
+  coords 3344.868 301.039 1348.335
+  angleY 43.353
+  scale 2.381
+ }
+ {
+  coords 3346.321 300.042 1350.348
+  angleY -81.822
+ }
+ {
+  coords 3343.389 300.588 1347.809
+  angleY -145.103
+ }
+ {
+  coords 3344.589 300.587 1349.595
+  angleY 27.26
+ }
+ {
+  coords 3336.356 300.8 1348.657
+  angleY 111.381
+  scale 2.381
+ }
+ {
+  coords 3338.767 300.349 1348.063
+  angleY -13.793
+ }
+ {
+  coords 3335.314 300.882 1349.832
+  angleY -77.075
+ }
+ {
+  coords 3337.42 300.349 1349.388
+  angleY 95.289
+ }
+ {
+  coords 3345.546 300.611 1362.382
+  angleY -112.03
+ }
+ {
+  coords 3346.156 301.063 1363.518
+  angleY -95.937
+  scale 2.381
+ }
+ {
+  coords 3347.621 300.612 1362.953
+  angleY 75.607
+ }
+ {
+  coords 3335.482 300.645 1352.225
+  angleY -18.451
+ }
+ {
+  coords 3336.579 301.097 1351.545
+  angleY -2.359
+  scale 2.381
+ }
+ {
+  coords 3335.923 300.646 1350.119
+  angleY 169.185
+ }
+ {
+  coords 3337.719 300.493 1354.258
+  angleY -156.012
+ }
+ {
+  coords 3337.368 300.945 1355.5
+  angleY -139.919
+  scale 2.381
+ }
+ {
+  coords 3338.814 300.494 1356.11
+  angleY 31.625
+ }
+ {
+  coords 3342.492 300.493 1352.59
+  angleY 127.971
+ }
+ {
+  coords 3341.901 300.751 1353.166
+  angleY -76.017
+ }
+ {
+  coords 3346.899 301.039 1341.338
+  angleY 51.643
+  scale 2.381
+ }
+ {
+  coords 3345.359 300.588 1341.031
+  angleY -136.812
+ }
+ {
+  coords 3346.805 300.587 1342.625
+  angleY 35.551
+ }
+ {
+  coords 3827.882 298.586 1388.461
+  angleY -77.856
+  scale 2.381
+ }
+ {
+  coords 3828.382 298.41 1387.175
+  angleY 93.688
+ }
+ {
+  coords 3826.949 298.134 1387.569
+  angleY -93.949
+ }
+ {
+  coords 3974.889 319.244 1184.102
+  angleY -20.599
+  scale 2.381
+ }
+ {
+  coords 3974.712 318.793 1182.543
+  angleY 150.945
+ }
+ {
+  coords 3973.635 318.792 1184.405
+  angleY -36.692
+ }
+ {
+  coords 4002.643 310.675 617.105
+  angleY 0
+ }
+ {
+  coords 4003.862 310.675 616.746
+  angleY -122.614
+ }
+ {
+  coords 3855.117 294.382 1392.117
+  angleY 93.688
+ }
+ {
+  coords 3854.986 294.382 1393.852
+  angleY 155.739
+ }
+ {
+  coords 3857.37 294.382 1393.779
+  angleY 49.383
+ }
+ {
+  coords 3860.156 294.382 1392.689
+  angleY 27.316
+ }
+ {
+  coords 3861.655 294.446 1394.124
+  angleY 177.485
+ }
+ {
+  coords 3858.533 294.382 1392.236
+  angleY 53.355
+ }
+}

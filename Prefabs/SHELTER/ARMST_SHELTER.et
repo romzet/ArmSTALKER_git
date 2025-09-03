@@ -1,0 +1,334 @@
+GenericEntity : "{64D4F1BCB3403343}Prefabs/Props/ZEL_Storage_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  EPF_PersistenceComponent "{646266F9FCF3C496}" {
+   m_pSaveData ZEL_ClaimableStorageSaveDataClass "{646266F8A6C5B052}" {
+    m_aComponents {
+     ZEL_ClaimableItemComponentSaveDataClass "{65FD4A0582DAAEB1}" {
+     }
+    }
+   }
+  }
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{E84BAE8396F8C5B6}armst/items/hidden/hidden.xob"
+  }
+  ZEL_ClaimableItemComponent "{65FD4A0582DAAE84}" {
+   m_ClaimType HOME
+  }
+  ActionsManagerComponent "{646266F9B4C5A21D}" {
+   ActionContexts {
+    UserActionContext "{64626AA154484B2A}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 -90 0.3909
+     }
+    }
+   }
+   additionalActions {
+    ZEL_OpenPlayerClaimedStorageAction "{64626AA1619B342B}" {
+    }
+    ZEL_ClaimStorageAction "{65FD4A0582DAAE80}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+    }
+    ZEL_RelinquishClaimedStorageUserAction "{65FD4A0582DAAE81}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+     "Sort Priority" 5
+     m_CanAdmin 1
+    }
+    ZEL_AdminDeleteStorageActionUserAction "{65FD4A0582DAAE9C}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+     "Sort Priority" 6
+    }
+   }
+  }
+ }
+ coords 5066.776 301.228 69.589
+ {
+  GenericEntity : "{00437245037EE8E9}Prefabs/Posuda/posuda_10.et" {
+   ID "65FE013C0AD79979"
+   coords -1.073 0.914 0.156
+   angleY 0
+  }
+  GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.et" {
+   ID "65FD4A00375A7833"
+   components {
+    ActionsManagerComponent "{657E8538A2BE1CCD}" {
+     additionalActions {
+      ARMST_TELEPORT_ACTIONS "{657E8538A2BE1CC0}" {
+       Duration 1
+      }
+     }
+    }
+   }
+   coords 2.161 0.182 4.299
+   angleY 179.684
+   scale 1.26
+   {
+    ParticleEffectEntity {
+     ID "6584A0E2D7807BBB"
+     coords 0.544 -1.572 -0.407
+     EffectPath ""
+    }
+   }
+  }
+  GenericEntity : "{167DC2EACF77E817}Prefabs/Posuda/posuda_4.et" {
+   ID "65FE013C0AD79954"
+   coords -1.076 0.921 -0.171
+   angleY 30.775
+  }
+  GenericEntity : "{2B49E7D2BA1B6120}Prefabs/Posuda/posuda_3.et" {
+   ID "65FE013C0AD7995C"
+   coords -0.883 0.911 -0.006
+   angleX 0
+   angleY 0
+   angleZ 0
+  }
+  GenericEntity : "{2B9FF4A1A67718EC}Prefabs/Method/PropsZone/Furniture/shelves_2_int_1.et" {
+   ID "65FE013C0AD79910"
+   coords 5.855 -0.728 1.252
+   angleY -90.241
+   {
+    GenericEntity {
+     ID "64CC9AF64B0D7923"
+     coords 0.594 0.923 -1.15
+    }
+    GenericEntity {
+     ID "64CC9AF66E8AD7A5"
+     coords -0.396 0.923 -0.941
+    }
+   }
+  }
+  GenericEntity : "{464D711934551927}Prefabs/Electric/plita.et" {
+   ID "65FE013C0AD79818"
+   coords -1.092 0.169 -0.666
+   angleY 89.037
+  }
+  GenericEntity : "{4770FEF65CB7C229}Prefabs/others/rakovina.et" {
+   ID "65FE013C0AD79822"
+   coords -0.894 0.169 0.977
+   angleY 90.055
+  }
+  SCR_DestructibleBuildingEntity : "{4BE4C27399CF3B00}Prefabs/Structures/Military/Bunkers/ShelterMilitary_E_01/ShelterMilitary_E_01.et" {
+   ID "65FD4A055E76314E"
+   components {
+    SCR_DestructibleBuildingComponent "{5D7AD08FE834E0C4}" {
+     Enabled 0
+    }
+   }
+   coords 1.282 0.073 2.419
+   {
+    GenericEntity {
+     ID "59C270309AF86802"
+     Flags 1048577
+     coords 0 -10.205 0
+     {
+      GenericEntity {
+       ID "59C27030859A804C"
+       coords 3.726 10.281 1.19
+      }
+      GenericEntity {
+       ID "59C27030859A81C3"
+       Flags 1026
+      }
+      GenericEntity {
+       ID "59C27030859B4301"
+       coords -8.713 -86.359 -5.616
+      }
+      GenericEntity {
+       ID "59C27030859B4331"
+       coords -8.946 -86.359 -5.731
+      }
+      GenericEntity {
+       ID "59C27030859B43CC"
+       coords -7.41 -86.359 -5.785
+      }
+      GenericEntity {
+       ID "59C27030859B43DD"
+       coords -8.16 -86.359 -5.785
+      }
+     }
+    }
+    GenericEntity {
+     ID "5A2EDE59F3085E69"
+     {
+      GenericEntity {
+       ID "5A2EDE589638AC0A"
+       components {
+        DoorComponent "{221C667A9F7D4B69}" {
+         DoorAction SCR_DoorUserAction "{50888D3646A61640}" {
+         }
+        }
+        SCR_AISmartActionComponent "{5890ED6117CBB20D}" {
+         Enabled 0
+        }
+        ActionsManagerComponent "{F32B667C3C823800}" {
+         ActionContexts {
+          UserActionContext "{50888D37F529F720}" {
+           Position PointInfo "{50888D37F0EB77E0}" {
+            Offset 1.2 -99 0
+           }
+          }
+         }
+        }
+       }
+      }
+      GenericEntity {
+       ID "5A2EDE589638AC11"
+       components {
+        DoorComponent "{221C667A9F7D4B69}" {
+         DoorAction SCR_DoorUserAction "{50888D3646A61640}" {
+         }
+        }
+        SCR_AISmartActionComponent "{5890ED6117CBB20D}" {
+         Enabled 0
+        }
+        ActionsManagerComponent "{F32B667C3C823800}" {
+         ActionContexts {
+          UserActionContext "{50888D37F529F720}" {
+           Position PointInfo "{50888D37F0EB77E0}" {
+            Offset 1.2 -99 0
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+    EnvironmentProbeEntity : "{C0499303ABB1E8A7}Prefabs/Structures/Industrial/Houses/Warehouse_01/HouseAddons/Probe_Warehouse_01.et" {
+     ID "65FE013F288AEF6D"
+     coords 0 0 0
+    }
+   }
+  }
+  GenericEntity : "{4EDB6FB0719D9E72}Prefabs/Method/PropsZone/Furniture/PaintingBig_01_V10_d.et" {
+   ID "65FE013C0AD79ECF"
+   coords 1.143 1.814 -1.608
+   angleY 0
+   angleZ 0
+  }
+  GenericEntity : "{51B7B6FBC9DE3E4B}Prefabs/books/books_line_10r.et" {
+   ID "65FE013C0AD799D7"
+   coords 4.152 1.155 3.89
+   angleY -90.222
+  }
+  GenericEntity : "{6E9EDE00A7C3E044}Prefabs/Trash/ground_plane/beton/plane_trash_4_beton.et" {
+   ID "65FE013C0AD79E48"
+   coords -0.558 0.169 4.32
+  }
+  GenericEntity : "{75567F75CD948240}Prefabs/shelfs/tumba_5.et" {
+   ID "65FE013C0AD79806"
+   coords -1.032 0.169 0.016
+   angleY 90.557
+  }
+  $grp GenericEntity : "{795552B887CD50E7}Prefabs/Props/Industrial/ConcretePanel_01_stack.et" {
+   {
+    ID "65FE013572E8099C"
+    coords 0.47 -1.665 -0.696
+    angleY -1.353
+   }
+   {
+    ID "65FE0137B554FC49"
+    coords -2.635 -1.638 3.78
+    angleY -1.809
+   }
+   {
+    ID "65FE0137B554FC5A"
+    coords -2.956 -1.693 -0.147
+    angleY -89.35
+   }
+   {
+    ID "65FE0137B554FC60"
+    coords 4.28 -1.665 -0.844
+    angleY -1.353
+   }
+  }
+  GenericEntity : "{7B63139E79EDF177}Prefabs/chairs/chair_wooden_small.et" {
+   ID "65FE013C0AD799DD"
+   coords 6.018 0.169 2.657
+   angleY 43.591
+  }
+  GenericEntity : "{8FE6D62204173656}Prefabs/Props/Civilian/BeerBottle_01_group.et" {
+   ID "65FE013C0AD79ED1"
+   coords -0.903 1.649 0.277
+   angleY -89.542
+  }
+  GenericEntity : "{965E0BD4C564A1EC}Prefabs/Props/Civilian/WallMap_01_Military_SVD_V1.et" {
+   ID "65FE013C0AD79EBF"
+   coords 4.809 1.599 4.102
+   angleY 0
+  }
+  GenericEntity : "{9959072D845EF3C0}Prefabs/shelfs/polki_naves_1.et" {
+   ID "65FE013C0AD79EDE"
+   coords -0.973 1.413 -0.186
+   angleY 90.176
+  }
+  GenericEntity : "{9FE31AB4BADF73F8}Prefabs/Graffity/Graffiti_VIS_2.et" {
+   ID "65FE013C0AD79E24"
+   coords 3.412 1.703 -1.595
+   angleZ -24.757
+  }
+  GenericEntity : "{B93C59862F527E9C}Prefabs/others/batareya.et" {
+   ID "65FE013C0AD79830"
+   coords -1.897 0.233 -1.6
+   angleY -90.638
+  }
+  GenericEntity : "{BCE07A58672955B9}Prefabs/Props/Civilian/Bucket_01.et" {
+   ID "65FE013C0AD79EA4"
+   coords -0.97 0.205 0.975
+  }
+  GenericEntity : "{BD04CAACD8066E52}Prefabs/posters/Poster_6.et" {
+   ID "65FE013C0AD79925"
+   coords -2.272 1.296 -1.608
+   scale 2.01
+  }
+  GenericEntity : "{CED5AB2BB6FEF64B}Prefabs/Posuda/posuda_2.et" {
+   ID "65FE013C0AD79948"
+   coords -0.901 0.912 0.307
+   angleY 0
+  }
+  GenericEntity : "{D06EBF60E48D0E4F}Prefabs/Trash/ground_plane/beton/plane_trash_6_beton.et" {
+   ID "65FE013C0AD79E71"
+   coords 3.716 0.169 3.65
+   angleY 88.354
+  }
+  GenericEntity : "{D3ED0B3639DAE438}Prefabs/Trash/ground_plane/beton/plane_trash_1_beton.et" {
+   ID "65FE013C0AD79E92"
+   coords 2.563 0.169 -1.771
+   angleY -178.946
+  }
+  GenericEntity : "{E56F1B739B9792C4}Prefabs/Props/Civilian/Ashtray_01_Full_green.et" {
+   ID "65FE013C0AD79EB3"
+   coords 6.041 1.172 3.214
+   angleY 0
+  }
+  GenericEntity : "{E5DDF083958FE23C}Prefabs/Posuda/posuda_8.et" {
+   ID "65FE013C0AD79966"
+   coords -1.114 1.072 -0.816
+   angleY 0
+  }
+  GenericEntity : "{E61CD558044BD5EA}Prefabs/Electric/holodos.et" {
+   ID "65FE013C0AD799EC"
+   coords -1.097 0.169 -1.304
+   angleY 91.908
+  }
+  GenericEntity : "{EF7E9C4BCBFAE4CA}Prefabs/Trash/ground_plane/beton/plane_trash_2_beton.et" {
+   ID "65FE013C0AD79E42"
+   coords -0.511 0.169 0.324
+   angleY -91.048
+  }
+  GenericEntity : "{F32D63DF37DC1DE1}Prefabs/Method/PropsZone/Furniture/Aptechka_01.et" {
+   ID "65FE013C0AD79936"
+   coords -0.71 1.482 3.033
+   angleY -94.446
+  }
+ }
+}

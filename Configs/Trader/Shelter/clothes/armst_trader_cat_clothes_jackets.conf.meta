@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{B2A2093941985D38}Configs/Trader/Shelter/armst_trader_cat_clothes_razgruz.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{465F497C9A1D452E}Configs/Trader/Shelter/equipments/armst_trader_cat_equip_helmet.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

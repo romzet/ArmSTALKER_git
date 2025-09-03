@@ -3,6 +3,27 @@ PerceptionManager PerceptionManager1 : "{028DAEAD63E056BE}Prefabs/World/Game/Per
 }
 SCR_GameModeEditor Armst_GameMaster : "{DA3986AF1B5032B7}Prefabs/MP/Modes/Editor/GameMode_Editor_Full.et" {
  components {
+  ARMST_ALIFE_GamemodeComponent "{6642E487533DD3A2}" {
+   m_CheckTimerAlife 30
+   m_CheckOrderTimer 60
+   m_SpawnGroupsSavino {
+    "{AE68204C5F6863FD}Configs/Alife/savino_alife.conf"
+   }
+   m_MinGroupsSavino 13
+   m_SpawnGroupsSwamp {
+    "{4EBC3D014CE19183}Configs/Alife/swamp_alife.conf"
+   }
+   m_MinGroupsSwamp 8
+   m_SpawnGroupsForest {
+    "{452837356A922E1A}Configs/Alife/forest_alife.conf"
+   }
+   m_MinGroupsForest 7
+   m_SpawnGroupsAerodrom {
+    "{22C6F16FBC62E553}Configs/Alife/aerodrom_alife.conf"
+   }
+   m_MinGroupsAerodrom 6
+   m_MinGroupsGorkiy 0
+  }
   ARMST_EDITOR_GLOBAL_SETTINGS "{65D48429738D662B}" {
   }
   ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
@@ -260,7 +281,8 @@ SCR_MapLocator {
  }
 }
 SCR_SpawnPoint : "{2D88EAB83A52AE0E}Prefabs/MP/Spawning/SpawnPoint_STALKER.et" {
- coords 5076.001 301.794 56.565
+ coords 4176.546 311.283 718.624
+ angleY -46.164
 }
 GenericEntity : "{511C041EFC7BAE60}Prefabs/Props/Arsenal/ArsenalBox_STALKEr.et" {
  coords 3873.49 306.702 289.601

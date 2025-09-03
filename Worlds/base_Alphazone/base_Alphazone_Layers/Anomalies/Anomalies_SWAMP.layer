@@ -2,18 +2,17 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  ELECTRO_ANOMALY7 {
   coords 2457.176 290.589 903.933
   SphereRadius 70
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_SpawnCount 8
   m_CenterBias 0.5
  }
  JARKA_ANOMALY_36 {
   coords 1923.946 291.41 658.591
   SphereRadius 78.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
@@ -25,7 +24,6 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  JARKA_ANOMALY_37 {
   coords 2340.911 292.134 835.006
   SphereRadius 78.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{764A0D38D69BA7F3}Prefabs/Anomals/Jarka/ARMST_JARKA.et"
@@ -37,20 +35,20 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  ELECTRO_ANOMALY8 {
   coords 2181.572 290.93 573.928
   SphereRadius 70
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_SpawnCount 8
   m_CenterBias 0.5
  }
  {
   coords 2326.494 293.125 635.755
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -59,9 +57,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2637.878 291.2 507.178
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -70,9 +68,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2623.166 292.476 726.857
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -81,9 +79,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2474.254 291.128 582.297
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -92,9 +90,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2636.075 291.765 926.366
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -103,9 +101,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2865.392 312.221 835.883
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -114,9 +112,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 3041.989 300.132 888.284
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -125,9 +123,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2305.134 292.302 991.259
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -136,9 +134,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2100.484 290.868 685.31
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -147,9 +145,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 2197.441 289.943 846.997
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -158,9 +156,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 1881.15 291.138 812.446
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -169,9 +167,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 1717.159 292.185 939.438
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -180,9 +178,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 1475.57 302.31 846.043
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -191,9 +189,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 1509.154 299.789 696.522
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -202,9 +200,9 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  {
   coords 1828.395 292.01 691.538
   SphereRadius 118.8
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
   m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
   m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
   m_CenterBias 0.5
@@ -213,7 +211,6 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  EYE_ANOMALY5 {
   coords 2045.687 290.117 528.021
   SphereRadius 74.2
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
@@ -225,7 +222,6 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  EYE_ANOMALY6 {
   coords 2331.208 291.782 459.762
   SphereRadius 74.2
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
@@ -237,7 +233,6 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
  EYE_ANOMALY7 {
   coords 2442.6 298.428 765.222
   SphereRadius 74.2
-  DrawShape 0
   TriggerActivationType "First and last change"
   UpdatePeriod 10
   m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
@@ -245,5 +240,324 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   m_ObjectPrefab3 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
   m_SpawnCount 5
   m_CenterBias 0.6
+ }
+ {
+  coords 2518.472 295.224 1237.561
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2231.716 295.991 1222.983
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2205.323 302.571 1419.017
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2836.012 298.359 1446.337
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 3095.401 302.817 1529.315
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2734.635 312.986 1735.099
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2333.976 305.219 1889.525
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2118.996 302.75 1913.822
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 2082.692 310.296 1665.242
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1901.044 291.038 1830.295
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1943.196 297.559 1407.121
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1884.817 291.762 1136.111
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1621.219 322.147 1321.97
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1662.247 300.452 1520.2
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1530.502 292.123 1701.071
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1632.434 292.073 1957.512
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1818.89 300.452 2077.131
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1421.844 291.067 1463.403
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1402.515 291.835 1214.332
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ {
+  coords 1491.22 291.005 1043.846
+  SphereRadius 118.8
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{8D18616B60C9C265}Prefabs/Anomals/Gravy/ARMST_GRAVY.et"
+  m_ObjectPrefab2 "{547B3F4AC9003276}Prefabs/Anomals/Grinder/ARMST_GRINDER.et"
+  m_ObjectPrefab3 "{57CC29488C129FC4}Prefabs/Anomals/Moshkara/ARMST_MOSHKARA.et"
+  m_CenterBias 0.5
+  m_SpawnChance 60
+ }
+ ELECTRO_ANOMALY6 {
+  coords 2336.165 301.233 1545.45
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ ELECTRO_ANOMALY9 {
+  coords 2503.624 301.233 1485.295
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ ELECTRO_ANOMALY10 {
+  coords 2434.385 301.233 1515.266
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ EYE_ANOMALY8 {
+  coords 2408.078 314.608 1727.645
+  SphereRadius 74.2
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{D8DA4E7A59B2F330}Prefabs/Anomals/Eye/ARMST_EYE.et"
+  m_ObjectPrefab2 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
+  m_ObjectPrefab3 "{9E0D254D4ECD2C1D}Prefabs/Anomals/Miracle/ARMST_MIRACLE.et"
+  m_SpawnCount 5
+  m_CenterBias 0.6
+ }
+ ELECTRO_ANOMALY11 {
+  coords 2334.685 301.233 1494.643
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ ELECTRO_ANOMALY12 {
+  coords 2418.043 301.233 1479.216
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ ELECTRO_ANOMALY13 {
+  coords 2485.091 301.233 1546.184
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ ELECTRO_ANOMALY14 {
+  coords 2532.67 301.233 1441.361
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
+ }
+ ELECTRO_ANOMALY15 {
+  coords 2581.453 301.233 1509.899
+  SphereRadius 70
+  TriggerActivationType "First and last change"
+  UpdatePeriod 10
+  m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_SpawnCount 8
+  m_CenterBias 0.5
  }
 }

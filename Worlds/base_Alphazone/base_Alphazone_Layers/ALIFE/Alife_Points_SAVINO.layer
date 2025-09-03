@@ -1,0 +1,201 @@
+$grp ARMST_ALIFE_InterestPoint {
+ savino_perimetr_1 {
+  coords 4084.932 300.071 441.641
+  m_sNextInterestPoint1 "savino_smuggler_kpp"
+  m_sNextInterestPoint2 "savino_bunker"
+  m_sNextInterestPoint3 "savino_perimetr_4"
+ }
+ savino_perimetr_2 {
+  coords 3376.867 303.06 546.768
+  m_sNextInterestPoint1 "savino_perimetr_3"
+  m_sNextInterestPoint2 "savino_village"
+ }
+ savino_perimetr_3 {
+  coords 3588.409 309.776 490.667
+  m_sNextInterestPoint1 "savino_perimetr_2"
+  m_sNextInterestPoint2 "savino_svalka"
+ }
+ savino_village {
+  coords 3411.267 302.546 812.567
+  m_sNextInterestPoint1 "savino_range_camp"
+  m_sNextInterestPoint2 "savino_perimetr_2"
+  m_sNextInterestPoint3 "savino_forest"
+  m_sNextInterestPoint4 "savino_house"
+ }
+ savino_svalka {
+  coords 3713.2 306.363 773.007
+  m_sNextInterestPoint1 "savino_bunker"
+  m_sNextInterestPoint2 "savino_farm"
+  m_sNextInterestPoint3 "savino_forest"
+  m_sNextInterestPoint4 "savino_sawmill"
+ }
+ savino_farm {
+  coords 3922.943 305.762 871.747
+  m_sNextInterestPoint1 "savino_smuggler_kpp"
+  m_sNextInterestPoint2 "savino_svalka"
+  m_sNextInterestPoint3 "savino_smuggler_kpp2"
+  m_sNextInterestPoint4 "savino_forest_camp"
+  m_sNextInterestPoint5 "savino_fire_dom"
+ }
+ savino_smuggler_kpp {
+  coords 4026.964 307.787 599.98
+  m_sNextInterestPoint1 "savino_perimetr_1"
+  m_sNextInterestPoint2 "savino_farm"
+  m_sNextInterestPoint3 "savino_bunker"
+  m_sNextInterestPoint4 "savino_perimetr_4"
+ }
+ savino_smuggler_kpp2 {
+  coords 4264.945 310.793 852.279
+  m_sNextInterestPoint1 "savino_farm"
+  m_sNextInterestPoint2 "savino_train"
+  m_sNextInterestPoint3 "savino_fire_dom"
+ }
+ savino_fire_dom {
+  coords 4029.202 312.567 1073.236
+  m_sNextInterestPoint1 "savino_farm"
+  m_sNextInterestPoint2 "savino_radiotower"
+  m_sNextInterestPoint3 "savino_train"
+  m_sNextInterestPoint4 "savino_hills"
+  m_sNextInterestPoint5 "savino_forest_camp"
+ }
+ savino_lost_house {
+  coords 4074.885 306.827 1367.918
+  m_sNextInterestPoint1 "savino_radiotower"
+  m_sNextInterestPoint2 "savino_Gasstation"
+  m_sNextInterestPoint3 "savino_warehouse"
+  m_sNextInterestPoint4 "savino_hills"
+ }
+ savino_radiotower {
+  coords 3962.72 318.981 1181.813
+  m_sNextInterestPoint1 "savino_hills"
+  m_sNextInterestPoint2 "savino_lost_house"
+  m_sNextInterestPoint3 "savino_Gasstation"
+  m_sNextInterestPoint4 "savino_fire_dom"
+  m_sNextInterestPoint5 "savino_church"
+ }
+ savino_Gasstation {
+  coords 3836.002 298.171 1355.988
+  m_sNextInterestPoint1 "savino_church"
+  m_sNextInterestPoint2 "savino_tower"
+  m_sNextInterestPoint3 "savino_warehouse"
+  m_sNextInterestPoint4 "savino_lost_house"
+  m_sNextInterestPoint5 "savino_radiotower"
+ }
+ savino_church {
+  coords 3817.901 314.046 1135.124
+  m_sNextInterestPoint1 "savino_sawmill"
+  m_sNextInterestPoint2 "savino_forest_camp"
+  m_sNextInterestPoint3 "savino_tower"
+  m_sNextInterestPoint4 "savino_radiotower"
+  m_sNextInterestPoint5 "savino_Gasstation"
+ }
+ savino_forest_camp {
+  coords 3816.196 300.846 1006.589
+  m_sNextInterestPoint1 "savino_sawmill"
+  m_sNextInterestPoint2 "savino_church"
+  m_sNextInterestPoint3 "savino_farm"
+  m_sNextInterestPoint4 "savino_fire_dom"
+  m_sNextInterestPoint5 "savino_tower"
+ }
+ savino_sawmill {
+  coords 3634.713 305.57 976.867
+  m_sNextInterestPoint1 "savino_house"
+  m_sNextInterestPoint2 "savino_forest"
+  m_sNextInterestPoint3 "savino_forest_camp"
+  m_sNextInterestPoint4 "savino_svalka"
+ }
+ savino_house {
+  coords 3552.094 305.098 1007.052
+  m_sNextInterestPoint1 "savino_village"
+  m_sNextInterestPoint2 "savino_sawmill"
+  m_sNextInterestPoint3 "savino_range_camp"
+  m_sNextInterestPoint4 "savino_traktor_camp"
+  m_sNextInterestPoint5 "savino_forest"
+ }
+ savino_range_camp {
+  coords 3258.173 308.577 1015.002
+  m_sNextInterestPoint1 "savino_village"
+  m_sNextInterestPoint2 "savino_traktor_camp"
+  m_sNextInterestPoint3 "savino_house"
+  m_sNextInterestPoint4 "savino_forest_camp2"
+ }
+ savino_traktor_camp {
+  coords 3468.738 300.147 1105.616
+  m_sNextInterestPoint1 "savino_forest_camp2"
+  m_sNextInterestPoint2 "savino_car_camp"
+  m_sNextInterestPoint3 "savino_house"
+  m_sNextInterestPoint4 "savino_tower"
+ }
+ savino_car_camp {
+  coords 3476.069 304.893 1318.961
+  m_sNextInterestPoint1 "savino_tower"
+  m_sNextInterestPoint2 "savino_traktor_camp"
+  m_sNextInterestPoint3 "savino_zavod"
+  m_sNextInterestPoint4 "savino_warehouse"
+ }
+ savino_zavod {
+  coords 3399.148 308.577 1341.264
+  m_sNextInterestPoint1 "savino_car_camp"
+  m_sNextInterestPoint2 "savino_zavod2"
+  m_sNextInterestPoint3 "savino_forest_camp2"
+  m_sNextInterestPoint4 "savino_warehouse"
+ }
+ savino_warehouse {
+  coords 3580.46 302.323 1550.05
+  m_sNextInterestPoint1 "savino_Gasstation"
+  m_sNextInterestPoint2 "savino_car_camp"
+  m_sNextInterestPoint3 "savino_lost_house"
+ }
+ savino_bunker {
+  coords 3888.776 315.168 688.333
+  m_sNextInterestPoint1 "savino_smuggler_kpp"
+  m_sNextInterestPoint2 "savino_farm"
+  m_sNextInterestPoint3 "savino_svalka"
+ }
+ savino_train {
+  coords 4383.533 310.295 1127.394
+  m_sNextInterestPoint1 "savino_fire_dom"
+  m_sNextInterestPoint2 "savino_smuggler_kpp2"
+ }
+ savino_hills {
+  coords 4201.093 306.071 1308.368
+  m_sNextInterestPoint1 "savino_lost_house"
+  m_sNextInterestPoint2 "savino_fire_dom"
+  m_sNextInterestPoint3 "savino_holiday_camp"
+ }
+ savino_holiday_camp {
+  coords 4133.256 322.142 1629.356
+  m_sNextInterestPoint1 "savino_hills"
+ }
+ savino_perimetr_4 {
+  coords 3904.052 304.552 506.11
+  m_sNextInterestPoint1 "savino_perimetr_1"
+  m_sNextInterestPoint2 "savino_smuggler_kpp"
+  m_sNextInterestPoint3 "savino_bunker"
+ }
+ savino_forest {
+  coords 3574.61 309.358 803.791
+  m_sNextInterestPoint1 "savino_svalka"
+  m_sNextInterestPoint2 "savino_village"
+  m_sNextInterestPoint3 "savino_sawmill"
+  m_sNextInterestPoint4 "savino_perimetr_3"
+ }
+ savino_forest_camp2 {
+  coords 3308.423 301.482 1201.796
+  m_sNextInterestPoint1 "savino_range_camp"
+  m_sNextInterestPoint2 "savino_traktor_camp"
+  m_sNextInterestPoint3 "savino_zavod2"
+ }
+ savino_zavod2 {
+  coords 3308.142 308.577 1315.548
+  m_sNextInterestPoint1 "savino_zavod"
+  m_sNextInterestPoint2 "savino_forest_camp2"
+ }
+ savino_tower {
+  coords 3666.54 314.546 1240.757
+  m_sNextInterestPoint1 "savino_sawmill"
+  m_sNextInterestPoint2 "savino_traktor_camp"
+  m_sNextInterestPoint3 "savino_church"
+  m_sNextInterestPoint4 "savino_car_camp"
+ }
+}

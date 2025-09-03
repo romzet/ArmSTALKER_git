@@ -1,0 +1,34 @@
+SCR_GameModeEditor : "{D2DE7F43D48A3667}Prefabs/MP/Modes/Editor/GameMode_Editor.et" {
+ ID "56B2B479C6B96951"
+ components {
+  SCR_CampaignBuildingManagerComponent "{657A5E235E9D1FAC}" {
+   m_sFreeRoamBuildingClientTrigger "{5E191CEAF4B95816}Prefabs/MP/FreeRoamBuildingClientTrigger.et"
+   m_BudgetType CAMPAIGN
+   m_iCompositionRefundPercentage 100
+   m_OutlineManager SCR_CampaignBuildingCompositionOutlineManager "{5DF6FBB5913F3245}" {
+   }
+   m_sPrefabsToBuildResource "{D2527D9AA5B4A33E}Configs/Editor/PlaceableEntities/Compositions/Compositions_FreeRoamBuilding.conf"
+   m_sPrefabToHoldSupplyOnRefund "{4BBE0A784C01900E}Prefabs/Props/Military/SupplyBox/SupplyCrate/SupplyCrate_01/SupplyCrate_01_FreeRoamBuilding.et"
+  }
+  SCR_CommandingManagerComponent "{657A5E235E9D1FB9}" {
+  }
+ }
+ coords 4088.818 299.277 439.671
+ {
+  SCR_FactionManager FactionManager_Editor1 : "{4A188E44289B9A50}Prefabs/MP/Managers/Factions/FactionManager_Editor.et" {
+   ID "657A5E235E9D1FDF"
+  }
+  RadioManagerEntity : "{B8E09FAB91C4ECCD}Prefabs/Radio/RadioManager.et" {
+   ID "657A5E235E9D1FD9"
+  }
+  ScriptedChatEntity : "{F69BC912AC8236F9}Prefabs/MP/ScriptedChatEntity.et" {
+   ID "657A5E235E9D1FDA"
+  }
+  SCR_BaseTaskManager : "{87208DAD6F3C0DE2}Prefabs/MP/Managers/Tasks/TaskManager_Editor.et" {
+   ID "657A5E235E9D1FDB"
+  }
+  SCR_LoadoutManager : "{B54D08AEA74A5354}Prefabs/MP/Managers/Loadouts/LoadoutManager_Editor.et" {
+   ID "657A5E235E9D1FD5"
+  }
+ }
+}

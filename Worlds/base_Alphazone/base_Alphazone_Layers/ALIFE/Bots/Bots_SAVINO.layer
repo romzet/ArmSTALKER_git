@@ -1,0 +1,38 @@
+$grp GenericEntity : "{142EBFC473EC0E30}Prefabs/monster_spawner.et" {
+ KB_SPAWNER {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_CheckPlayerRadius 5
+    m_RadiusPatrol 10
+    m_SpawnChance 100
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 400
+    m_SpawnGroups {
+     "{94B3E1CD5CB16C72}Configs/Alife/KB/kb_alife.conf"
+    }
+    m_WaypointPrefab "{2FCBE5C76E285A7B}Prefabs/AI/Waypoints/AIWaypoint_DefendSmall.et"
+   }
+  }
+  coords 4193.881 310.823 681.6
+ }
+ KB_SPAWNER2 {
+  components {
+   ARMST_ALIFE_SPAWNGROUPS "{6642E9839065C931}" {
+    m_InitialSpawnDelay 5
+    m_CheckInterval 60
+    m_CheckPlayerRadius 5
+    m_RadiusPatrol 10
+    m_SpawnChance 100
+    m_FailedSpawnDelay 300
+    m_PlayerDetectionRadius 400
+    m_SpawnGroups {
+     "{94B3E1CD5CB16C72}Configs/Alife/KB/kb_alife.conf"
+    }
+    m_WaypointPrefab "{2FCBE5C76E285A7B}Prefabs/AI/Waypoints/AIWaypoint_DefendSmall.et"
+   }
+  }
+  coords 4138.336 309.452 691.875
+ }
+}

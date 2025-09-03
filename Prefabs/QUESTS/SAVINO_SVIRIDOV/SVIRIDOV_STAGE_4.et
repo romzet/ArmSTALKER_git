@@ -1,0 +1,55 @@
+GenericEntity : "{3619812B192CCAE9}Prefabs/Props/Core/Wreck_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsPerformerComponent "{65DC67C1D79A48BD}" {
+  }
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{D42387E8A7540DF4}Assets/Skeleton/skeleton_7.xob"
+   Materials {
+    MaterialAssignClass "{65DC67C1D79A48B0}" {
+     SourceMaterial "lambert1"
+     AssignedMaterial "{6980B80389F4CD10}Assets/old_pc/Data/old_pc_error.emat"
+    }
+   }
+   WetnessOccluder 0
+   ClutterOccluder 1
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   Static 1
+  }
+  ActionsManagerComponent "{65DC67C1D79A4888}" {
+   ActionContexts {
+    UserActionContext "{65DC67C1D79A4889}" {
+     ContextName "Default"
+     Position PointInfo "{65DC67C1D79A488B}" {
+      Offset 0 0 0
+     }
+     Radius 1.3
+    }
+   }
+   additionalActions {
+    ARMST_USER_QUEST_STATICS "{65DC67C1D79A4887}" {
+     ParentContextList {
+      "Default"
+     }
+     "Sort Priority" 1
+     m_PrefabQuest "{197C39AAAA74C48C}Prefabs/QUESTS/SAVINO_SVIRIDOV/armst_quest_sviridov_stage_3.et"
+     m_bStartMissionReq 1
+     m_fCountQuestItemsPrice 0
+     m_fCountQuestItemsReputations 0
+     m_sActionStartMission "#armst_quest_savino_journalist_action_docs"
+     m_sActionFinishMission "#armst_quest_savino_journalist_stage_4_action"
+     m_sStartMission "#armst_quest_savino_journalist_stage_4"
+     m_sFinishMission "#armst_quest_savino_journalist_stage_4_finish"
+     m_PrefabQuestFinish "{0D9DACEA300458F5}Prefabs/QUESTS/SAVINO_SVIRIDOV/armst_quest_sviridov_stage_final.et"
+     m_PrefabQuestFinishSpawn "{1DBDD336741DF40E}Prefabs/Monsters/Groups/Group_Zombie_4.et"
+     m_fPrefabQuestFinishSpawnDistance 100
+    }
+   }
+  }
+  RplComponent "{65DC67C1D79A489E}" {
+  }
+ }
+ coords 3229.295 306.63 1009.504
+ angleY -50.071
+}

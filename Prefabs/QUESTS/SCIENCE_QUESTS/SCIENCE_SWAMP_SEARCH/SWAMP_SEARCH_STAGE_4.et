@@ -1,0 +1,53 @@
+GenericEntity : "{3619812B192CCAE9}Prefabs/Props/Core/Wreck_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsPerformerComponent "{662CA2DBE3673AB2}" {
+  }
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{1C6CD8F9D3136411}Assets/Props/Military/Antennas/Antenna_FIA_02/Antenna_FIA_02.xob"
+   Materials {
+    MaterialAssignClass "{662CA2DBE3673A86}" {
+     SourceMaterial "lambert1"
+     AssignedMaterial "{6980B80389F4CD10}Assets/old_pc/Data/old_pc_error.emat"
+    }
+   }
+   WetnessAdder 1
+   ClutterOccluder 1
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   Static 1
+  }
+  ActionsManagerComponent "{662CA2DBE3673A9D}" {
+   ActionContexts {
+    UserActionContext "{662CA2DBE3673A9F}" {
+     ContextName "Default"
+     Position PointInfo "{662CA2DBE3673A98}" {
+      Offset 0 1.6684 0
+     }
+     Radius 9.6
+    }
+   }
+   additionalActions {
+    ARMST_USER_QUEST_STATICS "{662CA2DBE3673A9B}" {
+     ParentContextList {
+      "Default"
+     }
+     "Sort Priority" 1
+     m_PrefabQuest "{6C3A6CE0409084C3}Prefabs/QUESTS/SCIENCE_SWAMP_SEARCH/armst_itm_anom_detect_QUEST_SWAMP_stage_4.et"
+     m_bStartMissionReq 1
+     m_bOnlyStartMission 1
+     m_PrefabQuestStart "{284511D44ECE0DBE}Prefabs/QUESTS/SCIENCE_SWAMP_SEARCH/armst_itm_anom_detect_QUEST_SWAMP_stage_final.et"
+     m_fCountQuestItemsPrice 0
+     m_fCountQuestItemsReputations 0
+     m_sActionStartMission "#armst_quest_swamp_action_antena"
+     m_sStartMission "#armst_quest_swamp_action_antena_final"
+     m_PrefabQuestFinishSpawn "{F09C59F268784702}Prefabs/Monsters/Groups/Group_Nighstalkers.et"
+     m_fPrefabQuestFinishSpawnDistance 35
+    }
+   }
+  }
+  RplComponent "{662CA2DBE3673A91}" {
+  }
+ }
+ coords 1726.821 290.452 967.255
+}

@@ -9,8 +9,8 @@ GenericEntity sviridov_stage_2 : "{26C718172F3EBB18}Prefabs/QUESTS/SAVINO_SVIRID
  angleZ -3.126
 }
 SCR_ChimeraCharacter : "{662961940DEB939C}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_JURNOLIST.et" {
- coords 5091.975 301.796 54.588
- angleY -73.062
+ coords 4181.906 311.031 723.603
+ angleY -111.365
 }
 GenericEntity sviridov_stage_3 : "{C35B54EE23DB2C73}Prefabs/QUESTS/SAVINO_SVIRIDOV/SVIRIDOV_STAGE_3.et" {
  coords 3906 306.93 884.972

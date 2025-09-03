@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{D9C3332E1CD6626A}Configs/Trader/Shelter/others/armst_trader_cat_others_furnitures.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

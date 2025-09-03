@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{16CDD7B85B3DC7BB}Configs/Trader/Shelter/others/armst_trader_cat_others_keys.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

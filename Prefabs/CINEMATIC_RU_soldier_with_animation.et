@@ -1,0 +1,142 @@
+GenericEntity {
+ ID "5670AB5CB11668B7"
+ components {
+  BaseSlotComponent "{5670AB5CB11668B0}" {
+   AttachType EntitySlotInfo primary_weapon {
+    PivotID "RightHandProp"
+   }
+   EntityPrefab ""
+  }
+  CharacterIdentityComponent "{5670AB5CB11668BB}" {
+   Identity Identity "{5670AB5CB11668A6}" {
+    VisualIdentity VisualIdentity "{56F11047ADAB064B}" {
+     Head "{0F6C19B0574DCBCA}Prefabs/Characters/Heads/Head_White_03.et"
+     Body "{0023F898C0FF18AA}Prefabs/Characters/Basebody/CharacterBasebody.et"
+     BodyMeshesConfig MeshConfig "{56F11138B0CA5585}" {
+      SubmeshesOfBody {
+       IdentityBodyMesh "{5584CBC7983D908C}" {
+        PartType "Arm_L"
+        HealthyVersion "Basebody_Arm_L"
+        WoundVersion "Basebody_Arm_L_wound"
+       }
+       IdentityBodyMesh "{5594A187B7350302}" {
+        PartType "Arm_R"
+        HealthyVersion "Basebody_Arm_R"
+        WoundVersion "Basebody_Arm_R_wound"
+       }
+       IdentityBodyMesh "{5584CBC798F6E9F4}" {
+        PartType "ArmUpper_L"
+        HealthyVersion "Basebody_ArmUpper_L"
+        WoundVersion "Basebody_ArmUpper_L_wound"
+       }
+       IdentityBodyMesh "{5594A187A1415184}" {
+        PartType "ArmUpper_R"
+        HealthyVersion "Basebody_ArmUpper_R"
+        WoundVersion "Basebody_ArmUpper_R_wound"
+       }
+       IdentityBodyMesh "{5584CBC798D23CB9}" {
+        PartType "Calf_L"
+        HealthyVersion "Basebody_Calf_L"
+        WoundVersion "Basebody_Calf_L_wound"
+       }
+       IdentityBodyMesh "{5594A1879DBEE58D}" {
+        PartType "Calf_R"
+        HealthyVersion "Basebody_Calf_R"
+        WoundVersion "Basebody_Calf_R_wound"
+       }
+       IdentityBodyMesh "{5584CBC79B2E35C0}" {
+        PartType "Foot_L"
+        HealthyVersion "Basebody_Foot_L"
+        WoundVersion "Basebody_Foot_L_wound"
+       }
+       IdentityBodyMesh "{5594A187880A1390}" {
+        PartType "Foot_R"
+        HealthyVersion "Basebody_Foot_R"
+        WoundVersion "Basebody_Foot_R_wound"
+       }
+       IdentityBodyMesh "{5584CBC79B1F07EF}" {
+        PartType "Groin"
+        HealthyVersion "Basebody_Groin"
+        WoundVersion "Basebody_Groin_wound"
+       }
+       IdentityBodyMesh "{5584CBC79B7D8296}" {
+        PartType "Hand_L"
+        HealthyVersion "Basebody_Hand_L"
+        WoundVersion "Basebody_Hand_L_wound"
+       }
+       IdentityBodyMesh "{5594A187E3BB44A4}" {
+        PartType "Hand_R"
+        HealthyVersion "Basebody_Hand_R"
+        WoundVersion "Basebody_Hand_R_wound"
+       }
+       IdentityBodyMesh "{5584CBC79B5B6879}" {
+        PartType "Leg_L"
+        HealthyVersion "Basebody_Leg_L"
+        WoundVersion "Basebody_Leg_L_wound"
+       }
+       IdentityBodyMesh "{5594A187DD1DCF47}" {
+        PartType "Leg_R"
+        HealthyVersion "Basebody_Leg_R"
+        WoundVersion "Basebody_Leg_R_wound"
+       }
+       IdentityBodyMesh "{5584CBC79BB8432B}" {
+        PartType "Torso"
+        HealthyVersion "Basebody_Torso"
+        WoundVersion "Basebody_Torso_wound"
+       }
+       IdentityBodyMesh "{5584CBC774E4D721}" {
+        PartType "Head"
+        HealthyVersion "Basebody_Head"
+        WoundVersion "Basebody_Head_wound"
+       }
+      }
+     }
+    }
+   }
+  }
+  BaseLoadoutManagerComponent "{5670AB5CB11668D5}" {
+   Slots {
+    LoadoutSlotInfo Hat {
+     Prefab "{680813AEA2D67F2A}Prefabs/New_Equipment/Masks/armst_mask_balaclava.et"
+     Name "Helmet"
+    }
+    LoadoutSlotInfo Jacket {
+     Prefab "{BF4A9DA0CB5CC4AE}Prefabs/New_Equipment/Jackets/armst_jacket_shtormovka_brown.et"
+     Name "Jacket"
+     MeshesToHide {
+      "Torso" "Arm_L" "Arm_R" "ArmUpper_L" "ArmUpper_R"
+     }
+    }
+    LoadoutSlotInfo Pants {
+     Prefab "{E1EA4FAEDD70A1BE}Prefabs/New_Equipment/Pants/armst_pants_kzs.et"
+     Name "Pants"
+     MeshesToHide {
+      "Leg_L" "Leg_R" "Groin"
+     }
+    }
+    LoadoutSlotInfo Boots {
+     Prefab "{C7923961D7235D70}Prefabs/Characters/Footwear/CombatBoots_Soviet_01.et"
+     Name "Boots"
+     MeshesToHide {
+      "Foot_L" "Foot_R"
+     }
+    }
+    LoadoutSlotInfo Back {
+     PivotID "scene_root"
+     Prefab ""
+     Name "Backpack"
+    }
+    LoadoutSlotInfo Vest {
+     Name "Vest"
+    }
+   }
+  }
+  AnimationPlayerComponent "{5670AB5CB11668D8}" {
+   Animation "{AC234E7D87AE33B2}anims/stalker_idle/stalker_idle_ranen_2.anm"
+   Speed 0.5
+   Loop 1
+   AutoPlay 1
+  }
+ }
+ coords 567.593 99.285 495.674
+}

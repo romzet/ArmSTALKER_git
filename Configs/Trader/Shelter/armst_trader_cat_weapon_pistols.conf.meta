@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{92B1A4DA8F4298BC}Configs/Trader/Shelter/armst_trader_cat_weapon_pistols.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

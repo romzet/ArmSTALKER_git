@@ -1,0 +1,9 @@
+SCR_PlayerController : "{225E51284CC95CFA}Prefabs/Characters/Core/DefaultPlayerControllerMP.et" {
+ ID "1A9BA6BEFA06E3B1"
+ components {
+  SCR_SpawnerRequestComponent "{6592BECE90E8FF42}" {
+  }
+ }
+ coords 4086.013 298.947 433.59
+ DefaultControlledEntity "{60C01CD24FC404DB}Prefabs/Factions/Character_STALKER_Player_Full.et"
+}

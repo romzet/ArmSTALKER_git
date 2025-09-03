@@ -1452,12 +1452,6 @@ $grp GenericEntity : "{91D86FC384A72660}Prefabs/Props/LOOT_BOX/Loot_randomize_me
   angleY 77.291
  }
  {
-  coords 4158.324 305.675 716.342
-  angleX 89.514
-  angleY -26.573
-  angleZ -180
- }
- {
   coords 3789.519 307.146 971.623
   angleX 6.867
   angleY 61.473

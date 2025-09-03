@@ -1,0 +1,49 @@
+GenericEntity {
+ ID "65FD4A010B7B741A"
+ components {
+  MeshObject "{65FD4A010B7B7412}" {
+   Object "{34BA5CF1F425BEAD}Assets/Structures/BuildingsParts/Doors/Door_Bunker_01/Door_Bunker_01_A_RIGHT_EXT_COV_B.xob"
+  }
+  ActionsManagerComponent "{65FD4A010B7B75E7}" {
+   ActionContexts {
+    UserActionContext "{65FD4A010B7B75E2}" {
+     UIInfo UIInfo "{65FD4A010B7B75FC}" {
+     }
+     ContextName "Default"
+     Position PointInfo "{65FD4A010B7B75FF}" {
+      Offset 0.4756 0.9199 0
+     }
+     Radius 0.81
+    }
+   }
+   additionalActions {
+    ARMST_USER_CREATE_SHELTERS "{65FD4A010B7B75F5}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+     "Sort Priority" 1
+     m_PrefabPodval "{20AB7C195DBCD6C6}Prefabs/SHELTER/ARMST_SHELTER.et"
+     m_sMainPodval "MainPodval"
+    }
+    ARMST_TELEPORT_ACTIONS "{66048651BC3FFA3D}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+     "Sort Priority" 0
+     m_sTeleportActionName "Enter Shelter"
+     m_sTeleportTarget "MainPodval"
+     m_fTeleportDelay 2
+     m_fTeleportRadius 3
+     m_DeleteItem 0
+     m_InShelter 1
+    }
+   }
+  }
+  RplComponent "{65FD4A010B7B75F3}" {
+  }
+ }
+ coords 5083.576 302.573 62.825
+ angleY 179.283
+}

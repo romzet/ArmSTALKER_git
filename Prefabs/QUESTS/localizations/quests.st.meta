@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{EA2FAB887877A395}Prefabs/QUESTS/localizations/quests.st"
+ Configurations {
+  StringTableResourceClass PC {
+  }
+  StringTableResourceClass XBOX_ONE : PC {
+  }
+  StringTableResourceClass XBOX_SERIES : PC {
+  }
+  StringTableResourceClass PS4 : PC {
+  }
+  StringTableResourceClass PS5 : PC {
+  }
+  StringTableResourceClass HEADLESS : PC {
+  }
+ }
+}

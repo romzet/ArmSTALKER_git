@@ -3,6 +3,26 @@ PerceptionManager PerceptionManager1 : "{028DAEAD63E056BE}Prefabs/World/Game/Per
 }
 SCR_GameModeEditor SCR_ArmstGameMode1 : "{B563F305A997ACAE}Prefabs/MP/Modes/Editor/SCR_ArmstGameMode.et" {
  components {
+  ARMST_ALIFE_GamemodeComponent "{6644C37C85FB402F}" {
+   m_CheckTimerAlife 60
+   m_CheckOrderTimer 120
+   m_SpawnGroupsSavino {
+    "{AE68204C5F6863FD}Configs/Alife/savino_alife.conf"
+   }
+   m_MinGroupsSavino 10
+   m_SpawnGroupsSwamp {
+    "{4EBC3D014CE19183}Configs/Alife/swamp_alife.conf"
+   }
+   m_MinGroupsSwamp 9
+   m_SpawnGroupsForest {
+    "{452837356A922E1A}Configs/Alife/forest_alife.conf"
+   }
+   m_MinGroupsForest 8
+   m_SpawnGroupsAerodrom {
+    "{22C6F16FBC62E553}Configs/Alife/aerodrom_alife.conf"
+   }
+   m_MinGroupsAerodrom 6
+  }
   ARMST_EDITOR_GLOBAL_SETTINGS "{65D8F3E971C4C21E}" {
   }
   ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
@@ -27,16 +47,36 @@ SCR_GameModeEditor SCR_ArmstGameMode1 : "{B563F305A997ACAE}Prefabs/MP/Modes/Edit
   EPF_PersistenceManagerComponent "{658301C3AC02188D}" {
    components {
     EPF_BasicRespawnSystemComponent "{658301C36354B154}" {
-     m_StartingLootConfigs {
+     m_StartingLootFACTION_STALKER {
       "{EE697D7413777D3A}Configs/STARTING/stalker_starting.conf"
      }
-     m_CreateCharacter 1
-     m_rDefaultPrefab "{BBCD96EFBDB923E4}Prefabs/Factions/PLAYER/data/Character_STALKER_Player_Save.et"
+     m_StartingLootFACTION_BANDIT {
+      "{FBC4981897535DBB}Configs/STARTING/bandit_starting.conf"
+     }
+     m_StartingLootFACTION_ARMY {
+      "{0E603FD7122EA094}Configs/STARTING/army_starting.conf"
+     }
+     m_StartingLootFACTION_RENEGADE {
+      "{FBC4981897535DBB}Configs/STARTING/bandit_starting.conf"
+     }
+     m_StartingLootFACTION_SCIENCES {
+      "{BC4BCB4205799DED}Configs/STARTING/science_starting.conf"
+     }
+     m_StartingLootFACTION_MERCENARIES {
+      "{FCD15F5D9B5B3319}Configs/STARTING/merc_starting.conf"
+     }
+     m_StartingLootFACTION_KB {
+      "{6E753EBBA731051B}Configs/STARTING/kb_starting.conf"
+     }
+     m_StartingLootFACTION_STORM {
+      "{F6B5C7B018370DCD}Configs/STARTING/storm_starting.conf"
+     }
+     m_rDefaultPrefab "{BBCD96EFBDB923E4}Prefabs/Factions/PLAYER/Character_STALKER_Player_Save.et"
     }
    }
    m_fAutosaveInterval 120
    m_pConnectionInfo EDF_JsonFileDbConnectionInfo "{658301C3451DE3D2}" {
-    m_sDatabaseName "ArmSTALKER_EFZ_DataBaseNew1"
+    m_sDatabaseName "ArmSTALKER_EFZ"
    }
   }
   SCR_GroupsManagerComponent "{5706EC99934496F5}" {
@@ -193,6 +233,6 @@ GenericEntity ZEL_Storage_Base_658F19F381AC7DD4 : "{64D4F1BCB3403343}Prefabs/Pro
    }
   }
  }
- coords 5077.21 301.859 54.103
- angleY 3.331
+ coords 4171.816 311.049 720.833
+ angleY 129.916
 }

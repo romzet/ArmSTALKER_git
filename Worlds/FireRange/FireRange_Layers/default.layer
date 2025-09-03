@@ -31,6 +31,10 @@ GenericEntity armst_TT_65F2620C20275D06 : "{0D469F42B65E350E}Prefabs/Weapons/Han
  coords 3848.427 307.83 328.988
  angleY 91.928
 }
+GameEntity armst_itm_radon_663A7736E3F5F14B : "{2716BC36E75EBE4E}Prefabs/Items/devices/armst_itm_radon.et" {
+ coords 4191.727 311.108 655.842
+ angleY 88.209
+}
 $grp SCR_FiringRangeTarget : "{379D34B0D41DA810}Prefabs/Props/Military/Training/TargetInfantry_01.et" {
  {
   coords 3861.667 306.702 340.161
@@ -67,9 +71,6 @@ $grp GenericEntity : "{389EB226473CD590}Prefabs/Weapons/Magazines/Magazine_9x18_
 GenericEntity armst_PP91_65F2621A6B04DA49 : "{3968B2A856852CBD}Prefabs/Weapons/Handguns/armst_PP91.et" {
  coords 3848.519 307.794 329.802
  angleY 90.619
-}
-Armst_Monster_Character : "{4334F5D29ADDCE55}Prefabs/Monsters/boar/armst_monster_boar.et" {
- coords 3860.728 306.702 339.718
 }
 $grp GenericEntity : "{4488C415F3CA1890}Prefabs/Weapons/Magazines/Magazine_9x18_PP91_30rnd_Ball.et" {
  Magazine_9x18_PP91_30rnd_Ball_65F2621A6E5FB238 {

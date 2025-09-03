@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{5EB142AAE24F1AA0}Configs/Trader/Shelter/others/armst_trader_cat_photo.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

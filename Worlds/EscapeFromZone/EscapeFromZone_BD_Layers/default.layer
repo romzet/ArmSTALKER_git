@@ -1,22 +1,33 @@
 $grp EPF_SpawnPoint {
  {
-  coords 5074.589 301.796 56.701
-  angleY 72.762
+  coords 4174.214 311.144 722.691
+  angleY 131.21
+  m_FactionKey FACTION_STALKER
  }
  {
-  coords 5072.77 301.794 55.194
-  angleY -99.243
-  m_FactionKey FACTION_ARMY
+  coords 4174.751 311.043 723.028
+  angleY 132.195
+  m_FactionKey FACTION_SCIENCES
  }
  {
-  coords 5080.205 301.8 55.157
-  angleY -99.243
+  coords 3836.802 298.171 1379.845
+  angleY -48.286
   m_FactionKey FACTION_BANDIT
  }
  {
-  coords 5074.066 301.796 59.011
-  angleY -99.243
-  m_FactionKey FACTION_SCIENCES
+  coords 3833.36 306.798 372.306
+  angleY -48.286
+  m_FactionKey FACTION_ARMY
+ }
+ {
+  coords 4172.148 311.043 719.772
+  angleY 48.583
+  m_FactionKey FACTION_KB
+ }
+ {
+  coords 4179.024 311.05 719.573
+  angleY -52.64
+  m_FactionKey FACTION_STORM
  }
 }
 SCR_MapLocator {
@@ -25,7 +36,7 @@ SCR_MapLocator {
  }
 }
 SCR_SpawnPoint : "{2D88EAB83A52AE0E}Prefabs/MP/Spawning/SpawnPoint_STALKER.et" {
- coords 5073.559 301.794 54.307
+ coords 4183.742 311.045 723.751
 }
 MusicManager : "{359452CCDBDD03F5}Prefabs/Sounds/Music/MusicManager_Campaign.et" {
  coords 4096.856 299.816 471.843
@@ -50,25 +61,10 @@ MusicManager : "{359452CCDBDD03F5}Prefabs/Sounds/Music/MusicManager_Campaign.et"
   }
  }
 }
-$grp GenericEntity : "{7720B78DED8FAB50}Prefabs/Perimetr/wall_perimetr.et" {
- {
-  coords 4348.127 305.57 423.76
-  angleY -97.262
-  scale 2
- }
- {
-  coords 4179.541 304.666 490.612
-  angleY -40.666
-  scale 2
- }
- {
-  coords 3607.868 289.605 1615.687
-  angleY -5.568
-  scale 2
- }
- {
-  coords 3803.198 305.946 419.958
- }
+GenericEntity : "{7720B78DED8FAB50}Prefabs/Perimetr/wall_perimetr.et" {
+ coords 3607.868 289.605 1615.687
+ angleY -5.568
+ scale 2
 }
 $grp GenericEntity : "{96B03F180CEA8ED2}Prefabs/Industrial/undeground/und_tonel.et" {
  {

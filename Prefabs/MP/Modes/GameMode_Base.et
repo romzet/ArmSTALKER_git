@@ -1,0 +1,12 @@
+SCR_BaseGameMode {
+ ID "56B2B479C6B96951"
+ components {
+  ARMST_PDA_LIFE_GamemodeComponent "{658B4389DA54155D}" {
+   m_EnableAutoMessages 0
+   m_SendAttackMessages 0
+   m_SendAttackFinalMessages 0
+  }
+  ARMST_PDA_SEND_GamemodeComponent "{65B712E8D8B2AEA0}" {
+  }
+ }
+}

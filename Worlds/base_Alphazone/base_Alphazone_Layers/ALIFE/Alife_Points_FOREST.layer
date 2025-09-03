@@ -1,0 +1,208 @@
+$grp ARMST_ALIFE_InterestPoint {
+ forest_sawmill {
+  coords 4389.031 302.47 554.638
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_firedom"
+  m_sNextInterestPoint2 "forest_train2"
+  m_sNextInterestPoint3 "forest_camp"
+  m_sNextInterestPoint4 "forest_camp2"
+ }
+ forest_camp {
+  coords 4580.276 304.142 543.596
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_train2"
+  m_sNextInterestPoint2 "forest_sawmill"
+  m_sNextInterestPoint3 "forest_camp2"
+  m_sNextInterestPoint4 "forest_forest_rad2"
+ }
+ forest_camp2 {
+  coords 4521.582 305.211 725.219
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp"
+  m_sNextInterestPoint2 "forest_sawmill"
+  m_sNextInterestPoint3 "forest_bunker3"
+ }
+ forest_camp3 {
+  coords 5140.377 306.365 859.31
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_forest_rad3"
+  m_sNextInterestPoint2 "forest_camp7"
+  m_sNextInterestPoint3 "forest_train"
+  m_sNextInterestPoint4 "forest_camp8"
+  m_sNextInterestPoint5 "forest_forest_rad4"
+ }
+ forest_camp4 {
+  coords 5175.174 305.786 546.773
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp9"
+  m_sNextInterestPoint2 "forest_camp5"
+  m_sNextInterestPoint3 "forest_forest_rad4"
+ }
+ forest_camp5 {
+  coords 5040.971 310.55 437.37
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp9"
+  m_sNextInterestPoint2 "forest_camp4"
+  m_sNextInterestPoint3 "forest_bunker2"
+ }
+ forest_firedom {
+  coords 4421.473 308.623 246.958
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_sawmill"
+  m_sNextInterestPoint2 "forest_fallvert"
+  m_sNextInterestPoint3 "forest_train2"
+ }
+ forest_fallvert {
+  coords 4632.756 306.914 352.098
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_firedom"
+  m_sNextInterestPoint2 "forest_train2"
+  m_sNextInterestPoint3 "forest_bunker2"
+  m_sNextInterestPoint4 "forest_bunker2"
+ }
+ forest_forest_rad {
+  coords 4862.712 312.756 468.717
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_forest_rad2"
+  m_sNextInterestPoint2 "forest_camp5"
+  m_sNextInterestPoint3 "forest_camp4"
+  m_sNextInterestPoint4 "forest_bunker2"
+ }
+ forest_forest_rad2 {
+  coords 4758.658 311.051 651.448
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp"
+  m_sNextInterestPoint2 "forest_bunker3"
+  m_sNextInterestPoint3 "forest_forest_rad"
+  m_sNextInterestPoint4 "forest_forest_rad3"
+ }
+ forest_forest_rad3 {
+  coords 4926.639 312.684 724.009
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_forest_rad2"
+  m_sNextInterestPoint2 "forest_camp6"
+  m_sNextInterestPoint3 "forest_camp3"
+  m_sNextInterestPoint4 "forest_camp9"
+ }
+ forest_forest_rad4 {
+  coords 5192.65 314.097 730.271
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_malutka2"
+  m_sNextInterestPoint2 "forest_camp8"
+  m_sNextInterestPoint3 "forest_camp4"
+  m_sNextInterestPoint4 "forest_forest_rad3"
+  m_sNextInterestPoint5 "forest_camp9"
+ }
+ forest_malutka {
+  coords 5372.575 312.924 667.506
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_malutka2"
+ }
+ forest_malutka2 {
+  coords 5297.39 312.983 762.116
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_forest_rad4"
+  m_sNextInterestPoint2 "forest_malutka"
+ }
+ forest_bunker {
+  coords 5484.632 312.906 796.538
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_village"
+  m_sNextInterestPoint2 "forest_camp8"
+ }
+ forest_bunker2 {
+  coords 4768.801 322.014 399.827
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_forest_rad"
+  m_sNextInterestPoint2 "forest_camp5"
+  m_sNextInterestPoint3 "forest_fallvert"
+ }
+ forest_bunker3 {
+  coords 4674.729 312.108 717.268
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_sawmill"
+  m_sNextInterestPoint2 "forest_forest_rad2"
+  m_sNextInterestPoint3 "forest_camp6"
+ }
+ forest_camp6 {
+  coords 4682 312.108 794.657
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_bunker3"
+  m_sNextInterestPoint2 "forest_cursedfarm"
+ }
+ forest_village {
+  coords 5474.88 304.948 965.224
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp8"
+  m_sNextInterestPoint2 "forest_train"
+  m_sNextInterestPoint3 "forest_bunker"
+ }
+ forest_train {
+  coords 5219.61 312.108 1043.065
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp3"
+  m_sNextInterestPoint2 "forest_village"
+  m_sNextInterestPoint3 "forest_camp8"
+ }
+ forest_train2 {
+  coords 4520.147 313.173 454.472
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_firedom"
+  m_sNextInterestPoint2 "forest_fallvert"
+  m_sNextInterestPoint3 "forest_sawmill"
+  m_sNextInterestPoint4 "forest_camp"
+ }
+ forest_camp7 {
+  coords 4808.456 310.33 910.687
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp6"
+  m_sNextInterestPoint2 "forest_cursedfarm"
+  m_sNextInterestPoint3 "forest_camp3"
+ }
+ forest_cursedfarm {
+  coords 4622.752 306.964 999.983
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp6"
+  m_sNextInterestPoint2 "forest_swamp"
+  m_sNextInterestPoint3 "forest_fishing"
+ }
+ forest_fishing {
+  coords 4462.345 314.498 1329.608
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_cursedfarm"
+  m_sNextInterestPoint2 "forest_bunker4"
+  m_sNextInterestPoint3 "forest_swamp"
+ }
+ forest_bunker4 {
+  coords 4622.176 305.921 1315.38
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_swamp"
+  m_sNextInterestPoint2 "forest_fishing"
+  m_sNextInterestPoint3 "forest_cursedfarm"
+ }
+ forest_swamp {
+  coords 4746.91 306.856 1173.481
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_cursedfarm"
+  m_sNextInterestPoint2 "forest_bunker4"
+  m_sNextInterestPoint3 "forest_fishing"
+ }
+ forest_camp8 {
+  coords 5270.989 308.895 905.231
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_camp3"
+  m_sNextInterestPoint2 "forest_train"
+  m_sNextInterestPoint3 "forest_malutka2"
+  m_sNextInterestPoint4 "forest_village"
+  m_sNextInterestPoint5 "forest_bunker"
+ }
+ forest_camp9 {
+  coords 5043.999 312.108 609.726
+  m_LocationKey FOREST
+  m_sNextInterestPoint1 "forest_forest_rad4"
+  m_sNextInterestPoint2 "forest_camp4"
+  m_sNextInterestPoint3 "forest_forest_rad3"
+  m_sNextInterestPoint4 "forest_camp5"
+  m_sNextInterestPoint5 "forest_forest_rad"
+ }
+}

@@ -1,0 +1,15 @@
+ARMST_TRIGGER_GROUPSPAWN merc2 : "{2ED7F83D6D572F31}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_GROUPS.et" {
+ coords 5490.151 311.476 797.346
+ SphereRadius 143
+ ShapeColor 0 0.507 1 1
+ TriggerActivationType "First and last change"
+ UpdatePeriod 3
+ m_GroupPrefab1 "{38B28C3DB16B5675}Prefabs/Groups/MERCENARIES/Group_MERCENARIES_Location_4x_squad.et"
+ m_GroupPrefab2 "{38B28C3DB16B5675}Prefabs/Groups/MERCENARIES/Group_MERCENARIES_Location_4x_squad.et"
+ m_GroupPrefab3 "{38B28C3DB16B5675}Prefabs/Groups/MERCENARIES/Group_MERCENARIES_Location_4x_squad.et"
+ m_DeleteDelaySec 460
+ m_ActiveUpdateRate 600
+ m_DefaultUpdateRate 5
+ m_SpawnChance 100
+ m_GroupOrderType PATROL
+}

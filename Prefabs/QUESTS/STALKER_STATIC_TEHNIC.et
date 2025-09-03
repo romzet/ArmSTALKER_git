@@ -1,0 +1,232 @@
+SCR_ChimeraCharacter : "{5346CF7E39A65A6B}Prefabs/Characters/Factions/OPFOR/USSR_Army/Character_USSR_Base.et" {
+ ID "520EC961A090BE1E"
+ components {
+  SCR_CommunicationSoundComponent "{54FD05D0C92D071F}" {
+   Filenames {
+    "{0B10D6DAF5AB2767}Sounds/neutrals_sounds/NEUTRAL_REPORT.acp" "" "" "" "{30C6D89341B1EA1A}Sounds/Character/Character_Voice_Code.acp" "{C9BE186498C3B447}Sounds/Character/Character_Voice_Animations.acp" "" ""
+   }
+  }
+  SCR_CharacterInventoryStorageComponent "{520EA1D2DB118DAC}" {
+   components {
+    SCR_EquipmentStorageComponent "{56B49DA9722B635D}" {
+     InitialStorageSlots {
+      SCR_EquipmentStorageSlot BinocularSlot {
+       Prefab ""
+      }
+      SCR_EquipmentStorageSlot WristwatchSlot {
+       Prefab "{6FD6C96121905202}Prefabs/Items/Equipment/Watches/Watch_Vostok.et"
+      }
+     }
+    }
+   }
+   Attributes ItemAttributeCollection "{52BAC70D641B89B1}" {
+   }
+  }
+  ARMST_BOT_INTERACTION_COMPONENT "{62F9175F2C408F7A}" {
+   m_bRecruitment 1
+   m_Chance_Recruitment 25
+   m_Chance_Story 35
+   m_Chance_Jokes 20
+   m_AudioAnecdote SCR_AudioSourceConfiguration "{658EE237E27E37A2}" {
+    m_sSoundProject "{A715C76882A9DBF7}Sounds/neutral_interaction/stalker_jokes_sound.acp"
+    m_sSoundEventName "SOUND_STORY"
+   }
+   m_vAudioAnecdote 0 0 0
+   m_AudioAnecdoteReaction SCR_AudioSourceConfiguration "{658EE237E27E37B4}" {
+    m_sSoundProject "{73D5D8964F5B852B}Sounds/neutral_interaction/stalker_jokes_reaction_sound.acp"
+    m_sSoundEventName "SOUND_STORY"
+   }
+   m_AudioStory SCR_AudioSourceConfiguration "{658EE237E27E37B7}" {
+    m_sSoundProject "{DFCFA1CC660D3A36}Sounds/neutral_interaction/stalker_story_sound.acp"
+    m_sSoundEventName "SOUND_STORY"
+   }
+   m_bActionCheck 1
+   m_AudioReactionHello2 SCR_AudioSourceConfiguration "{658EE237E27E37B1}" {
+    m_sSoundProject "{4D4E2DBA015F8AE0}Sounds/neutral_interaction/stalker_hello_sound.acp"
+    m_sSoundEventName "SOUND_HELLO"
+   }
+   m_AudioReactionWeapons SCR_AudioSourceConfiguration "{658EE237E27E37B3}" {
+    m_sSoundProject "{F951F0328A6A40FB}Sounds/neutral_interaction/stalker_weapon_down_sound.acp"
+    m_sSoundEventName "SOUND_STORY"
+   }
+  }
+  ARMST_DeathHandlerComponent "{65891AD99A8DE826}" {
+   Enabled 0
+  }
+  ChimeraAIControlComponent "{520EA1D2DB109F34}" {
+   Enabled 1
+   components {
+    AICharacterAimingComponent "{520EA1D2DB109F0C}" {
+     Enabled 1
+    }
+    AICharacterHeadAimingComponent "{520EA1D2DB109F04}" {
+     Enabled 1
+    }
+    AICharacterMovementComponent "{520EA1D2DB109F01}" {
+     Enabled 1
+    }
+    AIPathfindingComponent "{56349A6F9C02E7A1}" {
+     Enabled 1
+    }
+    PerceptionComponent "{54A2CBC75F06064B}" {
+     Enabled 1
+     ForgetEnemyTime 10
+     SensorsList {
+      EyesSensor "{520EA1D2DB109AAD}" {
+       MaxRange 50
+      }
+      EarsSensor "{520EA1D2DB109AA9}" {
+       MaxRange 50
+      }
+     }
+    }
+    SCR_AICombatComponent "{55A2C9BE343B2EA1}" {
+     Enabled 1
+    }
+   }
+  }
+  EPF_PersistenceComponent "{5A12D8F4DFED6D84}" {
+   Enabled 0
+  }
+  FactionAffiliationComponent "{520EC9618276DF23}" {
+   "faction affiliation" "FACTION_STALKER"
+  }
+  SCR_CharacterDamageManagerComponent "{55872AD7B4E959F2}" {
+   Enabled 0
+  }
+  SCR_CharacterRankComponent "{528E6D4286AA2D8F}" {
+   Enabled 1
+  }
+  SCR_CharacterRegistrationComponent "{5216D6E4AC68563B}" {
+   Enabled 1
+  }
+  SCR_CharacterStaminaComponent "{520EA1D2F659C824}" {
+   Enabled 1
+  }
+  SCR_CharacterVicinityComponent "{529A70D96D401B33}" {
+   Enabled 1
+  }
+  SCR_EditableCharacterComponent "{520EA1D2F659C85C}" {
+   Enabled 0
+   m_UIInfo SCR_EditableEntityUIInfo "{5298E609432D192D}" {
+    Name "#Armst_neutral_character"
+    Icon "{9218EB59FC5028C7}Prefabs/Groups/STALKERS.edds"
+    m_Image "{9218EB59FC5028C7}Prefabs/Groups/STALKERS.edds"
+    m_sFaction "FACTION_STALKER"
+    m_aAuthoredLabels {
+     70 2 252526
+    }
+   }
+   m_bAutoRegister NEVER
+  }
+  SCR_GadgetManagerComponent "{520EA1D2DB118DF3}" {
+   Enabled 1
+  }
+  SCR_MeleeComponent "{520EA1D2F659C85E}" {
+   Enabled 1
+  }
+  SCR_VoNComponent "{520EA1D2F659C856}" {
+   Enabled 1
+  }
+  BaseFlattenGrassComponent "{520EA1D2F659CE26}" {
+   Enabled 1
+  }
+  SCR_CharacterPerceivableComponent "{566CCE2397E28600}" {
+   Enabled 1
+  }
+  CharacterWeaponSlotComponent "{520EA1D2F659CFDC}" {
+   WeaponTemplate "{0815C37141592337}Prefabs/Animation_Items/ANIM_STATIC_IDLE_MAKE_ITEM.et"
+  }
+  SCR_CharacterIdentityComponent "{5584CBC63E092DBC}" {
+   Override 1
+   Identity Identity "{5584CBC6363C648B}" {
+    VisualIdentity VisualIdentity "{56E6D9456009D1C4}" {
+     Head "{D7C470712EC4D596}Prefabs/Characters/Heads/Head_White_05.et"
+    }
+    Name ""
+    Alias ""
+    Surname "#armst_stalker_new_name_224"
+   }
+   m_IdentityFormatFull "#AR-Idenity_Name_Format_Ful"
+  }
+  ARMST_RANDOM_CLOTHES_COMPONENT "{520EA1D2DB11821E}" {
+   Slots {
+    LoadoutSlotInfo Hat {
+     Prefab "{1AEDF5DBAAA1A33B}Prefabs/New_Equipment/Hats/armst_hat_flat_black_dirt.et"
+    }
+    LoadoutSlotInfo Jacket {
+     Prefab "{17DBD854BFF6CD8D}Prefabs/Characters/Uniforms/Shirt_Turtleneck_01/Shirt_Turtleneck_01_grey_Dirty.et"
+    }
+    LoadoutSlotInfo ArmoredVest {
+    }
+    LoadoutSlotInfo Pants {
+     Prefab "{109BEF8183F683BB}Prefabs/New_Equipment/Pants/armst_pants_stalker.et"
+    }
+    LoadoutSlotInfo Boots {
+     Prefab "{5DF442DF18F312F3}Prefabs/New_Equipment/Boots/armst_boots_soviet.et"
+    }
+    LoadoutSlotInfo Back {
+    }
+    LoadoutSlotInfo Vest {
+    }
+   }
+   m_fClothesEnabled 0
+   m_fWeaponEnabled 0
+  }
+  ZEL_PlayerClaimComponent "{62D120DCE9ED7E8A}" {
+   Enabled 0
+  }
+  ZEL_PlayerUIDComponent "{62BC0E1BAAF353A1}" {
+   Enabled 0
+  }
+  ActionsManagerComponent "{520EA1D2F659CE02}" {
+   additionalActions {
+    ARMST_USER_QUEST_STATICS "{658EE237E27E3778}" {
+     ParentContextList {
+      "Chest"
+     }
+     m_PrefabQuest "{7958E7B32068CF1D}Prefabs/Items/Tools/armst_itm_weap_part.et"
+     m_bOnlyStartMission 0
+     m_fCountQuestItems 5
+     m_fCountQuestItemsPrice 0
+     m_fCountQuestItemsReputations 25
+     m_sStartMission "Здарова, мужик! Я местный механик, работаю на контрабандистов. Мне очень нужны оружейные запчасти, чтобы собрать из того дерьма со склада что-то вменяемое. Давай так, притащи нужные мне детали, а я тебе подгоню ствол, который недавно восстановил. "
+     m_sFinishMission "Ну я в тебе не сомневался. Держи автомат, как обещал. Если найдешь еще детали - тащи мне."
+     m_PrefabQuestFinish "{5BFF97EFD0BF6D9F}Prefabs/Weapons/Rifles/AKM/Rifle_AKM.et"
+    }
+    ARMST_USER_QUEST_STATICS "{6594F13477A88F70}" {
+     ParentContextList {
+      "Chest"
+     }
+     "Sort Priority" 1
+     m_PrefabQuest "{3388679CD89F325F}Prefabs/Items/Tools/armst_itm_provods.et"
+     m_bOnlyStartMission 0
+     m_fCountQuestItems 10
+     m_fCountQuestItemsPrice 15000
+     m_fCountQuestItemsReputations 15
+     m_sStartMission "Притарань мне проводки побольше, я в ней сильно нуждаюсь. Хорош за это заплачу, еще и сломанный детектор отдам, вдруг сам починишь."
+     m_PrefabQuestFinish "{BC0994478B237B1F}Prefabs/Items/devices/armst_itm_muha_broken.et"
+    }
+    ARMST_USER_QUEST_STATICS "{6594F137B1CDA4BB}" {
+     ParentContextList {
+      "Chest"
+     }
+     "Sort Priority" 2
+     m_PrefabQuest "{BC0994478B237B1F}Prefabs/Items/devices/armst_itm_muha_broken.et"
+     m_bOnlyStartMission 0
+     m_fCountQuestItems 3
+     m_fCountQuestItemsPrice 0
+     m_fCountQuestItemsReputations 0
+     m_sStartMission "Ну тут всё просто, ты мне тащи сломанные детекторы, а я тебе из них соберу рабочий."
+     m_sFinishMission "Держи детектор. Он кстати отлично ищет артефакты, но ты ознакомься с инструкцией. А то ходят тут дурачки, инструкцию выбрасывают, а потом стоят у аномалий и не вдупляют что к чему."
+     m_PrefabQuestFinish "{01A86AB13DB5DA1D}Prefabs/Items/devices/armst_itm_muha.et"
+    }
+   }
+  }
+  SCR_CharacterCameraHandlerComponent "{520EA1D2F659C98D}" {
+   Enabled 1
+  }
+ }
+ coords 4161.293 305.624 712.931
+ angleY -166.622
+}

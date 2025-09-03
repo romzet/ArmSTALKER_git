@@ -1,0 +1,77 @@
+GenericEntity : "{64D4F1BCB3403343}Prefabs/Props/ZEL_Storage_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  EPF_PersistenceComponent "{646266F9FCF3C496}" {
+   m_pSaveData ZEL_ClaimableStorageSaveDataClass "{646266F8A6C5B052}" {
+    m_aComponents {
+     ZEL_ClaimableItemComponentSaveDataClass "{65FE0139E11AEFD3}" {
+     }
+    }
+   }
+  }
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{FC478065C7D6B4E3}Assets/Structures/Military/Bunkers/ShelterMilitary_E_01/ShelterMilitary_E_01.xob"
+  }
+  ZEL_ClaimableItemComponent "{65FE0139E11AEFBC}" {
+   m_ClaimType HOME
+  }
+  ActionsManagerComponent "{646266F9B4C5A21D}" {
+   ActionContexts {
+    UserActionContext "{64626AA154484B2A}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 -90 0.3909
+     }
+    }
+   }
+   additionalActions {
+    ZEL_OpenPlayerClaimedStorageAction "{64626AA1619B342B}" {
+    }
+    ZEL_ClaimStorageAction "{65FE0139E11AEFB5}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+    }
+    ZEL_RelinquishClaimedStorageUserAction "{65FE0139E11AEFB7}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+     "Sort Priority" 5
+     m_CanAdmin 1
+    }
+    ZEL_AdminDeleteStorageActionUserAction "{65FE0139E11AEFB1}" {
+     ParentContextList {
+      "Default"
+     }
+     Duration 1
+     "Sort Priority" 6
+    }
+   }
+  }
+ }
+ coords 5066.776 301.228 69.589
+ {
+  GenericEntity : "{12C9F97F9D38F68D}Prefabs/Teleport/ARMST_ACTION_TELEPORT.et" {
+   ID "65FE0139E11AEFC0"
+   components {
+    ActionsManagerComponent "{657E8538A2BE1CCD}" {
+     ActionContexts {
+      UserActionContext "{657E8538A2BE1CCA}" {
+       Position PointInfo "{657E8538A2BE1CC5}" {
+        Offset 1.6071 2.2726 0.2384
+       }
+      }
+     }
+    }
+   }
+   coords 1.788 -1.313 1.847
+   angleY 179.684
+   scale 2.776
+  }
+  EnvironmentProbeEntity : "{C0499303ABB1E8A7}Prefabs/Structures/Industrial/Houses/Warehouse_01/HouseAddons/Probe_Warehouse_01.et" {
+   ID "65FE013946CD9DED"
+   coords 0.109 5.129 -1.179
+  }
+ }
+}

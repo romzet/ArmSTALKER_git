@@ -1,0 +1,76 @@
+SCR_ChimeraCharacter : "{395ED4BE78A966CB}Prefabs/Factions/STALKERS/Character_STALKER_BaseLoadout.et" {
+ ID "520EC961A090BE1E"
+ components {
+  ARMST_BOT_INTERACTION_COMPONENT "{62F9175F2C408F7A}" {
+   Enabled 0
+  }
+  ARMST_HUDCharacterComponent "{62F8B402505D4AE5}" {
+   Enabled 1
+  }
+  ARMST_HUD_Component "{62F8A3075397E503}" {
+   Enabled 1
+   m_bThirdPerson 1
+  }
+  ARMST_ITEMS_STATS_COMPONENTS "{626EA1DE349BFDE9}" {
+   Enabled 1
+  }
+  ARMST_PLAYER_QUEST "{663533B98622C5C2}" {
+  }
+  ARMST_PLAYER_STATS_COMPONENT "{6275149C8E6B70D6}" {
+   Enabled 1
+   m_ModifierValueEat 0.008
+   m_ModifierValueWater 0.012
+  }
+  EPF_PersistenceComponent "{5A12D8F4DFED6D84}" {
+   m_pSaveData EPF_CharacterSaveDataClass "{5A12D8F4DA8632DC}" {
+    m_aComponents {
+     EPF_ArmstPlayerStatsComponentSaveDataClass "{6582E5556CDA7DCD}" {
+     }
+     EPF_ARMST_MONEY_COMPONENTS_SaveDataClass "{6634B52334643D16}" {
+     }
+     EPF_ArmstPlayerQuestComponentSaveDataClass "{66385E6F0BDE066C}" {
+     }
+     EPF_ArmstPlayerMapMarkersSaveDataClass "{66468215EF4D8A08}" {
+     }
+    }
+   }
+  }
+  SCR_EditableCharacterComponent "{520EA1D2F659C85C}" {
+   m_UIInfo SCR_EditableEntityUIInfo "{5298E609432D192D}" {
+    Name "#Armst_neutral_player"
+   }
+  }
+  CharacterWeaponSlotComponent "{520EA1D2F659CFAB}" {
+   AttachType InventoryStorageSlot "{0C3DA650B52E120B}" {
+   }
+  }
+  CharacterWeaponSlotComponent "{520EA1D2F659CFDC}" {
+   WeaponTemplate ""
+  }
+  BaseLoadoutManagerComponent "{520EA1D2DB11821E}" {
+   Slots {
+    LoadoutSlotInfo Hat {
+    }
+    LoadoutSlotInfo Jacket {
+     Prefab ""
+    }
+    LoadoutSlotInfo ArmoredVest {
+    }
+    LoadoutSlotInfo Pants {
+     Prefab ""
+    }
+    LoadoutSlotInfo Boots {
+     Prefab ""
+    }
+    LoadoutSlotInfo Back {
+     Prefab ""
+    }
+    LoadoutSlotInfo Vest {
+    }
+    LoadoutSlotInfo Face {
+    }
+   }
+  }
+ }
+ coords 3704.964 301.513 1805.52
+}

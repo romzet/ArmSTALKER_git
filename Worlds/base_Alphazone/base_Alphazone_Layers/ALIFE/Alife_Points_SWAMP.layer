@@ -1,0 +1,209 @@
+$grp ARMST_ALIFE_InterestPoint {
+ swamp_entry {
+  coords 2834.743 299.327 835.812
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry3"
+  m_sNextInterestPoint2 "swamp_entry2"
+  m_sNextInterestPoint3 "swamp_entry27"
+  m_sNextInterestPoint4 "swamp_entry6"
+ }
+ swamp_entry2 {
+  coords 2756.571 300.182 1022.447
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry3"
+  m_sNextInterestPoint2 "swamp_entry"
+  m_sNextInterestPoint3 "swamp_entry4"
+ }
+ swamp_entry3 {
+  coords 3049.725 299.327 988.737
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry"
+  m_sNextInterestPoint2 "swamp_entry2"
+ }
+ swamp_entry4 {
+  coords 2637.767 292.928 1028.573
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry2"
+  m_sNextInterestPoint2 "swamp_entry5"
+  m_sNextInterestPoint3 "swamp_entry6"
+ }
+ swamp_entry5 {
+  coords 2451.125 290.468 893.658
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry4"
+  m_sNextInterestPoint2 "swamp_entry6"
+  m_sNextInterestPoint3 "swamp_entry11"
+  m_sNextInterestPoint4 "swamp_entry10"
+ }
+ swamp_entry6 {
+  coords 2550.208 292.273 804.445
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry4"
+  m_sNextInterestPoint2 "swamp_entry6"
+  m_sNextInterestPoint3 "swamp_entry10"
+  m_sNextInterestPoint4 "swamp_entry7"
+  m_sNextInterestPoint5 "swamp_entry27"
+ }
+ swamp_entry7 {
+  coords 2581.412 292.989 608.718
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry10"
+  m_sNextInterestPoint2 "swamp_entry27"
+  m_sNextInterestPoint3 "swamp_entry8"
+  m_sNextInterestPoint4 "swamp_entry9"
+ }
+ swamp_entry8 {
+  coords 2624.672 292.536 461.013
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry7"
+  m_sNextInterestPoint2 "swamp_entry9"
+  m_sNextInterestPoint3 "swamp_entry27"
+ }
+ swamp_entry9 {
+  coords 2439.953 291.993 506.148
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry7"
+  m_sNextInterestPoint2 "swamp_entry8"
+  m_sNextInterestPoint3 "swamp_entry10"
+  m_sNextInterestPoint4 "swamp_entry13"
+ }
+ swamp_entry10 {
+  coords 2410.255 291.466 710.186
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry6"
+  m_sNextInterestPoint2 "swamp_entry7"
+  m_sNextInterestPoint3 "swamp_entry13"
+  m_sNextInterestPoint4 "swamp_entry12"
+  m_sNextInterestPoint5 "swamp_entry11"
+ }
+ swamp_entry11 {
+  coords 2320.323 292.144 980.25
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry5"
+  m_sNextInterestPoint2 "swamp_entry12"
+ }
+ swamp_entry12 {
+  coords 2139.119 291.531 826.407
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry11"
+  m_sNextInterestPoint2 "swamp_entry10"
+  m_sNextInterestPoint3 "swamp_entry15"
+  m_sNextInterestPoint4 "swamp_entry14"
+  m_sNextInterestPoint5 "swamp_entry16"
+ }
+ swamp_entry13 {
+  coords 2181.414 290.879 570.721
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry10"
+  m_sNextInterestPoint2 "swamp_entry9"
+  m_sNextInterestPoint3 "swamp_entry14"
+ }
+ swamp_entry14 {
+  coords 2005.351 291.483 609.243
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry13"
+  m_sNextInterestPoint2 "swamp_entry15"
+  m_sNextInterestPoint3 "swamp_entry17"
+  m_sNextInterestPoint4 "swamp_entry12"
+ }
+ swamp_entry15 {
+  coords 1937.196 291.438 709.328
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry14"
+  m_sNextInterestPoint2 "swamp_entry12"
+  m_sNextInterestPoint3 "swamp_entry17"
+  m_sNextInterestPoint4 "swamp_entry16"
+ }
+ swamp_entry16 {
+  coords 1794.672 297.829 977.338
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry15"
+  m_sNextInterestPoint2 "swamp_entry12"
+  m_sNextInterestPoint3 "swamp_entry18"
+  m_sNextInterestPoint4 "swamp_entry17"
+  m_sNextInterestPoint5 "swamp_entry28"
+ }
+ swamp_entry17 {
+  coords 1789.759 296.344 675.914
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry16"
+  m_sNextInterestPoint2 "swamp_entry15"
+  m_sNextInterestPoint3 "swamp_entry18"
+ }
+ swamp_entry18 {
+  coords 1612.666 297.202 853.487
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry19"
+  m_sNextInterestPoint2 "swamp_entry16"
+  m_sNextInterestPoint3 "swamp_entry17"
+ }
+ swamp_entry19 {
+  coords 1326.249 301.233 819.304
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry18"
+  m_sNextInterestPoint2 "swamp_entry20"
+ }
+ swamp_entry20 {
+  coords 1400.73 290.367 1067.954
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry19"
+  m_sNextInterestPoint2 "swamp_entry21"
+ }
+ swamp_entry21 {
+  coords 1553.68 294.174 1218.78
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry20"
+  m_sNextInterestPoint2 "swamp_entry28"
+  m_sNextInterestPoint3 "swamp_entry23"
+ }
+ swamp_entry22 {
+  coords 1518.779 292.639 1783.912
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry26"
+  m_sNextInterestPoint2 "swamp_entry23"
+  m_sNextInterestPoint3 "swamp_entry25"
+ }
+ swamp_entry23 {
+  coords 1667.101 300.452 1499.992
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry28"
+  m_sNextInterestPoint2 "swamp_entry23"
+  m_sNextInterestPoint3 "swamp_entry24"
+  m_sNextInterestPoint4 "swamp_entry26"
+ }
+ swamp_entry24 {
+  coords 1944.174 299.618 1541.015
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry28"
+  m_sNextInterestPoint2 "swamp_entry26"
+  m_sNextInterestPoint3 "swamp_entry23"
+ }
+ swamp_entry25 {
+  coords 1354.998 291.928 1817.487
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry23"
+  m_sNextInterestPoint2 "swamp_entry22"
+ }
+ swamp_entry26 {
+  coords 1863.588 292.985 1918.5
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry23"
+  m_sNextInterestPoint2 "swamp_entry24"
+  m_sNextInterestPoint3 "swamp_entry22"
+ }
+ swamp_entry27 {
+  coords 2715.146 291.33 574.82
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry7"
+  m_sNextInterestPoint3 "swamp_entry8"
+  m_sNextInterestPoint4 "swamp_entry9"
+ }
+ swamp_entry28 {
+  coords 1883.096 292.588 1150.112
+  m_LocationKey SWAMP
+  m_sNextInterestPoint1 "swamp_entry21"
+  m_sNextInterestPoint2 "swamp_entry16"
+  m_sNextInterestPoint3 "swamp_entry24"
+  m_sNextInterestPoint4 "swamp_entry23"
+ }
+}

@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{3259EE97D9149DC9}Prefabs/QUESTS/SCIENCE_QUESTS/FOREST_SEARCH_URAL/armst_quest_forest_stage_3.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass PS5 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}

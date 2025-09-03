@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{3E112B34AC2FA81D}Configs/Trader/Shelter/armst_trader_cat_gloves.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

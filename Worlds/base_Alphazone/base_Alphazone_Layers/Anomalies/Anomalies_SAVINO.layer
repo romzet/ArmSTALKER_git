@@ -225,6 +225,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_SpawnCount 8
   m_CenterBias 0.5
  }
@@ -477,6 +478,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_SpawnCount 8
  }
  ELECTRO_ANOMALY5 {
@@ -487,6 +489,7 @@ $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRI
   UpdatePeriod 10
   m_ObjectPrefab "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_ObjectPrefab2 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
+  m_ObjectPrefab3 "{60D88B47635E7627}Prefabs/Anomals/Electro/ARMST_ELECTRO.et"
   m_SpawnCount 5
   m_CenterBias 0.8
  }

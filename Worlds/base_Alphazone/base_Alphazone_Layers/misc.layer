@@ -96,6 +96,26 @@ $grp GameEntity : "{24089D4BB9AA8913}Prefabs/Method/Props/Camps/Fireplace_Loiter
   }
  }
 }
+GenericEntity : "{62482F79CF1B97FD}Prefabs/Structures/BuildingParts/Lights/LampIndustrial_01.et" {
+ coords 4164.503 308.719 716.227
+ angleX -50
+ {
+  LightEntity LIGHT_FLUO_SPOT_6 {
+   coords -0.044 -0.155 0.288
+   angleX -40
+   angleZ 96.379
+   Color 1 0.8398 0.2467 1
+   LV 5.24
+   ClipEV -10
+   Type Spot
+   Radius 5
+   NearPlane 0.7
+   SpotAngle 155
+   DistanceAttenuation 0.1
+   Visualization Disabled
+  }
+ }
+}
 $grp GameEntity : "{820839184AE86AC8}Prefabs/Method/Props/Camps/Fireplace_Loiters_01.et" {
  {
   coords 3466.838 300.115 1105.748

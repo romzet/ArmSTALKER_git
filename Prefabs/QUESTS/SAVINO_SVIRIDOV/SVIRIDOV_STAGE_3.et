@@ -1,0 +1,55 @@
+GenericEntity : "{3619812B192CCAE9}Prefabs/Props/Core/Wreck_Base.et" {
+ ID "F0DBA538AC2A0552"
+ components {
+  ActionsPerformerComponent "{65DC67C01C228455}" {
+  }
+  MeshObject "{5872F0EB7FA40561}" {
+   Object "{8F1CD896C018F767}Assets/Items/Identity/Belongings_Personal/Personal_Belongings_Generic_US_INV.xob"
+   Materials {
+    MaterialAssignClass "{65DC67C01C22842F}" {
+     SourceMaterial "lambert1"
+     AssignedMaterial "{6980B80389F4CD10}Assets/old_pc/Data/old_pc_error.emat"
+    }
+   }
+   WetnessAdder 1
+   ClutterOccluder 1
+  }
+  RigidBody "{5872F0EB7DFB5A9D}" {
+   Static 1
+  }
+  ActionsManagerComponent "{65DC67C01C228426}" {
+   ActionContexts {
+    UserActionContext "{65DC67C01C228420}" {
+     ContextName "Default"
+     Position PointInfo "{65DC67C01C228422}" {
+      Offset 0 0 0
+     }
+     Radius 1.3
+    }
+   }
+   additionalActions {
+    ARMST_USER_QUEST_STATICS "{65DC67C01C22843D}" {
+     ParentContextList {
+      "Default"
+     }
+     "Sort Priority" 1
+     m_PrefabQuest "{FCE07553A69153E7}Prefabs/QUESTS/SAVINO_SVIRIDOV/armst_quest_sviridov_stage_2.et"
+     m_bStartMissionReq 1
+     m_bOnlyStartMission 1
+     m_PrefabQuestStart "{197C39AAAA74C48C}Prefabs/QUESTS/SAVINO_SVIRIDOV/armst_quest_sviridov_stage_3.et"
+     m_fCountQuestItemsPrice 0
+     m_fCountQuestItemsReputations 0
+     m_sActionStartMission "#armst_quest_savino_journalist_action_docs"
+     m_sStartMission "#armst_quest_savino_journalist_stage_3"
+     m_fPrefabQuestFinishSpawnDistance 35
+     m_sMapMarkerPosition "sviridov_stage_4"
+    }
+   }
+  }
+  RplComponent "{65DC67C01C22843B}" {
+  }
+ }
+ coords 3906 306.93 884.972
+ angleY -68.389
+ scale 1.79
+}

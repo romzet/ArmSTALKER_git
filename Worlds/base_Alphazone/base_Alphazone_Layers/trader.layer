@@ -1,125 +1,3 @@
-$grp LightEntity {
- LIGHT_FLUO_SPOT_19 {
-  coords 4158.131 308.644 716.369
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_POINT_19 {
-  coords 4158.089 308.601 716.301
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 4
-  CastShadow 0
-  ClipEV -10
-  Radius 3
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_SPOT_20 {
-  coords 4164.856 308.544 719.569
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_POINT_20 {
-  coords 4164.814 308.501 719.5
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 4
-  CastShadow 0
-  ClipEV -10
-  Radius 3
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_SPOT_21 {
-  coords 4159.912 308.654 721.365
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_POINT_21 {
-  coords 4159.87 308.72 721.296
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 4
-  CastShadow 0
-  ClipEV -10
-  Radius 3
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_SPOT_22 {
-  coords 4162.003 308.719 714.973
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
- LIGHT_FLUO_POINT_22 {
-  coords 4161.961 308.676 714.904
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 4
-  CastShadow 0
-  ClipEV -10
-  Radius 3
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareType Disabled
- }
-}
 $grp ParticleEffectEntity {
  {
   coords 4159.908 308.473 721.034
@@ -191,15 +69,6 @@ GenericEntity : "{20BA5FA24090CCCC}Prefabs/Electric/small_telek_ON.et" {
 GameEntity : "{24089D4BB9AA8913}Prefabs/Method/Props/Camps/Fireplace_Loiters_ground_1.et" {
  coords 4191.265 310.736 682.83
 }
-GenericEntity : "{326E60F7A7358EDA}Prefabs/Props/Crates/CrateWooden_01_blue.et" {
- components {
-  Hierarchy "{54C2B2BF9664B83D}" {
-   Enabled 1
-  }
- }
- coords 4157.901 305.584 716.43
- angleY 40.312
-}
 $grp StaticModelEntity : "{7762F50A860DD074}Prefabs/Props/Military/Furniture/TableMilitary_US_01.et" {
  {
   coords 4160.279 305.624 721.572
@@ -226,57 +95,9 @@ GameEntity : "{862432FB57C1C1B3}Prefabs/Props/Civilian/LampKerosene_01/LampKeros
  }
  coords 3455.713 303.443 811.166
 }
-$grp GenericEntity : "{91B8D41BE2DF1DB5}Prefabs/Props/TRADE/ARMST_TRADER.et" {
- {
-  coords 5078.47 302.693 53.986
- }
- {
-  components {
-   ARMST_TRADER_CAT_COMPONENT "{65E06D1FFD7232FF}" {
-    m_sTraderCategoryName5 ""
-    m_sTraderCategoryName6 ""
-    m_sTraderCategoryName7 ""
-    m_fSellPercent 70
-    m_fBuyPercent 50
-   }
-   MeshObject "{5872F0EB7FA40561}" {
-    Materials {
-     MaterialAssignClass "{663301FD5B3EFCED}" {
-      SourceMaterial "lambert1"
-      AssignedMaterial "{62B5F22E4EED5B6C}textures/hidden.emat"
-     }
-    }
-   }
-   RigidBody "{5872F0EB7DFB5A9D}" {
-    ResponseIndex "SmallDestructible"
-    ModelGeometry 1
-    Static 1
-   }
-   ActionsManagerComponent "{65E06D1FF49FE603}" {
-    ActionContexts {
-     UserActionContext "{65E06D1FF49FE601}" {
-      UIInfo UIInfo "{65E06D1FF49FE60F}" {
-       Name "default"
-      }
-      ContextName "default"
-      Position PointInfo "{65E06D1FF49FE60D}" {
-       Offset 0 0.0818 0
-      }
-      Radius 1.27
-     }
-    }
-    additionalActions {
-     ARMST_TRADER_OPEN "{65E06D1FF49FE60B}" {
-      ParentContextList +{
-      }
-      Duration 0
-     }
-    }
-   }
-  }
-  coords 4157.818 306.388 716.449
-  angleY 127.862
- }
+GenericEntity : "{91B8D41BE2DF1DB5}Prefabs/Props/TRADE/ARMST_TRADER.et" {
+ coords 4185.742 311.886 727.921
+ angleY -136.109
 }
 GenericEntity : "{9F9FEC91BA446486}Prefabs/tables/kuhon_stol.et" {
  coords 3456.346 302.724 811.478
@@ -285,19 +106,4 @@ GenericEntity : "{9F9FEC91BA446486}Prefabs/tables/kuhon_stol.et" {
 GenericEntity : "{A9BE46C83920B44A}Prefabs/chairs/stul_4.et" {
  coords 3456.493 302.73 812.407
  angleY 38.962
-}
-GenericEntity : "{AC5F2CF291918199}Prefabs/Props/TRADE/ARMST_PLACE_BUY.et" {
- components {
-  ActionsManagerComponent "{631496DF79F3D17B}" {
-   additionalActions {
-    ARMST_TRADE_BUY_ACTIONS "{6328B0497BD8CE57}" {
-     Duration 0
-     m_PrefabToSpawn "{8B853CDD11BA916E}Prefabs/Weapons/Magazines/Magazine_9x18_PM_8rnd_Ball.et"
-    }
-   }
-  }
- }
- coords 7126.558 300.599 296.995
- angleY -143.113
- angleZ 87.992
 }

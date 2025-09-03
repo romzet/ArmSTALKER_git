@@ -154,104 +154,6 @@ $grp GenericEntity {
   angleY -23.079
  }
 }
-$grp LightEntity {
- LIGHT_FLUO_SPOT_6 {
-  coords 5086.7 305.354 56.503
-  angleX -90
-  angleY -41.184
-  Color 1 0.7255 0.3412 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareIndex 1
-  LensFlareScale 1.18
- }
- LIGHT_FLUO_SPOT_7 {
-  coords 5091.342 305.354 56.492
-  angleX -90
-  angleY -41.184
-  Color 1 0.7255 0.3412 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareIndex 1
-  LensFlareScale 1.18
- }
- LIGHT_FLUO_SPOT_8 {
-  coords 5089.034 305.353 56.468
-  angleX -90
-  angleY -41.184
-  Color 1 0.7255 0.3412 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareIndex 1
-  LensFlareScale 1.18
- }
- LIGHT_FLUO_SPOT_9 {
-  coords 5083.095 304.018 58.97
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareIndex 1
-  LensFlareScale 1.18
- }
- LIGHT_FLUO_SPOT_10 {
-  coords 5083.047 304.036 49.533
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareIndex 1
-  LensFlareScale 1.18
- }
- LIGHT_FLUO_SPOT_13 {
-  coords 5074.791 305.366 56.501
-  angleX -90
-  angleY -41.184
-  Color 0.834 1 0.745 1
-  LV 6
-  ClipEV -10
-  Type Spot
-  Radius 5
-  NearPlane 0.7
-  SpotAngle 155
-  DistanceAttenuation 0.1
-  Visualization Disabled
-  LensFlareIndex 1
-  LensFlareScale 1.18
- }
-}
 $grp ParticleEffectEntity {
  {
   coords 5083.109 304.041 58.956
@@ -976,8 +878,8 @@ GenericEntity : "{F3FB6B0DF3EC4214}Prefabs/Props/TRADE/ARMST_PLACE_SELL.et" {
    }
   }
  }
- coords 5087.827 302.173 59.236
- angleY 2.453
+ coords 4181.131 311.737 727.93
+ angleY -8.021
 }
 GenericEntity : "{F401D58CD490C872}Prefabs/Props/Civilian/BeerBottle_01_slava.et" {
  coords 5090.805 302.606 56.236

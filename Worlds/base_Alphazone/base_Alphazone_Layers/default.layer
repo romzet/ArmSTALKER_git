@@ -3,7 +3,7 @@ TimeAndWeatherManagerEntity TimeAndWeatherManager_657ED887D1CE9B8C : "{A3BAF78F6
  WeatherStateMachine "{5BDC4BDAE66B7581}Terrains/Common/WeatherPresets/StateMachineNew/WeatherStates_testing.conf"
  "Day Duration" 40000
  "UTC TimeZone" -1
- "Initial Day Time" 16.29
+ "Initial Day Time" 11.729
  Year 2001
  "Month of the Year" 9
  "Day of the Month" 20
@@ -21,7 +21,7 @@ $grp GenericEntity {
   coords 7483.965 300.452 453.472
  }
  Shelter_exit {
-  coords 5075.122 301.794 56.939
+  coords 4185.358 311.047 733.29
   angleY -1.413
  }
 }
@@ -64,11 +64,12 @@ GenericEntity ZEL_ClaimableStorage_Base_65FEABF76C989D48 : "{20AB7C195DBCD6C5}Pr
    }
   }
  }
- coords 5075.96 302.626 58.706
+ coords 4188.487 311.931 729.616
 }
 GenericEntity : "{3244854FF3798E1C}Prefabs/SHELTER/ARMST_ACTION_SHELTER.et" {
- coords 5083.576 302.573 62.825
- angleY 179.283
+ coords 4186.045 311.044 736.922
+ angleY 134.858
+ scale 1.23
 }
 MusicManager : "{359452CCDBDD03F5}Prefabs/Sounds/Music/MusicManager_Campaign.et" {
  coords 4096.856 299.816 471.843

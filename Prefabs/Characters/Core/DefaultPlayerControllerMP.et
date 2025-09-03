@@ -1,0 +1,76 @@
+SCR_PlayerController : "{6E2BB64764E3BE9B}Prefabs/Characters/Core/DefaultPlayerController.et" {
+ ID "1A9BA6BEFA06E3B1"
+ components {
+  RadioHandlerComponent "{6592B7F448074ABA}" {
+  }
+  SCR_CampaignBuildingNetworkComponent "{6592B7F448074A8E}" {
+  }
+  SCR_ChatComponent "{6592B7F448074A88}" {
+  }
+  SCR_CompositionInfoHandlerComponent "{6592B7F448074A89}" {
+  }
+  SCR_DataCollectorCommunicationComponent "{6592B7F448074A8A}" {
+  }
+  SCR_HUDManagerComponent "{2FDC275D9EBCDB8B}" {
+   InfoDisplays {
+    SCR_ScreenEffectsManager "{5AF2CE6B10209B7D}" {
+     InfoDisplays {
+      SCR_BleedingScreenEffect "{5AF2CE6885B03B63}" {
+       m_sAdaptiveOpacityWidgetName "AdaptiveOpacity-Blood"
+      }
+     }
+    }
+    SCR_XPInfoDisplay "{5CAAA2EB38829858}" {
+     m_bShowWhenCreated 0
+    }
+    SCR_CompositionInfoDisplay "{6592B7F448074A9E}" {
+     m_LayoutPath "{DB7AE399AA22C2E2}UI/layouts/HUD/CompositionInfo/CompositionInfo.layout"
+     m_eLayer HIGH
+     m_bShowWhenCreated 0
+     m_eShow 6
+    }
+   }
+  }
+  SCR_KickHintComponent "{6592B7F448074A9B}" {
+  }
+  SCR_MapMarkerSyncComponent "{6592B7F448074A95}" {
+  }
+  SCR_PlayerDeployMenuHandlerComponent "{6592B7F448074A96}" {
+  }
+  SCR_PlayerFactionAffiliationComponent "{6592B7F448074A97}" {
+  }
+  SCR_PlayerLoadoutComponent "{6592B7F448074A90}" {
+  }
+  SCR_ReconnectSynchronizationComponent "{6592B7F448074A91}" {
+  }
+  SCR_ResourcePlayerControllerInventoryComponent "{6592B7F448074A92}" {
+  }
+  SCR_RespawnComponent "{6592B7F448074A64}" {
+   Enabled 1
+   components {
+    SCR_FreeSpawnRequestComponent "{6592B7F448074A66}" {
+     Enabled 1
+    }
+    SCR_PossessSpawnRequestComponent "{6592B7F448068EA9}" {
+     Enabled 1
+    }
+    SCR_SpawnPointRespawnRequestComponent "{6592B7F448068EAE}" {
+     Enabled 1
+    }
+   }
+  }
+  SCR_SpawnLockComponent "{6592B7F448068EAD}" {
+  }
+  SCR_TaskNetworkComponent "{6592B7F448068EAC}" {
+  }
+  SocialComponent "{6592B7F448068EB1}" {
+  }
+  RplComponent "{6592B7F448068EB0}" {
+   "Self Insert" 0
+   Streamable Disabled
+  }
+ }
+ coords 4094.673 301.883 491.303
+ SelfRegister 0
+ DefaultControlledEntity "{60C01CD24FC404DB}Prefabs/Factions/Character_STALKER_Player_Full.et"
+}

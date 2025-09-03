@@ -1,0 +1,86 @@
+GenericEntity : "{C95E11C60810F432}Prefabs/Items/Core/Item_Base.et" {
+ ID "508AB2013EEE1E00"
+ components {
+  ARMST_ITEMS_STATS_COMPONENTS "{646863418F183F68}" {
+   Enabled 0
+   m_fBuyPrice 1200
+   m_TraderItemCategory Devices
+  }
+  InventoryItemComponent "{5222EB4D0C73006B}" {
+   Attributes SCR_ItemAttributeCollection "{5222EB4D0A2B466B}" {
+    ItemDisplayName SCR_ItemHintUIInfo "{5222EB4D07D865FA}" {
+     Name "#armst_quest_forest_science_item"
+     Description "#armst_quest_forest_search_ural_stage_final"
+    }
+    ItemPhysAttributes ItemPhysicalAttributes PhysicalAttributes {
+     Weight 0.1
+     SizeSetupStrategy Manual
+     ItemDimensions 0.01 0.01 0.01
+     ItemVolume 0.01
+    }
+    CustomAttributes {
+     PreviewRenderAttributes "{663C71BFE242A915}" {
+      CameraPreset Top
+      CameraOrbitAngles 0 0 0
+      CameraDistanceToItem 0.6
+      FOV 10
+      LodModel 0
+     }
+    }
+    CommonItemType "NONE"
+   }
+  }
+  MeshObject "{663C71BFE242AEE9}" {
+   Object "{28D2B8AEEC437AFD}Assets/Items/Identity/Belongings_Personal/Notebook_01_Personal_Base.xob"
+  }
+  RigidBody "{663C71BFE242AEE5}" {
+   Mass 3
+   LinearDamping 0.5
+   AngularDamping 0.5
+   AngularSleepingThreashold 1
+   SimState None
+   ModelGeometry 1
+  }
+  SCR_EditableEntityComponent "{663C71BFE242AEE7}" {
+   Enabled 0
+   m_EntityType ITEM
+   m_UIInfo SCR_EditableEntityUIInfo "{663C71BFE242AEFC}" {
+    Name "#Armst_floppy"
+    Icon "{0B03F611D52043AE}UI/Textures/placeholder.edds"
+    m_aAuthoredLabels {
+     1001 4141364
+    }
+    m_aAutoLabels {
+     4141364 1
+    }
+   }
+   m_bAutoRegister NEVER
+   m_bVisible 1
+   m_fMaxDrawDistance 0.5
+   m_Flags PLACEABLE
+  }
+  SCR_SoundDataComponent "{5B18D20ED0099A17}" {
+   m_aAudioSourceConfiguration {
+    SCR_AudioSourceConfiguration "{5B18D209080A5D15}" {
+     m_sSoundProject "{D7CE99AA2FB40C31}Sounds/Items/_SharedData/PickUp/Items_PickUp_Canteen.acp"
+    }
+    SCR_AudioSourceConfiguration "{5B18D2091B885AE6}" {
+     m_sSoundProject "{D7CE99AA2FB40C31}Sounds/Items/_SharedData/PickUp/Items_PickUp_Canteen.acp"
+    }
+    SCR_AudioSourceConfiguration "{5B18D20930D9E274}" {
+     m_sSoundProject "{C9A9B77442AA824A}Sounds/Items/_SharedData/Drop/Items_Drop_Canteen.acp"
+    }
+   }
+  }
+  ActionsManagerComponent "{508AB5952B584B2E}" {
+   ActionContexts {
+    UserActionContext "{508AC2ABEC97066C}" {
+     Position PointInfo "{508AC2ABEAC4A0F5}" {
+      Offset 0 0.1 0
+     }
+    }
+   }
+  }
+ }
+ coords 132.01 1 139.469
+}

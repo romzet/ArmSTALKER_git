@@ -2,9 +2,10 @@ GenericEntity PositionAlarm {
  coords 3873.771 315.582 394.577
 }
 ARMST_TRIGGER_SAVEZONE : "{43A441658DE7E3FA}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_SAVEZONE.et" {
- coords 5090.169 305.191 65.206
+ coords 4183.155 309.424 728.564
+ scale 0.99
  TriggerShapeType Sphere
- SphereRadius 43.4
+ SphereRadius 16.8
  DrawShape 0
  UpdatePeriod 1
  m_fDisable_damage 1
@@ -16,4 +17,106 @@ ARMST_TRIGGER_SURGE : "{53BE1E4E3FA34D7B}Prefabs/Anomals/Surge/ARMST_TRIGGER_SUR
  m_SurgeTimerReload 1200
  m_SurgeCount 35
  m_ObjectSurgeAlarm "{4B38D349E339F6D9}Prefabs/STATIC_SOUNDS/ALARM/STATIC_SOUND_SIREN.et"
+}
+$grp GenericEntity : "{62482F79CF1B97FD}Prefabs/Structures/BuildingParts/Lights/LampIndustrial_01.et" {
+ {
+  coords 4185.79 314.467 735.908
+  angleX -50
+  {
+   LightEntity LIGHT_FLUO_SPOT_11 {
+    coords 0.011 -0.334 0.417
+    angleX -40
+    angleZ 96.379
+    Color 1 0.8398 0.2467 1
+    LV 5.33
+    ClipEV -10
+    Type Spot
+    Radius 5
+    NearPlane 0.7
+    SpotAngle 155
+    DistanceAttenuation 0.1
+    Visualization Disabled
+   }
+  }
+ }
+ {
+  coords 4186.422 314.58 727.137
+  angleX -50
+  {
+   LightEntity LIGHT_FLUO_SPOT_10 {
+    coords 0.011 -0.334 0.417
+    angleX -40
+    angleZ 96.379
+    Color 1 0.8398 0.2467 1
+    LV 5.05
+    ClipEV -10
+    Type Spot
+    Radius 5
+    NearPlane 0.7
+    SpotAngle 155
+    DistanceAttenuation 0.1
+    Visualization Disabled
+   }
+  }
+ }
+ {
+  coords 4157.917 308.783 716.177
+  angleX -50
+  {
+   LightEntity LIGHT_FLUO_SPOT_12 {
+    coords 0.011 -0.334 0.417
+    angleX -40
+    angleZ 96.379
+    Color 1 0.8398 0.2467 1
+    LV 4.86
+    ClipEV -10
+    Type Spot
+    Radius 5
+    NearPlane 0.7
+    SpotAngle 155
+    DistanceAttenuation 0.1
+    Visualization Disabled
+   }
+  }
+ }
+ {
+  coords 4164.782 308.719 721.091
+  angleX -50
+  {
+   LightEntity LIGHT_FLUO_SPOT_19 {
+    coords 0.016 -0.217 0.343
+    angleX -40
+    angleZ 96.379
+    Color 1 0.8398 0.2467 1
+    LV 5.33
+    ClipEV -10
+    Type Spot
+    Radius 5
+    NearPlane 0.7
+    SpotAngle 155
+    DistanceAttenuation 0.1
+    Visualization Disabled
+   }
+  }
+ }
+ {
+  coords 4161.533 308.719 713.332
+  angleX -50
+  {
+   LightEntity LIGHT_FLUO_SPOT_20 {
+    coords 0.011 -0.249 0.316
+    angleX -40
+    angleZ 96.379
+    Color 1 0.8398 0.2467 1
+    LV 6
+    ClipEV -10
+    Type Spot
+    Radius 5
+    NearPlane 0.7
+    SpotAngle 155
+    DistanceAttenuation 0.1
+    Visualization Disabled
+   }
+  }
+ }
 }

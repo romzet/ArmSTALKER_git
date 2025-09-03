@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{AC71D2FB911602C5}Configs/Trader/Shelter/equipments/armst_trader_cat_equip_gasmask.conf"
+ Configurations {
+  CONFResourceClass PC {
+  }
+  CONFResourceClass XBOX_ONE : PC {
+  }
+  CONFResourceClass XBOX_SERIES : PC {
+  }
+  CONFResourceClass PS4 : PC {
+  }
+  CONFResourceClass PS5 : PC {
+  }
+  CONFResourceClass HEADLESS : PC {
+  }
+ }
+}

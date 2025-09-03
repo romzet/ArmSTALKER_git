@@ -1,0 +1,143 @@
+$grp ARMST_ALIFE_InterestPoint {
+ aerodrom_entry {
+  coords 3127.197 305.651 1506.365
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point2"
+  m_sNextInterestPoint2 "aerodrom_point"
+ }
+ aerodrom_entry2 {
+  coords 2533.529 295.117 1204.821
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point4"
+  m_sNextInterestPoint2 "aerodrom_point3"
+  m_sNextInterestPoint3 "aerodrom_entry6"
+ }
+ aerodrom_entry3 {
+  coords 1957.539 299.141 1558.475
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point7"
+  m_sNextInterestPoint2 "aerodrom_point4"
+ }
+ aerodrom_entry4 {
+  coords 1808.883 300.452 2090.016
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point9"
+  m_sNextInterestPoint2 "aerodrom_point7"
+ }
+ aerodrom_entry5 {
+  coords 2759.638 318.616 2197.462
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point13"
+  m_sNextInterestPoint2 "aerodrom_point11"
+ }
+ aerodrom_point {
+  coords 2726.922 311.894 1787.711
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point2"
+  m_sNextInterestPoint2 "aerodrom_entry"
+  m_sNextInterestPoint3 "aerodrom_point13"
+  m_sNextInterestPoint4 "aerodrom_point3"
+ }
+ aerodrom_point2 {
+  coords 2922.281 310.445 1443.834
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_entry"
+  m_sNextInterestPoint2 "aerodrom_point3"
+ }
+ aerodrom_point3 {
+  coords 2677.787 300.49 1491.532
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_entry2"
+  m_sNextInterestPoint2 "aerodrom_main2"
+  m_sNextInterestPoint3 "aerodrom_point5"
+  m_sNextInterestPoint4 "aerodrom_point"
+  m_sNextInterestPoint5 "aerodrom_point2"
+ }
+ aerodrom_main2 {
+  coords 2506.226 301.233 1489.633
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_entry6"
+  m_sNextInterestPoint2 "aerodrom_main"
+  m_sNextInterestPoint3 "aerodrom_point5"
+ }
+ aerodrom_main {
+  coords 2322.456 301.233 1546.81
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_entry6"
+  m_sNextInterestPoint2 "aerodrom_main2"
+  m_sNextInterestPoint3 "aerodrom_point5"
+ }
+ aerodrom_point4 {
+  coords 2262.687 312.794 1273.078
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_entry3"
+  m_sNextInterestPoint2 "aerodrom_entry2"
+  m_sNextInterestPoint3 "aerodrom_entry6"
+ }
+ aerodrom_point5 {
+  coords 2401.553 314.608 1733.748
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point12"
+  m_sNextInterestPoint2 "aerodrom_point6"
+  m_sNextInterestPoint3 "aerodrom_main2"
+  m_sNextInterestPoint4 "aerodrom_main"
+ }
+ aerodrom_point6 {
+  coords 2244.851 305.796 1821.093
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point12"
+  m_sNextInterestPoint2 "aerodrom_point5"
+  m_sNextInterestPoint3 "aerodrom_point7"
+ }
+ aerodrom_point7 {
+  coords 2124.377 311.108 1741.456
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point6"
+  m_sNextInterestPoint2 "aerodrom_entry3"
+ }
+ aerodrom_point9 {
+  coords 2136.787 300.452 2207.2
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point12"
+  m_sNextInterestPoint2 "aerodrom_entry4"
+  m_sNextInterestPoint3 "aerodrom_point10"
+ }
+ aerodrom_point10 {
+  coords 2237.021 312.958 2299.97
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point13"
+  m_sNextInterestPoint2 "aerodrom_point9"
+ }
+ aerodrom_point11 {
+  coords 2596.082 313.546 2300.615
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point10"
+  m_sNextInterestPoint2 "aerodrom_entry5"
+  m_sNextInterestPoint3 "aerodrom_point12"
+ }
+ aerodrom_point12 {
+  coords 2394.734 303.133 2050.552
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point13"
+  m_sNextInterestPoint2 "aerodrom_point10"
+  m_sNextInterestPoint3 "aerodrom_point9"
+  m_sNextInterestPoint4 "aerodrom_point11"
+  m_sNextInterestPoint5 "aerodrom_point6"
+ }
+ aerodrom_point13 {
+  coords 2679.809 311.108 1963.891
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point"
+  m_sNextInterestPoint2 "aerodrom_entry5"
+  m_sNextInterestPoint3 "aerodrom_point12"
+ }
+ aerodrom_entry6 {
+  coords 2394.275 294.671 1332.247
+  m_LocationKey AERODROM
+  m_sNextInterestPoint1 "aerodrom_point4"
+  m_sNextInterestPoint2 "aerodrom_point3"
+  m_sNextInterestPoint3 "aerodrom_entry2"
+  m_sNextInterestPoint4 "aerodrom_main2"
+  m_sNextInterestPoint5 "aerodrom_main"
+ }
+}

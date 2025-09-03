@@ -1,0 +1,17 @@
+MetaFileClass {
+ Name "{49EE60D2FD641960}Prefabs/Items/QUEST/SCIENCE_TOWER_SAVINO/armst_quest_floppy_finish.et"
+ Configurations {
+  EntityTemplateResourceClass PC {
+  }
+  EntityTemplateResourceClass XBOX_ONE : PC {
+  }
+  EntityTemplateResourceClass XBOX_SERIES : PC {
+  }
+  EntityTemplateResourceClass PS4 : PC {
+  }
+  EntityTemplateResourceClass PS5 : PC {
+  }
+  EntityTemplateResourceClass HEADLESS : PC {
+  }
+ }
+}
