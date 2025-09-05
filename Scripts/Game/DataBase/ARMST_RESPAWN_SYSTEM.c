@@ -32,6 +32,7 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
     protected ref map<int, int> m_mPlayerMoneyToTransfer = new map<int, int>();
     protected ref map<int, string> m_mPlayerQuestDataToTransfer = new map<int, string>();
     protected ref map<int, string> m_mPlayerMarkerDataToTransfer = new map<int, string>();
+    protected ref map<int, ref map<ARMST_FACTION_LABEL, float>> m_mPlayerReputationToTransfer = new map<int, ref map<ARMST_FACTION_LABEL, float>>();
 
     // Данные персонажа для временного хранения
     vector m_player_shelter;
@@ -124,6 +125,45 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
             }
             m_mPlayerMarkerDataToTransfer.Remove(playerId);
         }
+
+        // Перенос данных о репутации на нового персонажа
+        if (m_mPlayerReputationToTransfer.Contains(playerId))
+        {
+            ref map<ARMST_FACTION_LABEL, float> reputationToTransfer = m_mPlayerReputationToTransfer.Get(playerId);
+            if (reputationToTransfer && !reputationToTransfer.IsEmpty())
+            {
+                ARMST_PLAYER_REPUTATIONS_COMPONENT reputationComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+                if (reputationComponent)
+                {
+                    // Применяем сохранённые значения репутации
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey1))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey1, reputationToTransfer.Get(reputationComponent.m_FactionKey1));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey2))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey2, reputationToTransfer.Get(reputationComponent.m_FactionKey2));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey3))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey3, reputationToTransfer.Get(reputationComponent.m_FactionKey3));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey4))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey4, reputationToTransfer.Get(reputationComponent.m_FactionKey4));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey5))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey5, reputationToTransfer.Get(reputationComponent.m_FactionKey5));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey6))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey6, reputationToTransfer.Get(reputationComponent.m_FactionKey6));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey7))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey7, reputationToTransfer.Get(reputationComponent.m_FactionKey7));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey8))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey8, reputationToTransfer.Get(reputationComponent.m_FactionKey8));
+                    if (reputationToTransfer.Contains(reputationComponent.m_FactionKey9))
+                        reputationComponent.SetReputation(reputationComponent.m_FactionKey9, reputationToTransfer.Get(reputationComponent.m_FactionKey9));
+                    
+                    Print(string.Format("[ARMST_REPUTATION] Перенесены данные о репутации для игрока %1.", playerId));
+                }
+                else
+                {
+                    Print(string.Format("[ARMST_REPUTATION] Ошибка: Компонент ARMST_PLAYER_REPUTATIONS_COMPONENT не найден на новом персонаже игрока %1.", playerId), LogLevel.ERROR);
+                }
+            }
+            m_mPlayerReputationToTransfer.Remove(playerId);
+        }
     }
 
     //------------------------------------------------------------------------------------------------
@@ -193,6 +233,9 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
                     statsComponent.ArmstPlayerSetBiography(m_player_biography);
                     statsComponent.ArmstPlayerSetHead(m_player_head);
                 }
+                
+                // Проверка репутации и смена фракции, если репутация ниже -50
+               // CheckAndUpdateFaction(character, playerId, statsComponent);
             }
             persistenceComponent.SetPersistentId(characterPersistenceId);
             OnCharacterCreated(playerId, characterPersistenceId, character);
@@ -209,6 +252,30 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
         {
             Print(string.Format("Could not create new character, prefab '%1' is missing component '%2'.", prefab, EPF_PersistenceComponent), LogLevel.ERROR);
             SCR_EntityHelper.DeleteEntityAndChildren(character);
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------
+    void CheckAndUpdateFaction(IEntity character, int playerId, ARMST_PLAYER_STATS_COMPONENT statsComponent)
+    {
+        ARMST_PLAYER_REPUTATIONS_COMPONENT reputationComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(character.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+        if (reputationComponent)
+        {
+            ARMST_FACTION_LABEL currentFaction = statsComponent.GetFactionKey();
+            if (currentFaction != ARMST_FACTION_LABEL.FACTION_ALL)
+            {
+                float reputation = reputationComponent.GetReputation(currentFaction);
+                if (reputation < -50.0)
+                {
+                    statsComponent.SetFactionKey(ARMST_FACTION_LABEL.FACTION_RENEGADE);
+                    playerFaction = ARMST_FACTION_LABEL.FACTION_RENEGADE;
+                    Print(string.Format("[ARMST_REPUTATION] Репутация игрока %1 у фракции %2 ниже -50 (%3). Фракция изменена на FACTION_RENEGADE.", playerId, currentFaction.ToString(), reputation), LogLevel.NORMAL);
+                }
+            }
+        }
+        else
+        {
+            Print(string.Format("[ARMST_REPUTATION] Ошибка: Компонент ARMST_PLAYER_REPUTATIONS_COMPONENT не найден на новом персонаже игрока %1 для проверки репутации.", playerId), LogLevel.ERROR);
         }
     }
 
@@ -429,6 +496,29 @@ modded class EPF_BaseRespawnSystemComponent : SCR_RespawnSystemComponent
         else
         {
             Print(string.Format("[ARMST_MARKERS] Ошибка: Компонент ARMST_PLAYER_MAP_MARKERS не найден на персонаже игрока %1.", playerId), LogLevel.ERROR);
+        }
+
+        // Сохранение данных о репутации игрока
+        ARMST_PLAYER_REPUTATIONS_COMPONENT reputationComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(playerEntity.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+        if (reputationComponent)
+        {
+            ref map<ARMST_FACTION_LABEL, float> reputationData = new map<ARMST_FACTION_LABEL, float>();
+            reputationData.Insert(reputationComponent.m_FactionKey1, reputationComponent.m_armst_faction1_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey2, reputationComponent.m_armst_faction2_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey3, reputationComponent.m_armst_faction3_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey4, reputationComponent.m_armst_faction4_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey5, reputationComponent.m_armst_faction5_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey6, reputationComponent.m_armst_faction6_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey7, reputationComponent.m_armst_faction7_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey8, reputationComponent.m_armst_faction8_reputations);
+            reputationData.Insert(reputationComponent.m_FactionKey9, reputationComponent.m_armst_faction9_reputations);
+            
+            m_mPlayerReputationToTransfer.Set(playerId, reputationData);
+            Print(string.Format("[ARMST_REPUTATION] Сохранены данные о репутации для переноса на нового персонажа игрока %1.", playerId));
+        }
+        else
+        {
+            Print(string.Format("[ARMST_REPUTATION] Ошибка: Компонент ARMST_PLAYER_REPUTATIONS_COMPONENT не найден на персонаже игрока %1.", playerId), LogLevel.ERROR);
         }
 
         // Логика для сохранения тела персонажа

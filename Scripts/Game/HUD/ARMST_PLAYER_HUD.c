@@ -45,6 +45,7 @@ class ARMST_HUD_Update
 class ARMST_TestHudUpdate: ARMST_HUD_Update
 {
 	
+    ARMST_FACTION_LABEL playerFaction = ARMST_FACTION_LABEL.FACTION_STALKER; // Значение по умолчанию
 	
 	ref array<ref CanvasWidgetCommand> canvasCommands = {};
 	override void Update(Widget HUDWidget, IEntity owner, ARMST_PLAYER_STATS_COMPONENT PlayerStats, ARMST_ITEMS_STATS_COMPONENTS ItemStats)
@@ -121,7 +122,6 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 			FrameHUD.SetOpacity(0);
 				return;	
 		}
-		ForceSyncPlayerStats(owner);
 		
 		if (!statsComponent2.m_hud_check)
 			{
@@ -191,6 +191,20 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 		Slider_Radiation.SetCurrent(RadiactiveStats);
 		Slider_Toxic.SetCurrent(ToxicStats);
 		
+        ARMST_PLAYER_REPUTATIONS_COMPONENT reputationComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(owner.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+        if (reputationComponent)
+        {
+            ARMST_FACTION_LABEL currentFaction = statsComponent2.GetFactionKey();
+            if (currentFaction != ARMST_FACTION_LABEL.FACTION_ALL)
+            {
+                float reputation = reputationComponent.GetReputation(currentFaction);
+                if (reputation < -99.0)
+                {
+                    statsComponent2.SetFactionKey(ARMST_FACTION_LABEL.FACTION_RENEGADE);
+                    playerFaction = ARMST_FACTION_LABEL.FACTION_RENEGADE;
+                }
+            }
+        }
 	    // Цвета для индикаторов (голода, еды, здоровья, психики)
 	    // Красный: ниже 20, Желтый: ниже 60, иначе Белый
 	    if (WaterStats < 20)
@@ -421,6 +435,13 @@ class ARMST_TestHudUpdate: ARMST_HUD_Update
 	        statsComponent.ArmstPlayerStatGetWater(),
 	        statsComponent.ArmstPlayerStatGetEat(),
 	        statsComponent.ArmstPlayerGetReputation());
+		
+    	ARMST_PLAYER_REPUTATIONS_COMPONENT repsComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(playerEntity.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+		if (repsComponent)
+		{
+    		repsComponent.SyncAllReputations();
+		
+		}
 	}
 				
 	[RplRpc(RplChannel.Reliable, RplRcver.Broadcast)]

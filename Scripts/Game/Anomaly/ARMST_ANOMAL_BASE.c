@@ -132,6 +132,18 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	[Attribute("0", UIWidgets.Slider, "Бросок Z", "0 20 1", category: "5. Throw")];
 	float m_damageForceWayZ;
 	
+	[Attribute("true", UIWidgets.CheckBox, "", category: "6. Camshake")];
+	bool m_CamShakeAction;
+	[Attribute("1", UIWidgets.Slider, "", "0 10 0.1", category: "6. Camshake")];
+	float m_CamShakeLinearMagnitude;
+	[Attribute("4", UIWidgets.Slider, "", "0 10 0.1", category: "6. Camshake")];
+	float m_CamShakeAngularMagnitude;
+	[Attribute("0.1", UIWidgets.Slider, "", "0 10 0.1", category: "6. Camshake")];
+	float m_CamShakeInTime;
+	[Attribute("0.2", UIWidgets.Slider, "", "0 10 0.1", category: "6. Camshake")];
+	float m_CamShakeSustainTime;
+	[Attribute("0.7", UIWidgets.Slider, "", "0 10 0.1", category: "6. Camshake")];
+	float m_CamShakeOutTime;
 	
 			string m_sName;
 			ref array<string> m_aNameParams ={};
@@ -303,7 +315,6 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 		//vector mat[4];
 		if (m_AudioSourceConfiguration)
 		{
-			Print("проигрыш звука");
 			SCR_SoundManagerEntity soundManagerEntity = GetGame().GetSoundManagerEntity();
 					if (!soundManagerEntity)
 						return;
@@ -399,6 +410,31 @@ class ARMST_DamagingTriggerEntity: SCR_BaseTriggerEntity {
 	        }
 		}
 		
+		if(m_CamShakeAction)
+		{
+			
+		if (!EntityUtils.IsPlayer(ent))
+			{
+			}
+			else
+			{
+		        if (Replication.IsServer())
+		        {
+					SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+			        if (gameMode.IsHosted())
+			        {
+						
+            			SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(ent);
+						character.ArmstCameraShake(m_CamShakeLinearMagnitude, m_CamShakeAngularMagnitude, m_CamShakeInTime, m_CamShakeSustainTime, m_CamShakeOutTime);
+			        }
+		        }
+				else 
+				{
+            			SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(ent);
+						character.ArmstCameraShake(m_CamShakeLinearMagnitude, m_CamShakeAngularMagnitude, m_CamShakeInTime, m_CamShakeSustainTime, m_CamShakeOutTime);
+				}
+			}
+		}
 		
 		//урон по отдельному здоровью
 		ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(ent.FindComponent(ARMST_PLAYER_STATS_COMPONENT));

@@ -43,18 +43,17 @@ class ARMST_BOT_INTERACTION_RECRUITABLE : ScriptedUserAction {
 				if (!character)
 					{return;}
 				
-				ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-						if (statsComponent)
+				ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
+						if (currencyComp)
 						{
-							//int f_fMoneyPlayer = statsComponent.ArmstPlayerGetMoney();
-							//if (f_fMoneyPlayer < f_price_recruit)
+        					int totalCurrency = currencyComp.GetValue();
+							if (totalCurrency < f_price_recruit)
 								return;
 						}
 				
-				if (GetGame().GetPlayerManager().GetPlayerIdFromControlledEntity(character) == 0)
-					groupController.RequestAddAIAgent(character, playerID);
+				groupController.RequestAddAIAgent(character, playerID);
 				
-				//statsComponent.ArmstPlayerSetMoney(-f_price_recruit);	
+				currencyComp.ModifyValue(f_price_recruit, false);
 				Bot.SetRecruit(true);
 			
 			}
@@ -130,7 +129,7 @@ class ARMST_BOT_INTERACTION_RECRUITABLE : ScriptedUserAction {
 			return false;
 
 		
-		return false;
+		return true;
 	}
 	
 };

@@ -19,18 +19,56 @@ $grp ParticleEffectEntity {
   coords 2201.38 299.135 699.455
   EffectPath "{C9B4E6E04652F48F}Prefabs/Anomals/Zero_gravy/data/line_wrapper_uaz_469.ptc"
  }
+ {
+  coords 3442.512 323.783 1241.533
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 3410.051 320.298 1281.795
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 3389.736 319.065 1232.881
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 3055.523 312.072 1211.083
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 3127.51 315.718 1237.035
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 2219.46 312.674 725.511
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 2218.24 305.134 677.036
+  EffectPath "{90EF9DB31AF59405}Prefabs/Anomals/puzir/data/puzir_trees.ptc"
+ }
+ {
+  coords 2764.314 305.301 1006.352
+  EffectPath "{5B82BABCDF3FDF57}Prefabs/Anomals/Zero_gravy/data/line_wrapper_betons.ptc"
+ }
+ {
+  coords 2845.366 306.965 837.424
+  EffectPath "{5B82BABCDF3FDF57}Prefabs/Anomals/Zero_gravy/data/line_wrapper_betons.ptc"
+ }
 }
 ParticleEffectEntity : "{466085B5B3C3DF03}Prefabs/Anomals/puzir/ARMST_PUZIR.et" {
  coords 2220.506 276.253 706.733
  {
   ARMST_DamagingTriggerEntity {
-   ID "633081B3AF2B7919"
    UpdatePeriod 10
   }
  }
 }
 ParticleEffectEntity : "{536D11B750570179}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_VOLGA.et" {
  coords 5101.674 312.872 607.405
+}
+ParticleEffectEntity : "{75549B2A4EC131EC}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_BETONS.et" {
+ coords 2842.765 299.751 837.279
 }
 $grp ParticleEffectEntity : "{76B7DF585372AA23}Prefabs/Anomals/Zero_gravy/ARMST_ZERO_GRAVY_UAZ.et" {
  {
@@ -78,5 +116,8 @@ $grp ParticleEffectEntity : "{E1BE9FC3307E693F}Prefabs/Anomals/Zero_gravy/ARMST_
  }
  {
   coords 1603.375 290.117 992.164
+ }
+ {
+  coords 2311.656 301.233 1519.913
  }
 }

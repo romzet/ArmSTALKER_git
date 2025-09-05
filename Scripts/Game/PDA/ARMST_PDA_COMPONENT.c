@@ -4,10 +4,29 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected Widget                 m_wRoot;
     protected Widget                 Block_message;
     protected Widget                 Block_stats;
-    protected Widget                 Block_map;
     protected Widget                 Block_Quests;
     protected Widget                 Block_Wiki;
     protected Widget                 Block_Notes;
+	
+    protected Widget Block_factions;
+    protected TextWidget Faction_1;
+    protected TextWidget Faction_1_rep;
+    protected TextWidget Faction_2;
+    protected TextWidget Faction_2_rep;
+    protected TextWidget Faction_3;
+    protected TextWidget Faction_3_rep;
+    protected TextWidget Faction_4;
+    protected TextWidget Faction_4_rep;
+    protected TextWidget Faction_5;
+    protected TextWidget Faction_5_rep;
+    protected TextWidget Faction_6;
+    protected TextWidget Faction_6_rep;
+    protected TextWidget Faction_7;
+    protected TextWidget Faction_7_rep;
+    protected TextWidget Faction_8;
+    protected TextWidget Faction_8_rep;
+    protected TextWidget Faction_9;
+    protected TextWidget Faction_9_rep;
 	
     protected TextWidget            Text_User;
     protected TextWidget            Text_User_Name;
@@ -51,7 +70,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected ButtonWidget          Button_Exit;
     protected ButtonWidget          Button_Messenger;
     protected ButtonWidget          Button_PlayerInfo;
-    protected ButtonWidget          Button_Map;
+    protected ButtonWidget          Button_Factions;
     protected ButtonWidget          Button_Quests;
     protected ButtonWidget          Button_Wiki;
     protected ButtonWidget          Button_SendMessage;
@@ -89,6 +108,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
     protected ARMST_PLAYER_STATS_COMPONENT m_StatsComponent;
     protected ARMST_ITEMS_STATS_COMPONENTS m_ItemsStatsComponent;
     protected ARMST_MONEY_COMPONENTS currencyComp;
+    protected ARMST_PLAYER_REPUTATIONS_COMPONENT m_ReputationsComponent;
     
     //------------------------------------------------------------------------------------------------
     override void OnMenuInit()
@@ -146,16 +166,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Text_artefact_found_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_artefact_found_counts"));
         Text_surge_alive_counts = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_surge_alive_counts"));
 		
-		
         Text_BiographySet = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_BiographySet"));
-		
-		
-		
-        Block_map = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_map"));
-        Map = MapWidget.Cast(m_wRoot.FindAnyWidget("Map"));
-		if (Map)
-    	Map.AddHandler(this);
-		
 		
         Block_Quests = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_Quests"));
         Text_QuestName = TextWidget.Cast(m_wRoot.FindAnyWidget("Text_QuestName"));
@@ -203,7 +214,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         
         Button_Messenger = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Messenger"));
         Button_PlayerInfo = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_PlayerInfo"));
-        Button_Map = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Map"));
+        Button_Factions = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Factions"));
         Button_Quests = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Quests"));
         Button_Wiki = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Wiki"));
 		
@@ -216,10 +227,30 @@ class ARMST_PDA_UI : ChimeraMenuBase
         Button_Update = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Update"));
         Button_Network = ButtonWidget.Cast(m_wRoot.FindAnyWidget("Button_Network"));
         
-        
+
+        // Получаем виджеты для фракций и репутации
+        Block_factions = FrameWidget.Cast(m_wRoot.FindAnyWidget("Block_factions"));
+        Faction_1 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_1"));
+        Faction_1_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_1_rep"));
+        Faction_2 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_2"));
+        Faction_2_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_2_rep"));
+        Faction_3 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_3"));
+        Faction_3_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_3_rep"));
+        Faction_4 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_4"));
+        Faction_4_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_4_rep"));
+        Faction_5 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_5"));
+        Faction_5_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_5_rep"));
+        Faction_6 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_6"));
+        Faction_6_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_6_rep"));
+        Faction_7 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_7"));
+        Faction_7_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_7_rep"));
+        Faction_8 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_8"));
+        Faction_8_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_8_rep"));
+        Faction_9 = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_9"));
+        Faction_9_rep = TextWidget.Cast(m_wRoot.FindAnyWidget("Faction_9_rep"));
         
 	    Block_stats.SetVisible(true);
-			Block_map.SetVisible(false);
+			Block_factions.SetVisible(false);
 			Block_Quests.SetVisible(false);
 			Block_Wiki.SetVisible(false);
 			Block_message.SetVisible(false);
@@ -262,6 +293,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         m_StatsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
         m_ItemsStatsComponent = ARMST_ITEMS_STATS_COMPONENTS.Cast(m_User.FindComponent(ARMST_ITEMS_STATS_COMPONENTS));
         currencyComp = ARMST_MONEY_COMPONENTS.Cast(m_User.FindComponent(ARMST_MONEY_COMPONENTS));
+        m_ReputationsComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(m_User.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
         // Обновляем данные интерфейса
         UpdatePdaUI();
         
@@ -272,7 +304,69 @@ class ARMST_PDA_UI : ChimeraMenuBase
             CheckBox_ON_OFF.SetChecked(false);
         }
     }
+	
+    void UpdateFactionsReputation()
+    {
+        if (!m_ReputationsComponent)
+            return;
+        
+        // Обновляем названия и репутацию для каждой фракции
+        UpdateFactionData(Faction_1, Faction_1_rep, m_ReputationsComponent.m_FactionKey1);
+        UpdateFactionData(Faction_2, Faction_2_rep, m_ReputationsComponent.m_FactionKey2);
+        UpdateFactionData(Faction_3, Faction_3_rep, m_ReputationsComponent.m_FactionKey3);
+        UpdateFactionData(Faction_4, Faction_4_rep, m_ReputationsComponent.m_FactionKey4);
+        UpdateFactionData(Faction_5, Faction_5_rep, m_ReputationsComponent.m_FactionKey5);
+        UpdateFactionData(Faction_6, Faction_6_rep, m_ReputationsComponent.m_FactionKey6);
+        UpdateFactionData(Faction_7, Faction_7_rep, m_ReputationsComponent.m_FactionKey7);
+        UpdateFactionData(Faction_8, Faction_8_rep, m_ReputationsComponent.m_FactionKey8);
+        UpdateFactionData(Faction_9, Faction_9_rep, m_ReputationsComponent.m_FactionKey9);
+        
+        Print("ARMST_PDA_UI: Updated factions reputation data.", LogLevel.NORMAL);
+    }
+	 //------------------------------------------------------------------------------------------------
+    void UpdateFactionData(TextWidget factionNameWidget, TextWidget factionRepWidget, ARMST_FACTION_LABEL factionKey)
+    {
+        if (!factionNameWidget || !factionRepWidget)
+            return;
+        
+        // Получаем репутацию для данной фракции
+        int reputation = m_ReputationsComponent.GetReputation(factionKey);
+        factionRepWidget.SetText(reputation.ToString());
+        
+        // Устанавливаем название фракции на основе значения ARMST_FACTION_LABEL
+        string factionDisplayName = GetFactionDisplayName(factionKey);
+        factionNameWidget.SetText(factionDisplayName);
+    }
     
+    //------------------------------------------------------------------------------------------------
+	string GetFactionDisplayName(ARMST_FACTION_LABEL factionKey)
+	{
+	    switch (factionKey)
+	    {
+	        case ARMST_FACTION_LABEL.FACTION_STALKER:
+	            return "#armst_pda_wiki_faction_stalker";
+	        case ARMST_FACTION_LABEL.FACTION_BANDIT:
+	            return "#armst_pda_wiki_faction_bandit";
+	        case ARMST_FACTION_LABEL.FACTION_ARMY:
+	            return "#armst_pda_wiki_faction_army";
+	        case ARMST_FACTION_LABEL.FACTION_RENEGADE:
+	            return "#Armst_renegades_character";
+	        case ARMST_FACTION_LABEL.FACTION_SCIENCES:
+	            return "#armst_pda_wiki_faction_science";
+	        case ARMST_FACTION_LABEL.FACTION_MERCENARIES:
+	            return "#armst_pda_wiki_faction_merc";
+	        case ARMST_FACTION_LABEL.FACTION_KB:
+	            return "#armst_pda_wiki_faction_kontrabas";
+	        case ARMST_FACTION_LABEL.FACTION_STORM:
+	            return "#armst_pda_wiki_faction_storm";
+	        default:
+	            Print("ARMST_PDA_UI: Unknown faction key: " + factionKey.ToString(), LogLevel.WARNING);
+	            return "#Armst_unknown_faction";
+	    }
+	    // Избыточный return для успокоения компилятора (не должен никогда выполняться)
+	    return "#Armst_unknown_faction";
+	}
+	
     //------------------------------------------------------------------------------------------------
     void UpdatePdaUI()
     {
@@ -410,6 +504,11 @@ class ARMST_PDA_UI : ChimeraMenuBase
 		        // Устанавливаем отображаемое название фракции
 		        Text_Fraction_Name.SetText(factionDisplayName);
 		    }
+			
+	        if (m_ReputationsComponent)
+	        {
+	            UpdateFactionsReputation();
+	        }
 		}
     }
     void SetBlock()
@@ -426,7 +525,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
         {
             UpdatePdaUI();
 			Block_stats.SetVisible(true);
-			Block_map.SetVisible(false);
+			Block_factions.SetVisible(false);
 			Block_Quests.SetVisible(false);
 			Block_Wiki.SetVisible(false);
 			Block_message.SetVisible(false);
@@ -436,7 +535,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	    {
 	        UpdatePdaUI();
 	        Block_stats.SetVisible(false);
-	        Block_map.SetVisible(false);
+	        Block_factions.SetVisible(false);
 	        Block_Quests.SetVisible(false);
 	        Block_Wiki.SetVisible(false);
 	        Block_message.SetVisible(true);
@@ -484,9 +583,14 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	        Print("[ARMST PDA] Обновлен список игроков в мессенджере. Добавлено: " + addedPlayers + " из " + playerIds.Count(), LogLevel.NORMAL);
 	        return true;
 	    }
-        if (w == Button_Map)
+        if (w == Button_Factions)
         {
-			//SetMapMode(enable);	
+            UpdatePdaUI(); // Обновляем данные, включая репутацию фракций
+            Block_stats.SetVisible(false);
+            Block_factions.SetVisible(true); // Показываем блок с фракциями
+            Block_Quests.SetVisible(false);
+            Block_Wiki.SetVisible(false);
+            Block_message.SetVisible(false);
             return true;
         }
        if (w == Button_Quests)
@@ -727,7 +831,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	{
 	    UpdatePdaUI();
 	    Block_stats.SetVisible(false);
-	    Block_map.SetVisible(false);
+	    Block_factions.SetVisible(false);
 	    Block_Quests.SetVisible(true);
 	    Block_Wiki.SetVisible(false);
 	    Block_message.SetVisible(false);
@@ -864,7 +968,7 @@ class ARMST_PDA_UI : ChimeraMenuBase
 	{
 	    UpdatePdaUI();
 	    Block_stats.SetVisible(false);
-	    Block_map.SetVisible(false);
+	    Block_factions.SetVisible(false);
 	    Block_Quests.SetVisible(false);
 	    Block_Wiki.SetVisible(true);
 	    Block_message.SetVisible(false);

@@ -1,4 +1,15 @@
 
+modded class SCR_CommunicationSoundComponent : CommunicationSoundComponent
+{
+	[Attribute("", UIWidgets.Auto, "Звук", category: "Hello")]
+	ref SCR_AudioSourceConfiguration m_AudioHello;
+	
+	[Attribute("", UIWidgets.Auto, "Звук", category: "Hello")]
+	ref SCR_AudioSourceConfiguration m_AudioWeapon;
+	
+}
+
+
 //первоначальное взаимодействие с ботом
 class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 	
@@ -18,7 +29,6 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 	//------------------------------------------------------------------------------------------------
 	override void PerformAction(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
-				
 		CharacterControllerComponent charComp = CharacterControllerComponent.Cast(pOwnerEntity.FindComponent(CharacterControllerComponent));
 		if (!charComp)
 			{return;}
@@ -50,23 +60,45 @@ class ARMST_BOT_INT_ACTION_HELLO : ScriptedUserAction {
 						if (PlayerComp.CanFire())
 							{
 								charComp.SetMeleeAttack(true);	
+						        if (Replication.IsServer())
+						        {
+									SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+							        if (gameMode.IsHosted())
+							        {
+										AudioSystem.PlaySound("{04D6C9E3B3AEF5BF}Sounds/neutral_interaction/weapon_down/uberi1.wav");
+							        }
+									else 
+									{
+									}
+						        }
+								else 
+								{
+									AudioSystem.PlaySound("{04D6C9E3B3AEF5BF}Sounds/neutral_interaction/weapon_down/uberi1.wav");
+								}
 								//Bot.ArmstWeaponReaction(pOwnerEntity);	
 								//GetGame().GetCallqueue().CallLater(ArmstTalkTimerOff, 5000, false);
-								//
-				                if (Replication.IsServer())
-				                {
-									ArmstWeaponSound(pOwnerEntity);
-								}
-								else
-								{
-									ArmstWeaponSound(pOwnerEntity);
-								}
 								return;
 							}
 					}
 				charComp.TryStartCharacterGesture(ECharacterGestures.POINT_WITH_FINGER, 1500);
 				GetGame().GetCallqueue().CallLater(ArmstTalkTimerOff, 20000, false);
-				ArmstHelloSound();
+			
+				
+		        if (Replication.IsServer())
+		        {
+					SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+			        if (gameMode.IsHosted())
+			        {
+						AudioSystem.PlaySound("{2E1390A9662471B3}Sounds/neutral_interaction/hello/hi 1.wav");
+			        }
+					else 
+					{
+					}
+		        }
+				else 
+				{
+						AudioSystem.PlaySound("{2E1390A9662471B3}Sounds/neutral_interaction/hello/hi 1.wav");
+				}
 			}
 		
 	};

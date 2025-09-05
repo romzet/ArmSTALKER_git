@@ -30,12 +30,6 @@ ParticleEffectEntity : "{281132BC3D25B959}Prefabs/Anomals/puzir_rock/ARMST_PUZIR
 }
 ParticleEffectEntity : "{466085B5B3C3DF03}Prefabs/Anomals/puzir/ARMST_PUZIR.et" {
  coords 3419.161 305.358 1253.843
- {
-  ARMST_DamagingTriggerEntity {
-   ID "633081B3AF2B7919"
-   UpdatePeriod 10
-  }
- }
 }
 $grp ARMST_TRIGGER_SPAWN : "{762B4CCA245C6ECD}Prefabs/Anomals/TRIGGERS/ARMST_TRIGGER_ANOMAL.et" {
  {

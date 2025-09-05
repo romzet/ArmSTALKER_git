@@ -37,7 +37,7 @@ class EPF_ArmstPlayerQuestComponentSaveData : EPF_ComponentSaveData
 
         // Применяем сохраненную строку данных к компоненту
         questComponent.m_player_quest_data = m_player_quest_data;
-        Print("[EPF_ArmstPlayerQuestComponentSaveData] Данные о квестах успешно применены к компоненту.", LogLevel.NORMAL);
+        //Print("[EPF_ArmstPlayerQuestComponentSaveData] Данные о квестах успешно применены к компоненту.", LogLevel.NORMAL);
         return EPF_EApplyResult.OK;
     }
 

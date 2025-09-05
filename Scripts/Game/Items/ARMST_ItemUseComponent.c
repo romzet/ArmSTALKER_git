@@ -78,7 +78,7 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 		
 		if(m_ActionItemNow)
 			ActivateAction();
-		
+		/*
 				if(m_ActionPlayGuitar)
 					{
 						MenuManager menuManager = g_Game.GetMenuManager(); //получаем список меню - файл ArmstPdaMenuChimera
@@ -88,6 +88,7 @@ class ARMST_ItemUseComponent : SCR_ConsumableItemComponent
 						if(armstpda)
 							armstpda.Init(charOwner,GetOwner());
 					}
+		*/
 	}
 	
 	//------------------------------------------------------------------------------------------------

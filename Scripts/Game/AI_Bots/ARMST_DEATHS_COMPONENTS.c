@@ -81,7 +81,7 @@ class ARMST_DEATH_COMPONENTS : ScriptComponent
 		m_fired = true;
 		
 		SpawnLocal();
-		Rpc(SpawnBroadcast);
+		//Rpc(SpawnBroadcast);
 	}
 	
 	private void SpawnLocal()

@@ -29,6 +29,11 @@ $grp EPF_SpawnPoint {
   angleY -52.64
   m_FactionKey FACTION_STORM
  }
+ {
+  coords 2290.176 292.141 438.131
+  angleY 46.787
+  m_FactionKey FACTION_RENEGADE
+ }
 }
 SCR_MapLocator {
  coords 3813.624 300.772 1000.863

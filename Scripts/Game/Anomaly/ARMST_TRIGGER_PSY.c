@@ -82,28 +82,37 @@ class ARMST_TRIGGER_PSY: SCR_BaseTriggerEntity {
             statsComponent.ArmstPlayerStatSetPsy(-levelrad);
 		
 		
-        if (Replication.IsServer())
-        {
-			SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	        if (gameMode.IsHosted())
-	        {
-			    SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(GetGame().GetPlayerController().GetPlayerId()));
-				if (scrPlayerController)
-					{
-					scrPlayerController.ArmstCameraShake();
-					}
-	        }
-			else 
+			
+		if (!EntityUtils.IsPlayer(ent))
 			{
 			}
-        }
-		else 
-		{
-			    SCR_PlayerController scrPlayerController = SCR_PlayerController.Cast(GetGame().GetPlayerManager().GetPlayerController(GetGame().GetPlayerController().GetPlayerId()));
-				if (scrPlayerController)
+			else
+			{
+		        if (Replication.IsServer())
+		        {
+					SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+			        if (gameMode.IsHosted())
+			        {
+		            	SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(ent);
+						if (character)
+							{
+							character.ArmstCameraShake(1.5, 3.2, 1, 2, 3);
+							AudioSystem.PlaySound("{CA97D24A1C08ED81}Prefabs/Monsters/Psy_destroyer/data/psy_sounds.wav");
+							}
+			        }
+					else 
 					{
-					scrPlayerController.ArmstCameraShake();
-			}
+					}
+		        }
+				else 
+				{
+		            	SCR_ChimeraCharacter character = SCR_ChimeraCharacter.Cast(ent);
+						if (character)
+							{
+							character.ArmstCameraShake(1.5, 2.6, 0.5, 1, 2);
+							AudioSystem.PlaySound("{CA97D24A1C08ED81}Prefabs/Monsters/Psy_destroyer/data/psy_sounds.wav");
+					}
+				}
 		}
     };
     override void OnDeactivate(IEntity ent) {

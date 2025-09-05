@@ -22,10 +22,6 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     [Attribute("500", UIWidgets.EditBox, desc: "Денежная награда", params: "0 999999", category: "Quest")]
     protected float m_fCountQuestItemsPrice; 
     
-    // Репутационная награда
-    [Attribute("500", UIWidgets.EditBox, desc: "Репутация", params: "0 100 1", category: "Quest")]
-    protected float m_fCountQuestItemsReputations; 
-    
     
     [Attribute("", UIWidgets.EditBox, "Старт миссии", category: "Quest")]
     protected string m_sActionStartMission;
@@ -33,7 +29,6 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     [Attribute("", UIWidgets.EditBox, "Конец миссии", category: "Quest")]
     protected string m_sActionFinishMission;
     
-	
 	
     [Attribute("", UIWidgets.EditBox, "Описание миссии", category: "Quest")]
     protected string m_sStartMission;
@@ -67,6 +62,24 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
     [Attribute("", UIWidgets.EditBox, "", category: "Quest")]
     protected string m_sMapMarkerPosition;
 	
+    // Параметры репутации для старта квеста
+    [Attribute("0", UIWidgets.ComboBox, "Фракция для требования репутации", "", ParamEnumArray.FromEnum(ARMST_FACTION_LABEL), category: "Reputation Requirement")]
+    ARMST_FACTION_LABEL m_RequiredFaction;
+    [Attribute("0", UIWidgets.EditBox, desc: "Минимальная репутация для старта квеста", params: "-100 100 1", category: "Reputation Requirement")]
+    protected int m_RequiredReputation;
+    
+    // Параметры изменения репутации при завершении квеста
+    [Attribute("0", UIWidgets.ComboBox, "Фракция для увеличения репутации", "", ParamEnumArray.FromEnum(ARMST_FACTION_LABEL), category: "Reputation Reward")]
+    ARMST_FACTION_LABEL m_RewardFactionIncrease;
+    [Attribute("0", UIWidgets.EditBox, desc: "Увеличение репутации", params: "0 100 1", category: "Reputation Reward")]
+    protected int m_ReputationIncrease;
+    
+    [Attribute("0", UIWidgets.ComboBox, "Фракция для уменьшения репутации", "", ParamEnumArray.FromEnum(ARMST_FACTION_LABEL), category: "Reputation Penalty")]
+    ARMST_FACTION_LABEL m_RewardFactionDecrease;
+    [Attribute("0", UIWidgets.EditBox, desc: "Уменьшение репутации", params: "0 100 1", category: "Reputation Penalty")]
+    protected int m_ReputationDecrease;
+	
+	
     protected bool m_bQuestStart = false;
     
     // Для хранения кэша UI информации о предметах
@@ -91,9 +104,18 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	    }
 	    else // Если квест ещё не запущен
 	    {
+            // Проверяем репутацию перед стартом квеста
+            if (!CheckReputationRequirement(pUserEntity))
+            {
+                // Показываем сообщение о недостаточной репутации
+                string message = "#armst_quest_ui_reputation_low";
+                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_cannot_start", message, 10.0);
+                return;
+            }
 	        MissionStart(pOwnerEntity, pUserEntity);
 	    }
     }
+	
 	// Повторно выдаёт стартовый предмет квеста, если его нет в инвентаре, и показывает описание миссии
 	void ReissueQuestItemAndShowDescription(IEntity pOwnerEntity, IEntity pUserEntity)
 	{
@@ -117,11 +139,15 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	    questInfo += "#armst_quest_ui_bring " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + 
 	        GetPrefabDisplayName(m_PrefabQuest) + ". #armst_quest_ui_reward: " + m_fCountQuestItemsPrice.ToString() + " #armst_quest_ui_currency";
 	        
-	    // Добавляем информацию о репутации, если включено
-	    if (m_fCountQuestItemsReputations > 0)
-	    {
-	        questInfo = questInfo + "#armst_quest_ui_comma " + m_fCountQuestItemsReputations.ToString() + " #armst_quest_ui_reputation";
-	    }
+        // Добавляем информацию о репутации, если включено
+        if (m_RewardFactionIncrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationIncrease > 0)
+        {
+            questInfo += "#armst_quest_ui_comma " + m_ReputationIncrease.ToString() + " #armst_quest_ui_reputation for " + GetFactionDisplayName(m_RewardFactionIncrease);
+        }
+        if (m_RewardFactionDecrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationDecrease > 0)
+        {
+            questInfo += "#armst_quest_ui_comma -" + m_ReputationDecrease.ToString() + " #armst_quest_ui_reputation for " + GetFactionDisplayName(m_RewardFactionDecrease);
+        }
 	    
 	    // Добавляем информацию о подарке, если он задан и включен показ
 	    if (m_PrefabQuestFinish != ResourceName.Empty && Resource.Load(m_PrefabQuestFinish).IsValid())
@@ -191,6 +217,53 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	        ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
 	    }
 	}
+	// Проверяет репутацию игрока для старта квеста
+    bool CheckReputationRequirement(IEntity pUserEntity)
+    {
+        // Если требуемая фракция не указана (FACTION_ALL), репутация не требуется
+        if (m_RequiredFaction == ARMST_FACTION_LABEL.FACTION_ALL)
+        {
+            return true;
+        }
+        
+        ARMST_PLAYER_REPUTATIONS_COMPONENT reputations = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+        if (!reputations)
+        {
+            Print("ARMST_USER_QUEST_STATICS: ARMST_PLAYER_REPUTATIONS_COMPONENT not found on user entity.", LogLevel.ERROR);
+            return false;
+        }
+        
+        int currentReputation = reputations.GetReputation(m_RequiredFaction);
+        return currentReputation >= m_RequiredReputation;
+    }
+	
+	
+    override bool CanBeShownScript(IEntity user)
+    {        
+        ARMST_PLAYER_QUEST questComponent = ARMST_PLAYER_QUEST.Cast(user.FindComponent(ARMST_PLAYER_QUEST));
+        if (questComponent)
+        {
+            string questName = m_sFinishMissionQuestData;
+            if (questComponent.HasQuest(questName))
+            {
+                return false;
+            }
+        }
+        
+        if (m_bMissionCooldown)
+            return false;
+        // Если флаг m_bStartMissionReq выключен, всегда возвращаем true
+        if (m_bOnlyStartMission && m_bQuestStart)
+            return false;
+        
+        if (!m_bStartMissionReq)
+        {
+            return true;
+        }
+        // Если флаг включён, проверяем наличие необходимого предмета
+        return HasRequiredItem(user);
+    }
+	
 	// Проверяет, есть ли у игрока стартовый предмет квеста
 	bool HasQuestStartItem(IEntity pUserEntity)
 	{
@@ -209,190 +282,182 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	    
 	    return false;
 	}
-    override bool CanBeShownScript(IEntity user)
-	{        
-	    ARMST_PLAYER_QUEST questComponent = ARMST_PLAYER_QUEST.Cast(user.FindComponent(ARMST_PLAYER_QUEST));
-		if(questComponent)
-		{
-		    string questName = m_sFinishMissionQuestData;
-		
-		    if (questComponent.HasQuest(questName))
-		    {
-				return false;
-			};
-		}
-		
-		
-	    if(m_bMissionCooldown)
-			return false;
-	    // Если флаг m_bStartMissionReq выключен, всегда возвращаем true
-		if (m_bOnlyStartMission && m_bQuestStart)
-			return false;
-		
-		
-	    if (!m_bStartMissionReq)
-	    {
-	        return true;
-	    }
-	    // Если флаг включён, проверяем наличие необходимого предмета
-	    return HasRequiredItem(user);
-	}
-   void MissionEnd(IEntity pOwnerEntity, IEntity pUserEntity)
-	{
-	    // Получаем компоненты
-	    ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-	    SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-	    
-	    if (!playerStats || !inventoryManager)
-	        return;
-	    
-	    // Проверяем есть ли у игрока нужные предметы
-	    if (HasRequiredItem(pUserEntity))
-	    {
-	        // Удаляем предметы
-	        RemoveRequiredItems(pUserEntity);
-	        
-	        // Выдаем денежную награду через ARMST_MONEY_COMPONENTS
-	        if (m_fCountQuestItemsPrice > 0)
-	        {
-				
-				ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
-				currencyComp.ModifyValue(m_fCountQuestItemsPrice, true);
-	        }
-	        
-	        // Выдаем репутацию
-	        if (m_fCountQuestItemsReputations > 0)
-	        {
-	            playerStats.Rpc_ArmstPlayerSetReputation(m_fCountQuestItemsReputations);
-	        }
-	        
-	        // Увеличиваем счетчик выполненных квестов
-	        playerStats.Rpc_ARMST_SET_STAT_QUESTS();
-	        
-	        // Создаем сообщение о награде
-	        string notificationMessage = "";
-	        
-	        // Добавляем сюжетный текст завершения квеста, если он есть
-	        if (m_sFinishMission && m_sFinishMission != "")
-	        {
-	            notificationMessage = m_sFinishMission + "\n\n";
-	        }
-			
-	        // Добавляем квест в персонажа, если это указано
-	        if (m_sFinishMissionQuestData && m_sFinishMissionQuestData != "")
-	        {
-				HandleQuestLogic(pUserEntity);
-	        }
-	        
-			if(m_fCountQuestItemsPrice > 0)
-			{
-	        // Добавляем информацию о награде
-	        notificationMessage += " #armst_quest_ui_reward_money_text " + m_fCountQuestItemsPrice.ToString() + " #armst_quest_ui_currency ";
-			}
-	        
-	        // Добавляем информацию о репутации, если включено
-	        if (m_fCountQuestItemsReputations > 0)
-	        {
-	            notificationMessage = notificationMessage + "#armst_quest_ui_reward_reputation_text " + m_fCountQuestItemsReputations.ToString() + " #armst_quest_ui_reputation";
-	        }
-	        
-	        vector transform[4];
-	        SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
-	        m_aOriginalTransform = transform;
-	        
-	        EntitySpawnParams params = new EntitySpawnParams();
-	        params.Transform = m_aOriginalTransform;
-	        params.TransformMode = ETransformMode.WORLD;
-	        // Проверяем валидность префаба для подарка
-	        if (m_PrefabQuestFinish != "")
-	        {
-	            Resource resource = Resource.Load(m_PrefabQuestFinish);
-	            if (resource && resource.IsValid())
-	            {
-	                // Создаем предмет и добавляем его в инвентарь игрока
-	                IEntity giftItem = GetGame().SpawnEntityPrefab(resource, null, params);
-	                if (giftItem)
-	                {
-	                    if (inventoryManager.TryInsertItem(giftItem))
-	                    {
-	                        notificationMessage = notificationMessage + " #armst_quest_ui_and " + GetPrefabDisplayName(m_PrefabQuestFinish);
-	                    }
-	                }
-	            }
-	        }
-	        
-	        // Спавним группу для атаки, если задан префаб
-	        if (m_PrefabQuestFinishSpawn != ResourceName.Empty)
-	        {
-	            Resource groupResource = Resource.Load(m_PrefabQuestFinishSpawn);
-	            if (groupResource && groupResource.IsValid())
-	            {
-	                // Используем SpawnRandomInRadius из SpawnHelpers для спавна группы в радиусе
-	                IEntity spawnedGroup = SpawnHelpers.SpawnRandomInRadius(groupResource, pUserEntity.GetOrigin(), m_fPrefabQuestFinishSpawnDistance);
-	                if (spawnedGroup)
-	                {
-	                    Print(string.Format("[ARMST_QUEST] Группа для атаки успешно заспавнена: %1", m_PrefabQuestFinishSpawn));
-	                    // Выдаем приказ на атаку позиции игрока
-	                    SetOrderForGroup(spawnedGroup, pUserEntity.GetOrigin());
-	                }
-	                else
-	                {
-	                    Print(string.Format("[ARMST_QUEST] Ошибка при спавне группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
-	                }
-	            }
-	            else
-	            {
-	                Print(string.Format("[ARMST_QUEST] Неверный префаб группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
-	            }
-	        }
-	        
-	        // Сбрасываем статус квеста
-	        m_bQuestStart = false;
-			if (m_bFinishMissionCooldown)
-				{
-			
-	       	 		m_bMissionCooldown = true;
-					GetGame().GetCallqueue().CallLater(CooldownTimer, m_fFinishMissionCooldownTimer * 1000, false);
-				}
-			
-	        // Проверка, что код выполняется на сервере для изменения денег
-	        if (Replication.IsServer())
-	        {
-	            SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	            if (gameMode.IsHosted())
-	            {
-	                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
-	            }
-	            else 
-	            {
-	            }
-	            return;
-	        }
-	        else
-	        {
-	            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
-	        }
-	    }
-	    else
-	    {
-	        // Сообщаем, что недостаточно предметов через RPC
-	        string message = "#armst_quest_ui_required " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + GetPrefabDisplayName(m_PrefabQuest);
-	        // Проверка, что код выполняется на сервере для изменения денег
-	        if (Replication.IsServer())
-	        {
-	            SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	            if (gameMode.IsHosted())
-	            {
-	                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
-	            }
-	            return;
-	        }
-	        else
-	        {
-	            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
-	        }
-	    }
-	}
+
+    void MissionEnd(IEntity pOwnerEntity, IEntity pUserEntity)
+    {
+        // Получаем компоненты
+        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        ARMST_PLAYER_REPUTATIONS_COMPONENT reputations = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+        
+        if (!playerStats || !inventoryManager)
+            return;
+        
+        // Проверяем есть ли у игрока нужные предметы
+        if (HasRequiredItem(pUserEntity))
+        {
+            // Удаляем предметы
+            RemoveRequiredItems(pUserEntity);
+            
+            // Выдаем денежную награду через ARMST_MONEY_COMPONENTS
+            if (m_fCountQuestItemsPrice > 0)
+            {
+                ARMST_MONEY_COMPONENTS currencyComp = ARMST_MONEY_COMPONENTS.Cast(pUserEntity.FindComponent(ARMST_MONEY_COMPONENTS));
+                currencyComp.ModifyValue(m_fCountQuestItemsPrice, true);
+            }
+            
+            // Изменяем репутацию для указанных фракций
+            if (reputations)
+            {
+                // Увеличиваем репутацию у одной фракции, если указано
+                if (m_RewardFactionIncrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationIncrease > 0)
+                {
+                    reputations.ChangeReputation(m_RewardFactionIncrease, m_ReputationIncrease);
+                    Print("ARMST_USER_QUEST_STATICS: Increased reputation for faction " + m_RewardFactionIncrease.ToString() + " by " + m_ReputationIncrease, LogLevel.NORMAL);
+                }
+                
+                // Уменьшаем репутацию у другой фракции, если указано
+                if (m_RewardFactionDecrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationDecrease > 0)
+                {
+                    reputations.ChangeReputation(m_RewardFactionDecrease, -m_ReputationDecrease);
+                    Print("ARMST_USER_QUEST_STATICS: Decreased reputation for faction " + m_RewardFactionDecrease.ToString() + " by " + m_ReputationDecrease, LogLevel.NORMAL);
+                }
+            }
+            else
+            {
+                Print("ARMST_USER_QUEST_STATICS: ARMST_PLAYER_REPUTATIONS_COMPONENT not found for reputation change.", LogLevel.ERROR);
+            }
+            
+            // Увеличиваем счетчик выполненных квестов
+            playerStats.Rpc_ARMST_SET_STAT_QUESTS();
+            
+            // Создаем сообщение о награде
+            string notificationMessage = "";
+            
+            // Добавляем сюжетный текст завершения квеста, если он есть
+            if (m_sFinishMission && m_sFinishMission != "")
+            {
+                notificationMessage = m_sFinishMission + "\n\n";
+            }
+            
+            // Добавляем квест в персонажа, если это указано
+            if (m_sFinishMissionQuestData && m_sFinishMissionQuestData != "")
+            {
+                HandleQuestLogic(pUserEntity);
+            }
+            
+            if (m_fCountQuestItemsPrice > 0)
+            {
+                // Добавляем информацию о награде
+                notificationMessage += " #armst_quest_ui_reward_money_text " + m_fCountQuestItemsPrice.ToString() + " #armst_quest_ui_currency ";
+            }
+            
+            // Добавляем информацию о репутации, если включено
+            if (m_RewardFactionIncrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationIncrease > 0)
+            {
+                notificationMessage += "#armst_quest_ui_reward_reputation_text " + m_ReputationIncrease.ToString() + " #armst_quest_ui_reputation for " + GetFactionDisplayName(m_RewardFactionIncrease);
+            }
+            if (m_RewardFactionDecrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationDecrease > 0)
+            {
+                notificationMessage += "#armst_quest_ui_penalty_reputation_text " + m_ReputationDecrease.ToString() + " #armst_quest_ui_reputation for " + GetFactionDisplayName(m_RewardFactionDecrease);
+            }
+            
+            vector transform[4];
+            SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+            m_aOriginalTransform = transform;
+            
+            EntitySpawnParams params = new EntitySpawnParams();
+            params.Transform = m_aOriginalTransform;
+            params.TransformMode = ETransformMode.WORLD;
+            // Проверяем валидность префаба для подарка
+            if (m_PrefabQuestFinish != "")
+            {
+                Resource resource = Resource.Load(m_PrefabQuestFinish);
+                if (resource && resource.IsValid())
+                {
+                    // Создаем предмет и добавляем его в инвентарь игрока
+                    IEntity giftItem = GetGame().SpawnEntityPrefab(resource, null, params);
+                    if (giftItem)
+                    {
+                        if (inventoryManager.TryInsertItem(giftItem))
+                        {
+                            notificationMessage = notificationMessage + " #armst_quest_ui_and " + GetPrefabDisplayName(m_PrefabQuestFinish);
+                        }
+                    }
+                }
+            }
+            
+            // Спавним группу для атаки, если задан префаб
+            if (m_PrefabQuestFinishSpawn != ResourceName.Empty)
+            {
+                Resource groupResource = Resource.Load(m_PrefabQuestFinishSpawn);
+                if (groupResource && groupResource.IsValid())
+                {
+                    // Используем SpawnRandomInRadius из SpawnHelpers для спавна группы в радиусе
+                    IEntity spawnedGroup = SpawnHelpers.SpawnRandomInRadius(groupResource, pUserEntity.GetOrigin(), m_fPrefabQuestFinishSpawnDistance);
+                    if (spawnedGroup)
+                    {
+                        Print(string.Format("[ARMST_QUEST] Группа для атаки успешно заспавнена: %1", m_PrefabQuestFinishSpawn));
+                        // Выдаем приказ на атаку позиции игрока
+                        SetOrderForGroup(spawnedGroup, pUserEntity.GetOrigin());
+                    }
+                    else
+                    {
+                        Print(string.Format("[ARMST_QUEST] Ошибка при спавне группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
+                    }
+                }
+                else
+                {
+                    Print(string.Format("[ARMST_QUEST] Неверный префаб группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
+                }
+            }
+            
+            // Сбрасываем статус квеста
+            m_bQuestStart = false;
+            if (m_bFinishMissionCooldown)
+            {
+                m_bMissionCooldown = true;
+                GetGame().GetCallqueue().CallLater(CooldownTimer, m_fFinishMissionCooldownTimer * 1000, false);
+            }
+            
+            // Проверка, что код выполняется на сервере для изменения денег
+            if (Replication.IsServer())
+            {
+                SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+                if (gameMode.IsHosted())
+                {
+                    ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
+                }
+                else 
+                {
+                }
+                return;
+            }
+            else
+            {
+                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_completed", notificationMessage, 20.0);
+            }
+        }
+        else
+        {
+            // Сообщаем, что недостаточно предметов через RPC
+            string message = "#armst_quest_ui_required " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + GetPrefabDisplayName(m_PrefabQuest);
+            // Проверка, что код выполняется на сервере для изменения денег
+            if (Replication.IsServer())
+            {
+                SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+                if (gameMode.IsHosted())
+                {
+                    ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
+                }
+                return;
+            }
+            else
+            {
+                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_not_enough_items", message, 20.0);
+            }
+        }
+    }
 	
 	void HandleQuestLogic(IEntity playerEntity)
 	{
@@ -453,156 +518,174 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
 	    }
 	}
     void MissionStart(IEntity pOwnerEntity, IEntity pUserEntity)
-	{
-	    // Получаем компоненты
-	    ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
-	    SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
-	    
-	    if (!playerStats)
-	        return;
-	
-	    // Создаем сообщение с информацией о квесте
-	    string questInfo = "";
-	    
-	    // Добавляем сюжетный текст начала квеста, если он есть
-	    if (m_sStartMission && m_sStartMission != "")
-	    {
-	        questInfo = m_sStartMission + "\n\n";
-	    }
-	    
-	    // Добавляем техническую информацию о квесте
-	    questInfo += "#armst_quest_ui_bring " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + 
-	        GetPrefabDisplayName(m_PrefabQuest) + ". #armst_quest_ui_reward: " + m_fCountQuestItemsPrice.ToString() + " #armst_quest_ui_currency";
-	        
-	    // Добавляем информацию о репутации, если включено
-	    if (m_fCountQuestItemsReputations > 0)
-	    {
-	        questInfo = questInfo + "#armst_quest_ui_comma " + m_fCountQuestItemsReputations.ToString() + " #armst_quest_ui_reputation";
-	    }
-	    
-	    // Добавляем информацию о подарке, если он задан и включен показ
-	    if (m_PrefabQuestFinish != ResourceName.Empty && Resource.Load(m_PrefabQuestFinish).IsValid())
-	    {
-	        questInfo = questInfo + " #armst_quest_ui_and " + GetPrefabDisplayName(m_PrefabQuestFinish);
-	    }
-	
-	    // Выдаем предмет для старта квеста, если указан
-	    if (m_PrefabQuestStart != ResourceName.Empty && inventoryManager)
-	    {
-	        Resource resource = Resource.Load(m_PrefabQuestStart);
-	        if (resource && resource.IsValid())
-	        {
-	            // Определяем позицию для спавна предмета (рядом с игроком)
-	            vector transform[4];
-	            SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
-	            m_aOriginalTransform = transform;
-	
-	            EntitySpawnParams params = new EntitySpawnParams();
-	            params.Transform = m_aOriginalTransform;
-	            params.TransformMode = ETransformMode.WORLD;
-	
-	            // Спавним предмет
-	            IEntity startItem = GetGame().SpawnEntityPrefab(resource, null, params);
-	            if (startItem)
-	            {
-	                // Пытаемся добавить предмет в инвентарь игрока
-	                if (inventoryManager.TryInsertItem(startItem))
-	                {
-	                    questInfo = questInfo + "\n\n#armst_quest_ui_received_item " + GetPrefabDisplayName(m_PrefabQuestStart);
-	                    Print("[ARMST_QUEST] Выдан стартовый предмет: " + m_PrefabQuestStart);
-	                }
-	                else
-	                {
-	                    // Если не удалось добавить в инвентарь, удаляем предмет
-	                    SCR_EntityHelper.DeleteEntityAndChildren(startItem);
-	                    Print("[ARMST_QUEST] Не удалось добавить стартовый предмет в инвентарь: " + m_PrefabQuestStart, LogLevel.WARNING);
-	                    questInfo = questInfo + "\n\n#armst_quest_ui_failed_to_receive_item " + GetPrefabDisplayName(m_PrefabQuestStart);
-	                }
-	            }
-	            else
-	            {
-	                Print("[ARMST_QUEST] Ошибка при спавне стартового предмета: " + m_PrefabQuestStart, LogLevel.ERROR);
-	            }
-	        }
-	        else
-	        {
-	            Print("[ARMST_QUEST] Неверный префаб стартового предмета: " + m_PrefabQuestStart, LogLevel.ERROR);
-	        }
-			
-	    }
-	    
-		
-	        // Спавним группу для атаки, если задан префаб
-	        if (m_bStartSpawnMissionGroup)
-	        {
-	            Resource groupResource = Resource.Load(m_PrefabQuestFinishSpawn);
-	            if (groupResource && groupResource.IsValid())
-	            {
-	                // Используем SpawnRandomInRadius из SpawnHelpers для спавна группы в радиусе
-	                IEntity spawnedGroup = SpawnHelpers.SpawnRandomInRadius(groupResource, pUserEntity.GetOrigin(), m_fPrefabQuestFinishSpawnDistance);
-	                if (spawnedGroup)
-	                {
-	                    Print(string.Format("[ARMST_QUEST] Группа для атаки успешно заспавнена: %1", m_PrefabQuestFinishSpawn));
-	                    // Выдаем приказ на атаку позиции игрока
-	                    SetOrderForGroup(spawnedGroup, pUserEntity.GetOrigin());
-	                }
-	                else
-	                {
-	                    Print(string.Format("[ARMST_QUEST] Ошибка при спавне группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
-	                }
-	            }
-	            else
-	            {
-	                Print(string.Format("[ARMST_QUEST] Неверный префаб группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
-	            }
-	        }
-	    m_bQuestStart = true;
-		if(m_bOnlyStartMission)
-			{
-	    		m_bQuestStart = false;
-	        	RemoveRequiredItems(pUserEntity);
-			}
-	    // Отправляем уведомление через RPC на клиент
-	    if (Replication.IsServer())
-	    {
-	        SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
-	        if (gameMode.IsHosted())
-	        {
-	            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
-				if (m_sMapMarkerPosition == "")
-				{} else
-				{
-
-		        	IEntity targetEntity = GetGame().FindEntity(m_sMapMarkerPosition);
-					Helpers.CreateMarker(targetEntity, 2, 1, "",  true, false);
-				}
-	        }
-	        return;
-	    }
-	    else
-	    {
-	        ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
-				if (m_sMapMarkerPosition == "")
-				{} else
-				{
-		        	IEntity targetEntity = GetGame().FindEntity(m_sMapMarkerPosition);
-					Helpers.CreateMarker(targetEntity, 2, 1, "",  true, false);
-				}
-	    }
-	}
+    {
+        // Получаем компоненты
+        ARMST_PLAYER_STATS_COMPONENT playerStats = ARMST_PLAYER_STATS_COMPONENT.Cast(pUserEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+        SCR_InventoryStorageManagerComponent inventoryManager = SCR_InventoryStorageManagerComponent.Cast(pUserEntity.FindComponent(SCR_InventoryStorageManagerComponent));
+        
+        if (!playerStats)
+            return;
+    
+        // Создаем сообщение с информацией о квесте
+        string questInfo = "";
+        
+        // Добавляем сюжетный текст начала квеста, если он есть
+        if (m_sStartMission && m_sStartMission != "")
+        {
+            questInfo = m_sStartMission + "\n\n";
+        }
+        
+        // Добавляем техническую информацию о квесте
+        questInfo += "#armst_quest_ui_bring " + m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + 
+            GetPrefabDisplayName(m_PrefabQuest) + ". #armst_quest_ui_reward: " + m_fCountQuestItemsPrice.ToString() + " #armst_quest_ui_currency";
+            
+        // Добавляем информацию о репутации, если включено
+        if (m_RewardFactionIncrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationIncrease > 0)
+        {
+            questInfo += "#armst_quest_ui_comma " + m_ReputationIncrease.ToString() + " #armst_quest_ui_reputation for " + GetFactionDisplayName(m_RewardFactionIncrease);
+        }
+        if (m_RewardFactionDecrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationDecrease > 0)
+        {
+            questInfo += "#armst_quest_ui_comma -" + m_ReputationDecrease.ToString() + " #armst_quest_ui_reputation for " + GetFactionDisplayName(m_RewardFactionDecrease);
+        }
+        
+        // Добавляем информацию о подарке, если он задан и включен показ
+        if (m_PrefabQuestFinish != ResourceName.Empty && Resource.Load(m_PrefabQuestFinish).IsValid())
+        {
+            questInfo += " #armst_quest_ui_and " + GetPrefabDisplayName(m_PrefabQuestFinish);
+        }
+    
+        // Выдаем предмет для старта квеста, если указан
+        if (m_PrefabQuestStart != ResourceName.Empty && inventoryManager)
+        {
+            Resource resource = Resource.Load(m_PrefabQuestStart);
+            if (resource && resource.IsValid())
+            {
+                // Определяем позицию для спавна предмета (рядом с игроком)
+                vector transform[4];
+                SCR_TerrainHelper.GetTerrainBasis(pUserEntity.GetOrigin(), transform, GetGame().GetWorld(), false, new TraceParam());
+                m_aOriginalTransform = transform;
+    
+                EntitySpawnParams params = new EntitySpawnParams();
+                params.Transform = m_aOriginalTransform;
+                params.TransformMode = ETransformMode.WORLD;
+    
+                // Спавним предмет
+                IEntity startItem = GetGame().SpawnEntityPrefab(resource, null, params);
+                if (startItem)
+                {
+                    // Пытаемся добавить предмет в инвентарь игрока
+                    if (inventoryManager.TryInsertItem(startItem))
+                    {
+                        questInfo = questInfo + "\n\n#armst_quest_ui_received_item " + GetPrefabDisplayName(m_PrefabQuestStart);
+                        Print("[ARMST_QUEST] Выдан стартовый предмет: " + m_PrefabQuestStart);
+                    }
+                    else
+                    {
+                        // Если не удалось добавить в инвентарь, удаляем предмет
+                        SCR_EntityHelper.DeleteEntityAndChildren(startItem);
+                        Print("[ARMST_QUEST] Не удалось добавить стартовый предмет в инвентарь: " + m_PrefabQuestStart, LogLevel.WARNING);
+                        questInfo = questInfo + "\n\n#armst_quest_ui_failed_to_receive_item " + GetPrefabDisplayName(m_PrefabQuestStart);
+                    }
+                }
+                else
+                {
+                    Print("[ARMST_QUEST] Ошибка при спавне стартового предмета: " + m_PrefabQuestStart, LogLevel.ERROR);
+                }
+            }
+            else
+            {
+                Print("[ARMST_QUEST] Неверный префаб стартового предмета: " + m_PrefabQuestStart, LogLevel.ERROR);
+            }
+        }
+        
+        // Спавним группу для атаки, если задан префаб
+        if (m_bStartSpawnMissionGroup)
+        {
+            Resource groupResource = Resource.Load(m_PrefabQuestFinishSpawn);
+            if (groupResource && groupResource.IsValid())
+            {
+                // Используем SpawnRandomInRadius из SpawnHelpers для спавна группы в радиусе
+                IEntity spawnedGroup = SpawnHelpers.SpawnRandomInRadius(groupResource, pUserEntity.GetOrigin(), m_fPrefabQuestFinishSpawnDistance);
+                if (spawnedGroup)
+                {
+                    Print(string.Format("[ARMST_QUEST] Группа для атаки успешно заспавнена: %1", m_PrefabQuestFinishSpawn));
+                    // Выдаем приказ на атаку позиции игрока
+                    SetOrderForGroup(spawnedGroup, pUserEntity.GetOrigin());
+                }
+                else
+                {
+                    Print(string.Format("[ARMST_QUEST] Ошибка при спавне группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
+                }
+            }
+            else
+            {
+                Print(string.Format("[ARMST_QUEST] Неверный префаб группы для атаки: %1", m_PrefabQuestFinishSpawn), LogLevel.ERROR);
+            }
+        }
+        
+        m_bQuestStart = true;
+        if (m_bOnlyStartMission)
+        {
+            m_bQuestStart = false;
+            RemoveRequiredItems(pUserEntity);
+        }
+        
+        // Отправляем уведомление через RPC на клиент
+        if (Replication.IsServer())
+        {
+            SCR_BaseGameMode gameMode = SCR_BaseGameMode.Cast(GetGame().GetGameMode());
+            if (gameMode.IsHosted())
+            {
+                ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
+                if (m_sMapMarkerPosition != "")
+                {
+                    IEntity targetEntity = GetGame().FindEntity(m_sMapMarkerPosition);
+                    Helpers.CreateMarker(targetEntity, 2, 1, "", true, false);
+                }
+            }
+            return;
+        }
+        else
+        {
+            ARMST_NotificationHelper.ShowNotification(pUserEntity, "#armst_quest_ui_quest_taken", questInfo, 20.0);
+            if (m_sMapMarkerPosition != "")
+            {
+                IEntity targetEntity = GetGame().FindEntity(m_sMapMarkerPosition);
+                Helpers.CreateMarker(targetEntity, 2, 1, "", true, false);
+            }
+        }
+    }
+    
+    // Метод для получения отображаемого имени фракции
+    string GetFactionDisplayName(ARMST_FACTION_LABEL factionKey)
+    {
+        switch (factionKey)
+        {
+            case ARMST_FACTION_LABEL.FACTION_STALKER:
+                return "#armst_pda_wiki_faction_stalker";
+            case ARMST_FACTION_LABEL.FACTION_BANDIT:
+                return "#armst_pda_wiki_faction_bandit";
+            case ARMST_FACTION_LABEL.FACTION_ARMY:
+                return "#armst_pda_wiki_faction_army";
+            case ARMST_FACTION_LABEL.FACTION_RENEGADE:
+                return "#Armst_renegades_character";
+            case ARMST_FACTION_LABEL.FACTION_SCIENCES:
+                return "#armst_pda_wiki_faction_science";
+            case ARMST_FACTION_LABEL.FACTION_MERCENARIES:
+                return "#armst_pda_wiki_faction_merc";
+            case ARMST_FACTION_LABEL.FACTION_KB:
+                return "#armst_pda_wiki_faction_kontrabas";
+            case ARMST_FACTION_LABEL.FACTION_STORM:
+                return "#armst_pda_wiki_faction_storm";
+            default:
+                return "#Armst_unknown_faction";
+        }
+                return "#Armst_unknown_faction";
+    }
     
     override bool GetActionNameScript(out string outName)
     {
-        if (m_bQuestStart && m_sActionFinishMission && m_sActionFinishMission != "")
-        {
-            outName = m_sActionFinishMission;
-            return true;
-        }
-        if (m_sActionStartMission && m_sActionStartMission != "")
-        {
-            outName = m_sActionStartMission;
-            return true;
-        }
         // Базовое описание квеста (используем явное приведение к строке)
         string description = m_fCountQuestItems.ToString() + " #armst_quest_ui_pcs " + 
             GetPrefabDisplayName(m_PrefabQuest) + "#armst_quest_ui_comma #armst_quest_ui_reward: ";
@@ -613,15 +696,30 @@ class ARMST_USER_QUEST_STATICS : ScriptedUserAction
             description = description + "#armst_quest_ui_comma " + m_fCountQuestItemsPrice.ToString() + " #armst_quest_ui_currency";
         }
         // Добавляем информацию о репутации, если включено
-        if (m_fCountQuestItemsReputations > 0)
+        if (m_RewardFactionIncrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationIncrease > 0)
         {
-            description = description + "#armst_quest_ui_comma " + m_fCountQuestItemsReputations.ToString() + " #armst_quest_ui_rep";
+            description = description + "#armst_quest_ui_comma " + m_ReputationIncrease.ToString() + " #armst_quest_ui_rep for " + GetFactionDisplayName(m_RewardFactionIncrease);
+        }
+        if (m_RewardFactionDecrease != ARMST_FACTION_LABEL.FACTION_ALL && m_ReputationDecrease > 0)
+        {
+            description = description + "#armst_quest_ui_comma -" + m_ReputationDecrease.ToString() + " #armst_quest_ui_rep for " + GetFactionDisplayName(m_RewardFactionDecrease);
         }
         
         // Добавляем информацию о подарке, если он задан и включен показ
         if (m_PrefabQuestFinish != ResourceName.Empty && Resource.Load(m_PrefabQuestFinish).IsValid())
         {
             description = description + "#armst_quest_ui_comma " + GetPrefabDisplayName(m_PrefabQuestFinish);
+        }
+        
+        if (m_bQuestStart && m_sActionFinishMission && m_sActionFinishMission != "")
+        {
+            outName = m_sActionFinishMission;
+            return true;
+        }
+        if (m_sActionStartMission && m_sActionStartMission != "")
+        {
+            outName = m_sActionStartMission;
+            return true;
         }
         
         if (m_bQuestStart)

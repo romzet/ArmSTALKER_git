@@ -24,6 +24,8 @@ modded class SCR_PlayerController : PlayerController
 			
             GetGame().GetCallqueue().CallLater(InitHUD, 2000, false, to);
 			
+            GetGame().GetCallqueue().CallLater(ForceSyncPlayerStats, 10000, false, characterEntity);
+			
          	GetGame().GetCallqueue().CallLater(RequestCheckArtEffects, 1000, false, characterEntity);
 
         }
@@ -119,8 +121,38 @@ modded class SCR_PlayerController : PlayerController
             AddHUD(hudComponent);
             m_bHudInitialized = true;
         }
+		
     }
         
+	// Пример вызова синхронизации с сервера
+	void ForceSyncPlayerStats(IEntity playerEntity)
+	{
+	    if (!playerEntity)
+	        return;
+	
+	    ARMST_PLAYER_STATS_COMPONENT statsComponent = ARMST_PLAYER_STATS_COMPONENT.Cast(playerEntity.FindComponent(ARMST_PLAYER_STATS_COMPONENT));
+	    if (!statsComponent)
+	        return;
+	
+	    // Вызываем RPC для синхронизации всех данных
+	    statsComponent.Rpc(statsComponent.Rpc_SyncPlayerStatsDirect,
+	        statsComponent.ArmstPlayerStatGetToxic(),
+	        statsComponent.ArmstPlayerStatGetRadio(),
+	        statsComponent.ArmstPlayerStatGetPsy(),
+	        statsComponent.ArmstPlayerStatGetWater(),
+	        statsComponent.ArmstPlayerStatGetEat(),
+	        statsComponent.ArmstPlayerGetReputation());
+		
+    	ARMST_PLAYER_REPUTATIONS_COMPONENT repsComponent = ARMST_PLAYER_REPUTATIONS_COMPONENT.Cast(playerEntity.FindComponent(ARMST_PLAYER_REPUTATIONS_COMPONENT));
+		if (repsComponent)
+		{
+    		repsComponent.SyncAllReputations();
+		
+		}
+		
+        GetGame().GetCallqueue().CallLater(ForceSyncPlayerStats, 10000, false, characterEntity);
+	}
+	
     void AddHUD(ARMST_HUD_Component hudComponent)
     {
         // Создаем виджет
